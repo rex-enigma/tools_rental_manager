@@ -9,7 +9,7 @@ import 'package:tools_rental_management/enums/status.dart';
 // we need to use textEnum<Type>()() for currency,category and status when declaring the corresponding columns in the Tools table so that drift can
 // implicitly convert the enum field values in our Tool data class to string for storage.
 
-// we also need to use dateTime()() for boughtAt when declaring the the corresponding column in the Tools table so that drift can
+// we also need to use dateTime()() for boughtAt when declaring the corresponding column in the Tools table so that drift can
 // implicitly convert the DateTime field(boughtAt) value in our Tool data class to integer for storage.
 
 // We do all this to satisfy drift but we are not going to us drift fluent api for database manipulation, instead we are going to

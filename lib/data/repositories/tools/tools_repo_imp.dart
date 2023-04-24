@@ -8,7 +8,7 @@ import 'package:tools_rental_management/enums/status.dart';
 class ToolRepoImp implements ToolsRepo {
   late ToolsLocalDataSource _toolsLocalDataSource;
 
-  ToolRepoImp({required ToolsLocalDataSource? toolsLocalDataSource}) {
+  ToolRepoImp({ToolsLocalDataSource? toolsLocalDataSource}) {
     _toolsLocalDataSource = toolsLocalDataSource ?? locator.get<ToolsLocalSqliteDbDataSource>();
   }
 
@@ -17,7 +17,7 @@ class ToolRepoImp implements ToolsRepo {
     return _toolsLocalDataSource.insertTool(tool);
   }
 
-  // update and return the updated tool.
+  /// update and return the updated tool.
   @override
   Future<Tool> updateTool(Tool tool) async {
     await _toolsLocalDataSource.updateTool(tool);
@@ -25,24 +25,24 @@ class ToolRepoImp implements ToolsRepo {
     return workShopTool!;
   }
 
-  // will return the updated tools that are associated with a [ToolUser] of the given toolUserId.
+  /// will return the updated tools that are associated with a [ToolUser] of the given toolUserId.
   @override
   Future<List<Tool>> associateToolsWithToolUser(List<Tool> tools, int toolUserId) async {
     final List<Tool> associatedTools = tools.map((tool) {
       return tool.copyWith(
         toolUserId: toolUserId,
-        // every time we associate a tool with a toolUser, we increment the rent count of the tool, which
+        // every time we associate a tool with a [ToolUser], we increment the rent count of the tool, which
         // will keep track of how many times the tool has been rented out over its life time.
         rentCount: tool.rentCount + 1,
         // we also have to update status to 'being used' since the tool is now
-        // being used by a toolUser of the given toolUserId.
+        // being used by a [ToolUser] of the given toolUserId.
         status: Status.beingUsed,
       );
     }).toList();
 
     List<Tool> updatedTools = [];
 
-    // update individual tools one by one
+    // update individual tools in the database one by one
     for (var associatedTool in associatedTools) {
       Tool updatedTool = await updateTool(associatedTool);
       updatedTools.add(updatedTool);
@@ -51,10 +51,22 @@ class ToolRepoImp implements ToolsRepo {
     return updatedTools;
   }
 
+  /// return a future that complete with the amount of tools that have been disassociated.
   @override
-  Future<List<int>> disassociateToolsFromToolUser(List<Tool> tools) {
-    // TODO: implement disassociateToolsFromToolUser
-    throw UnimplementedError();
+  Future<int> disassociateToolsFromToolUser(List<Tool> tools) async {
+    final List<Tool> disassociatedTools = tools.map((tool) {
+      return tool.copyWith(
+        toolUserId: null,
+        status: Status.idle,
+      );
+    }).toList();
+
+    int amountOfToolsUpdated = 0;
+
+    for (var disassociatedTool in disassociatedTools) {
+      amountOfToolsUpdated += await _toolsLocalDataSource.updateTool(disassociatedTool);
+    }
+    return amountOfToolsUpdated;
   }
 
   @override
