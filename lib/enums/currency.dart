@@ -13,7 +13,7 @@ enum Currency {
       case 'usd':
         return Currency.usd;
       default:
-        throw "the string: {$value} doesn't correspond to any Currency constant value";
+        throw "the string: {$value}, doesn't correspond to any Currency constant value";
     }
   }
 }
