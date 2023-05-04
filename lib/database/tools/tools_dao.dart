@@ -41,16 +41,21 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
       """,
       variables: [
         Variable.withString(tool.name),
-        Variable.withInt(tool.boughtAt.millisecondsSinceEpoch), // since boughtAt is a DateTime type, convert it to its int type for storage.
+        Variable.withInt(tool.boughtAt
+            .millisecondsSinceEpoch), // since boughtAt is a DateTime type, convert it to its int type for storage.
         Variable.withInt(tool.purchasedPrice),
         Variable.withInt(tool.rate),
         Variable.withInt(tool.rentCount),
-        Variable.withString(tool.currency.name), // since currency is a enum type, convert it to its corresponding to String type for storage.
-        Variable.withString(tool.category.name), // since category is a enum type, convert it to its corresponding to String type for storage.
+        Variable.withString(tool.currency
+            .name), // since currency is a enum type, convert it to its corresponding to String type for storage.
+        Variable.withString(tool.category
+            .name), // since category is a enum type, convert it to its corresponding to String type for storage.
         Variable.withString(tool.toolImagePath),
         Variable.withInt(tool.toolUniqueId),
-        Variable(tool.toolUserId), // [toolUserId] is null for any new [Tool] to be inserted
-        Variable.withString(tool.status.name), // since status is a enum type, convert it to its corresponding to String type for storage.
+        Variable(tool
+            .toolUserId), // [toolUserId] is null for any new [Tool] to be inserted
+        Variable.withString(tool.status
+            .name), // since status is a enum type, convert it to its corresponding to String type for storage.
       ],
     ).catchError((Object e, StackTrace stacktrace) {
       print('Error $e, stacktrace: $stacktrace');
@@ -148,7 +153,9 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     if (toolResults.isEmpty) {
       return null;
     } else {
-      List<Tool> tools = toolResults.map((queryRow) => Tool.fromMap(toolMap: queryRow.data)).toList();
+      List<Tool> tools = toolResults
+          .map((queryRow) => Tool.fromMap(toolMap: queryRow.data))
+          .toList();
       return tools;
     }
   }
@@ -166,7 +173,9 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     if (toolResults.isEmpty) {
       return null;
     } else {
-      List<Tool> tools = toolResults.map((queryRow) => Tool.fromMap(toolMap: queryRow.data)).toList();
+      List<Tool> tools = toolResults
+          .map((queryRow) => Tool.fromMap(toolMap: queryRow.data))
+          .toList();
 
       return tools;
     }

@@ -73,8 +73,10 @@ class ToolUser {
       toolUserId: toolUserId,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
-      frontNationalIdImagePath: frontNationalIdImagePath ?? this.frontNationalIdImagePath,
-      backNationalIdImagePath: backNationalIdImagePath ?? this.backNationalIdImagePath,
+      frontNationalIdImagePath:
+          frontNationalIdImagePath ?? this.frontNationalIdImagePath,
+      backNationalIdImagePath:
+          backNationalIdImagePath ?? this.backNationalIdImagePath,
       avatarImagePath: imagePath ?? this.avatarImagePath,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       countryCallingCode: countryCallingCode ?? this.countryCallingCode,

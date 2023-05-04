@@ -8,7 +8,8 @@ class ToolUsersRepoImp implements ToolUsersRepo {
   late ToolUsersLocalDataSource _toolUsersLocalDataSource;
 
   ToolUsersRepoImp({ToolUsersLocalDataSource? toolUsersLocalDataSource}) {
-    _toolUsersLocalDataSource = toolUsersLocalDataSource ?? locator.get<ToolUsersLocalSqliteDbDataSource>();
+    _toolUsersLocalDataSource = toolUsersLocalDataSource ??
+        locator.get<ToolUsersLocalSqliteDbDataSource>();
   }
   @override
   Future<int> insertToolUser(ToolUser toolUser) {

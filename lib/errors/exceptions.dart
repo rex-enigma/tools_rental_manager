@@ -17,7 +17,8 @@
 // }
 
 class ArticleNotFoundException implements Exception {
-  String message = 'ArticleNotFoundException: article not found of the given title';
+  String message =
+      'ArticleNotFoundException: article not found of the given title';
 
   @override
   String toString() {

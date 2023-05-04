@@ -9,7 +9,8 @@ class ToolRepoImp implements ToolsRepo {
   late ToolsLocalDataSource _toolsLocalDataSource;
 
   ToolRepoImp({ToolsLocalDataSource? toolsLocalDataSource}) {
-    _toolsLocalDataSource = toolsLocalDataSource ?? locator.get<ToolsLocalSqliteDbDataSource>();
+    _toolsLocalDataSource =
+        toolsLocalDataSource ?? locator.get<ToolsLocalSqliteDbDataSource>();
   }
 
   @override
@@ -27,7 +28,8 @@ class ToolRepoImp implements ToolsRepo {
 
   /// will return the updated tools that are associated with a [ToolUser] of the given toolUserId.
   @override
-  Future<List<Tool>> associateToolsWithToolUser(List<Tool> tools, int toolUserId) async {
+  Future<List<Tool>> associateToolsWithToolUser(
+      List<Tool> tools, int toolUserId) async {
     final List<Tool> associatedTools = tools.map((tool) {
       return tool.copyWith(
         toolUserId: toolUserId,
@@ -64,7 +66,8 @@ class ToolRepoImp implements ToolsRepo {
     int amountOfToolsUpdated = 0;
 
     for (var disassociatedTool in disassociatedTools) {
-      amountOfToolsUpdated += await _toolsLocalDataSource.updateTool(disassociatedTool);
+      amountOfToolsUpdated +=
+          await _toolsLocalDataSource.updateTool(disassociatedTool);
     }
     return amountOfToolsUpdated;
   }

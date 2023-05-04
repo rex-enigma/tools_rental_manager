@@ -20,7 +20,8 @@ enum Status {
       case 'retired':
         return Status.retired;
       default:
-        throw Exception("the string: {$value} doesn't correspond to any Status constant value");
+        throw Exception(
+            "the string: {$value} doesn't correspond to any Status constant value");
     }
   }
 }
