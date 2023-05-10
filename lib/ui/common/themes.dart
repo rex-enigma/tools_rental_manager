@@ -106,7 +106,7 @@ TabBarTheme _tabBarTheme = const TabBarTheme(
     insets: EdgeInsets.symmetric(horizontal: 0.0),
     borderSide: BorderSide(
       color: Color.fromRGBO(57, 190, 219, 1.0),
-      width: 4.0,
+      width: 2.0,
     ),
     borderRadius: BorderRadius.only(
       topLeft: Radius.circular(6.0),

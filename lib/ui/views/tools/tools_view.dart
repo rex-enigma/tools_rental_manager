@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/main.dart';
 
 import 'tools_viewmodel.dart';
 
 class ToolsView extends StackedView<ToolsViewModel> {
   const ToolsView({Key? key}) : super(key: key);
+
+  // setting it to false will make sure that [ToolsViewModel] isn't disposed (ToolsViewModel.dispose function isn't called).
+  @override
+  bool get disposeViewModel => false;
+
+  // setting it to true  will tell the ViewModelBuilder you want only the initialization for a specialty view model to fire once
+  @override
+  bool get initialiseSpecialViewModelsOnce => true;
 
   @override
   Widget builder(
@@ -16,6 +26,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
       length: 3,
       child: Scaffold(
         appBar: AppBar(
+          backgroundColor: Theme.of(context).colorScheme.background,
           leading: IconButton(
             onPressed: () => {},
             icon: Icon(
@@ -34,7 +45,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
           title: Center(
             child: Text(
               'Tools',
-              style: Theme.of(context).typography.white.bodyLarge,
+              style: MyApp.of(context).themeMode == ThemeMode.light ? Theme.of(context).typography.white.bodyLarge : Theme.of(context).typography.black.bodyLarge,
             ),
           ),
           bottom: PreferredSize(
@@ -45,16 +56,16 @@ class ToolsView extends StackedView<ToolsViewModel> {
                 border: Border(
                   bottom: BorderSide(
                     color: Theme.of(context).dividerColor,
-                    width: 0.5,
+                    width: MyApp.of(context).themeMode == ThemeMode.light ? 0.5 : 0.1,
                   ),
                 ),
               ),
               child: TabBar(
-                labelStyle: Theme.of(context).typography.white.bodyMedium,
+                labelStyle: MyApp.of(context).themeMode == ThemeMode.light ? Theme.of(context).typography.white.bodyMedium : Theme.of(context).typography.black.bodyMedium,
                 unselectedLabelColor: Theme.of(context).colorScheme.onPrimary,
                 labelColor: Theme.of(context).colorScheme.secondary,
-                padding: const EdgeInsets.only(left: 16.0),
                 isScrollable: true,
+                dividerColor: Colors.transparent,
                 tabs: const <Widget>[
                   Tab(
                     text: 'All',
@@ -70,20 +81,32 @@ class ToolsView extends StackedView<ToolsViewModel> {
             ),
           ),
         ),
-        body: const TabBarView(
-          children: <Widget>[
-            Center(
-              child: Text(
-                'click + button to add a tool',
-              ),
+        body: DefaultTextStyle(
+          style: MyApp.of(context).themeMode == ThemeMode.light ? Theme.of(context).typography.white.bodyMedium! : Theme.of(context).typography.black.bodyMedium!,
+          child: const Padding(
+            padding: EdgeInsets.only(left: 16.0, right: 16.0),
+            child: TabBarView(
+              children: <Widget>[
+                Center(
+                  child: Text('click + button to add a tool'),
+                ),
+                Center(
+                  child: Text('click + button to add a Power tool'),
+                ),
+                Center(
+                  child: Text('click + button to add Unpowered tool'),
+                ),
+              ],
             ),
-            Center(
-              child: Text('click + button to add a Power tool'),
-            ),
-            Center(
-              child: Text('click + button to add Unpowered tool'),
-            ),
-          ],
+          ),
+        ),
+        floatingActionButton: FloatingActionButton(
+          onPressed: viewModel.showBottomSheet,
+          child: Icon(
+            Icons.add,
+            color: MyApp.of(context).themeMode == ThemeMode.light ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
+          ),
+          backgroundColor: Theme.of(context).colorScheme.secondary,
         ),
       ),
     );
@@ -93,5 +116,5 @@ class ToolsView extends StackedView<ToolsViewModel> {
   ToolsViewModel viewModelBuilder(
     BuildContext context,
   ) =>
-      ToolsViewModel();
+      locator<ToolsViewModel>();
 }

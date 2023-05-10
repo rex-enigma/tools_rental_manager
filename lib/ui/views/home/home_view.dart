@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_view.dart';
 import 'package:tools_rental_management/ui/views/tool_users/tool_users_view.dart';
 import 'package:tools_rental_management/ui/views/tools/tools_view.dart';
@@ -22,16 +23,20 @@ class HomeView extends StackedView<HomeViewModel> {
           border: Border(
             top: BorderSide(
               color: Theme.of(context).dividerColor,
-              width: 0.5,
+              width: MyApp.of(context).themeMode == ThemeMode.light ? 0.5 : 0.1,
             ),
           ),
         ),
         child: BottomNavigationBar(
           unselectedIconTheme: Theme.of(context).iconTheme,
-          unselectedLabelStyle: Theme.of(context).typography.white.bodySmall,
+          unselectedLabelStyle: MyApp.of(context).themeMode == ThemeMode.light
+              ? Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0)
+              : Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
           unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
           selectedItemColor: Theme.of(context).colorScheme.secondary,
-          selectedLabelStyle: Theme.of(context).typography.white.bodySmall,
+          selectedLabelStyle: MyApp.of(context).themeMode == ThemeMode.light
+              ? Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0)
+              : Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
           iconSize: Theme.of(context).iconTheme.size!,
           currentIndex: viewModel.currentIndex,
           onTap: viewModel.setIndex,

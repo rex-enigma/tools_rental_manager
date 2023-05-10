@@ -129,84 +129,72 @@ class StackedRouter extends _i1.RouterBase {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i3.StartupView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i4.ToolsView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.ToolsView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i5.SettingsView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.SettingsView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i6.ToolView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.ToolView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i7.ToolSearchView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.ToolSearchView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i8.ToolUsersView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i8.ToolUsersView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i9.ToolUserSearchView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i9.ToolUserSearchView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i10.ToolNamesView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i10.ToolNamesView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i11.ToolImageView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i11.ToolImageView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i12.ToolUserImageView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i12.ToolUserImageView(),
         settings: data,
-        maintainState: false,
       );
     },
     _i13.NationalIdImageView: (data) {
       return _i14.MaterialPageRoute<dynamic>(
         builder: (context) => const _i13.NationalIdImageView(),
         settings: data,
-        maintainState: false,
       );
     },
   };

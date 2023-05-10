@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tools_rental_management/assets/font_icons/font_icons.dart';
+import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 
 import 'startup_viewmodel.dart';
@@ -29,14 +30,18 @@ class StartupView extends StackedView<StartupViewModel> {
             verticalSpaceTiny,
             Text(
               'TORENMAN',
-              style: Theme.of(context).typography.white.bodyLarge,
+              style: MyApp.of(context).themeMode == ThemeMode.light
+                  ? Theme.of(context).typography.white.bodyLarge
+                  : Theme.of(context).typography.black.bodyLarge,
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'initializing...',
-                  style: Theme.of(context).typography.white.bodySmall,
+                  style: MyApp.of(context).themeMode == ThemeMode.light
+                      ? Theme.of(context).typography.white.bodySmall
+                      : Theme.of(context).typography.black.bodySmall,
                 ),
                 horizontalSpaceSmall,
                 SizedBox(
@@ -44,7 +49,7 @@ class StartupView extends StackedView<StartupViewModel> {
                   height: 16,
                   child: CircularProgressIndicator(
                     color: Theme.of(context).colorScheme.secondary,
-                    strokeWidth: 6,
+                    strokeWidth: 2,
                   ),
                 ),
               ],
@@ -62,5 +67,6 @@ class StartupView extends StackedView<StartupViewModel> {
       StartupViewModel();
 
   @override
-  void onViewModelReady(StartupViewModel viewModel) => SchedulerBinding.instance.addPostFrameCallback((timeStamp) => viewModel.runStartupLogic());
+  void onViewModelReady(StartupViewModel viewModel) => SchedulerBinding.instance
+      .addPostFrameCallback((timeStamp) => viewModel.runStartupLogic());
 }
