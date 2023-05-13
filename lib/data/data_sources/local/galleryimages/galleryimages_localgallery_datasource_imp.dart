@@ -1,7 +1,6 @@
 import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tools_rental_management/data/data_sources/local/galleryimages/galleryimages_local_datasource_interface.dart';
-import 'package:tools_rental_management/errors/exceptions.dart';
 
 // data source class: type of data + type of source + DataSource (galleryImage + localGallery + DataSource);
 // the data source class should only work with one source of data (ImagePicker)

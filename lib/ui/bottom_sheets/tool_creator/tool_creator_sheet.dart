@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:tools_rental_management/ui/common/app_colors.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -23,6 +22,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
     Widget? child,
   ) {
     return Container(
+      height: 622.0,
       padding: const EdgeInsets.only(top: 10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -30,7 +30,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
           const DragHandle(),
           horizontalSpaceTiny,
           Container(
-            height: 800,
+            height: 400,
             width: 100,
             color: Colors.green,
           ),

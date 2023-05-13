@@ -77,7 +77,7 @@ class ToolUser {
           frontNationalIdImagePath ?? this.frontNationalIdImagePath,
       backNationalIdImagePath:
           backNationalIdImagePath ?? this.backNationalIdImagePath,
-      avatarImagePath: imagePath ?? this.avatarImagePath,
+      avatarImagePath: imagePath ?? avatarImagePath,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       countryCallingCode: countryCallingCode ?? this.countryCallingCode,
       tools: tools,

@@ -23,7 +23,7 @@ class Wikipedia {
         // get the pages of the given {title}, since we only query for a single article(through the title param)
         // [mapPages] will only contain a single key/value pair which is our article data.
         final mapPages = dataMap['query']['pages'] as Map<String, dynamic>;
-        // when the given [title] doesn't correspond to any wikipedia article, -1 will be used to indicate that
+        // when the given [title] doesn't correspond to any wikipedia article, -1 is used by wikipedia be used to indicate that
         // so we check and handle it.
         if (mapPages.containsKey('-1')) throw ArticleNotFoundException();
         // get the article data.
@@ -32,17 +32,13 @@ class Wikipedia {
         return ToolArticle(
           title: articleData['title'],
           source: 'wikipedia',
-          description: (articleData['description'] as String).isEmpty
-              ? 'tool'
-              : articleData['description'],
+          description: (articleData['description'] as String).isEmpty ? 'tool' : articleData['description'],
           excerpt: articleData['extract'],
           urlImagePath: articleData['thumbnail']?['source'],
           fetchedAt: DateTime.now(),
         );
       }
-      throw FailedToFetchToolArticleData(
-          message:
-              'Failed to fetch article data, http statusCode: ${response.statusCode}');
+      throw FailedToFetchToolArticleData(message: 'Failed to fetch article data, http statusCode: ${response.statusCode}');
     } catch (e) {
       rethrow;
     }
@@ -51,8 +47,7 @@ class Wikipedia {
 
 // data source class: type of data + type of source + DataSource (tools + localSqlDb + DataSource);
 // the data source class should only work with one source of data ( Wikipedia)
-class ToolArticlesRemoteWikipediaDataSource
-    implements ToolArticlesRemoteDataSource {
+class ToolArticlesRemoteWikipediaDataSource implements ToolArticlesRemoteDataSource {
   final Wikipedia _wikipedia = Wikipedia();
 
   @override
