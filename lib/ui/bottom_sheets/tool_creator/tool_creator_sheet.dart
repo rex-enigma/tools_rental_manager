@@ -22,17 +22,19 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
     Widget? child,
   ) {
     return Container(
-      height: 622.0,
+      width: screenWidth(context),
       padding: const EdgeInsets.only(top: 10.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const DragHandle(),
           horizontalSpaceTiny,
-          Container(
-            height: 400,
-            width: 100,
-            color: Colors.green,
+          Form(
+            child: Column(
+              children: [
+                TextFormField(),
+              ],
+            ),
           ),
         ],
       ),
