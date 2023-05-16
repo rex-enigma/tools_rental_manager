@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -23,17 +24,35 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
   ) {
     return Container(
       width: screenWidth(context),
-      padding: const EdgeInsets.only(top: 10.0),
+      padding: const EdgeInsets.only(top: 10.0, right: 16.0, left: 16.0),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           const DragHandle(),
-          horizontalSpaceTiny,
-          Form(
-            child: Column(
-              children: [
-                TextFormField(),
-              ],
+          verticalSpaceSmall,
+          Center(
+            child: Text(
+              'Create a tool',
+              style: MyApp.of(context).themeMode == ThemeMode.light ? Theme.of(context).typography.white.bodyMedium! : Theme.of(context).typography.black.bodyMedium!,
+            ),
+          ),
+          Padding(
+            padding: const EdgeInsets.only(top: 8.0),
+            child: Form(
+              child: Column(
+                children: [
+                  TextFormField(
+                    decoration: const InputDecoration(
+                      focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
+                      enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                      hintText: 'How much the tool was purchased for',
+                      labelText: 'Purchased price *',
+                      floatingLabelStyle: TextStyle(color: Colors.black),
+                      floatingLabelBehavior: FloatingLabelBehavior.always,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ],
