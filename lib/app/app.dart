@@ -25,6 +25,7 @@ import 'package:tools_rental_management/ui/views/tool_user_image/tool_user_image
 import 'package:tools_rental_management/ui/views/national_id_image/national_id_image_view.dart';
 import 'package:tools_rental_management/ui/views/tools/tools_viewmodel.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_creator/tool_creator_sheet.dart';
+import 'package:tools_rental_management/ui/bottom_sheets/tool_user_creator/tool_user_creator_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -64,6 +65,7 @@ import 'package:tools_rental_management/ui/bottom_sheets/tool_creator/tool_creat
   bottomsheets: [
     StackedBottomsheet(classType: NoticeSheet),
     StackedBottomsheet(classType: ToolCreatorSheet),
+StackedBottomsheet(classType: ToolUserCreatorSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
