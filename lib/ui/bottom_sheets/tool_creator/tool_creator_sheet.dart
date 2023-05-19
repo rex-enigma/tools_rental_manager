@@ -125,8 +125,15 @@ class DashedCircularButtonBorderWithIcons extends StatelessWidget {
               Align(
                 alignment: Alignment.center,
                 child: switch (bottomSheetType) {
-                  BottomSheetType.toolCreator => Icon(Icons.add),
-                  BottomSheetType.toolUserCreator => Icon(Icons.camera),
+                  BottomSheetType.toolCreator => const Icon(
+                      FontIcons.circularSaw,
+                      color: Color.fromRGBO(202, 202, 202, 1.0),
+                      size: 56.0,
+                    ),
+                  BottomSheetType.toolUserCreator => const Icon(
+                      Icons.person,
+                      color: Color.fromRGBO(202, 202, 202, 1.0),
+                    ),
                   BottomSheetType.notice => Icon(Icons.person)
                 },
               ),
@@ -151,12 +158,6 @@ class DashedCircularButtonBorderWithIcons extends StatelessWidget {
       ),
     );
   }
-
-  Widget getSandWichedIcon(BottomSheetType bottomSheetType) => switch (bottomSheetType) {
-        BottomSheetType.toolCreator => Icon(Icons.add),
-        BottomSheetType.toolUserCreator => Icon(Icons.camera),
-        BottomSheetType.notice => Icon(Icons.person)
-      };
 }
 
 // bottomSheetType == BottomSheetType.toolCreator
