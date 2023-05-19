@@ -7,6 +7,7 @@ import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reuable_widgets/drag_handle.dart';
+import 'package:tools_rental_management/ui/views/home/home_view.dart';
 
 import 'tool_creator_sheet_model.dart';
 
@@ -44,6 +45,24 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
             child: Form(
               child: Column(
                 children: [
+                  GestureDetector(
+                    // check why this is not working
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => const HomeView()));
+                    },
+                    child: TextFormField(
+                      readOnly: true,
+                      decoration: const InputDecoration(
+                        focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
+                        enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                        hintText: 'Name of a tool',
+                        labelText: 'Tool name *',
+                        floatingLabelStyle: TextStyle(color: Colors.black),
+                        floatingLabelBehavior: FloatingLabelBehavior.always,
+                      ),
+                    ),
+                  ),
+                  verticalSpaceMedium,
                   TextFormField(
                     decoration: const InputDecoration(
                       focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
@@ -57,6 +76,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                   FormField(
                     builder: (formFieldState) => DashedCircularButtonBorderWithIcons(
                       bottomSheetType: BottomSheetType.toolCreator,
+                      toolImagePath: viewModel.toolImagePath,
                     ),
                   ),
                 ],
@@ -84,11 +104,14 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
 /// icon(either a FontIcons.circularSaw or Icons.person) and the last is an icon(Icons.photo_camera).
 /// [BottomSheetType] is need so that we can be able to create a [DashedCircularButtonBorderWithIcons] with either
 /// a [circularSaw] icon or a [person] icon as second widget in the stack.
+/// [toolImagePath] is the path of a tool image to be displayed.
 class DashedCircularButtonBorderWithIcons extends StatelessWidget {
   final BottomSheetType bottomSheetType;
+  final String? toolImagePath;
 
   const DashedCircularButtonBorderWithIcons({
     required this.bottomSheetType,
+    required this.toolImagePath,
     Key? key,
   }) : super(key: key);
 
@@ -97,7 +120,7 @@ class DashedCircularButtonBorderWithIcons extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Handle button tap
-        print('add a tool phot');
+        print('add a tool photo');
       },
       child: DottedBorder(
         borderType: BorderType.Circle,
@@ -114,44 +137,42 @@ class DashedCircularButtonBorderWithIcons extends StatelessWidget {
             children: [
               Positioned.fill(
                 child: ClipOval(
-                  child: Container(
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Color.fromRGBO(244, 244, 244, 1),
-                    ),
-                  ),
+                  child: toolImagePath == null
+                      ? Container(
+                          decoration: const BoxDecoration(
+                            shape: BoxShape.circle,
+                            color: Color.fromRGBO(244, 244, 244, 1),
+                          ),
+                        )
+                      : Image.asset(
+                          toolImagePath!,
+                          fit: BoxFit.cover,
+                        ),
                 ),
               ),
-              Align(
-                alignment: Alignment.center,
-                child: switch (bottomSheetType) {
-                  BottomSheetType.toolCreator => const Icon(
-                      FontIcons.circularSaw,
-                      color: Color.fromRGBO(202, 202, 202, 1.0),
-                      size: 56.0,
-                    ),
-                  BottomSheetType.toolUserCreator => const Icon(
-                      Icons.person,
-                      color: Color.fromRGBO(202, 202, 202, 1.0),
-                    ),
-                  BottomSheetType.notice => Icon(Icons.person)
-                },
-              ),
-              Align(
-                alignment: Alignment.center,
-                child: Container(
-                  width: 30,
-                  height: 30,
-                  decoration: const BoxDecoration(
-                    shape: BoxShape.circle,
-                    color: Colors.white,
-                  ),
-                  child: const Icon(
+              if (toolImagePath == null)
+                Align(
+                  alignment: Alignment.center,
+                  child: switch (bottomSheetType) {
+                    BottomSheetType.toolCreator => const Icon(
+                        FontIcons.circularSaw,
+                        color: Color.fromRGBO(202, 202, 202, 1.0),
+                        size: 56.0,
+                      ),
+                    BottomSheetType.toolUserCreator => const Icon(
+                        Icons.person,
+                        color: Color.fromRGBO(202, 202, 202, 1.0),
+                      ),
+                  },
+                ),
+              if (toolImagePath == null)
+                const Align(
+                  alignment: Alignment.center,
+                  child: Icon(
                     Icons.photo_camera,
                     color: Colors.black,
                   ),
                 ),
-              ),
             ],
           ),
         ),
@@ -159,14 +180,3 @@ class DashedCircularButtonBorderWithIcons extends StatelessWidget {
     );
   }
 }
-
-// bottomSheetType == BottomSheetType.toolCreator
-//                     ? const Icon(
-//                         FontIcons.circularSaw,
-//                         color: Color.fromRGBO(202, 202, 202, 1.0),
-//                         size: 56.0,
-//                       )
-//                     : const Icon(
-//                         Icons.person,
-//                         color: Color.fromRGBO(202, 202, 202, 1.0),
-//                       ),

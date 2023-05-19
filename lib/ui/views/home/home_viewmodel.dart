@@ -25,12 +25,4 @@ class HomeViewModel extends IndexTrackingViewModel {
       description: 'Give stacked $_counter stars on Github',
     );
   }
-
-  void showBottomSheet() {
-    _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.notice,
-      title: ksHomeBottomSheetTitle,
-      description: ksHomeBottomSheetDescription,
-    );
-  }
 }

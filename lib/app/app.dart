@@ -5,7 +5,6 @@ import 'package:tools_rental_management/data/data_sources/local/toolarticles/too
 import 'package:tools_rental_management/data/data_sources/local/toolusers/toolusers_localsqlite_datasource_imp.dart';
 import 'package:tools_rental_management/data/data_sources/local/tools/tools_localsqlite_datasource_imp.dart';
 import 'package:tools_rental_management/data/data_sources/remote/toolarticles/toolarticles_remotewikipedia_datasource_imp.dart';
-import 'package:tools_rental_management/ui/bottom_sheets/notice/notice_sheet.dart';
 import 'package:tools_rental_management/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:tools_rental_management/ui/views/home/home_view.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_viewmodel.dart';
@@ -63,9 +62,8 @@ import 'package:tools_rental_management/ui/bottom_sheets/tool_user_creator/tool_
     LazySingleton(classType: SettingsViewModel),
   ],
   bottomsheets: [
-    StackedBottomsheet(classType: NoticeSheet),
     StackedBottomsheet(classType: ToolCreatorSheet),
-StackedBottomsheet(classType: ToolUserCreatorSheet),
+    StackedBottomsheet(classType: ToolUserCreatorSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
