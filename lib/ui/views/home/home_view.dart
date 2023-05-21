@@ -22,21 +22,28 @@ class HomeView extends StackedView<HomeViewModel> {
         decoration: BoxDecoration(
           border: Border(
             top: BorderSide(
-              color: Theme.of(context).dividerColor,
-              width: MyApp.of(context).themeMode == ThemeMode.light ? 0.5 : 0.1,
-            ),
+                color: Theme.of(context).dividerColor,
+                width: switch (MyApp.of(context).themeMode) {
+                  ThemeMode.light => 0.5,
+                  ThemeMode.light => 0.1,
+                  _ => throw 'configure ThemeMode.system',
+                }),
           ),
         ),
         child: BottomNavigationBar(
           unselectedIconTheme: Theme.of(context).iconTheme,
-          unselectedLabelStyle: MyApp.of(context).themeMode == ThemeMode.light
-              ? Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0)
-              : Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
+          unselectedLabelStyle: switch (MyApp.of(context).themeMode) {
+            ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0),
+            ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
+            _ => throw 'configure ThemeMode.system',
+          },
           unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
           selectedItemColor: Theme.of(context).colorScheme.secondary,
-          selectedLabelStyle: MyApp.of(context).themeMode == ThemeMode.light
-              ? Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0)
-              : Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
+          selectedLabelStyle: switch (MyApp.of(context).themeMode) {
+            ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0),
+            ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
+            _ => throw ' configure ThemeMode.system',
+          },
           iconSize: Theme.of(context).iconTheme.size!,
           currentIndex: viewModel.currentIndex,
           onTap: viewModel.setIndex,

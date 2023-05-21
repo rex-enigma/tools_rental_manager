@@ -30,18 +30,22 @@ class StartupView extends StackedView<StartupViewModel> {
             verticalSpaceTiny,
             Text(
               'TORENMAN',
-              style: MyApp.of(context).themeMode == ThemeMode.light
-                  ? Theme.of(context).typography.white.bodyLarge
-                  : Theme.of(context).typography.black.bodyLarge,
+              style: switch (MyApp.of(context).themeMode) {
+                ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
+                ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
+                _ => throw 'configure ThemeMode.system',
+              },
             ),
             Row(
               mainAxisSize: MainAxisSize.min,
               children: [
                 Text(
                   'initializing...',
-                  style: MyApp.of(context).themeMode == ThemeMode.light
-                      ? Theme.of(context).typography.white.bodySmall
-                      : Theme.of(context).typography.black.bodySmall,
+                  style: switch (MyApp.of(context).themeMode) {
+                    ThemeMode.light => Theme.of(context).typography.white.bodySmall,
+                    ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
+                    _ => throw 'configure ThemeMode.system',
+                  },
                 ),
                 horizontalSpaceSmall,
                 SizedBox(
@@ -67,6 +71,5 @@ class StartupView extends StackedView<StartupViewModel> {
       StartupViewModel();
 
   @override
-  void onViewModelReady(StartupViewModel viewModel) => SchedulerBinding.instance
-      .addPostFrameCallback((timeStamp) => viewModel.runStartupLogic());
+  void onViewModelReady(StartupViewModel viewModel) => SchedulerBinding.instance.addPostFrameCallback((timeStamp) => viewModel.runStartupLogic());
 }
