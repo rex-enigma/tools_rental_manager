@@ -21,13 +21,25 @@ ThemeData lightTheme = ThemeData(
   typography: Typography(
     white: _textTheme,
   ),
+  filledButtonTheme: const FilledButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStatePropertyAll(
+        Color.fromRGBO(57, 190, 219, 1.0),
+      ),
+      foregroundColor: MaterialStatePropertyAll(
+        Colors.white,
+      ),
+      fixedSize: MaterialStatePropertyAll(
+        Size(140.0, 50.0),
+      ),
+    ),
+  ),
   iconTheme: const IconThemeData(
     color: Colors.black,
     size: 30.0,
   ),
-
-  ///duplicate this to the dark theme
   tabBarTheme: _tabBarTheme,
+  outlinedButtonTheme: _outlinedButtonTheme,
 );
 
 ThemeData darkTheme = ThemeData(
@@ -64,8 +76,22 @@ ThemeData darkTheme = ThemeData(
       ),
     ),
   ),
+  filledButtonTheme: const FilledButtonThemeData(
+    style: ButtonStyle(
+      backgroundColor: MaterialStatePropertyAll(
+        Color.fromRGBO(57, 190, 219, 1.0),
+      ),
+      foregroundColor: MaterialStatePropertyAll(
+        Colors.black,
+      ),
+      fixedSize: MaterialStatePropertyAll(
+        Size(140.0, 50.0),
+      ),
+    ),
+  ),
+  outlinedButtonTheme: _outlinedButtonTheme,
   iconTheme: const IconThemeData(
-    color: Color.fromRGBO(228, 228, 228, 1.0),
+    color: Colors.black,
     size: 30.0,
   ),
   tabBarTheme: _tabBarTheme,
@@ -114,4 +140,14 @@ TabBarTheme _tabBarTheme = const TabBarTheme(
     ),
   ),
   indicatorSize: TabBarIndicatorSize.label,
+);
+
+OutlinedButtonThemeData _outlinedButtonTheme = OutlinedButtonThemeData(
+  style: OutlinedButton.styleFrom(
+    foregroundColor: const Color.fromRGBO(57, 190, 219, 1.0),
+    side: const BorderSide(
+      color: Color.fromRGBO(57, 190, 219, 1.0),
+    ),
+    fixedSize: const Size(140.0, 50.0),
+  ),
 );
