@@ -43,10 +43,12 @@ class ToolsView extends StackedView<ToolsViewModel> {
                 ))
           ],
           title: Center(
-            child: Text(
-              'Tools',
-              style: MyApp.of(context).themeMode == ThemeMode.light ? Theme.of(context).typography.white.bodyLarge : Theme.of(context).typography.black.bodyLarge,
-            ),
+            child: Text('Tools',
+                style: switch (MyApp.of(context).themeMode) {
+                  ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
+                  ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
+                  _ => throw ' configure ThemeMode.system',
+                }),
           ),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(46.0),
@@ -61,7 +63,11 @@ class ToolsView extends StackedView<ToolsViewModel> {
                 ),
               ),
               child: TabBar(
-                labelStyle: MyApp.of(context).themeMode == ThemeMode.light ? Theme.of(context).typography.white.bodyMedium : Theme.of(context).typography.black.bodyMedium,
+                labelStyle: switch (MyApp.of(context).themeMode) {
+                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
+                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
+                  _ => throw ' configure ThemeMode.system',
+                },
                 unselectedLabelColor: Theme.of(context).colorScheme.onPrimary,
                 labelColor: Theme.of(context).colorScheme.secondary,
                 isScrollable: true,
@@ -82,7 +88,11 @@ class ToolsView extends StackedView<ToolsViewModel> {
           ),
         ),
         body: DefaultTextStyle(
-          style: MyApp.of(context).themeMode == ThemeMode.light ? Theme.of(context).typography.white.bodyMedium! : Theme.of(context).typography.black.bodyMedium!,
+          style: switch (MyApp.of(context).themeMode) {
+            ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
+            ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
+            _ => throw ' configure ThemeMode.system',
+          },
           child: const Padding(
             padding: EdgeInsets.only(left: 16.0, right: 16.0),
             child: TabBarView(
@@ -104,7 +114,11 @@ class ToolsView extends StackedView<ToolsViewModel> {
           onPressed: viewModel.showBottomSheet,
           child: Icon(
             Icons.add,
-            color: MyApp.of(context).themeMode == ThemeMode.light ? Theme.of(context).colorScheme.primary : Theme.of(context).colorScheme.onPrimary,
+            color: switch (MyApp.of(context).themeMode) {
+              ThemeMode.light => Theme.of(context).colorScheme.primary,
+              ThemeMode.dark => Theme.of(context).colorScheme.onPrimary,
+              _ => throw ' configure ThemeMode.system',
+            },
           ),
           backgroundColor: Theme.of(context).colorScheme.secondary,
         ),

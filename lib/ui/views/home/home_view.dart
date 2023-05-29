@@ -25,7 +25,7 @@ class HomeView extends StackedView<HomeViewModel> {
                 color: Theme.of(context).dividerColor,
                 width: switch (MyApp.of(context).themeMode) {
                   ThemeMode.light => 0.5,
-                  ThemeMode.light => 0.1,
+                  ThemeMode.dark => 0.1,
                   _ => throw 'configure ThemeMode.system',
                 }),
           ),

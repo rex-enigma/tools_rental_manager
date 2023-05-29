@@ -91,7 +91,7 @@ ThemeData darkTheme = ThemeData(
   ),
   outlinedButtonTheme: _outlinedButtonTheme,
   iconTheme: const IconThemeData(
-    color: Colors.black,
+    color: Color.fromRGBO(228, 228, 228, 1.0),
     size: 30.0,
   ),
   tabBarTheme: _tabBarTheme,

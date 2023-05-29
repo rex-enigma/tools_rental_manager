@@ -29,6 +29,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
     ToolCreatorSheetModel viewModel,
     Widget? child,
   ) {
+    // SingleChildScrollView is making the drag handle to scroll, change that so that only the Form scrolls
     return SingleChildScrollView(
       child: Container(
         width: screenWidth(context),
@@ -39,18 +40,27 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
           right: 16.0,
           left: 16.0,
         ),
+        decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary,
+          borderRadius: const BorderRadius.only(
+            topLeft: Radius.circular(10),
+            topRight: Radius.circular(10),
+          ),
+        ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const DragHandle(),
             verticalSpaceSmall,
             Center(
-              child: Text('Create a tool',
-                  style: switch (MyApp.of(context).themeMode) {
-                    ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
-                    ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
-                    _ => throw ' configure ThemeMode.system',
-                  }),
+              child: Text(
+                'Create a tool',
+                style: switch (MyApp.of(context).themeMode) {
+                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
+                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
+                  _ => throw ' configure ThemeMode.system',
+                },
+              ),
             ),
             verticalSpaceSmall,
             Form(
@@ -213,13 +223,6 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
               ),
             ),
           ],
-        ),
-        decoration: BoxDecoration(
-          color: Theme.of(context).colorScheme.primary,
-          borderRadius: const BorderRadius.only(
-            topLeft: Radius.circular(10),
-            topRight: Radius.circular(10),
-          ),
         ),
       ),
     );
