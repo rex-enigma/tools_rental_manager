@@ -1,7 +1,5 @@
-import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
-import 'package:tools_rental_management/assets/font_icons/font_icons.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
 import 'package:tools_rental_management/main.dart';
@@ -10,7 +8,6 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reuable_widgets/dashed_circular_btn_border_with_icons.dart';
 import 'package:tools_rental_management/ui/reuable_widgets/drag_handle.dart';
-import 'package:tools_rental_management/ui/views/home/home_view.dart';
 
 import 'tool_creator_sheet_model.dart';
 
@@ -29,16 +26,12 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
     ToolCreatorSheetModel viewModel,
     Widget? child,
   ) {
-    // SingleChildScrollView is making the drag handle to scroll, change that so that only the Form scrolls
-    return SingleChildScrollView(
+    return SafeArea(
       child: Container(
         width: screenWidth(context),
-        height: 760.0,
+        height: 770.0,
         padding: const EdgeInsets.only(
           top: 10.0,
-          bottom: 10.0,
-          right: 16.0,
-          left: 16.0,
         ),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
@@ -62,164 +55,176 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                 },
               ),
             ),
-            verticalSpaceSmall,
-            Form(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  TextFormField(
-                    onTap: () => print('textFormField taped'),
-                    readOnly: true,
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
-                      hintText: 'Name of a tool',
-                      labelText: 'Tool name *',
-                      floatingLabelStyle: TextStyle(color: Colors.black),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                    ),
+            Divider(color: Theme.of(context).dividerColor, height: 10.0),
+            Flexible(
+              child: SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    top: 10.0,
+                    right: 16.0,
+                    left: 16.0,
                   ),
-                  verticalSpaceMedium,
-                  TextFormField(
-                    onTap: () => print('textFormField taped'),
-                    readOnly: true,
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
-                      hintText: 'The date the tool was bought',
-                      labelText: 'Purchased date *',
-                      floatingLabelStyle: TextStyle(color: Colors.black),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                    ),
-                  ),
-                  verticalSpaceMedium,
-                  DropdownButtonFormField(
-                    value: Currency.kes.name,
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
-                      labelText: 'Currency *',
-                      floatingLabelStyle: TextStyle(color: Colors.black),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                    ),
-                    items: Currency.values
-                        .map(
-                          (currency) => DropdownMenuItem(
-                            value: currency.name,
-                            child: Text(currency.name.toUpperCase()),
-                          ),
-                        )
-                        .toList(),
-                    onChanged: (value) => {},
-                  ),
-                  verticalSpaceMedium,
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
-                      hintText: "How much the tool was purchased for",
-                      labelText: 'Purchased price *',
-                      floatingLabelStyle: TextStyle(color: Colors.black),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                    ),
-                  ),
-                  verticalSpaceMedium,
-                  TextFormField(
-                    decoration: const InputDecoration(
-                      isDense: true,
-                      focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                      enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
-                      hintText: 'Cost of renting a tool per hour',
-                      labelText: 'Rate (KES) *', // don't forget to make the KES dynamic.
-                      floatingLabelStyle: TextStyle(color: Colors.black),
-                      floatingLabelBehavior: FloatingLabelBehavior.always,
-                    ),
-                  ),
-                  verticalSpaceMedium,
-                  DropdownButtonFormField(
-                      decoration: const InputDecoration(
-                        isDense: true,
-                        focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                        enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
-                        hintText: 'Powered tool or un-powered tool',
-                        labelText: 'Category *',
-                        floatingLabelStyle: TextStyle(color: Colors.black),
-                        floatingLabelBehavior: FloatingLabelBehavior.always,
-                      ),
-                      items: Category.values
-                          .map(
-                            (category) => DropdownMenuItem(
-                              value: category.name,
-                              child: Text(category.name),
-                            ),
-                          )
-                          .toList(),
-                      onChanged: (value) => {}),
-                  verticalSpaceMedium,
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Expanded(
-                        child: TextFormField(
+                  child: Form(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TextFormField(
+                          onTap: () => print('textFormField taped'),
                           readOnly: true,
                           decoration: const InputDecoration(
                             isDense: true,
                             focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
                             enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
-                            hintText: 'Id to be assigned to this tool',
-                            labelText: 'Tool id (Unique) *',
+                            hintText: 'Name of a tool',
+                            labelText: 'Tool name *',
                             floatingLabelStyle: TextStyle(color: Colors.black),
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                           ),
                         ),
-                      ),
-                      Container(
-                        height: 50,
-                        width: 120.0,
-                        padding: const EdgeInsets.only(left: 6.0),
-                        child: FilledButton(
-                          style: Theme.of(context).filledButtonTheme.style?.copyWith(
-                                fixedSize: const MaterialStatePropertyAll(
-                                  Size(120.0, 50.0),
+                        verticalSpaceMedium,
+                        TextFormField(
+                          onTap: () => print('textFormField taped'),
+                          readOnly: true,
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            hintText: 'The date the tool was bought',
+                            labelText: 'Purchased date *',
+                            floatingLabelStyle: TextStyle(color: Colors.black),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                          ),
+                        ),
+                        verticalSpaceMedium,
+                        DropdownButtonFormField(
+                          value: Currency.kes.name,
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            labelText: 'Currency *',
+                            floatingLabelStyle: TextStyle(color: Colors.black),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                          ),
+                          items: Currency.values
+                              .map(
+                                (currency) => DropdownMenuItem(
+                                  value: currency.name,
+                                  child: Text(currency.name.toUpperCase()),
                                 ),
-                                shape: MaterialStatePropertyAll(
-                                  RoundedRectangleBorder(
-                                    borderRadius: BorderRadius.circular(6),
+                              )
+                              .toList(),
+                          onChanged: (value) => {},
+                        ),
+                        verticalSpaceMedium,
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            hintText: "How much the tool was purchased for",
+                            labelText: 'Purchased price *',
+                            floatingLabelStyle: TextStyle(color: Colors.black),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                          ),
+                        ),
+                        verticalSpaceMedium,
+                        TextFormField(
+                          decoration: const InputDecoration(
+                            isDense: true,
+                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            hintText: 'Cost of renting a tool per hour',
+                            labelText: 'Rate (KES) *', // don't forget to make the KES dynamic.
+                            floatingLabelStyle: TextStyle(color: Colors.black),
+                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                          ),
+                        ),
+                        verticalSpaceMedium,
+                        DropdownButtonFormField(
+                            decoration: const InputDecoration(
+                              isDense: true,
+                              focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
+                              enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                              hintText: 'Powered tool or un-powered tool',
+                              labelText: 'Category *',
+                              floatingLabelStyle: TextStyle(color: Colors.black),
+                              floatingLabelBehavior: FloatingLabelBehavior.always,
+                            ),
+                            items: Category.values
+                                .map(
+                                  (category) => DropdownMenuItem(
+                                    value: category.name,
+                                    child: Text(category.name),
                                   ),
+                                )
+                                .toList(),
+                            onChanged: (value) => {}),
+                        verticalSpaceMedium,
+                        Row(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Expanded(
+                              child: TextFormField(
+                                readOnly: true,
+                                decoration: const InputDecoration(
+                                  isDense: true,
+                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
+                                  enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                                  hintText: 'Id to be assigned to this tool',
+                                  labelText: 'Tool id (Unique) *',
+                                  floatingLabelStyle: TextStyle(color: Colors.black),
+                                  floatingLabelBehavior: FloatingLabelBehavior.always,
                                 ),
                               ),
-                          child: const Text('Gen id'),
-                          onPressed: () => {},
+                            ),
+                            Container(
+                              height: 50,
+                              width: 120.0,
+                              padding: const EdgeInsets.only(left: 6.0),
+                              child: FilledButton(
+                                style: Theme.of(context).filledButtonTheme.style?.copyWith(
+                                      fixedSize: const MaterialStatePropertyAll(
+                                        Size(120.0, 50.0),
+                                      ),
+                                      shape: MaterialStatePropertyAll(
+                                        RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(6),
+                                        ),
+                                      ),
+                                    ),
+                                child: const Text('Gen id'),
+                                onPressed: () => {},
+                              ),
+                            )
+                          ],
                         ),
-                      )
-                    ],
-                  ),
-                  verticalSpaceMedium,
-                  FormField(
-                    builder: (formFieldState) => DashedCircularButtonBorderWithIcons(
-                      bottomSheetType: BottomSheetType.toolCreator,
-                      toolImagePath: viewModel.toolImagePath,
+                        verticalSpaceMedium,
+                        FormField(
+                          // fix [DashedCircularButtonBorderWithIcons] to also support rectangle shape of a dynamic size
+                          builder: (formFieldState) => DashedCircularButtonBorderWithIcons(
+                            bottomSheetType: BottomSheetType.toolCreator,
+                            toolImagePath: viewModel.toolImagePath,
+                          ),
+                        ),
+                        verticalSpaceMedium,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            OutlinedButton(
+                              onPressed: () => {},
+                              child: const Text('Cancel'),
+                            ),
+                            FilledButton(
+                              onPressed: () => {},
+                              child: const Text('Add'),
+                            ),
+                          ],
+                        )
+                      ],
                     ),
                   ),
-                  verticalSpaceMedium,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      OutlinedButton(
-                        onPressed: () => {},
-                        child: const Text('Cancel'),
-                      ),
-                      FilledButton(
-                        onPressed: () => {},
-                        child: const Text('Add'),
-                      ),
-                    ],
-                  )
-                ],
+                ),
               ),
             ),
           ],
