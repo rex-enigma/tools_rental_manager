@@ -4,7 +4,7 @@ import 'package:tools_rental_management/enums/status.dart';
 
 class Tool {
   /// its only null when creating a new tool that need to be inserted to the database.
-  /// But when constructing this tool from a database record, [toolId] should have a non-nullable value
+  /// But when constructing this tool from a database record, [toolId] should have a non-null value
   final int? toolId;
   final String name;
   // the date this tool was bought.

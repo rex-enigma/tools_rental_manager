@@ -202,7 +202,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         verticalSpaceMedium,
                         FormField(
                           // fix [DashedCircularButtonBorderWithIcons] to also support rectangle shape of a dynamic size
-                          builder: (formFieldState) => DashedCircularButtonBorderWithIcons(
+                          builder: (formFieldState) => DashedBorderButtonWithIcons(
                             bottomSheetType: BottomSheetType.toolCreator,
                             toolImagePath: viewModel.toolImagePath,
                           ),

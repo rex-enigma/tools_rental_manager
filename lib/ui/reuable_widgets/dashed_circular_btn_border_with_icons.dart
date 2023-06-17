@@ -3,17 +3,17 @@ import 'package:flutter/material.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/assets/font_icons/font_icons.dart';
 
-/// [DashedCircularButtonBorderWithIcons] created a circular button which has dashed border and 3
+/// [DashedBorderButtonWithIcons] created a circular button which has dashed border and 3
 /// widget stacked on top of each other. The first widget is a greyish background, second widget is an
 /// icon(either a FontIcons.circularSaw or Icons.person) and the last is an icon(Icons.photo_camera).
-/// [BottomSheetType] is need so that we can be able to create a [DashedCircularButtonBorderWithIcons] with either
+/// [BottomSheetType] is need so that we can be able to create a [DashedBorderButtonWithIcons] with either
 /// a [circularSaw] icon or a [person] icon as second widget in the stack.
 /// [toolImagePath] is the path of a tool image to be displayed.
-class DashedCircularButtonBorderWithIcons extends StatelessWidget {
+class DashedBorderButtonWithIcons extends StatelessWidget {
   final BottomSheetType bottomSheetType;
   final String? toolImagePath;
 
-  const DashedCircularButtonBorderWithIcons({
+  const DashedBorderButtonWithIcons({
     required this.bottomSheetType,
     required this.toolImagePath,
     Key? key,
