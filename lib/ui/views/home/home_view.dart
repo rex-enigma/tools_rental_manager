@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_view.dart';
+import 'package:tools_rental_management/ui/views/tool/tool_view.dart';
 import 'package:tools_rental_management/ui/views/tool_users/tool_users_view.dart';
 import 'package:tools_rental_management/ui/views/tools/tools_view.dart';
 
@@ -77,15 +78,23 @@ class HomeView extends StackedView<HomeViewModel> {
   HomeViewModel viewModelBuilder(BuildContext context) => HomeViewModel();
 
   Widget getViewFromIndex(int index) {
-    switch (index) {
-      case 0:
-        return const ToolsView();
-      case 1:
-        return const ToolUsersView();
-      case 2:
-        return const SettingsView();
-      default:
-        return const ToolsView();
-    }
+    return switch (index) {
+      0 => const ToolsView(),
+      1 => const ToolUsersView(),
+      2 => const SettingsView(),
+      _ => const ToolsView(),
+    };
   }
 }
+
+
+    // switch (index) {
+    //   case 0:
+    //     return const ToolsView();
+    //   case 1:
+    //     return const ToolUsersView();
+    //   case 2:
+    //     return const SettingsView();
+    //   default:
+    //     return const ToolsView();
+    // }

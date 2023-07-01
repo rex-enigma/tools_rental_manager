@@ -36,19 +36,22 @@ class ToolsView extends StackedView<ToolsViewModel> {
           ),
           actions: [
             IconButton(
-                onPressed: () => {},
-                icon: Icon(
-                  Icons.filter_list,
-                  color: Theme.of(context).colorScheme.secondary,
-                ))
+              onPressed: () => {},
+              icon: Icon(
+                Icons.filter_list,
+                color: Theme.of(context).colorScheme.secondary,
+              ),
+            )
           ],
           title: Center(
-            child: Text('Tools',
-                style: switch (MyApp.of(context).themeMode) {
-                  ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
-                  ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
-                  _ => throw ' configure ThemeMode.system',
-                }),
+            child: Text(
+              'Tools',
+              style: switch (MyApp.of(context).themeMode) {
+                ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
+                ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
+                _ => throw 'configure ThemeMode.system',
+              },
+            ),
           ),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(46.0),
@@ -58,7 +61,11 @@ class ToolsView extends StackedView<ToolsViewModel> {
                 border: Border(
                   bottom: BorderSide(
                     color: Theme.of(context).dividerColor,
-                    width: MyApp.of(context).themeMode == ThemeMode.light ? 0.5 : 0.1,
+                    width: switch (MyApp.of(context).themeMode) {
+                      ThemeMode.light => 0.5,
+                      ThemeMode.dark => 0.1,
+                      _ => throw 'configure ThemeMode.system',
+                    },
                   ),
                 ),
               ),
@@ -111,7 +118,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
           ),
         ),
         floatingActionButton: FloatingActionButton(
-          onPressed: viewModel.showBottomSheet,
+          onPressed: viewModel.showToolCreatorBottomSheet,
           child: Icon(
             Icons.add,
             color: switch (MyApp.of(context).themeMode) {

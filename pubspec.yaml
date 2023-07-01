@@ -45,6 +45,7 @@ dependencies:
   http: ^0.13.5
   shared_preferences: ^2.1.0
   dotted_border: ^2.0.0+3
+  phone_form_field: ^8.1.0
 
 dev_dependencies:
   flutter_test:

@@ -1,10 +1,10 @@
-/// can be either: Currency.kes or Currency.usd
+/// can either be: Currency.kes or Currency.usd
 enum Currency {
   kes,
   usd;
 
   /// convert a string value to its corresponding enum constant value.
-  /// the argument to be passed MUST be either: `kes` string value or `usd` string value,
+  /// the argument to be passed MUST either be: `kes` string value or `usd` string value,
   /// any other string values will cause an [Error] to be throw.
   static Currency fromString(String value) {
     switch (value) {

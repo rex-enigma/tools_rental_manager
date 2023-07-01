@@ -6,8 +6,8 @@ import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:tools_rental_management/ui/reuable_widgets/dashed_circular_btn_border_with_icons.dart';
-import 'package:tools_rental_management/ui/reuable_widgets/drag_handle.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/dashed_circular_border_btn_with_icons.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/drag_handle.dart';
 
 import 'tool_creator_sheet_model.dart';
 
@@ -29,9 +29,9 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
     return SafeArea(
       child: Container(
         width: screenWidth(context),
-        height: 770.0,
         padding: const EdgeInsets.only(
           top: 10.0,
+          bottom: 10.0,
         ),
         decoration: BoxDecoration(
           color: Theme.of(context).colorScheme.primary,
@@ -41,6 +41,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
           ),
         ),
         child: Column(
+          // this one sets the height of the column to be its children's height.
+          mainAxisSize: MainAxisSize.min,
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const DragHandle(),
@@ -55,7 +57,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                 },
               ),
             ),
-            Divider(color: Theme.of(context).dividerColor, height: 10.0),
+            Divider(
+              color: Theme.of(context).dividerColor,
+              height: 10.0,
+            ),
             Flexible(
               child: SingleChildScrollView(
                 child: Padding(
@@ -118,6 +123,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         ),
                         verticalSpaceMedium,
                         TextFormField(
+                          cursorColor: Theme.of(context).colorScheme.onPrimary,
+                          cursorWidth: 1,
                           decoration: const InputDecoration(
                             isDense: true,
                             focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
@@ -130,6 +137,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         ),
                         verticalSpaceMedium,
                         TextFormField(
+                          cursorColor: Theme.of(context).colorScheme.onPrimary,
+                          cursorWidth: 1,
                           decoration: const InputDecoration(
                             isDense: true,
                             focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
@@ -189,7 +198,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                       ),
                                       shape: MaterialStatePropertyAll(
                                         RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(6),
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
                                       ),
                                     ),
@@ -201,10 +210,13 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         ),
                         verticalSpaceMedium,
                         FormField(
-                          // fix [DashedCircularButtonBorderWithIcons] to also support rectangle shape of a dynamic size
-                          builder: (formFieldState) => DashedBorderButtonWithIcons(
+                          builder: (formFieldState) => DashedCircularBorderButtonWithIcons(
                             bottomSheetType: BottomSheetType.toolCreator,
-                            toolImagePath: viewModel.toolImagePath,
+                            imagePath: viewModel.toolImagePath,
+                            onPressed: () {
+                              // Handle button tap
+                              print('add a tool photo');
+                            },
                           ),
                         ),
                         verticalSpaceMedium,
@@ -212,15 +224,25 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             OutlinedButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                               onPressed: () => {},
                               child: const Text('Cancel'),
                             ),
                             FilledButton(
+                              style: OutlinedButton.styleFrom(
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
+                                ),
+                              ),
                               onPressed: () => {},
                               child: const Text('Add'),
                             ),
                           ],
-                        )
+                        ),
                       ],
                     ),
                   ),

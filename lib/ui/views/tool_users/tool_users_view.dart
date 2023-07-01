@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/main.dart';
 
 import 'tool_users_viewmodel.dart';
 
@@ -22,14 +23,63 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      body: Center(
-        child: Container(
-          width: 200.0,
-          height: 200.0,
-          decoration: const BoxDecoration(
-            color: Colors.blue,
+      appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
+        leading: const SizedBox(),
+        title: Center(
+          child: Text(
+            'Tool Users',
+            style: switch (MyApp.of(context).themeMode) {
+              ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
+              ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
+              _ => throw 'configure ThemeMode.system',
+            },
           ),
         ),
+        actions: [
+          IconButton(
+            onPressed: () => {},
+            icon: Icon(
+              Icons.search,
+              color: Theme.of(context).colorScheme.secondary,
+            ),
+          ),
+        ],
+        shape: Border(
+          bottom: BorderSide(
+            color: Theme.of(context).dividerColor,
+            width: switch (MyApp.of(context).themeMode) {
+              ThemeMode.light => 0.5,
+              ThemeMode.dark => 0.1,
+              _ => throw 'configure ThemeMode.system',
+            },
+          ),
+        ),
+      ),
+      body: DefaultTextStyle(
+        style: switch (MyApp.of(context).themeMode) {
+          ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
+          ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
+          _ => throw ' configure ThemeMode.system',
+        },
+        child: const Padding(
+          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+          child: Center(
+            child: Text('Click + button to add a tool user'),
+          ),
+        ),
+      ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: viewModel.showUserCreatorBottomSheet,
+        child: Icon(
+          Icons.add,
+          color: switch (MyApp.of(context).themeMode) {
+            ThemeMode.light => Theme.of(context).colorScheme.primary,
+            ThemeMode.dark => Theme.of(context).colorScheme.onPrimary,
+            _ => throw 'configure ThemeMode.system',
+          },
+        ),
+        backgroundColor: Theme.of(context).colorScheme.secondary,
       ),
     );
   }

@@ -6,7 +6,7 @@ import 'package:tools_rental_management/app/app.locator.dart';
 class ToolsViewModel extends BaseViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
 
-  void showBottomSheet() async {
+  void showToolCreatorBottomSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.toolCreator,
       isScrollControlled: true,
