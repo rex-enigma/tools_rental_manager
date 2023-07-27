@@ -5,7 +5,7 @@ import 'package:tools_rental_management/enums/national_id_side.dart';
 
 /// button that displays national id.
 class NationalIdButton extends StatelessWidget {
-  /// image path either for a front national id or front national id.
+  /// image path either for a front national id or back national id.
   final String? nationalIdImage;
   final NationalIdSide nationalIdSide;
   final VoidCallback onPressed;
