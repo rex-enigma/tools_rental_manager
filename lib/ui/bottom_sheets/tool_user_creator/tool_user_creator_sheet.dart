@@ -53,8 +53,10 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
               child: Text(
                 'Create a tool user',
                 style: switch (MyApp.of(context).themeMode) {
-                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
-                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
+                  ThemeMode.light =>
+                    Theme.of(context).typography.white.bodyMedium!,
+                  ThemeMode.dark =>
+                    Theme.of(context).typography.black.bodyMedium!,
                   _ => throw ' configure ThemeMode.system',
                 },
               ),
@@ -80,8 +82,10 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                           cursorWidth: 1,
                           decoration: const InputDecoration(
                             isDense: true,
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
                             hintText: 'Your first name',
                             labelText: 'First Name *',
                             floatingLabelStyle: TextStyle(color: Colors.black),
@@ -94,8 +98,10 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                           cursorWidth: 1,
                           decoration: const InputDecoration(
                             isDense: true,
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
                             hintText: 'Your last name',
                             labelText: 'Last Name *',
                             floatingLabelStyle: TextStyle(color: Colors.black),
@@ -110,9 +116,12 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                           defaultCountry: IsoCode.KE,
                           decoration: const InputDecoration(
                             isDense: true,
-                            border: OutlineInputBorder(borderSide: BorderSide()),
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            border:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
                             labelText: 'phone number *',
                             floatingLabelStyle: TextStyle(color: Colors.black),
                             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -124,12 +133,14 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                           children: [
                             NationalIdButton(
                               onPressed: () => {},
-                              nationalIdImage: viewModel.frontNationalIdImagePath,
+                              nationalIdImage:
+                                  viewModel.frontNationalIdImagePath,
                               nationalIdSide: NationalIdSide.front,
                             ),
                             NationalIdButton(
                               onPressed: () => {},
-                              nationalIdImage: viewModel.backNationalIdImagePath,
+                              nationalIdImage:
+                                  viewModel.backNationalIdImagePath,
                               nationalIdSide: NationalIdSide.back,
                             ),
                           ],
@@ -177,5 +188,6 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
   }
 
   @override
-  ToolUserCreatorSheetModel viewModelBuilder(BuildContext context) => ToolUserCreatorSheetModel();
+  ToolUserCreatorSheetModel viewModelBuilder(BuildContext context) =>
+      ToolUserCreatorSheetModel();
 }

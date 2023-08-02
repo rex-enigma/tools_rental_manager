@@ -34,6 +34,15 @@ class ToolsView extends StackedView<ToolsViewModel> {
               color: Theme.of(context).colorScheme.secondary,
             ),
           ),
+          centerTitle: true,
+          title: Text(
+            'Tools',
+            style: switch (MyApp.of(context).themeMode) {
+              ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
+              ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
+              _ => throw 'configure ThemeMode.system',
+            },
+          ),
           actions: [
             IconButton(
               onPressed: () => {},
@@ -43,16 +52,6 @@ class ToolsView extends StackedView<ToolsViewModel> {
               ),
             )
           ],
-          title: Center(
-            child: Text(
-              'Tools',
-              style: switch (MyApp.of(context).themeMode) {
-                ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
-                ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
-                _ => throw 'configure ThemeMode.system',
-              },
-            ),
-          ),
           bottom: PreferredSize(
             preferredSize: const Size.fromHeight(46.0),
             child: Container(

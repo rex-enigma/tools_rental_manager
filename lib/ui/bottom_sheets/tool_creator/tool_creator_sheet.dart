@@ -51,8 +51,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
               child: Text(
                 'Create a tool',
                 style: switch (MyApp.of(context).themeMode) {
-                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
-                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
+                  ThemeMode.light =>
+                    Theme.of(context).typography.white.bodyMedium!,
+                  ThemeMode.dark =>
+                    Theme.of(context).typography.black.bodyMedium!,
                   _ => throw ' configure ThemeMode.system',
                 },
               ),
@@ -78,8 +80,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                           readOnly: true,
                           decoration: const InputDecoration(
                             isDense: true,
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
                             hintText: 'Name of a tool',
                             labelText: 'Tool name *',
                             floatingLabelStyle: TextStyle(color: Colors.black),
@@ -92,8 +96,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                           readOnly: true,
                           decoration: const InputDecoration(
                             isDense: true,
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
                             hintText: 'The date the tool was bought',
                             labelText: 'Purchased date *',
                             floatingLabelStyle: TextStyle(color: Colors.black),
@@ -105,8 +111,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                           value: Currency.kes.name,
                           decoration: const InputDecoration(
                             isDense: true,
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
                             labelText: 'Currency *',
                             floatingLabelStyle: TextStyle(color: Colors.black),
                             floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -127,8 +135,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                           cursorWidth: 1,
                           decoration: const InputDecoration(
                             isDense: true,
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
                             hintText: "How much the tool was purchased for",
                             labelText: 'Purchased price *',
                             floatingLabelStyle: TextStyle(color: Colors.black),
@@ -141,10 +151,13 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                           cursorWidth: 1,
                           decoration: const InputDecoration(
                             isDense: true,
-                            focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                            focusedBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
+                            enabledBorder:
+                                OutlineInputBorder(borderSide: BorderSide()),
                             hintText: 'Cost of renting a tool per hour',
-                            labelText: 'Rate (KES) *', // don't forget to make the KES dynamic.
+                            labelText:
+                                'Rate (KES) *', // don't forget to make the KES dynamic.
                             floatingLabelStyle: TextStyle(color: Colors.black),
                             floatingLabelBehavior: FloatingLabelBehavior.always,
                           ),
@@ -153,12 +166,16 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         DropdownButtonFormField(
                             decoration: const InputDecoration(
                               isDense: true,
-                              focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                              enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                              focusedBorder:
+                                  OutlineInputBorder(borderSide: BorderSide()),
+                              enabledBorder:
+                                  OutlineInputBorder(borderSide: BorderSide()),
                               hintText: 'Powered tool or un-powered tool',
                               labelText: 'Category *',
-                              floatingLabelStyle: TextStyle(color: Colors.black),
-                              floatingLabelBehavior: FloatingLabelBehavior.always,
+                              floatingLabelStyle:
+                                  TextStyle(color: Colors.black),
+                              floatingLabelBehavior:
+                                  FloatingLabelBehavior.always,
                             ),
                             items: Category.values
                                 .map(
@@ -178,12 +195,16 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                 readOnly: true,
                                 decoration: const InputDecoration(
                                   isDense: true,
-                                  focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
-                                  enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+                                  focusedBorder: OutlineInputBorder(
+                                      borderSide: BorderSide()),
+                                  enabledBorder: OutlineInputBorder(
+                                      borderSide: BorderSide()),
                                   hintText: 'Id to be assigned to this tool',
                                   labelText: 'Tool id (Unique) *',
-                                  floatingLabelStyle: TextStyle(color: Colors.black),
-                                  floatingLabelBehavior: FloatingLabelBehavior.always,
+                                  floatingLabelStyle:
+                                      TextStyle(color: Colors.black),
+                                  floatingLabelBehavior:
+                                      FloatingLabelBehavior.always,
                                 ),
                               ),
                             ),
@@ -192,13 +213,17 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                               width: 120.0,
                               padding: const EdgeInsets.only(left: 6.0),
                               child: FilledButton(
-                                style: Theme.of(context).filledButtonTheme.style?.copyWith(
+                                style: Theme.of(context)
+                                    .filledButtonTheme
+                                    .style
+                                    ?.copyWith(
                                       fixedSize: const MaterialStatePropertyAll(
                                         Size(120.0, 50.0),
                                       ),
                                       shape: MaterialStatePropertyAll(
                                         RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                       ),
                                     ),
@@ -210,7 +235,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         ),
                         verticalSpaceMedium,
                         FormField(
-                          builder: (formFieldState) => DashedCircularBorderButtonWithIcons(
+                          builder: (formFieldState) =>
+                              DashedCircularBorderButtonWithIcons(
                             bottomSheetType: BottomSheetType.toolCreator,
                             imagePath: viewModel.toolImagePath,
                             onPressed: () {
@@ -256,5 +282,6 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
   }
 
   @override
-  ToolCreatorSheetModel viewModelBuilder(BuildContext context) => ToolCreatorSheetModel();
+  ToolCreatorSheetModel viewModelBuilder(BuildContext context) =>
+      ToolCreatorSheetModel();
 }

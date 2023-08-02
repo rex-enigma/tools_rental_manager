@@ -19,8 +19,10 @@ void setupBottomSheetUi() {
   final bottomsheetService = locator<BottomSheetService>();
 
   final Map<BottomSheetType, SheetBuilder> builders = {
-    BottomSheetType.toolCreator: (context, request, completer) => ToolCreatorSheet(request: request, completer: completer),
-    BottomSheetType.toolUserCreator: (context, request, completer) => ToolUserCreatorSheet(request: request, completer: completer),
+    BottomSheetType.toolCreator: (context, request, completer) =>
+        ToolCreatorSheet(request: request, completer: completer),
+    BottomSheetType.toolUserCreator: (context, request, completer) =>
+        ToolUserCreatorSheet(request: request, completer: completer),
   };
 
   bottomsheetService.setCustomSheetBuilders(builders);

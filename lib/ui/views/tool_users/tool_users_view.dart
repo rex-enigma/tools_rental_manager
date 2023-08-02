@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/main.dart';
+import 'package:tools_rental_management/ui/views/settings/settings_view.dart';
+import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart';
 
 import 'tool_users_viewmodel.dart';
 
@@ -25,16 +27,14 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
-        leading: const SizedBox(),
-        title: Center(
-          child: Text(
-            'Tool Users',
-            style: switch (MyApp.of(context).themeMode) {
-              ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
-              ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
-              _ => throw 'configure ThemeMode.system',
-            },
-          ),
+        centerTitle: true,
+        title: Text(
+          'Tool Users',
+          style: switch (MyApp.of(context).themeMode) {
+            ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
+            ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
+            _ => throw 'configure ThemeMode.system',
+          },
         ),
         actions: [
           IconButton(
@@ -62,10 +62,26 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
           ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
           _ => throw ' configure ThemeMode.system',
         },
-        child: const Padding(
+        child: Padding(
           padding: EdgeInsets.only(left: 16.0, right: 16.0),
           child: Center(
-            child: Text('Click + button to add a tool user'),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text('Click + button to add a tool user'),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ToolUserView(),
+                      ),
+                    );
+                  },
+                  child: Text('Tool User'),
+                ),
+              ],
+            ),
           ),
         ),
       ),

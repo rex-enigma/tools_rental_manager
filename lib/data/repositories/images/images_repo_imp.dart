@@ -33,15 +33,19 @@ class ImagesRepoImp implements ImagesRepo {
     // instead of initializing the field members in the declaration using service locator directly, we use the
     // dependency injection pattern which will assist us when performing unit testing since we can pass a test
     // dependency instance instead of using the real dependency instance (eg the ones gotten from the locator.get<Type>() function).
-    _cameraPhotosLocalDataSource = cameraPhotosLocalDataSource ?? locator.get<CameraPhotosLocalCameraDataSource>();
-    _galleryImagesLocalDataSource = galleryImagesLocalDataSource ?? locator.get<GalleryImagesLocalGalleryDataSource>();
-    _directoryImagesLocalDataSource = directoryImagesLocalDataSource ?? locator.get<ImagesLocalDirectoryDataSource>();
+    _cameraPhotosLocalDataSource = cameraPhotosLocalDataSource ??
+        locator.get<CameraPhotosLocalCameraDataSource>();
+    _galleryImagesLocalDataSource = galleryImagesLocalDataSource ??
+        locator.get<GalleryImagesLocalGalleryDataSource>();
+    _directoryImagesLocalDataSource = directoryImagesLocalDataSource ??
+        locator.get<ImagesLocalDirectoryDataSource>();
   }
 
   /// if the previousImagePath arg is provided, it will be used to remove the corresponding image first before
   /// storing and returning a replacement. Its used when the user wants to change the current image to a diff one.
   @override
-  Future<String?> fetchImagePath({required ImageSource source, String? previousImagePath}) async {
+  Future<String?> fetchImagePath(
+      {required ImageSource source, String? previousImagePath}) async {
     try {
       // if previousImagePath is null then it means its the first time trying to fetch a image.
       if (previousImagePath == null) {
@@ -49,17 +53,23 @@ class ImagesRepoImp implements ImagesRepo {
           case ImageSource.camera:
             // the image path returned is a path that points to an image that is stored in a temporally location.
             // or null if the user cancels the image capture.
-            final String? imagePathCache = await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
+            final String? imagePathCache =
+                await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
             // imagePathCache is null if the user cancelled the image capture.
-            if (imagePathCache == null) return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
+            if (imagePathCache == null)
+              return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
             // we store the image in a permanent dir where platform won't delete it.
-            final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
+            final String imagePath = await _directoryImagesLocalDataSource
+                .storeImage(File(imagePathCache));
             return imagePath;
 
           default:
-            final String? imagePathCache = await _galleryImagesLocalDataSource.selectImageFromGallery();
-            if (imagePathCache == null) return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
-            final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
+            final String? imagePathCache =
+                await _galleryImagesLocalDataSource.selectImageFromGallery();
+            if (imagePathCache == null)
+              return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
+            final String imagePath = await _directoryImagesLocalDataSource
+                .storeImage(File(imagePathCache));
             return imagePath;
         }
         // if PreviousImagePath isn't null then it means isn't the first time trying to fetch a image.
@@ -68,29 +78,36 @@ class ImagesRepoImp implements ImagesRepo {
 
         // check if the previousImagePath points to an image that exists.
         if (!oldImagePath.existsSync()) {
-          throw ImageNotFoundInDir(message: "No image exist of path: $previousImagePath");
+          throw ImageNotFoundInDir(
+              message: "No image exist of path: $previousImagePath");
         } else {
           switch (source) {
             case ImageSource.camera:
-              final String? imagePathCache = await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
+              final String? imagePathCache =
+                  await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
 
-              if (imagePathCache == null) return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
+              if (imagePathCache == null)
+                return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
 
               // delete the image of the given previousImagePath.
               oldImagePath.deleteSync();
 
-              final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
+              final String imagePath = await _directoryImagesLocalDataSource
+                  .storeImage(File(imagePathCache));
               return imagePath;
 
             default:
-              final String? imagePathCache = await _galleryImagesLocalDataSource.selectImageFromGallery();
+              final String? imagePathCache =
+                  await _galleryImagesLocalDataSource.selectImageFromGallery();
 
-              if (imagePathCache == null) return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
+              if (imagePathCache == null)
+                return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
 
               // delete the image of the given previousImagePath.
               oldImagePath.deleteSync();
 
-              final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
+              final String imagePath = await _directoryImagesLocalDataSource
+                  .storeImage(File(imagePathCache));
               return imagePath;
           }
         }

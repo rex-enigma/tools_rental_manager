@@ -5,10 +5,10 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i14;
+import 'package:flutter/material.dart' as _i15;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i15;
+import 'package:stacked_services/stacked_services.dart' as _i16;
 import 'package:tools_rental_management/ui/views/home/home_view.dart' as _i2;
 import 'package:tools_rental_management/ui/views/national_id_image/national_id_image_view.dart'
     as _i13;
@@ -23,6 +23,8 @@ import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart
     as _i10;
 import 'package:tools_rental_management/ui/views/tool_search/tool_search_view.dart'
     as _i7;
+import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart'
+    as _i14;
 import 'package:tools_rental_management/ui/views/tool_user_image/tool_user_image_view.dart'
     as _i12;
 import 'package:tools_rental_management/ui/views/tool_user_search/tool_user_search_view.dart'
@@ -56,6 +58,8 @@ class Routes {
 
   static const nationalIdImageView = '/national-id-image-view';
 
+  static const toolUserView = '/tool-user-view';
+
   static const all = <String>{
     homeView,
     startupView,
@@ -69,6 +73,7 @@ class Routes {
     toolImageView,
     toolUserImageView,
     nationalIdImageView,
+    toolUserView,
   };
 }
 
@@ -122,78 +127,88 @@ class StackedRouter extends _i1.RouterBase {
       Routes.nationalIdImageView,
       page: _i13.NationalIdImageView,
     ),
+    _i1.RouteDef(
+      Routes.toolUserView,
+      page: _i14.ToolUserView,
+    ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.HomeView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
     },
     _i4.ToolsView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.ToolsView(),
         settings: data,
       );
     },
     _i5.SettingsView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.SettingsView(),
         settings: data,
       );
     },
     _i6.ToolView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i6.ToolView(),
         settings: data,
       );
     },
     _i7.ToolSearchView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.ToolSearchView(),
         settings: data,
       );
     },
     _i8.ToolUsersView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i8.ToolUsersView(),
         settings: data,
       );
     },
     _i9.ToolUserSearchView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i9.ToolUserSearchView(),
         settings: data,
       );
     },
     _i10.ToolNamesView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i10.ToolNamesView(),
         settings: data,
       );
     },
     _i11.ToolImageView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i11.ToolImageView(),
         settings: data,
       );
     },
     _i12.ToolUserImageView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i12.ToolUserImageView(),
         settings: data,
       );
     },
     _i13.NationalIdImageView: (data) {
-      return _i14.MaterialPageRoute<dynamic>(
+      return _i15.MaterialPageRoute<dynamic>(
         builder: (context) => const _i13.NationalIdImageView(),
+        settings: data,
+      );
+    },
+    _i14.ToolUserView: (data) {
+      return _i15.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i14.ToolUserView(),
         settings: data,
       );
     },
@@ -205,7 +220,7 @@ class StackedRouter extends _i1.RouterBase {
   Map<Type, _i1.StackedRouteFactory> get pagesMap => _pagesMap;
 }
 
-extension NavigatorStateExtension on _i15.NavigationService {
+extension NavigatorStateExtension on _i16.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -374,6 +389,20 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition: transition);
   }
 
+  Future<dynamic> navigateToToolUserView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.toolUserView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
   Future<dynamic> replaceWithHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -536,6 +565,20 @@ extension NavigatorStateExtension on _i15.NavigationService {
         transition,
   ]) async {
     return replaceWith<dynamic>(Routes.nationalIdImageView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithToolUserView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.toolUserView,
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,

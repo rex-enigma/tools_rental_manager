@@ -25,6 +25,7 @@ import 'package:tools_rental_management/ui/views/national_id_image/national_id_i
 import 'package:tools_rental_management/ui/views/tools/tools_viewmodel.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_creator/tool_creator_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_user_creator/tool_user_creator_sheet.dart';
+import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -41,6 +42,7 @@ import 'package:tools_rental_management/ui/bottom_sheets/tool_user_creator/tool_
     MaterialRoute(page: ToolImageView),
     MaterialRoute(page: ToolUserImageView),
     MaterialRoute(page: NationalIdImageView),
+    MaterialRoute(page: ToolUserView),
 // @stacked-route
   ],
   dependencies: [

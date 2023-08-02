@@ -34,15 +34,31 @@ class HomeView extends StackedView<HomeViewModel> {
         child: BottomNavigationBar(
           unselectedIconTheme: Theme.of(context).iconTheme,
           unselectedLabelStyle: switch (MyApp.of(context).themeMode) {
-            ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0),
-            ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
+            ThemeMode.light => Theme.of(context)
+                .typography
+                .white
+                .bodySmall!
+                .copyWith(fontSize: 14.0),
+            ThemeMode.dark => Theme.of(context)
+                .typography
+                .black
+                .bodySmall!
+                .copyWith(fontSize: 14.0),
             _ => throw 'configure ThemeMode.system',
           },
           unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
           selectedItemColor: Theme.of(context).colorScheme.secondary,
           selectedLabelStyle: switch (MyApp.of(context).themeMode) {
-            ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0),
-            ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
+            ThemeMode.light => Theme.of(context)
+                .typography
+                .white
+                .bodySmall!
+                .copyWith(fontSize: 14.0),
+            ThemeMode.dark => Theme.of(context)
+                .typography
+                .black
+                .bodySmall!
+                .copyWith(fontSize: 14.0),
             _ => throw ' configure ThemeMode.system',
           },
           iconSize: Theme.of(context).iconTheme.size!,
@@ -87,14 +103,13 @@ class HomeView extends StackedView<HomeViewModel> {
   }
 }
 
-
-    // switch (index) {
-    //   case 0:
-    //     return const ToolsView();
-    //   case 1:
-    //     return const ToolUsersView();
-    //   case 2:
-    //     return const SettingsView();
-    //   default:
-    //     return const ToolsView();
-    // }
+// switch (index) {
+//   case 0:
+//     return const ToolsView();
+//   case 1:
+//     return const ToolUsersView();
+//   case 2:
+//     return const SettingsView();
+//   default:
+//     return const ToolsView();
+// }
