@@ -20,6 +20,7 @@ ThemeData lightTheme = ThemeData(
   dividerColor: const Color.fromRGBO(228, 228, 228, 1.0),
   typography: Typography(
     white: _textTheme,
+    black: _textThemeBlack,
   ),
   filledButtonTheme: const FilledButtonThemeData(
     style: ButtonStyle(
@@ -40,63 +41,68 @@ ThemeData lightTheme = ThemeData(
   ),
   tabBarTheme: _tabBarTheme,
   outlinedButtonTheme: _outlinedButtonTheme,
+  inputDecorationTheme: _inputDecorationThemeLight,
 );
 
 ThemeData darkTheme = ThemeData(
-  useMaterial3: true,
-  colorScheme: const ColorScheme(
-    brightness: Brightness.dark,
-    primary: Color.fromRGBO(21, 21, 21, 1.0),
-    onPrimary: Color.fromRGBO(228, 228, 228, 1.0),
-    secondary: Color.fromRGBO(57, 190, 219, 1.0),
-    onSecondary: Color.fromRGBO(228, 228, 228, 1.0),
-    background: Color.fromRGBO(21, 21, 21, 1.0),
-    onBackground: Color.fromRGBO(228, 228, 228, 1.0),
-    error: Colors.red,
-    onError: Color.fromRGBO(228, 228, 228, 1.0),
-    surface: Color.fromRGBO(228, 228, 228, 1.0),
-    onSurface: Color.fromRGBO(21, 21, 21, 1.0),
-    scrim: Color.fromRGBO(36, 36, 36, 63.0),
-  ),
-  disabledColor: const Color.fromRGBO(228, 228, 228, 0.5),
-  dividerColor: const Color.fromRGBO(228, 228, 228, 1.0),
-  typography: Typography(
-    black: _textTheme.copyWith(
-      bodySmall: _bodySmall.copyWith(
-        color: const Color.fromRGBO(228, 228, 228, 1.0),
-      ),
-      bodyMedium: _bodyMedium.copyWith(
-        color: const Color.fromRGBO(228, 228, 228, 1.0),
-      ),
-      bodyLarge: _bodyLarge.copyWith(
-        color: const Color.fromRGBO(228, 228, 228, 1.0),
-      ),
-      titleMedium: _titleMedium.copyWith(
-        color: const Color.fromRGBO(228, 228, 228, 1.0),
+    useMaterial3: true,
+    colorScheme: const ColorScheme(
+      brightness: Brightness.dark,
+      primary: Color.fromRGBO(21, 21, 21, 1.0),
+      onPrimary: Color.fromRGBO(228, 228, 228, 1.0),
+      secondary: Color.fromRGBO(57, 190, 219, 1.0),
+      onSecondary: Color.fromRGBO(228, 228, 228, 1.0),
+      background: Color.fromRGBO(21, 21, 21, 1.0),
+      onBackground: Color.fromRGBO(228, 228, 228, 1.0),
+      error: Colors.red,
+      onError: Color.fromRGBO(228, 228, 228, 1.0),
+      surface: Color.fromRGBO(228, 228, 228, 1.0),
+      onSurface: Color.fromRGBO(21, 21, 21, 1.0),
+      scrim: Color.fromRGBO(36, 36, 36, 63.0),
+    ),
+    disabledColor: const Color.fromRGBO(228, 228, 228, 0.5),
+    dividerColor: const Color.fromRGBO(228, 228, 228, 1.0),
+    typography: Typography(
+      white: _textTheme,
+      black: _textThemeBlack,
+    ),
+    filledButtonTheme: const FilledButtonThemeData(
+      style: ButtonStyle(
+        backgroundColor: MaterialStatePropertyAll(
+          Color.fromRGBO(57, 190, 219, 1.0),
+        ),
+        foregroundColor: MaterialStatePropertyAll(
+          Colors.black,
+        ),
+        fixedSize: MaterialStatePropertyAll(
+          Size(140.0, 50.0),
+        ),
       ),
     ),
-  ),
-  filledButtonTheme: const FilledButtonThemeData(
-    style: ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(
-        Color.fromRGBO(57, 190, 219, 1.0),
-      ),
-      foregroundColor: MaterialStatePropertyAll(
-        Colors.black,
-      ),
-      fixedSize: MaterialStatePropertyAll(
-        Size(140.0, 50.0),
-      ),
+    iconTheme: const IconThemeData(
+      color: Color.fromRGBO(228, 228, 228, 1.0),
+      size: 30.0,
     ),
+    tabBarTheme: _tabBarTheme,
+    outlinedButtonTheme: _outlinedButtonTheme,
+    inputDecorationTheme: _inputDecorationThemeDark);
+
+TextTheme _textThemeBlack = _textTheme.copyWith(
+  bodySmall: _bodySmall.copyWith(
+    color: const Color.fromRGBO(228, 228, 228, 1.0),
   ),
-  outlinedButtonTheme: _outlinedButtonTheme,
-  iconTheme: const IconThemeData(
-    color: Color.fromRGBO(228, 228, 228, 1.0),
-    size: 30.0,
+  bodyMedium: _bodyMedium.copyWith(
+    color: const Color.fromRGBO(228, 228, 228, 1.0),
   ),
-  tabBarTheme: _tabBarTheme,
+  bodyLarge: _bodyLarge.copyWith(
+    color: const Color.fromRGBO(228, 228, 228, 1.0),
+  ),
+  titleMedium: _titleMedium.copyWith(
+    color: const Color.fromRGBO(228, 228, 228, 1.0),
+  ),
 );
 
+// this is textThemeWhite
 TextTheme _textTheme = TextTheme(
   bodySmall: _bodySmall,
   bodyMedium: _bodyMedium,
@@ -150,4 +156,40 @@ OutlinedButtonThemeData _outlinedButtonTheme = OutlinedButtonThemeData(
     ),
     fixedSize: const Size(140.0, 50.0),
   ),
+);
+
+InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
+  isDense: true,
+  focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
+  enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+  hintStyle: TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey,
+  ),
+  labelStyle: TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    color: Colors.black,
+  ),
+  floatingLabelStyle: TextStyle(color: Colors.black),
+  floatingLabelBehavior: FloatingLabelBehavior.always,
+);
+
+InputDecorationTheme _inputDecorationThemeDark = const InputDecorationTheme(
+  isDense: true,
+  focusedBorder: OutlineInputBorder(borderSide: BorderSide()),
+  enabledBorder: OutlineInputBorder(borderSide: BorderSide()),
+  hintStyle: TextStyle(
+    fontSize: 14,
+    fontWeight: FontWeight.w400,
+    color: Colors.grey,
+  ),
+  labelStyle: TextStyle(
+    fontSize: 18,
+    fontWeight: FontWeight.w500,
+    color: Colors.white,
+  ),
+  floatingLabelStyle: TextStyle(color: Colors.white),
+  floatingLabelBehavior: FloatingLabelBehavior.always,
 );

@@ -88,12 +88,8 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
       floatingActionButton: FloatingActionButton(
         onPressed: viewModel.showUserCreatorBottomSheet,
         child: Icon(
-          Icons.add,
-          color: switch (MyApp.of(context).themeMode) {
-            ThemeMode.light => Theme.of(context).colorScheme.primary,
-            ThemeMode.dark => Theme.of(context).colorScheme.onPrimary,
-            _ => throw 'configure ThemeMode.system',
-          },
+          Icons.person_add,
+          color: Theme.of(context).colorScheme.primary,
         ),
         backgroundColor: Theme.of(context).colorScheme.secondary,
       ),

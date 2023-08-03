@@ -120,11 +120,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
           onPressed: viewModel.showToolCreatorBottomSheet,
           child: Icon(
             Icons.add,
-            color: switch (MyApp.of(context).themeMode) {
-              ThemeMode.light => Theme.of(context).colorScheme.primary,
-              ThemeMode.dark => Theme.of(context).colorScheme.onPrimary,
-              _ => throw ' configure ThemeMode.system',
-            },
+            color: Theme.of(context).colorScheme.primary,
           ),
           backgroundColor: Theme.of(context).colorScheme.secondary,
         ),
