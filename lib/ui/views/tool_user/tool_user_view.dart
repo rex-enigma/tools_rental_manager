@@ -16,8 +16,15 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
       appBar: AppBar(
+        leading: IconButton(
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          icon: const Icon(Icons.arrow_back_ios),
+          color: Theme.of(context).colorScheme.onPrimary,
+        ),
+        backgroundColor: Theme.of(context).colorScheme.background,
         centerTitle: true,
         title: Text(
           'Tool User',
@@ -221,6 +228,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
               Container(
                 decoration: BoxDecoration(
                   border: Border.all(
+                    color: Theme.of(context).colorScheme.onPrimary,
                     width: switch (MyApp.of(context).themeMode) {
                       ThemeMode.light => 0.5,
                       ThemeMode.dark => 0.1,
@@ -229,105 +237,112 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                   ),
                   borderRadius: BorderRadius.circular(6.0),
                 ),
-                child: ExpansionTile(
-                  title: Center(
-                    child: Text(
-                      'National id',
-                      // the text in ExpansionTile is unable to inherit our explicitly defined DefaultTextStyle, since ExpansionTile has its own DefaultTextStyle which is override ours
-                      // so we set directly set the style
-                      style: switch (MyApp.of(context).themeMode) {
-                        ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
-                        ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
-                        _ => throw ' configure ThemeMode.system',
-                      },
-                    ),
-                  ),
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Front',
-                                style: switch (MyApp.of(context).themeMode) {
-                                  ThemeMode.light => TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).colorScheme.onPrimary,
-                                    ),
-                                  ThemeMode.dark => TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).colorScheme.onPrimary,
-                                    ),
-                                  _ => throw ' configure ThemeMode.system',
-                                },
-                              ),
-                              viewModel.frontNationalIdImagePath == null
-                                  ? GestureDetector(
-                                      onTap: () {},
-                                      child: Image.asset(
-                                        'lib/assets/images/front_national_id_placeholder.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                  : GestureDetector(
-                                      onTap: () {},
-                                      child: Image.asset(
-                                        viewModel.frontNationalIdImagePath!,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                            ],
-                          ),
-                          Column(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'Back',
-                                style: switch (MyApp.of(context).themeMode) {
-                                  ThemeMode.light => TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).colorScheme.onPrimary,
-                                    ),
-                                  ThemeMode.dark => TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w500,
-                                      color: Theme.of(context).colorScheme.onPrimary,
-                                    ),
-                                  _ => throw ' configure ThemeMode.system',
-                                },
-                              ),
-                              viewModel.backNationalIdImagePath == null
-                                  ? GestureDetector(
-                                      onTap: () {},
-                                      child: Image.asset(
-                                        'lib/assets/images/back_national_id_placeholder.png',
-                                        fit: BoxFit.cover,
-                                      ),
-                                    )
-                                  : GestureDetector(
-                                      onTap: () {},
-                                      child: Image.asset(
-                                        viewModel.backNationalIdImagePath!,
-                                        fit: BoxFit.cover,
-                                      ),
-                                    ),
-                            ],
-                          )
-                        ],
+                // This Theme is here to remove both top and bottom borders color of the ExpansionTile
+
+                child: Theme(
+                  // since ExpansionTile inherit both top and bottom border color from the global ThemeData.dividerColor, we set it to Colors.transparent
+                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                  child: ExpansionTile(
+                    title: Center(
+                      child: Text(
+                        'National id',
+                        // the text in ExpansionTile is unable to inherit our explicitly defined DefaultTextStyle, since ExpansionTile has its own DefaultTextStyle which is override ours
+                        // so we set directly set the style
+                        style: switch (MyApp.of(context).themeMode) {
+                          ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
+                          ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
+                          _ => throw ' configure ThemeMode.system',
+                        },
                       ),
                     ),
-                  ],
-                  iconColor: Theme.of(context).colorScheme.onPrimary,
-                  tilePadding: EdgeInsets.zero,
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Front',
+                                  style: switch (MyApp.of(context).themeMode) {
+                                    ThemeMode.light => TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).colorScheme.onPrimary,
+                                      ),
+                                    ThemeMode.dark => TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).colorScheme.onPrimary,
+                                      ),
+                                    _ => throw ' configure ThemeMode.system',
+                                  },
+                                ),
+                                viewModel.frontNationalIdImagePath == null
+                                    ? GestureDetector(
+                                        onTap: () {},
+                                        child: Image.asset(
+                                          'lib/assets/images/front_national_id_placeholder.png',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : GestureDetector(
+                                        onTap: () {},
+                                        child: Image.asset(
+                                          viewModel.frontNationalIdImagePath!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                              ],
+                            ),
+                            Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Back',
+                                  style: switch (MyApp.of(context).themeMode) {
+                                    ThemeMode.light => TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).colorScheme.onPrimary,
+                                      ),
+                                    ThemeMode.dark => TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.w500,
+                                        color: Theme.of(context).colorScheme.onPrimary,
+                                      ),
+                                    _ => throw ' configure ThemeMode.system',
+                                  },
+                                ),
+                                viewModel.backNationalIdImagePath == null
+                                    ? GestureDetector(
+                                        onTap: () {},
+                                        child: Image.asset(
+                                          'lib/assets/images/back_national_id_placeholder.png',
+                                          fit: BoxFit.cover,
+                                        ),
+                                      )
+                                    : GestureDetector(
+                                        onTap: () {},
+                                        child: Image.asset(
+                                          viewModel.backNationalIdImagePath!,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
+                    ],
+                    iconColor: Theme.of(context).colorScheme.onPrimary,
+                    collapsedIconColor: Theme.of(context).colorScheme.onPrimary,
+                    tilePadding: EdgeInsets.zero,
+                  ),
                 ),
               ),
               verticalSpaceMedium,
@@ -345,14 +360,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                 ),
               ),
               verticalSpaceSmall,
-              Divider(
-                height: switch (MyApp.of(context).themeMode) {
-                  ThemeMode.light => 0.5,
-                  ThemeMode.dark => 0.1,
-                  _ => throw 'configure ThemeMode.system',
-                },
-                color: Theme.of(context).dividerColor,
-              )
+              smallSpaceHorizontalDivider(context),
               // List of Tools used by The toolUser
             ],
           ),

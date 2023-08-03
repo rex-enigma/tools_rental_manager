@@ -8,6 +8,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/dashed_circular_border_btn_with_icons.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/drag_handle.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/input_text_style.dart';
 
 import 'tool_creator_sheet_model.dart';
 
@@ -51,18 +52,15 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
               child: Text(
                 'Create a tool',
                 style: switch (MyApp.of(context).themeMode) {
-                  ThemeMode.light =>
-                    Theme.of(context).typography.white.bodyMedium!,
-                  ThemeMode.dark =>
-                    Theme.of(context).typography.black.bodyMedium!,
+                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
+                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
                   _ => throw ' configure ThemeMode.system',
                 },
               ),
             ),
-            Divider(
-              color: Theme.of(context).dividerColor,
-              height: 10.0,
-            ),
+            verticalSpaceSmall,
+            smallSpaceHorizontalDivider(context),
+            verticalSpaceSmall,
             Flexible(
               child: SingleChildScrollView(
                 child: Padding(
@@ -78,46 +76,30 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         TextFormField(
                           onTap: () => print('textFormField taped'),
                           readOnly: true,
+                          style: textFormFieldInputTextStyle(context),
+                          // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
                           decoration: const InputDecoration(
-                            isDense: true,
-                            focusedBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
                             hintText: 'Name of a tool',
                             labelText: 'Tool name *',
-                            floatingLabelStyle: TextStyle(color: Colors.black),
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
                           ),
                         ),
                         verticalSpaceMedium,
                         TextFormField(
                           onTap: () => print('textFormField taped'),
                           readOnly: true,
+                          style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
-                            isDense: true,
-                            focusedBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
                             hintText: 'The date the tool was bought',
                             labelText: 'Purchased date *',
-                            floatingLabelStyle: TextStyle(color: Colors.black),
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
                           ),
                         ),
                         verticalSpaceMedium,
                         DropdownButtonFormField(
                           value: Currency.kes.name,
+                          style: textFormFieldInputTextStyle(context),
+                          // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
                           decoration: const InputDecoration(
-                            isDense: true,
-                            focusedBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
-                            labelText: 'Currency *',
-                            floatingLabelStyle: TextStyle(color: Colors.black),
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            labelText: 'Currency',
                           ),
                           items: Currency.values
                               .map(
@@ -133,59 +115,39 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         TextFormField(
                           cursorColor: Theme.of(context).colorScheme.onPrimary,
                           cursorWidth: 1,
+                          style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
-                            isDense: true,
-                            focusedBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
                             hintText: "How much the tool was purchased for",
                             labelText: 'Purchased price *',
-                            floatingLabelStyle: TextStyle(color: Colors.black),
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
                           ),
                         ),
                         verticalSpaceMedium,
                         TextFormField(
                           cursorColor: Theme.of(context).colorScheme.onPrimary,
                           cursorWidth: 1,
+                          style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
-                            isDense: true,
-                            focusedBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
-                            enabledBorder:
-                                OutlineInputBorder(borderSide: BorderSide()),
                             hintText: 'Cost of renting a tool per hour',
-                            labelText:
-                                'Rate (KES) *', // don't forget to make the KES dynamic.
-                            floatingLabelStyle: TextStyle(color: Colors.black),
-                            floatingLabelBehavior: FloatingLabelBehavior.always,
+                            labelText: 'Rate (KES) *', // don't forget to make the KES dynamic.
                           ),
                         ),
                         verticalSpaceMedium,
                         DropdownButtonFormField(
-                            decoration: const InputDecoration(
-                              isDense: true,
-                              focusedBorder:
-                                  OutlineInputBorder(borderSide: BorderSide()),
-                              enabledBorder:
-                                  OutlineInputBorder(borderSide: BorderSide()),
-                              hintText: 'Powered tool or un-powered tool',
-                              labelText: 'Category *',
-                              floatingLabelStyle:
-                                  TextStyle(color: Colors.black),
-                              floatingLabelBehavior:
-                                  FloatingLabelBehavior.always,
-                            ),
-                            items: Category.values
-                                .map(
-                                  (category) => DropdownMenuItem(
-                                    value: category.name,
-                                    child: Text(category.name),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (value) => {}),
+                          style: textFormFieldInputTextStyle(context),
+                          decoration: const InputDecoration(
+                            hintText: 'Powered tool or un-powered tool',
+                            labelText: 'Category *',
+                          ),
+                          items: Category.values
+                              .map(
+                                (category) => DropdownMenuItem(
+                                  value: category.name,
+                                  child: Text(category.name),
+                                ),
+                              )
+                              .toList(),
+                          onChanged: (value) => {},
+                        ),
                         verticalSpaceMedium,
                         Row(
                           crossAxisAlignment: CrossAxisAlignment.end,
@@ -193,18 +155,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                             Expanded(
                               child: TextFormField(
                                 readOnly: true,
+                                style: textFormFieldInputTextStyle(context),
                                 decoration: const InputDecoration(
-                                  isDense: true,
-                                  focusedBorder: OutlineInputBorder(
-                                      borderSide: BorderSide()),
-                                  enabledBorder: OutlineInputBorder(
-                                      borderSide: BorderSide()),
                                   hintText: 'Id to be assigned to this tool',
                                   labelText: 'Tool id (Unique) *',
-                                  floatingLabelStyle:
-                                      TextStyle(color: Colors.black),
-                                  floatingLabelBehavior:
-                                      FloatingLabelBehavior.always,
                                 ),
                               ),
                             ),
@@ -213,17 +167,13 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                               width: 120.0,
                               padding: const EdgeInsets.only(left: 6.0),
                               child: FilledButton(
-                                style: Theme.of(context)
-                                    .filledButtonTheme
-                                    .style
-                                    ?.copyWith(
+                                style: Theme.of(context).filledButtonTheme.style?.copyWith(
                                       fixedSize: const MaterialStatePropertyAll(
                                         Size(120.0, 50.0),
                                       ),
                                       shape: MaterialStatePropertyAll(
                                         RoundedRectangleBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
+                                          borderRadius: BorderRadius.circular(10),
                                         ),
                                       ),
                                     ),
@@ -235,8 +185,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         ),
                         verticalSpaceMedium,
                         FormField(
-                          builder: (formFieldState) =>
-                              DashedCircularBorderButtonWithIcons(
+                          builder: (formFieldState) => DashedCircularBorderButtonWithIcons(
                             bottomSheetType: BottomSheetType.toolCreator,
                             imagePath: viewModel.toolImagePath,
                             onPressed: () {
@@ -255,7 +204,9 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              onPressed: () => {},
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
                               child: const Text('Cancel'),
                             ),
                             FilledButton(
@@ -282,6 +233,5 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
   }
 
   @override
-  ToolCreatorSheetModel viewModelBuilder(BuildContext context) =>
-      ToolCreatorSheetModel();
+  ToolCreatorSheetModel viewModelBuilder(BuildContext context) => ToolCreatorSheetModel();
 }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
+import 'package:path/path.dart';
 import 'package:tools_rental_management/assets/font_icons/font_icons.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
 
@@ -58,12 +59,20 @@ class NationalIdButton extends StatelessWidget {
                       NationalIdSide.front => 'Front',
                       NationalIdSide.back => 'Back',
                     },
+                    style: const TextStyle(
+                      fontSize: 14.0,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black,
+                    ),
                   ),
                 ),
               if (nationalIdImage == null)
                 const Align(
                   alignment: Alignment.center,
-                  child: Icon(Icons.photo_camera),
+                  child: Icon(
+                    Icons.photo_camera,
+                    color: Colors.black,
+                  ),
                 )
             ],
           ),

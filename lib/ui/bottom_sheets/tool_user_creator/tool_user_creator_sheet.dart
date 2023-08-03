@@ -10,6 +10,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/dashed_circular_border_btn_with_icons.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/drag_handle.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/input_text_style.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/national_id_button.dart';
 
 import 'tool_user_creator_sheet_model.dart';
@@ -60,14 +61,8 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                 },
               ),
             ),
-            Divider(
-              color: Theme.of(context).dividerColor,
-              height: switch (MyApp.of(context).themeMode) {
-                ThemeMode.light => 0.5,
-                ThemeMode.dark => 0.1,
-                _ => throw 'configure ThemeMode.system',
-              },
-            ),
+            verticalSpaceSmall,
+            smallSpaceHorizontalDivider(context),
             verticalSpaceSmall,
             Flexible(
               child: SingleChildScrollView(
@@ -84,6 +79,8 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                         TextFormField(
                           cursorColor: Theme.of(context).colorScheme.onPrimary,
                           cursorWidth: 1,
+                          style: textFormFieldInputTextStyle(context),
+                          // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
                           decoration: const InputDecoration(
                             hintText: 'Your first name',
                             labelText: 'First Name *',
@@ -93,7 +90,7 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                         TextFormField(
                           cursorColor: Theme.of(context).colorScheme.onPrimary,
                           cursorWidth: 1,
-                          // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
+                          style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
                             hintText: 'Your last name',
                             labelText: 'Last Name *',
@@ -108,29 +105,12 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                             FilteringTextInputFormatter.digitsOnly,
                             LengthLimitingTextInputFormatter(12),
                           ],
+                          style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
                             hintText: 'Your phone number',
                             labelText: 'Phone number *',
                           ),
                         ),
-                        // PhoneFormField is a third-party package
-                        // PhoneFormField(
-                        //   cursorColor: Theme.of(context).colorScheme.onPrimary,
-                        //   cursorWidth: 1,
-                        //   defaultCountry: IsoCode.KE,
-                        //   decoration: InputDecoration(
-                        //     isDense: Theme.of(context).inputDecorationTheme.isDense,
-                        //     // border: OutlineInputBorder(borderSide: BorderSide()),
-                        //     focusedBorder: Theme.of(context).inputDecorationTheme.focusedBorder,
-                        //     enabledBorder: Theme.of(context).inputDecorationTheme.enabledBorder,
-                        //     hintText: 'your phone number',
-                        //     labelText: 'phone number *',
-                        //     hintStyle: Theme.of(context).inputDecorationTheme.hintStyle, // is good
-                        //     labelStyle: Theme.of(context).inputDecorationTheme.labelStyle,
-                        //     // floatingLabelStyle: Theme.of(context).inputDecorationTheme.floatingLabelStyle,
-                        //     // floatingLabelBehavior: Theme.of(context).inputDecorationTheme.floatingLabelBehavior,
-                        //   ),
-                        // ),
                         verticalSpaceMedium,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -163,7 +143,9 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              onPressed: () => {},
+                              onPressed: () {
+                                Navigator.pop(context);
+                              },
                               child: const Text('Cancel'),
                             ),
                             FilledButton(
@@ -192,6 +174,3 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
   @override
   ToolUserCreatorSheetModel viewModelBuilder(BuildContext context) => ToolUserCreatorSheetModel();
 }
-
-// hintText: 'Your first name',
-//                             labelText: 'First Name *',
