@@ -4,7 +4,6 @@ import 'package:phone_form_field/phone_form_field.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
 import 'package:tools_rental_management/main.dart';
-import 'package:tools_rental_management/ui/common/app_colors.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -138,11 +137,7 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             OutlinedButton(
-                              style: OutlinedButton.styleFrom(
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(10),
-                                ),
-                              ),
+                              // style inherited from ThemeData.outlineButtonTheme.style
                               onPressed: () {
                                 Navigator.pop(context);
                               },

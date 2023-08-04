@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/main.dart';
-import 'package:tools_rental_management/ui/views/settings/settings_view.dart';
+import 'package:tools_rental_management/ui/views/tool/tool_view.dart';
 import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart';
 
 import 'tool_users_viewmodel.dart';
@@ -74,11 +74,14 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ToolUserView(),
+                        builder: (context) => ToolView(),
                       ),
                     );
                   },
-                  child: Text('Tool User'),
+                  child: Text(
+                    'Tool',
+                    style: TextStyle(color: Colors.black),
+                  ),
                 ),
               ],
             ),

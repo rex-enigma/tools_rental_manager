@@ -7,10 +7,14 @@ class CustomListTile extends StatelessWidget {
   final Widget? title;
   final Widget? subtitle;
   final Widget? trailing;
+
+  /// horizontal space between leading an title/subtitle.
+  final Widget? horizontalSpaceBtnLeadingAndTitle;
   const CustomListTile({
     super.key,
     this.padding,
     this.leading,
+    this.horizontalSpaceBtnLeadingAndTitle = horizontalSpaceSmall,
     this.title,
     this.subtitle,
     this.trailing,
@@ -24,14 +28,14 @@ class CustomListTile extends StatelessWidget {
         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           leading ?? const SizedBox(),
-          horizontalSpaceSmall,
+          horizontalSpaceBtnLeadingAndTitle!,
           Expanded(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                title ?? const Text(''),
-                subtitle ?? const Text(''),
+                title ?? const SizedBox(),
+                subtitle ?? const SizedBox(),
               ],
             ),
           ),

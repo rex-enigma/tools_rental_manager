@@ -17,6 +17,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
   ) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: Theme.of(context).colorScheme.background,
         leading: IconButton(
           onPressed: () {
             Navigator.pop(context);
@@ -24,7 +25,6 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
           icon: const Icon(Icons.arrow_back_ios),
           color: Theme.of(context).colorScheme.onPrimary,
         ),
-        backgroundColor: Theme.of(context).colorScheme.background,
         centerTitle: true,
         title: Text(
           'Tool User',
@@ -145,7 +145,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                             trailing: InkWell(
                               child: Icon(
                                 Icons.edit,
-                                size: 26,
+                                size: 26.0,
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                               onTap: () {
@@ -177,7 +177,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                             trailing: InkWell(
                               child: Icon(
                                 Icons.edit,
-                                size: 26,
+                                size: 26.0,
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                               onTap: () {
@@ -209,7 +209,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                             trailing: InkWell(
                               child: Icon(
                                 Icons.edit,
-                                size: 26,
+                                size: 26.0,
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                               onTap: () {

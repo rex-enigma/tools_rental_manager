@@ -5,6 +5,7 @@ import 'package:tools_rental_management/enums/status.dart';
 class Tool {
   /// its only null when creating a new tool that need to be inserted to the database.
   /// But when constructing this tool from a database record, [toolId] should have a non-null value
+  /// uniquely identifies a tool in the database (primary key)
   final int? toolId;
   final String name;
   // the date this tool was bought.
@@ -21,7 +22,7 @@ class Tool {
   final Category category;
   // path to where the tool image is stored.
   final String toolImagePath;
-  // id that uniquely identifies this tool in the store.
+  // id that uniquely identifies this tool in the warehouse store.
   final int toolUniqueId;
   // a foreign key that reference a tool user currently using this tool.
   final int? toolUserId;

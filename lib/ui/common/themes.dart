@@ -151,6 +151,9 @@ TabBarTheme _tabBarTheme = const TabBarTheme(
 
 OutlinedButtonThemeData _outlinedButtonTheme = OutlinedButtonThemeData(
   style: OutlinedButton.styleFrom(
+    shape: RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(10),
+    ),
     foregroundColor: const Color.fromRGBO(57, 190, 219, 1.0),
     side: const BorderSide(
       color: Color.fromRGBO(57, 190, 219, 1.0),

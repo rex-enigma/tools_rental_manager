@@ -8,8 +8,7 @@ class ToolUsersRepoImp implements ToolUsersRepo {
   late ToolUsersLocalDataSource _toolUsersLocalDataSource;
 
   ToolUsersRepoImp({ToolUsersLocalDataSource? toolUsersLocalDataSource}) {
-    _toolUsersLocalDataSource = toolUsersLocalDataSource ??
-        locator.get<ToolUsersLocalSqliteDbDataSource>();
+    _toolUsersLocalDataSource = toolUsersLocalDataSource ?? locator.get<ToolUsersLocalSqliteDbDataSource>();
   }
   @override
   Future<int> insertToolUser(ToolUser toolUser) {
@@ -44,3 +43,7 @@ class ToolUsersRepoImp implements ToolUsersRepo {
     return _toolUsersLocalDataSource.deleteAllToolUsers();
   }
 }
+
+
+// i think i should add the functionalities to return only individual pieces of data of a tool user
+// incase their is a view that only need a piece of the tool user's data instead of the entire/whole tool user's data
