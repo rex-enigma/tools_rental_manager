@@ -62,7 +62,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                 height: 170.0,
                 decoration: BoxDecoration(
                   border: Border.all(
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: Theme.of(context).dividerColor,
                     width: switch (getThemeManager(context).selectedThemeMode) {
                       ThemeMode.light => 0.5,
                       ThemeMode.dark => 0.1,
@@ -94,19 +94,55 @@ class SettingsView extends StackedView<SettingsViewModel> {
                             ],
                           ),
                           verticalSpaceTiny,
-                          // CustomListTile(
-                          //   leading: Icon(
-                          //     Icons.light_mode,
-                          //     size: 28,
-                          //   ),
-                          //   title: const Text('Light Mode'),
-                          //   trailing: Radio<ThemeMode>(groupValue: , onChanged: (Object? value) {  }, value: ThemeMode.light,),
-                          // ),
+                          CustomListTile(
+                            leading: const Icon(
+                              Icons.light_mode,
+                              size: 28,
+                            ),
+                            title: const Text('Light Mode'),
+                            trailing: Radio<ThemeMode>(
+                              visualDensity: VisualDensity.compact,
+                              activeColor: Theme.of(context).colorScheme.secondary,
+                              fillColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
+                              value: ThemeMode.light,
+                              groupValue: getThemeManager(context).selectedThemeMode,
+                              // when called, will change the current selectedThemeMode in ThemeManager to ThemeMode.light
+                              // which intern will cause ThemeBuilder at the top of the widget tree to invoke its builder function
+                              // rebuilding the MaterialApp widget with themeMode property set to ThemeMode.light
+                              onChanged: (ThemeMode? value) => getThemeManager(context).setThemeMode(value!),
+                            ),
+                          ),
                         ],
                       ),
                     ),
-                    // we have a divider at the centre
-                    Column(),
+                    // divides between the light mode top and dark mode bottom
+                    Row(
+                      children: [
+                        //  the 48 value is a combination of the (padding of the container) + (light_mode icon) + (horizontalSpaceBtnLeadingAndTitle of the CustomListTile)
+                        const SizedBox(width: 48.0),
+                        Expanded(child: smallSpaceHorizontalDivider(context)),
+                      ],
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: CustomListTile(
+                        leading: const Icon(
+                          Icons.dark_mode,
+                          size: 28,
+                        ),
+                        title: const Text('Light Mode'),
+                        trailing: Radio<ThemeMode>(
+                          activeColor: Theme.of(context).colorScheme.secondary,
+                          fillColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
+                          value: ThemeMode.dark,
+                          groupValue: getThemeManager(context).selectedThemeMode,
+                          // when called, will change the current selectedThemeMode in ThemeManager to ThemeMode.dark
+                          // which intern will cause ThemeBuilder at the top of the widget tree to invoke its builder function
+                          // rebuilding the MaterialApp widget with themeMode property set to ThemeMode.dark
+                          onChanged: (ThemeMode? value) => getThemeManager(context).setThemeMode(value!),
+                        ),
+                      ),
+                    )
                   ],
                 ),
               ),
@@ -123,3 +159,15 @@ class SettingsView extends StackedView<SettingsViewModel> {
   ) =>
       locator<SettingsViewModel>();
 }
+
+
+                          // Radio<ThemeMode>(
+                          //   activeColor: Theme.of(context).colorScheme.secondary,
+                          //   fillColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
+                          //   value: ThemeMode.dark,
+                          //   groupValue: getThemeManager(context).selectedThemeMode,
+                          //   // when called, will change the current selectedThemeMode in ThemeManager to ThemeMode.dark
+                          //   // which intern will cause ThemeBuilder at the top of the widget tree to invoke its builder function
+                          //   // rebuilding the MaterialApp widget with themeMode property set to ThemeMode.dark
+                          //   onChanged: (ThemeMode? value) => getThemeManager(context).setThemeMode(value!),
+                          // ),
