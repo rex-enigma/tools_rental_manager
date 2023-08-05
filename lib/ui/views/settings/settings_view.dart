@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
 
@@ -79,7 +78,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                         children: [
                           Row(
                             children: [
-                              Icon(
+                              const Icon(
                                 Icons.palette,
                                 size: 30.0,
                               ),
@@ -130,7 +129,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                           Icons.dark_mode,
                           size: 28,
                         ),
-                        title: const Text('Light Mode'),
+                        title: const Text('Dark Mode'),
                         trailing: Radio<ThemeMode>(
                           activeColor: Theme.of(context).colorScheme.secondary,
                           fillColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
@@ -159,15 +158,3 @@ class SettingsView extends StackedView<SettingsViewModel> {
   ) =>
       locator<SettingsViewModel>();
 }
-
-
-                          // Radio<ThemeMode>(
-                          //   activeColor: Theme.of(context).colorScheme.secondary,
-                          //   fillColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
-                          //   value: ThemeMode.dark,
-                          //   groupValue: getThemeManager(context).selectedThemeMode,
-                          //   // when called, will change the current selectedThemeMode in ThemeManager to ThemeMode.dark
-                          //   // which intern will cause ThemeBuilder at the top of the widget tree to invoke its builder function
-                          //   // rebuilding the MaterialApp widget with themeMode property set to ThemeMode.dark
-                          //   onChanged: (ThemeMode? value) => getThemeManager(context).setThemeMode(value!),
-                          // ),
