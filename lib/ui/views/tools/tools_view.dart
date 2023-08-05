@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/main.dart';
 
@@ -37,7 +38,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
           centerTitle: true,
           title: Text(
             'Tools',
-            style: switch (MyApp.of(context).themeMode) {
+            style: switch (getThemeManager(context).selectedThemeMode) {
               ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
               ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
               _ => throw 'configure ThemeMode.system',
@@ -60,7 +61,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
                 border: Border(
                   bottom: BorderSide(
                     color: Theme.of(context).dividerColor,
-                    width: switch (MyApp.of(context).themeMode) {
+                    width: switch (getThemeManager(context).selectedThemeMode) {
                       ThemeMode.light => 0.5,
                       ThemeMode.dark => 0.1,
                       _ => throw 'configure ThemeMode.system',
@@ -69,7 +70,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
                 ),
               ),
               child: TabBar(
-                labelStyle: switch (MyApp.of(context).themeMode) {
+                labelStyle: switch (getThemeManager(context).selectedThemeMode) {
                   ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
                   ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
                   _ => throw ' configure ThemeMode.system',
@@ -94,7 +95,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
           ),
         ),
         body: DefaultTextStyle(
-          style: switch (MyApp.of(context).themeMode) {
+          style: switch (getThemeManager(context).selectedThemeMode) {
             ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
             ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
             _ => throw ' configure ThemeMode.system',

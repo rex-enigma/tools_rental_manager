@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/views/tool/tool_view.dart';
@@ -30,7 +31,7 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
         centerTitle: true,
         title: Text(
           'Tool Users',
-          style: switch (MyApp.of(context).themeMode) {
+          style: switch (getThemeManager(context).selectedThemeMode) {
             ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
             ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
             _ => throw 'configure ThemeMode.system',
@@ -48,7 +49,7 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
         shape: Border(
           bottom: BorderSide(
             color: Theme.of(context).dividerColor,
-            width: switch (MyApp.of(context).themeMode) {
+            width: switch (getThemeManager(context).selectedThemeMode) {
               ThemeMode.light => 0.5,
               ThemeMode.dark => 0.1,
               _ => throw 'configure ThemeMode.system',
@@ -57,18 +58,18 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
         ),
       ),
       body: DefaultTextStyle(
-        style: switch (MyApp.of(context).themeMode) {
+        style: switch (getThemeManager(context).selectedThemeMode) {
           ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
           ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
           _ => throw ' configure ThemeMode.system',
         },
         child: Padding(
-          padding: EdgeInsets.only(left: 16.0, right: 16.0),
+          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                Text('Click + button to add a tool user'),
+                const Text('Click + button to add a tool user'),
                 ElevatedButton(
                   onPressed: () {
                     Navigator.push(
@@ -78,7 +79,7 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                       ),
                     );
                   },
-                  child: Text(
+                  child: const Text(
                     'Tool',
                     style: TextStyle(color: Colors.black),
                   ),

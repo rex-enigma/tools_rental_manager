@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_view.dart';
 import 'package:tools_rental_management/ui/views/tool/tool_view.dart';
@@ -24,7 +25,7 @@ class HomeView extends StackedView<HomeViewModel> {
           border: Border(
             top: BorderSide(
                 color: Theme.of(context).dividerColor,
-                width: switch (MyApp.of(context).themeMode) {
+                width: switch (getThemeManager(context).selectedThemeMode) {
                   ThemeMode.light => 0.5,
                   ThemeMode.dark => 0.1,
                   _ => throw 'configure ThemeMode.system',
@@ -33,32 +34,16 @@ class HomeView extends StackedView<HomeViewModel> {
         ),
         child: BottomNavigationBar(
           unselectedIconTheme: Theme.of(context).iconTheme,
-          unselectedLabelStyle: switch (MyApp.of(context).themeMode) {
-            ThemeMode.light => Theme.of(context)
-                .typography
-                .white
-                .bodySmall!
-                .copyWith(fontSize: 14.0),
-            ThemeMode.dark => Theme.of(context)
-                .typography
-                .black
-                .bodySmall!
-                .copyWith(fontSize: 14.0),
+          unselectedLabelStyle: switch (getThemeManager(context).selectedThemeMode) {
+            ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0),
+            ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
             _ => throw 'configure ThemeMode.system',
           },
           unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
           selectedItemColor: Theme.of(context).colorScheme.secondary,
-          selectedLabelStyle: switch (MyApp.of(context).themeMode) {
-            ThemeMode.light => Theme.of(context)
-                .typography
-                .white
-                .bodySmall!
-                .copyWith(fontSize: 14.0),
-            ThemeMode.dark => Theme.of(context)
-                .typography
-                .black
-                .bodySmall!
-                .copyWith(fontSize: 14.0),
+          selectedLabelStyle: switch (getThemeManager(context).selectedThemeMode) {
+            ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0),
+            ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
             _ => throw ' configure ThemeMode.system',
           },
           iconSize: Theme.of(context).iconTheme.size!,

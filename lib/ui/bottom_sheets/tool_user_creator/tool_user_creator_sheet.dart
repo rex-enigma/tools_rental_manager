@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:phone_form_field/phone_form_field.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
 import 'package:tools_rental_management/main.dart';
@@ -53,7 +54,7 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
             Center(
               child: Text(
                 'Create a tool user',
-                style: switch (MyApp.of(context).themeMode) {
+                style: switch (getThemeManager(context).selectedThemeMode) {
                   ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
                   ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
                   _ => throw ' configure ThemeMode.system',

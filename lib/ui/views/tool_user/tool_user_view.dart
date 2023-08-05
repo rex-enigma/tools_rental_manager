@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
@@ -28,7 +29,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
         centerTitle: true,
         title: Text(
           'Tool User',
-          style: switch (MyApp.of(context).themeMode) {
+          style: switch (getThemeManager(context).selectedThemeMode) {
             ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
             ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
             _ => throw 'configure ThemeMode.system',
@@ -37,7 +38,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
         shape: Border(
           bottom: BorderSide(
             color: Theme.of(context).dividerColor,
-            width: switch (MyApp.of(context).themeMode) {
+            width: switch (getThemeManager(context).selectedThemeMode) {
               ThemeMode.light => 0.5,
               ThemeMode.dark => 0.1,
               _ => throw 'configure ThemeMode.system',
@@ -46,7 +47,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
         ),
       ),
       body: DefaultTextStyle(
-        style: switch (MyApp.of(context).themeMode) {
+        style: switch (getThemeManager(context).selectedThemeMode) {
           ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
           ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
           _ => throw ' configure ThemeMode.system',
@@ -229,7 +230,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Theme.of(context).colorScheme.onPrimary,
-                    width: switch (MyApp.of(context).themeMode) {
+                    width: switch (getThemeManager(context).selectedThemeMode) {
                       ThemeMode.light => 0.5,
                       ThemeMode.dark => 0.1,
                       _ => throw 'configure ThemeMode.system',
@@ -248,7 +249,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                         'National id',
                         // the text in ExpansionTile is unable to inherit our explicitly defined DefaultTextStyle, since ExpansionTile has its own DefaultTextStyle which is override ours
                         // so we set directly set the style
-                        style: switch (MyApp.of(context).themeMode) {
+                        style: switch (getThemeManager(context).selectedThemeMode) {
                           ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
                           ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
                           _ => throw ' configure ThemeMode.system',
@@ -267,7 +268,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                               children: [
                                 Text(
                                   'Front',
-                                  style: switch (MyApp.of(context).themeMode) {
+                                  style: switch (getThemeManager(context).selectedThemeMode) {
                                     ThemeMode.light => TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -304,7 +305,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                               children: [
                                 Text(
                                   'Back',
-                                  style: switch (MyApp.of(context).themeMode) {
+                                  style: switch (getThemeManager(context).selectedThemeMode) {
                                     ThemeMode.light => TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
@@ -352,7 +353,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                   'Current tools used by ${viewModel.firstName ?? 'john'} ${viewModel.lastName ?? 'doe'}',
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
-                  style: switch (MyApp.of(context).themeMode) {
+                  style: switch (getThemeManager(context).selectedThemeMode) {
                     ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
                     ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
                     _ => throw ' configure ThemeMode.system',

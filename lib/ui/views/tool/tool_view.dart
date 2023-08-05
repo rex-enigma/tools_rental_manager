@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/enums/status.dart';
 import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
@@ -29,7 +30,7 @@ class ToolView extends StackedView<ToolViewModel> {
         centerTitle: true,
         title: Text(
           'Tool',
-          style: switch (MyApp.of(context).themeMode) {
+          style: switch (getThemeManager(context).selectedThemeMode) {
             ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
             ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
             _ => throw 'configure ThemeMode.system',
@@ -38,7 +39,7 @@ class ToolView extends StackedView<ToolViewModel> {
         shape: Border(
           bottom: BorderSide(
             color: Theme.of(context).dividerColor,
-            width: switch (MyApp.of(context).themeMode) {
+            width: switch (getThemeManager(context).selectedThemeMode) {
               ThemeMode.light => 0.5,
               ThemeMode.dark => 0.1,
               _ => throw 'configure ThemeMode.system',
@@ -47,7 +48,7 @@ class ToolView extends StackedView<ToolViewModel> {
         ),
       ),
       body: DefaultTextStyle(
-        style: switch (MyApp.of(context).themeMode) {
+        style: switch (getThemeManager(context).selectedThemeMode) {
           ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
           ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
           _ => throw ' configure ThemeMode.system',
@@ -100,7 +101,7 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolName ?? 'placeHolder',
-                          style: switch (MyApp.of(context).themeMode) {
+                          style: switch (getThemeManager(context).selectedThemeMode) {
                             ThemeMode.light => Theme.of(context).typography.white.bodySmall,
                             ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
@@ -136,7 +137,7 @@ class ToolView extends StackedView<ToolViewModel> {
                             horizontalSpaceTiny,
                             Text(
                               viewModel.toolStatus?.name ?? 'placeHolder',
-                              style: switch (MyApp.of(context).themeMode) {
+                              style: switch (getThemeManager(context).selectedThemeMode) {
                                 ThemeMode.light => Theme.of(context).typography.white.bodySmall,
                                 ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                                 _ => throw 'configure ThemeMode.system',
@@ -165,7 +166,7 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           "${viewModel.toolCurrency?.name ?? 'currency'} ${viewModel.toolRate ?? '0'}/hr",
-                          style: switch (MyApp.of(context).themeMode) {
+                          style: switch (getThemeManager(context).selectedThemeMode) {
                             ThemeMode.light => Theme.of(context).typography.white.bodySmall,
                             ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
@@ -189,7 +190,7 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolCategory?.name ?? 'placeHolder',
-                          style: switch (MyApp.of(context).themeMode) {
+                          style: switch (getThemeManager(context).selectedThemeMode) {
                             ThemeMode.light => Theme.of(context).typography.white.bodySmall,
                             ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
@@ -213,7 +214,7 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolUserName ?? 'None',
-                          style: switch (MyApp.of(context).themeMode) {
+                          style: switch (getThemeManager(context).selectedThemeMode) {
                             ThemeMode.light => Theme.of(context).typography.white.bodySmall,
                             ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
@@ -231,7 +232,7 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolUniqueId?.toString() ?? 'placeHolder',
-                          style: switch (MyApp.of(context).themeMode) {
+                          style: switch (getThemeManager(context).selectedThemeMode) {
                             ThemeMode.light => Theme.of(context).typography.white.bodySmall,
                             ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
@@ -249,7 +250,7 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolPurchaseDate?.toIso8601String() ?? 'placeHolder',
-                          style: switch (MyApp.of(context).themeMode) {
+                          style: switch (getThemeManager(context).selectedThemeMode) {
                             ThemeMode.light => Theme.of(context).typography.white.bodySmall,
                             ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
@@ -267,7 +268,7 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.purchasedPrice?.toString() ?? '0',
-                          style: switch (MyApp.of(context).themeMode) {
+                          style: switch (getThemeManager(context).selectedThemeMode) {
                             ThemeMode.light => Theme.of(context).typography.white.bodySmall,
                             ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
@@ -285,7 +286,7 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolRentCount ?? '0',
-                          style: switch (MyApp.of(context).themeMode) {
+                          style: switch (getThemeManager(context).selectedThemeMode) {
                             ThemeMode.light => Theme.of(context).typography.white.bodySmall,
                             ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',

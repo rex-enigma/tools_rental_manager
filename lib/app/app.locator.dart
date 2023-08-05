@@ -10,6 +10,7 @@ import 'package:stacked_services/src/bottom_sheet/bottom_sheet_service.dart';
 import 'package:stacked_services/src/dialog/dialog_service.dart';
 import 'package:stacked_services/src/navigation/navigation_service.dart';
 import 'package:stacked_shared/stacked_shared.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 
 import '../data/data_sources/local/cameraphotos/cameraphotos_localcamera_datasource_imp.dart';
 import '../data/data_sources/local/galleryimages/galleryimages_localgallery_datasource_imp.dart';
@@ -29,10 +30,10 @@ Future<void> setupLocator({
   EnvironmentFilter? environmentFilter,
 }) async {
 // Register environments
-  locator.registerEnvironment(
-      environment: environment, environmentFilter: environmentFilter);
+  locator.registerEnvironment(environment: environment, environmentFilter: environmentFilter);
 
 // Register dependencies
+  locator.registerSingleton(() => ThemeService.getInstance());
   locator.registerLazySingleton(() => BottomSheetService());
   locator.registerLazySingleton(() => DialogService());
   locator.registerLazySingleton(() => NavigationService());
@@ -42,8 +43,7 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => ToolUsersLocalSqliteDbDataSource());
   locator.registerLazySingleton(() => ToolsLocalSqliteDbDataSource());
   locator.registerLazySingleton(() => ToolArticlesRemoteWikipediaDataSource());
-  locator.registerLazySingleton(
-      () => ToolArticleLocalSharedPreferencesDataSource());
+  locator.registerLazySingleton(() => ToolArticleLocalSharedPreferencesDataSource());
   locator.registerLazySingleton(() => ToolsViewModel());
   locator.registerLazySingleton(() => ToolUsersViewModel());
   locator.registerLazySingleton(() => SettingsViewModel());

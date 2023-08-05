@@ -1,6 +1,7 @@
 import 'dart:math';
 
 import 'package:flutter/material.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/main.dart';
 
 const double _tinySize = 6.0;
@@ -31,7 +32,7 @@ Widget spacedDivider = const Column(
 Widget smallSpaceHorizontalDivider(BuildContext context) => Container(
       color: Theme.of(context).dividerColor,
       width: screenWidth(context),
-      height: switch (MyApp.of(context).themeMode) {
+      height: switch (getThemeManager(context).selectedThemeMode) {
         ThemeMode.light => 0.5,
         ThemeMode.dark => 0.1,
         _ => throw 'configure ThemeMode.system',

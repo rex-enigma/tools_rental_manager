@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
 import 'package:tools_rental_management/ui/common/themes.dart';
 
-void main() {
+Future main() async {
+  await ThemeManager.initialise();
   setupLocator();
   setupDialogUi();
   setupBottomSheetUi();
@@ -25,32 +27,56 @@ class MyApp extends StatefulWidget {
   }
 }
 
-/// [_MyAppState] will be used to manage global state
 class _MyAppState extends State<MyApp> {
-  ThemeMode _themeMode = ThemeMode.light;
-
-  ThemeMode get themeMode => _themeMode;
-
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'tools rental manager',
-      theme: lightTheme,
+    return ThemeBuilder(
+      defaultThemeMode: ThemeMode.light,
+      lightTheme: lightTheme,
       darkTheme: darkTheme,
-      themeMode: _themeMode,
-      initialRoute: Routes.startupView,
-      onGenerateRoute: StackedRouter().onGenerateRoute,
-      navigatorKey: StackedService.navigatorKey,
-      navigatorObservers: [
-        StackedService.routeObserver,
-      ],
+      builder: (context, lightTheme, darkTheme, themeMode) => MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'tools rental manager',
+        theme: lightTheme,
+        darkTheme: darkTheme,
+        themeMode: themeMode,
+        initialRoute: Routes.startupView,
+        onGenerateRoute: StackedRouter().onGenerateRoute,
+        navigatorKey: StackedService.navigatorKey,
+        navigatorObservers: [
+          StackedService.routeObserver,
+        ],
+      ),
     );
   }
-
-  void changeTheme({required ThemeMode themeMode}) {
-    setState(() {
-      _themeMode = themeMode;
-    });
-  }
 }
+
+/// [_MyAppState] will be used to manage global state
+// class _MyAppState extends State<MyApp> {
+//   ThemeMode _themeMode = ThemeMode.light;
+
+//   ThemeMode get themeMode => _themeMode;
+
+//   @override
+//   Widget build(BuildContext context) {
+//     return MaterialApp(
+//       debugShowCheckedModeBanner: false,
+//       title: 'tools rental manager',
+//       theme: lightTheme,
+//       darkTheme: darkTheme,
+//       themeMode: themeMode,
+//       initialRoute: Routes.startupView,
+//       onGenerateRoute: StackedRouter().onGenerateRoute,
+//       navigatorKey: StackedService.navigatorKey,
+//       navigatorObservers: [
+//         StackedService.routeObserver,
+//       ],
+//     );
+//   }
+
+//   void changeTheme({required ThemeMode themeMode}) {
+//     setState(() {
+//       _themeMode = themeMode;
+//     });
+//   }
+// }

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
@@ -30,7 +31,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
         centerTitle: true,
         title: Text(
           'Settings',
-          style: switch (MyApp.of(context).themeMode) {
+          style: switch (getThemeManager(context).selectedThemeMode) {
             ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
             ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
             _ => throw 'configure ThemeMode.system',
@@ -39,7 +40,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
         shape: Border(
           bottom: BorderSide(
             color: Theme.of(context).dividerColor,
-            width: switch (MyApp.of(context).themeMode) {
+            width: switch (getThemeManager(context).selectedThemeMode) {
               ThemeMode.light => 0.5,
               ThemeMode.dark => 0.1,
               _ => throw 'configure ThemeMode.system',
@@ -48,7 +49,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
         ),
       ),
       body: DefaultTextStyle(
-        style: switch (MyApp.of(context).themeMode) {
+        style: switch (getThemeManager(context).selectedThemeMode) {
           ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
           ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
           _ => throw ' configure ThemeMode.system',
@@ -62,7 +63,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Theme.of(context).colorScheme.onPrimary,
-                    width: switch (MyApp.of(context).themeMode) {
+                    width: switch (getThemeManager(context).selectedThemeMode) {
                       ThemeMode.light => 0.5,
                       ThemeMode.dark => 0.1,
                       _ => throw 'configure ThemeMode.system',
@@ -84,7 +85,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                               ),
                               Text(
                                 'Theme',
-                                style: switch (MyApp.of(context).themeMode) {
+                                style: switch (getThemeManager(context).selectedThemeMode) {
                                   ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
                                   ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
                                   _ => throw ' configure ThemeMode.system',
