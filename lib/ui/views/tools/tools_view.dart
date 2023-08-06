@@ -70,9 +70,12 @@ class ToolsView extends StackedView<ToolsViewModel> {
                 ),
               ),
               child: TabBar(
-                labelStyle: switch (getThemeManager(context).selectedThemeMode) {
-                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
-                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
+                labelStyle: switch (
+                    getThemeManager(context).selectedThemeMode) {
+                  ThemeMode.light =>
+                    Theme.of(context).typography.white.bodyMedium,
+                  ThemeMode.dark =>
+                    Theme.of(context).typography.black.bodyMedium,
                   _ => throw ' configure ThemeMode.system',
                 },
                 unselectedLabelColor: Theme.of(context).colorScheme.onPrimary,

@@ -26,6 +26,15 @@ import 'package:tools_rental_management/ui/views/tools/tools_viewmodel.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_creator/tool_creator_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_user_creator/tool_user_creator_sheet.dart';
 import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_rate_editor/tool_rate_editor_dialog.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_category_editor/tool_category_editor_dialog.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_status_editor/tool_status_editor_dialog.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_user_firstname_editor/tool_user_firstname_editor_dialog.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_user_lastname_editor/tool_user_lastname_editor_dialog.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_user_phonenumber_editor/tool_user_phonenumber_editor_dialog.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_disassociate_confirm/tool_disassociate_confirm_dialog.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_user_delete_confirm/tool_user_delete_confirm_dialog.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_delete_confirm/tool_delete_confirm_dialog.dart';
 // @stacked-import
 
 @StackedApp(
@@ -70,7 +79,16 @@ import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart';
   ],
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
-    // @stacked-dialog
+    StackedDialog(classType: ToolRateEditorDialog),
+    StackedDialog(classType: ToolCategoryEditorDialog),
+    StackedDialog(classType: ToolStatusEditorDialog),
+    StackedDialog(classType: ToolUserFirstnameEditorDialog),
+    StackedDialog(classType: ToolUserLastnameEditorDialog),
+    StackedDialog(classType: ToolUserPhonenumberEditorDialog),
+    StackedDialog(classType: ToolDisassociateConfirmDialog),
+    StackedDialog(classType: ToolUserDeleteConfirmDialog),
+    StackedDialog(classType: ToolDeleteConfirmDialog),
+// @stacked-dialog
   ],
 )
 class App {}

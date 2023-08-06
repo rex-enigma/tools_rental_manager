@@ -43,8 +43,10 @@ class StartupView extends StackedView<StartupViewModel> {
                 Text(
                   'initializing...',
                   style: switch (getThemeManager(context).selectedThemeMode) {
-                    ThemeMode.light => Theme.of(context).typography.white.bodySmall,
-                    ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
+                    ThemeMode.light =>
+                      Theme.of(context).typography.white.bodySmall,
+                    ThemeMode.dark =>
+                      Theme.of(context).typography.black.bodySmall,
                     _ => throw 'configure ThemeMode.system',
                   },
                 ),
@@ -72,5 +74,6 @@ class StartupView extends StackedView<StartupViewModel> {
       StartupViewModel();
 
   @override
-  void onViewModelReady(StartupViewModel viewModel) => SchedulerBinding.instance.addPostFrameCallback((timeStamp) => viewModel.runStartupLogic());
+  void onViewModelReady(StartupViewModel viewModel) => SchedulerBinding.instance
+      .addPostFrameCallback((timeStamp) => viewModel.runStartupLogic());
 }
