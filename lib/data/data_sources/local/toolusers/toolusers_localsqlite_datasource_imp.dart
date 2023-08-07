@@ -18,6 +18,36 @@ class ToolUsersLocalSqliteDbDataSource implements ToolUsersLocalDataSource {
   }
 
   @override
+  Future<int> updateToolUserAvatarImagePath(String toolUserAvatarImagePath, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserAvatarImagePath(toolUserAvatarImagePath, toolUserId);
+  }
+
+  @override
+  Future<int> updateToolUserFirstName(String toolUserFirstName, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserFirstName(toolUserFirstName, toolUserId);
+  }
+
+  @override
+  Future<int> updateToolUserFrontNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserFrontNationalIdImagePath(toolUserFrontNationalIdImagePath, toolUserId);
+  }
+
+  @override
+  Future<int> updateToolUserBackNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserBackNationalIdImagePath(toolUserFrontNationalIdImagePath, toolUserId);
+  }
+
+  @override
+  Future<int> updateToolUserLastName(String toolUserLastName, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserLastName(toolUserLastName, toolUserId);
+  }
+
+  @override
+  Future<int> updateToolUserPhoneNUmber(int toolUserPhoneNumber, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserPhoneNUmber(toolUserPhoneNumber, toolUserId);
+  }
+
+  @override
   Future<ToolUser?> getToolUserByIdOrNull(int toolUserId) {
     return _db.toolUsersDao.getToolUserByIdOrNull(toolUserId);
   }
@@ -25,6 +55,36 @@ class ToolUsersLocalSqliteDbDataSource implements ToolUsersLocalDataSource {
   @override
   Future<List<ToolUser>?> getAllToolUsersOrNull() {
     return _db.toolUsersDao.getAllToolUsersOrNull();
+  }
+
+  @override
+  Future<String?> getToolUserBackNationalIdImagePathByIdOrNull(int toolUserId) {
+    return _db.toolUsersDao.getToolUserBackNationalIdImagePathByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<String?> getToolUserFirstNameByIdOrNull(int toolUserId) {
+    return _db.toolUsersDao.getToolUserFirstNameByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<String?> getToolUserFrontNationalIdImagePathByIdOrNull(int toolUserId) {
+    return _db.toolUsersDao.getToolUserFrontNationalIdImagePathByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<String?> getToolUserLastNameByIdOrNull(int toolUserId) {
+    return _db.toolUsersDao.getToolUserLastNameByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<int?> getToolUserPhoneNumberByIdOrNull(int toolUserId) {
+    return _db.toolUsersDao.getToolUserPhoneNumberByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<String?> getToolUserAvatarImagePathByIdOrNull(int toolUserId) {
+    return _db.toolUsersDao.getToolUserAvatarImagePathByIdOrNull(toolUserId);
   }
 
   @override

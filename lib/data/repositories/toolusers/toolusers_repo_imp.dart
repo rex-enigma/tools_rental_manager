@@ -8,8 +8,7 @@ class ToolUsersRepoImp implements ToolUsersRepo {
   late ToolUsersLocalDataSource _toolUsersLocalDataSource;
 
   ToolUsersRepoImp({ToolUsersLocalDataSource? toolUsersLocalDataSource}) {
-    _toolUsersLocalDataSource = toolUsersLocalDataSource ??
-        locator.get<ToolUsersLocalSqliteDbDataSource>();
+    _toolUsersLocalDataSource = toolUsersLocalDataSource ?? locator.get<ToolUsersLocalSqliteDbDataSource>();
   }
   @override
   Future<int> insertToolUser(ToolUser toolUser) {
@@ -17,16 +16,91 @@ class ToolUsersRepoImp implements ToolUsersRepo {
   }
 
   // update and return the updated toolUser.
+  /// The tool user passed as argument cant contain null value for ToolUser.tooUserId property because
+  ///  for it to be updated it must exist in the database
   @override
   Future<ToolUser> updateToolUser(ToolUser toolUser) async {
+    if (toolUser.toolUserId == null) throw 'the [ToolUser] is missing a toolUserId, hence unable to update the given toolUser: $toolUser';
     await _toolUsersLocalDataSource.updateToolUser(toolUser);
     ToolUser? userOfTool = await getToolUserByOrNull(toolUser.toolUserId!);
     return userOfTool!;
   }
 
+  /// update and return the updated tool user avatar_image_path for the given toolUserId
+  @override
+  Future<String?> updateToolUserAvatarImagePath(String toolUserAvatarImagePath, int toolUserId) async {
+    await _toolUsersLocalDataSource.updateToolUserAvatarImagePath(toolUserAvatarImagePath, toolUserId);
+    return _toolUsersLocalDataSource.getToolUserAvatarImagePathByIdOrNull(toolUserId);
+  }
+
+  /// update and return the updated tool user first_name for the given toolUserId
+  @override
+  Future<String?> updateToolUserFirstName(String toolUserFirstName, int toolUserId) async {
+    await _toolUsersLocalDataSource.updateToolUserFirstName(toolUserFirstName, toolUserId);
+    return _toolUsersLocalDataSource.getToolUserFirstNameByIdOrNull(toolUserId);
+  }
+
+  /// update and return the updated tool user front_national_id_image_path for the given toolUserId
+  @override
+  Future<String?> updateToolUserFrontNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId) async {
+    await _toolUsersLocalDataSource.updateToolUserFrontNationalIdImagePath(toolUserFrontNationalIdImagePath, toolUserId);
+    return _toolUsersLocalDataSource.getToolUserFrontNationalIdImagePathByIdOrNull(toolUserId);
+  }
+
+  /// update and return the updated tool user last_name for the given toolUserId
+  @override
+  Future<String?> updateToolUserLastName(String toolUserLastName, int toolUserId) async {
+    await _toolUsersLocalDataSource.updateToolUserLastName(toolUserLastName, toolUserId);
+    return _toolUsersLocalDataSource.getToolUserLastNameByIdOrNull(toolUserId);
+  }
+
+  /// update and return the updated tool user phone_number for the given toolUserId
+  @override
+  Future<int?> updateToolUserPhoneNUmber(int toolUserPhoneNumber, int toolUserId) async {
+    await _toolUsersLocalDataSource.updateToolUserPhoneNUmber(toolUserPhoneNumber, toolUserId);
+    return _toolUsersLocalDataSource.getToolUserPhoneNumberByIdOrNull(toolUserId);
+  }
+
+  /// update and return the updated tool user back_national_id_image_path for the given toolUserId
+  @override
+  Future<String?> updateToolUserBackNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId) async {
+    await _toolUsersLocalDataSource.updateToolUserBackNationalIdImagePath(toolUserFrontNationalIdImagePath, toolUserId);
+    return _toolUsersLocalDataSource.getToolUserBackNationalIdImagePathByIdOrNull(toolUserId);
+  }
+
   @override
   Future<ToolUser?> getToolUserByOrNull(int toolUserId) {
     return _toolUsersLocalDataSource.getToolUserByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<String?> getToolUserAvatarImagePathByIdOrNull(int toolUserId) {
+    return _toolUsersLocalDataSource.getToolUserAvatarImagePathByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<String?> getToolUserBackNationalIdImagePathByIdOrNull(int toolUserId) {
+    return _toolUsersLocalDataSource.getToolUserBackNationalIdImagePathByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<String?> getToolUserFirstNameByIdOrNull(int toolUserId) {
+    return _toolUsersLocalDataSource.getToolUserFirstNameByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<String?> getToolUserFrontNationalIdImagePathByIdOrNull(int toolUserId) {
+    return _toolUsersLocalDataSource.getToolUserFrontNationalIdImagePathByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<String?> getToolUserLastNameByIdOrNull(int toolUserId) {
+    return _toolUsersLocalDataSource.getToolUserLastNameByIdOrNull(toolUserId);
+  }
+
+  @override
+  Future<int?> getToolUserPhoneNumberByIdOrNull(int toolUserId) {
+    return _toolUsersLocalDataSource.getToolUserPhoneNumberByIdOrNull(toolUserId);
   }
 
   @override
@@ -44,6 +118,3 @@ class ToolUsersRepoImp implements ToolUsersRepo {
     return _toolUsersLocalDataSource.deleteAllToolUsers();
   }
 }
-
-// i think i should add the functionalities to return only individual pieces of data of a tool user
-// incase their is a view that only need a piece of the tool user's data instead of the entire/whole tool user's data
