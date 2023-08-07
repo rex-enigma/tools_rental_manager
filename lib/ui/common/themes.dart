@@ -42,6 +42,7 @@ ThemeData lightTheme = ThemeData(
   tabBarTheme: _tabBarTheme,
   outlinedButtonTheme: _outlinedButtonTheme,
   inputDecorationTheme: _inputDecorationThemeLight,
+  // textButtonTheme:
 );
 
 ThemeData darkTheme = ThemeData(
@@ -164,10 +165,8 @@ OutlinedButtonThemeData _outlinedButtonTheme = OutlinedButtonThemeData(
 
 InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
   isDense: true,
-  focusedBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-  enabledBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
   hintStyle: TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
@@ -184,8 +183,7 @@ InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
 
 InputDecorationTheme _inputDecorationThemeDark = const InputDecorationTheme(
   isDense: true,
-  focusedBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
   hintStyle: TextStyle(
     fontSize: 14,
@@ -200,3 +198,9 @@ InputDecorationTheme _inputDecorationThemeDark = const InputDecorationTheme(
   floatingLabelStyle: TextStyle(color: Colors.white),
   floatingLabelBehavior: FloatingLabelBehavior.always,
 );
+
+// TextButtonThemeData _buttonThemeData = TextButtonThemeData(
+//   style: ButtonStyle(
+
+//   ),
+// );

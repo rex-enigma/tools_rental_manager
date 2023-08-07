@@ -24,7 +24,8 @@ class ToolUsersViewModel extends BaseViewModel {
   // this is here to test different dialogs. Delete after finishing testing.
   void showDialog() async {
     var response = await _dialogService.showCustomDialog(
-        variant: DialogType.toolUserDeleteConfirm);
+      variant: DialogType.toolDisassociateConfirm,
+    );
 
     print(response?.confirmed);
   }
