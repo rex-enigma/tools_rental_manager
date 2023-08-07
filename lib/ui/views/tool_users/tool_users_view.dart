@@ -73,13 +73,12 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                 ElevatedButton(
                   onPressed: () {
                     // just for testing some view that depend on other ui to be navigatable but those UIs aren't available
-                    // Navigator.push(
-                    //   context,
-                    //   MaterialPageRoute(
-                    //     builder: (context) => ToolUserView(),
-                    //   ),
-                    // );
-                    viewModel.showDialog();
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => ToolUserView(),
+                      ),
+                    );
                   },
                   child: const Text(
                     'Tool',

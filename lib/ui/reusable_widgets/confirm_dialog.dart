@@ -3,12 +3,11 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 
 class ConfirmDialog extends StatelessWidget {
-  /// dialog message, mostly is a Text widget.
+  /// dialog message, typically a [Text] widget.
   final Widget description;
 
   /// this function when called will allow us to return true or false when 'confirm' or 'cancel' text button is pressed back
   /// to the function that added this Widget to the overlay stack of widget.
-  ///
   final Function(DialogResponse) completer;
 
   const ConfirmDialog({super.key, this.description = const Text('A confirmation dialog'), required this.completer});
@@ -41,7 +40,7 @@ class ConfirmDialog extends StatelessWidget {
             completer(DialogResponse(confirmed: true));
           },
           child: Text(
-            'confirm',
+            'Confirm',
             style: TextStyle(color: Theme.of(context).colorScheme.secondary),
           ),
         )

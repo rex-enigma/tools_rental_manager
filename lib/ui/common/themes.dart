@@ -42,7 +42,6 @@ ThemeData lightTheme = ThemeData(
   tabBarTheme: _tabBarTheme,
   outlinedButtonTheme: _outlinedButtonTheme,
   inputDecorationTheme: _inputDecorationThemeLight,
-  // textButtonTheme:
 );
 
 ThemeData darkTheme = ThemeData(
@@ -171,11 +170,13 @@ InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: Colors.grey,
+    overflow: TextOverflow.ellipsis,
   ),
   labelStyle: TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w500,
     color: Colors.black,
+    overflow: TextOverflow.ellipsis,
   ),
   floatingLabelStyle: TextStyle(color: Colors.black),
   floatingLabelBehavior: FloatingLabelBehavior.always,
@@ -189,18 +190,14 @@ InputDecorationTheme _inputDecorationThemeDark = const InputDecorationTheme(
     fontSize: 14,
     fontWeight: FontWeight.w400,
     color: Colors.grey,
+    overflow: TextOverflow.ellipsis,
   ),
   labelStyle: TextStyle(
     fontSize: 18,
     fontWeight: FontWeight.w500,
     color: Colors.white,
+    overflow: TextOverflow.ellipsis,
   ),
   floatingLabelStyle: TextStyle(color: Colors.white),
   floatingLabelBehavior: FloatingLabelBehavior.always,
 );
-
-// TextButtonThemeData _buttonThemeData = TextButtonThemeData(
-//   style: ButtonStyle(
-
-//   ),
-// );

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
+import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/enums/status.dart';
 import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
@@ -101,12 +102,9 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolName ?? 'placeHolder',
-                          style: switch (
-                              getThemeManager(context).selectedThemeMode) {
-                            ThemeMode.light =>
-                              Theme.of(context).typography.white.bodySmall,
-                            ThemeMode.dark =>
-                              Theme.of(context).typography.black.bodySmall,
+                          style: switch (getThemeManager(context).selectedThemeMode) {
+                            ThemeMode.light => Theme.of(context).typography.white.bodySmall,
+                            ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
                           },
                         ),
@@ -130,7 +128,7 @@ class ToolView extends StackedView<ToolViewModel> {
                           children: [
                             const Tooltip(
                               message:
-                                  'when the status is idle/retired/underMaintenance it can only be changed to those corresponding status value. When the value is beingUsed its cant be changed to any status value',
+                                  'when the tool is idle/retired/underMaintenance it can only be changed to those corresponding status value. When the tool is beingUsed its cant be changed to any status value',
                               child: Icon(
                                 Icons.info,
                                 size: 20,
@@ -140,12 +138,9 @@ class ToolView extends StackedView<ToolViewModel> {
                             horizontalSpaceTiny,
                             Text(
                               viewModel.toolStatus?.name ?? 'placeHolder',
-                              style: switch (
-                                  getThemeManager(context).selectedThemeMode) {
-                                ThemeMode.light =>
-                                  Theme.of(context).typography.white.bodySmall,
-                                ThemeMode.dark =>
-                                  Theme.of(context).typography.black.bodySmall,
+                              style: switch (getThemeManager(context).selectedThemeMode) {
+                                ThemeMode.light => Theme.of(context).typography.white.bodySmall,
+                                ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                                 _ => throw 'configure ThemeMode.system',
                               },
                             ),
@@ -156,10 +151,10 @@ class ToolView extends StackedView<ToolViewModel> {
                           color: Theme.of(context).colorScheme.secondary,
                           iconSize: 26.0,
                           onPressed: switch (viewModel.toolStatus) {
-                            Status.beingUsed =>
-                              null, // disable the icon button preventing the user from changing status of the tool if its being used.
-                            _ =>
-                              () {} // handle when the status is idle, retired, underMaintenance or when toolStatus is null.
+                            Status.beingUsed => null, // disable the icon button preventing the user from changing status of the tool if its being used.
+                            _ => () {
+                                viewModel.showDialog(DialogType.toolStatusEditor);
+                              } // handle when the status is idle, retired, underMaintenance or when toolStatus is null.
                           },
                         ),
                       ),
@@ -174,12 +169,9 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           "${viewModel.toolCurrency?.name ?? 'currency'} ${viewModel.toolRate ?? '0'}/hr",
-                          style: switch (
-                              getThemeManager(context).selectedThemeMode) {
-                            ThemeMode.light =>
-                              Theme.of(context).typography.white.bodySmall,
-                            ThemeMode.dark =>
-                              Theme.of(context).typography.black.bodySmall,
+                          style: switch (getThemeManager(context).selectedThemeMode) {
+                            ThemeMode.light => Theme.of(context).typography.white.bodySmall,
+                            ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
                           },
                         ),
@@ -187,7 +179,9 @@ class ToolView extends StackedView<ToolViewModel> {
                           icon: const Icon(Icons.edit),
                           color: Theme.of(context).colorScheme.secondary,
                           iconSize: 26.0,
-                          onPressed: () {},
+                          onPressed: () {
+                            viewModel.showDialog(DialogType.toolRateEditor);
+                          },
                         ),
                       ),
                       verticalSpaceSmall,
@@ -201,12 +195,9 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolCategory?.name ?? 'placeHolder',
-                          style: switch (
-                              getThemeManager(context).selectedThemeMode) {
-                            ThemeMode.light =>
-                              Theme.of(context).typography.white.bodySmall,
-                            ThemeMode.dark =>
-                              Theme.of(context).typography.black.bodySmall,
+                          style: switch (getThemeManager(context).selectedThemeMode) {
+                            ThemeMode.light => Theme.of(context).typography.white.bodySmall,
+                            ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
                           },
                         ),
@@ -214,7 +205,9 @@ class ToolView extends StackedView<ToolViewModel> {
                           icon: const Icon(Icons.edit),
                           color: Theme.of(context).colorScheme.secondary,
                           iconSize: 26.0,
-                          onPressed: () {},
+                          onPressed: () {
+                            viewModel.showDialog(DialogType.toolCategoryEditor);
+                          },
                         ),
                       ),
                       verticalSpaceSmall,
@@ -228,12 +221,9 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolUserName ?? 'None',
-                          style: switch (
-                              getThemeManager(context).selectedThemeMode) {
-                            ThemeMode.light =>
-                              Theme.of(context).typography.white.bodySmall,
-                            ThemeMode.dark =>
-                              Theme.of(context).typography.black.bodySmall,
+                          style: switch (getThemeManager(context).selectedThemeMode) {
+                            ThemeMode.light => Theme.of(context).typography.white.bodySmall,
+                            ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
                           },
                         ),
@@ -249,12 +239,9 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolUniqueId?.toString() ?? 'placeHolder',
-                          style: switch (
-                              getThemeManager(context).selectedThemeMode) {
-                            ThemeMode.light =>
-                              Theme.of(context).typography.white.bodySmall,
-                            ThemeMode.dark =>
-                              Theme.of(context).typography.black.bodySmall,
+                          style: switch (getThemeManager(context).selectedThemeMode) {
+                            ThemeMode.light => Theme.of(context).typography.white.bodySmall,
+                            ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
                           },
                         ),
@@ -269,14 +256,10 @@ class ToolView extends StackedView<ToolViewModel> {
                           ),
                         ),
                         subtitle: Text(
-                          viewModel.toolPurchaseDate?.toIso8601String() ??
-                              'placeHolder',
-                          style: switch (
-                              getThemeManager(context).selectedThemeMode) {
-                            ThemeMode.light =>
-                              Theme.of(context).typography.white.bodySmall,
-                            ThemeMode.dark =>
-                              Theme.of(context).typography.black.bodySmall,
+                          viewModel.toolPurchaseDate?.toIso8601String() ?? 'placeHolder',
+                          style: switch (getThemeManager(context).selectedThemeMode) {
+                            ThemeMode.light => Theme.of(context).typography.white.bodySmall,
+                            ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
                           },
                         ),
@@ -292,12 +275,9 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.purchasedPrice?.toString() ?? '0',
-                          style: switch (
-                              getThemeManager(context).selectedThemeMode) {
-                            ThemeMode.light =>
-                              Theme.of(context).typography.white.bodySmall,
-                            ThemeMode.dark =>
-                              Theme.of(context).typography.black.bodySmall,
+                          style: switch (getThemeManager(context).selectedThemeMode) {
+                            ThemeMode.light => Theme.of(context).typography.white.bodySmall,
+                            ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
                           },
                         ),
@@ -313,12 +293,9 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         subtitle: Text(
                           viewModel.toolRentCount ?? '0',
-                          style: switch (
-                              getThemeManager(context).selectedThemeMode) {
-                            ThemeMode.light =>
-                              Theme.of(context).typography.white.bodySmall,
-                            ThemeMode.dark =>
-                              Theme.of(context).typography.black.bodySmall,
+                          style: switch (getThemeManager(context).selectedThemeMode) {
+                            ThemeMode.light => Theme.of(context).typography.white.bodySmall,
+                            ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
                             _ => throw 'configure ThemeMode.system',
                           },
                         ),

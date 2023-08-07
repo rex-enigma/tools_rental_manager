@@ -7,7 +7,7 @@ import 'package:tools_rental_management/app/app.locator.dart';
 
 class ToolUsersViewModel extends BaseViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
-  // its hea to testing purposes delete after use
+  // its here to testing purposes delete after use
   final _dialogService = locator<DialogService>();
 
   void showUserCreatorBottomSheet() async {

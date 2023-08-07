@@ -8,8 +8,6 @@ import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog.dart'
 
 import 'tool_delete_confirm_dialog_model.dart';
 
-const double _graphicSize = 60;
-
 class ToolDeleteConfirmDialog extends StackedView<ToolDeleteConfirmDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
