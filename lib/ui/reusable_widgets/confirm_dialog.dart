@@ -26,7 +26,7 @@ class ConfirmDialog extends StatelessWidget {
       actions: [
         TextButton(
           onPressed: () {
-            // make [DialogService.showCustomDialog] return false as a response.confirm value.
+            // make [DialogService.showCustomDialog] return false as a response.confirmed value.
             completer(DialogResponse(confirmed: false));
           },
           child: Text(
@@ -36,7 +36,7 @@ class ConfirmDialog extends StatelessWidget {
         ),
         TextButton(
           onPressed: () {
-            // make [DialogService.showCustomDialog] return true as a response.confirm value.
+            // make [DialogService.showCustomDialog] return true as a response.confirmed value.
             completer(DialogResponse(confirmed: true));
           },
           child: Text(

@@ -3,14 +3,14 @@ import 'package:tools_rental_management/data/data_models/tool.dart';
 import 'package:tools_rental_management/data/data_sources/local/tools/tools_local_datasource_interface.dart';
 import 'package:tools_rental_management/data/data_sources/local/tools/tools_localsqlite_datasource_imp.dart';
 import 'package:tools_rental_management/data/repositories/tools/tools_repo_interface.dart';
+import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
 class ToolRepoImp implements ToolsRepo {
   late ToolsLocalDataSource _toolsLocalDataSource;
 
   ToolRepoImp({ToolsLocalDataSource? toolsLocalDataSource}) {
-    _toolsLocalDataSource =
-        toolsLocalDataSource ?? locator.get<ToolsLocalSqliteDbDataSource>();
+    _toolsLocalDataSource = toolsLocalDataSource ?? locator.get<ToolsLocalSqliteDbDataSource>();
   }
 
   @override
@@ -19,17 +19,54 @@ class ToolRepoImp implements ToolsRepo {
   }
 
   /// update and return the updated tool.
+  /// The tool passed as argument cant contain null value for Tool.toolId property because
+  ///  for it to be updated it must exist in the database
   @override
   Future<Tool> updateTool(Tool tool) async {
+    if (tool.toolId == null) throw 'the [Tool] is missing a toolId, hence unable to update the given tool: $tool';
     await _toolsLocalDataSource.updateTool(tool);
     final Tool? workShopTool = await getToolByIdOrNull(tool.toolId!);
     return workShopTool!;
   }
 
+  /// update and return the updated tool category for the given toolId
+  @override
+  Future<Category?> updateToolCategory(Category toolCategory, int toolId) async {
+    await _toolsLocalDataSource.updateToolCategory(toolCategory, toolId);
+    return getToolCategoryByIdOrNull(toolId);
+  }
+
+  /// update and return the updated tool imagePath for the given toolId
+  @override
+  Future<String?> updateToolImagePath(String toolImagePath, int toolId) async {
+    await _toolsLocalDataSource.updateToolImagePath(toolImagePath, toolId);
+    return getToolImagePathByIdOrNull(toolId);
+  }
+
+  /// update and return the updated tool name for the given toolId
+  @override
+  Future<String?> updateToolName(String toolName, int toolId) async {
+    await _toolsLocalDataSource.updateToolName(toolName, toolId);
+    return getToolNameByIdOrNull(toolId);
+  }
+
+  /// update and return the updated tool rate for the given toolId
+  @override
+  Future<int?> updateToolRate(int toolRate, int toolId) async {
+    await _toolsLocalDataSource.updateToolRate(toolRate, toolId);
+    return getToolRateByIdOrNull(toolId);
+  }
+
+  /// update and return the updated tool status for the given toolId
+  @override
+  Future<Status?> updateToolStatus(Status toolStatus, int toolId) async {
+    await await _toolsLocalDataSource.updateToolStatus(toolStatus, toolId);
+    return getToolStatusByIdOrNull(toolId);
+  }
+
   /// will return the updated tools that are associated with a [ToolUser] of the given toolUserId.
   @override
-  Future<List<Tool>> associateToolsWithToolUser(
-      List<Tool> tools, int toolUserId) async {
+  Future<List<Tool>> associateToolsWithToolUser(List<Tool> tools, int toolUserId) async {
     final List<Tool> associatedTools = tools.map((tool) {
       return tool.copyWith(
         toolUserId: toolUserId,
@@ -66,8 +103,7 @@ class ToolRepoImp implements ToolsRepo {
     int amountOfToolsUpdated = 0;
 
     for (var disassociatedTool in disassociatedTools) {
-      amountOfToolsUpdated +=
-          await _toolsLocalDataSource.updateTool(disassociatedTool);
+      amountOfToolsUpdated += await _toolsLocalDataSource.updateTool(disassociatedTool);
     }
     return amountOfToolsUpdated;
   }
@@ -77,6 +113,32 @@ class ToolRepoImp implements ToolsRepo {
     return _toolsLocalDataSource.getToolByIdOrNull(toolId);
   }
 
+  @override
+  Future<Category?> getToolCategoryByIdOrNull(int toolId) {
+    return _toolsLocalDataSource.getToolCategoryByIdOrNull(toolId);
+  }
+
+  @override
+  Future<String?> getToolImagePathByIdOrNull(int toolId) {
+    return _toolsLocalDataSource.getToolImagePathByIdOrNull(toolId);
+  }
+
+  @override
+  Future<String?> getToolNameByIdOrNull(int toolId) {
+    return _toolsLocalDataSource.getToolNameByIdOrNull(toolId);
+  }
+
+  @override
+  Future<int?> getToolRateByIdOrNull(int toolId) {
+    return _toolsLocalDataSource.getToolRateByIdOrNull(toolId);
+  }
+
+  @override
+  Future<Status?> getToolStatusByIdOrNull(int toolId) {
+    return _toolsLocalDataSource.getToolStatusByIdOrNull(toolId);
+  }
+
+  /// return a future that completes with a list of tools of the given status value or null.
   @override
   Future<List<Tool>?> getToolsByStatusOrNull(Status status) {
     return _toolsLocalDataSource.getToolsByStatusOrNull(status);

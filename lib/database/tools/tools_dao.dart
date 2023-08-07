@@ -2,6 +2,7 @@ import 'package:drift/drift.dart';
 import 'package:tools_rental_management/data/data_models/tool.dart';
 import 'package:tools_rental_management/database/app_database.dart';
 import 'package:tools_rental_management/database/tools/tools_table.dart';
+import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
 part 'tools_dao.g.dart';
@@ -41,21 +42,16 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
       """,
       variables: [
         Variable.withString(tool.name),
-        Variable.withInt(tool.boughtAt
-            .millisecondsSinceEpoch), // since boughtAt is a DateTime type, convert it to its int type for storage.
+        Variable.withInt(tool.boughtAt.millisecondsSinceEpoch), // since boughtAt is a DateTime type, convert it to its int type for storage.
         Variable.withInt(tool.purchasedPrice),
         Variable.withInt(tool.rate),
         Variable.withInt(tool.rentCount),
-        Variable.withString(tool.currency
-            .name), // since currency is a enum type, convert it to its corresponding to String type for storage.
-        Variable.withString(tool.category
-            .name), // since category is a enum type, convert it to its corresponding to String type for storage.
+        Variable.withString(tool.currency.name), // since currency is a enum type, convert it to its corresponding to String type for storage.
+        Variable.withString(tool.category.name), // since category is a enum type, convert it to its corresponding to String type for storage.
         Variable.withString(tool.toolImagePath),
         Variable.withInt(tool.toolUniqueId),
-        Variable(tool
-            .toolUserId), // [toolUserId] is null for any new [Tool] to be inserted
-        Variable.withString(tool.status
-            .name), // since status is a enum type, convert it to its corresponding to String type for storage.
+        Variable(tool.toolUserId), // [toolUserId] is null for any new [Tool] to be inserted
+        Variable.withString(tool.status.name), // since status is a enum type, convert it to its corresponding to String type for storage.
       ],
     ).catchError((Object e, StackTrace stacktrace) {
       print('Error $e, stacktrace: $stacktrace');
@@ -64,6 +60,7 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
   }
 
   // this kind of update is not optimized because it end up updating columns of a particular row that don't need updating.
+  // but is useful if you will end up updating more than one value.
   Future<int> updateTool(Tool tool) {
     return customUpdate(
       """UPDATE tools 
@@ -95,6 +92,96 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
         Variable(tool.toolUserId),
         Variable.withString(tool.status.name),
         Variable(tool.toolId),
+      ],
+    ).catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+  }
+
+  Future<int> updateToolName(String toolName, int toolId) {
+    return customUpdate(
+      """UPDATE tools 
+      SET 
+        name = :name,
+      WHERE
+        tool_id = :toolId
+      """,
+      variables: [
+        Variable.withString(toolName),
+        Variable(toolId),
+      ],
+    ).catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+  }
+
+  Future<int> updateToolStatus(Status toolStatus, int toolId) {
+    return customUpdate(
+      """UPDATE tools 
+      SET 
+        status = :status,
+      WHERE
+        tool_id = :toolId
+      """,
+      variables: [
+        Variable.withString(toolStatus.name),
+        Variable(toolId),
+      ],
+    ).catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+  }
+
+  Future<int> updateToolRate(int toolRate, int toolId) {
+    return customUpdate(
+      """UPDATE tools 
+      SET 
+        rate = :rate,
+      WHERE
+        tool_id = :toolId
+      """,
+      variables: [
+        Variable.withInt(toolRate),
+        Variable(toolId),
+      ],
+    ).catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+  }
+
+  Future<int> updateToolCategory(Category toolCategory, int toolId) {
+    return customUpdate(
+      """UPDATE tools 
+      SET 
+        category = :category,
+      WHERE
+        tool_id = :toolId
+      """,
+      variables: [
+        Variable.withString(toolCategory.name),
+        Variable(toolId),
+      ],
+    ).catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+  }
+
+  Future<int> updateToolImagePath(String toolImagePath, int toolId) {
+    return customUpdate(
+      """UPDATE tools 
+      SET 
+        tool_image_path = :toolImagePath,
+      WHERE
+        tool_id = :toolId
+      """,
+      variables: [
+        Variable.withString(toolImagePath),
+        Variable(toolId),
       ],
     ).catchError((Object e, StackTrace stacktrace) {
       print('Error: $e, stacktrace: $stacktrace');
@@ -141,9 +228,93 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     }
   }
 
+  /// returns a future that completes with the tool name for the given toolId.
+  Future<String?> getToolNameByIdOrNull(int toolId) async {
+    final toolNameResult = await customSelect(
+      'SELECT name FROM tools WHERE tool_id = :toolId',
+      variables: [Variable.withInt(toolId)],
+    )
+        .getSingleOrNull() // return a future that will complete with a queryRow(representing a tool) for the given toolId, or null if there is no row(tool) for the given toolId.
+        .catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+    // since we selected the name attribute then we expect the map returned will have [name] as key, and will allow as to
+    // get the corresponding value which will be the name of the tool for the given toolId.
+    return toolNameResult?.data['name'];
+  }
+
+  /// returns a future that completes with the tool status for the given toolId.
+  Future<Status?> getToolStatusByIdOrNull(int toolId) async {
+    final toolNameResult = await customSelect(
+      'SELECT status FROM tools WHERE tool_id = :toolId',
+      variables: [Variable.withInt(toolId)],
+    )
+        .getSingleOrNull() // return a future that will complete with a queryRow(representing a tool) for the given toolId, or null if there is no row(tool) for the given toolId.
+        .catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+    // since we selected the status attribute then we expect the map returned will have [status] as key, and will allow as to
+    // get the corresponding value which will be the status(represented as string) of the tool for the given toolId.
+    String status = toolNameResult?.data['status'];
+    return Status.fromString(status);
+  }
+
+  /// returns a future that completes with the tool rate for the given toolId.
+  Future<int?> getToolRateByIdOrNull(int toolId) async {
+    final toolNameResult = await customSelect(
+      'SELECT rate FROM tools WHERE tool_id = :toolId',
+      variables: [Variable.withInt(toolId)],
+    )
+        .getSingleOrNull() // return a future that will complete with a queryRow(representing a tool) for the given toolId, or null if there is no row(tool) for the given toolId.
+        .catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+    // since we selected the rate attribute then we expect the map returned will have [rate] as key, and will allow as to
+    // get the corresponding value which will be the rate for the tool for the given toolId.
+    return toolNameResult?.data['rate'];
+  }
+
+  /// returns a future that completes with the tool category for the given toolId.
+  Future<Category?> getToolCategoryByIdOrNull(int toolId) async {
+    final toolNameResult = await customSelect(
+      'SELECT category FROM tools WHERE tool_id = :toolId',
+      variables: [Variable.withInt(toolId)],
+    )
+        .getSingleOrNull() // return a future that will complete with a queryRow(representing a tool) for the given toolId, or null if there is no row(tool) for the given toolId.
+        .catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+    // since we selected the category attribute then we expect the map returned will have [category] as key, and will allow as to
+    // get the corresponding value which will be the category(represented as string) for the tool for the given toolId.
+    String category = toolNameResult?.data['category'];
+    return Category.fromString(category);
+  }
+
+  /// returns a future that completes with the tool image paths for the given toolId.
+  Future<String?> getToolImagePathByIdOrNull(int toolId) async {
+    final toolNameResult = await customSelect(
+      'SELECT tool_image_path FROM tools WHERE tool_id = :toolId',
+      variables: [Variable.withInt(toolId)],
+    )
+        .getSingleOrNull() // return a future that will complete with a queryRow(representing a tool) for the given toolId, or null if there is no row(tool) for the given toolId.
+        .catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+    // since we selected the tool_image_path attribute then we expect the map returned will have [tool_image_path] as key, and will allow as to
+    // get the corresponding value which will be the image path for the tool for the given toolId.
+    return toolNameResult?.data['tool_image_path'];
+  }
+
+  // return a future that completes with a list of tools or null for the given status .
   Future<List<Tool>?> getToolsByStatusOrNull(Status status) async {
     final toolResults = await customSelect(
       'SELECT * FROM tools WHERE status = :status',
+      variables: [Variable.withString(status.name)],
     ).get().catchError((Object e, StackTrace stacktrace) {
       print('Error: $e, stacktrace: $stacktrace');
       throw e;
@@ -153,9 +324,7 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     if (toolResults.isEmpty) {
       return null;
     } else {
-      List<Tool> tools = toolResults
-          .map((queryRow) => Tool.fromMap(toolMap: queryRow.data))
-          .toList();
+      List<Tool> tools = toolResults.map((queryRow) => Tool.fromMap(toolMap: queryRow.data)).toList();
       return tools;
     }
   }
@@ -173,9 +342,7 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     if (toolResults.isEmpty) {
       return null;
     } else {
-      List<Tool> tools = toolResults
-          .map((queryRow) => Tool.fromMap(toolMap: queryRow.data))
-          .toList();
+      List<Tool> tools = toolResults.map((queryRow) => Tool.fromMap(toolMap: queryRow.data)).toList();
 
       return tools;
     }
