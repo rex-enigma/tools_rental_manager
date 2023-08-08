@@ -29,4 +29,20 @@ class ToolUsersViewModel extends BaseViewModel {
 
     print(response?.confirmed);
   }
+
+  // this is here to test different ImageCapture BottomSheets. Delete after finishing testing.
+  void showImageCaptureBottomSheet() async {
+    var response = await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.toolUserImageCapture,
+    );
+  }
+
+  // this is here to test selectToolSheet. Delete after finishing testing.
+  void showSelectToolBottomSheet() async {
+    var response = await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.moreToolInfo,
+      isScrollControlled: true,
+      ignoreSafeArea: false,
+    );
+  }
 }

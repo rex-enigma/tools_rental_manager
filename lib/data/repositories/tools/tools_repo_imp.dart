@@ -10,7 +10,8 @@ class ToolRepoImp implements ToolsRepo {
   late ToolsLocalDataSource _toolsLocalDataSource;
 
   ToolRepoImp({ToolsLocalDataSource? toolsLocalDataSource}) {
-    _toolsLocalDataSource = toolsLocalDataSource ?? locator.get<ToolsLocalSqliteDbDataSource>();
+    _toolsLocalDataSource =
+        toolsLocalDataSource ?? locator.get<ToolsLocalSqliteDbDataSource>();
   }
 
   @override
@@ -23,7 +24,8 @@ class ToolRepoImp implements ToolsRepo {
   ///  for it to be updated it must exist in the database
   @override
   Future<Tool> updateTool(Tool tool) async {
-    if (tool.toolId == null) throw 'the [Tool] is missing a toolId, hence unable to update the given tool: $tool';
+    if (tool.toolId == null)
+      throw 'the [Tool] is missing a toolId, hence unable to update the given tool: $tool';
     await _toolsLocalDataSource.updateTool(tool);
     final Tool? workShopTool = await getToolByIdOrNull(tool.toolId!);
     return workShopTool!;
@@ -31,7 +33,8 @@ class ToolRepoImp implements ToolsRepo {
 
   /// update and return the updated tool category for the given toolId
   @override
-  Future<Category?> updateToolCategory(Category toolCategory, int toolId) async {
+  Future<Category?> updateToolCategory(
+      Category toolCategory, int toolId) async {
     await _toolsLocalDataSource.updateToolCategory(toolCategory, toolId);
     return getToolCategoryByIdOrNull(toolId);
   }
@@ -66,7 +69,8 @@ class ToolRepoImp implements ToolsRepo {
 
   /// will return the updated tools that are associated with a [ToolUser] of the given toolUserId.
   @override
-  Future<List<Tool>> associateToolsWithToolUser(List<Tool> tools, int toolUserId) async {
+  Future<List<Tool>> associateToolsWithToolUser(
+      List<Tool> tools, int toolUserId) async {
     final List<Tool> associatedTools = tools.map((tool) {
       return tool.copyWith(
         toolUserId: toolUserId,
@@ -103,7 +107,8 @@ class ToolRepoImp implements ToolsRepo {
     int amountOfToolsUpdated = 0;
 
     for (var disassociatedTool in disassociatedTools) {
-      amountOfToolsUpdated += await _toolsLocalDataSource.updateTool(disassociatedTool);
+      amountOfToolsUpdated +=
+          await _toolsLocalDataSource.updateTool(disassociatedTool);
     }
     return amountOfToolsUpdated;
   }

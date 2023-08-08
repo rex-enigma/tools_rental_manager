@@ -47,7 +47,6 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
         child: Column(
           // this one sets the height of the column to be its children's height.
           mainAxisSize: MainAxisSize.min,
-          mainAxisAlignment: MainAxisAlignment.start,
           children: [
             const DragHandle(),
             verticalSpaceSmall,

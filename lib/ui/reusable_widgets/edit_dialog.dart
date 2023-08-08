@@ -24,8 +24,10 @@ class EditDialog extends StatelessWidget {
         alignment: Alignment.center,
         child: title,
       ),
-      contentPadding: const EdgeInsets.only(top: 24.0, left: 24.0, right: 24.0, bottom: 20),
-      actionsPadding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 20),
+      contentPadding:
+          const EdgeInsets.only(top: 24.0, left: 24.0, right: 24.0, bottom: 20),
+      actionsPadding:
+          const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 20),
       contentTextStyle: switch (getThemeManager(context).selectedThemeMode) {
         ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
         ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,

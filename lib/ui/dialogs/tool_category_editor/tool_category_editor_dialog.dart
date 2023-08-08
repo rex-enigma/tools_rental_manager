@@ -10,7 +10,8 @@ import 'package:tools_rental_management/ui/reusable_widgets/input_text_style.dar
 
 import 'tool_category_editor_dialog_model.dart';
 
-class ToolCategoryEditorDialog extends StackedView<ToolCategoryEditorDialogModel> {
+class ToolCategoryEditorDialog
+    extends StackedView<ToolCategoryEditorDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -59,5 +60,6 @@ class ToolCategoryEditorDialog extends StackedView<ToolCategoryEditorDialogModel
   }
 
   @override
-  ToolCategoryEditorDialogModel viewModelBuilder(BuildContext context) => ToolCategoryEditorDialogModel();
+  ToolCategoryEditorDialogModel viewModelBuilder(BuildContext context) =>
+      ToolCategoryEditorDialogModel();
 }

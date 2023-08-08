@@ -3,8 +3,12 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/main.dart';
+import 'package:tools_rental_management/ui/views/back_national_id_image/back_national_id_image_view.dart';
+import 'package:tools_rental_management/ui/views/front_national_id_image/front_national_id_image_view.dart';
 import 'package:tools_rental_management/ui/views/tool/tool_view.dart';
+import 'package:tools_rental_management/ui/views/tool_image/tool_image_view.dart';
 import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart';
+import 'package:tools_rental_management/ui/views/tool_user_image/tool_user_image_view.dart';
 
 import 'tool_users_viewmodel.dart';
 
@@ -76,12 +80,12 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ToolUserView(),
+                        builder: (context) => FrontNationalIdImageView(),
                       ),
                     );
                   },
                   child: const Text(
-                    'Tool',
+                    'Testing button',
                     style: TextStyle(color: Colors.black),
                   ),
                 ),

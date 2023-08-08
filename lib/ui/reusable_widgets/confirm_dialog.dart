@@ -10,13 +10,18 @@ class ConfirmDialog extends StatelessWidget {
   /// to the function that added this Widget to the overlay stack of widget.
   final Function(DialogResponse) completer;
 
-  const ConfirmDialog({super.key, this.description = const Text('A confirmation dialog'), required this.completer});
+  const ConfirmDialog(
+      {super.key,
+      this.description = const Text('A confirmation dialog'),
+      required this.completer});
 
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      contentPadding: const EdgeInsets.only(top: 24.0, left: 24.0, right: 24.0, bottom: 20),
-      actionsPadding: const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 20),
+      contentPadding:
+          const EdgeInsets.only(top: 24.0, left: 24.0, right: 24.0, bottom: 20),
+      actionsPadding:
+          const EdgeInsets.only(left: 24.0, right: 24.0, bottom: 20),
       contentTextStyle: switch (getThemeManager(context).selectedThemeMode) {
         ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
         ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,

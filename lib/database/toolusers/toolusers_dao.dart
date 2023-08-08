@@ -7,7 +7,8 @@ import 'package:tools_rental_management/database/toolusers/toolusers_table.dart'
 part 'toolusers_dao.g.dart';
 
 @DriftAccessor(tables: [ToolUsers])
-class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixin {
+class ToolUsersDao extends DatabaseAccessor<AppDatabase>
+    with _$ToolUsersDaoMixin {
   ToolUsersDao(AppDatabase db) : super(db);
 
   Future<int> insertToolUser(ToolUser toolUser) {
@@ -76,7 +77,8 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
   }
 
-  Future<int> updateToolUserFirstName(String toolUserFirstName, int toolUserId) {
+  Future<int> updateToolUserFirstName(
+      String toolUserFirstName, int toolUserId) {
     return customUpdate(
       """UPDATE tool_users 
       SET 
@@ -112,7 +114,8 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
   }
 
-  Future<int> updateToolUserPhoneNUmber(int toolUserPhoneNumber, int toolUserId) {
+  Future<int> updateToolUserPhoneNUmber(
+      int toolUserPhoneNumber, int toolUserId) {
     return customUpdate(
       """UPDATE tool_users 
       SET 
@@ -130,7 +133,8 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
   }
 
-  Future<int> updateToolUserFrontNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId) {
+  Future<int> updateToolUserFrontNationalIdImagePath(
+      String toolUserFrontNationalIdImagePath, int toolUserId) {
     return customUpdate(
       """UPDATE tool_users 
       SET 
@@ -148,7 +152,8 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
   }
 
-  Future<int> updateToolUserBackNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId) {
+  Future<int> updateToolUserBackNationalIdImagePath(
+      String toolUserFrontNationalIdImagePath, int toolUserId) {
     return customUpdate(
       """UPDATE tool_users 
       SET 
@@ -166,7 +171,8 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
   }
 
-  Future<int> updateToolUserAvatarImagePath(String toolUserAvatarImagePath, int toolUserId) {
+  Future<int> updateToolUserAvatarImagePath(
+      String toolUserAvatarImagePath, int toolUserId) {
     return customUpdate(
       """UPDATE tool_users 
       SET 
@@ -195,7 +201,8 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
   }
 
   Future<int> deleteAllToolUsers() {
-    return customUpdate('DELETE FROM tool_users').catchError((Object e, StackTrace stackTrace) {
+    return customUpdate('DELETE FROM tool_users')
+        .catchError((Object e, StackTrace stackTrace) {
       print('Error: $e, stackTrace: $stackTrace');
       throw Exception(e);
     });
@@ -307,7 +314,8 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
   }
 
   /// returns a future that completes with the tool user front_national_id_image_path, for the given toolUserId.
-  Future<String?> getToolUserFrontNationalIdImagePathByIdOrNull(int toolUserId) async {
+  Future<String?> getToolUserFrontNationalIdImagePathByIdOrNull(
+      int toolUserId) async {
     final toolNameResult = await customSelect(
       'SELECT front_national_id_image_path FROM tool_users WHERE tool_user_id = :toolUserId',
       variables: [Variable.withInt(toolUserId)],
@@ -323,7 +331,8 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
   }
 
   /// returns a future that completes with the tool user back_national_id_image_path for the given toolUserId.
-  Future<String?> getToolUserBackNationalIdImagePathByIdOrNull(int toolUserId) async {
+  Future<String?> getToolUserBackNationalIdImagePathByIdOrNull(
+      int toolUserId) async {
     final toolNameResult = await customSelect(
       'SELECT back_national_id_image_path FROM tool_users WHERE tool_user_id = :toolUserId',
       variables: [Variable.withInt(toolUserId)],
@@ -378,7 +387,9 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
       // construct a list of toolUserMap from list of queryRow (toolUsersResults)
       // and use it to add another key/value pair in each toolUserMap in [toolUserListMaps]
       // where 'tools' is key and [null] or [list of tools] is the value.
-      List<Map<String, dynamic>> toolUserListMaps = [for (var queryRow in toolUserResults) queryRow.data];
+      List<Map<String, dynamic>> toolUserListMaps = [
+        for (var queryRow in toolUserResults) queryRow.data
+      ];
 
       if (toolResults.isEmpty) {
         // since the toolResults is empty which means their aren't any tools in the tools table,
@@ -395,16 +406,19 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
         // at this point, tools and toolUsers records are available.
 
         // transform list of queryRows to a list of toolMaps
-        List<Map<String, dynamic>> toolMaps = toolResults.map((queryRow) => queryRow.data).toList();
+        List<Map<String, dynamic>> toolMaps =
+            toolResults.map((queryRow) => queryRow.data).toList();
 
         List<ToolUser> toolUserList = toolUserListMaps.map((toolUserMap) {
           // filter and return a list of toolMap for the specified toolUserMap.
           // an empty list might be returned if the specified toolUser don't have corresponding tool(s) yet.
-          List<Map<String, dynamic>> toolMapsForTheSpecifiedToolUserMap = toolMaps
-              .where(
-                (toolMap) => toolUserMap['tool_user_id'] == toolMap['tool_user_id'],
-              )
-              .toList();
+          List<Map<String, dynamic>> toolMapsForTheSpecifiedToolUserMap =
+              toolMaps
+                  .where(
+                    (toolMap) =>
+                        toolUserMap['tool_user_id'] == toolMap['tool_user_id'],
+                  )
+                  .toList();
 
           // check if there is any toolMap(s) for the specified toolUserMap, if the toolMapsForTheSpecifiedToolUserMap is empty,
           // then the specified toolUserMap does't have any corresponding toolMaps yet.
@@ -418,11 +432,12 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
 
           // if the above condition is false, then the specified toolUserMap has corresponding toolMap(s),
           // build the [Tool]s first
-          List<Tool> toolsForASpecifiedToolUser = toolMapsForTheSpecifiedToolUserMap
-              .map(
-                (toolMap) => Tool.fromMap(toolMap: toolMap),
-              )
-              .toList();
+          List<Tool> toolsForASpecifiedToolUser =
+              toolMapsForTheSpecifiedToolUserMap
+                  .map(
+                    (toolMap) => Tool.fromMap(toolMap: toolMap),
+                  )
+                  .toList();
 
           // then since the toolMapsForTheSpecifiedToolUserMap isn't empty which means their is toolMap(s) for the toolUserMap,
           // add a 'tools' key with a [toolMapsForTheSpecifiedToolUserMap] value to [toolUserMap] to indicate that.

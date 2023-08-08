@@ -56,5 +56,6 @@ class ToolRateEditorDialog extends StackedView<ToolRateEditorDialogModel> {
   }
 
   @override
-  ToolRateEditorDialogModel viewModelBuilder(BuildContext context) => ToolRateEditorDialogModel();
+  ToolRateEditorDialogModel viewModelBuilder(BuildContext context) =>
+      ToolRateEditorDialogModel();
 }

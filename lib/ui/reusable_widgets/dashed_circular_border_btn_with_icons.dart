@@ -11,6 +11,8 @@ import 'package:tools_rental_management/assets/font_icons/font_icons.dart';
 /// a [circularSaw] icon or a [person] icon as second widget in the stack.
 /// [imagePath] is the path of a tool image to be displayed inside the button.
 class DashedCircularBorderButtonWithIcons extends StatelessWidget {
+  /// make sure the value is either [BottomSheetType.toolCreator] or [BottomSheetType.toolUserCreator]
+  /// otherwise it will throw an exception
   final BottomSheetType bottomSheetType;
 
   /// image path either for a tool image or toolUser image depending on the bottomSheetType.
@@ -71,6 +73,8 @@ class DashedCircularBorderButtonWithIcons extends StatelessWidget {
                         color: Color.fromRGBO(202, 202, 202, 1.0),
                         size: 80.0,
                       ),
+                    _ =>
+                      throw 'expected ${BottomSheetType.toolCreator} or ${BottomSheetType.toolUserCreator} but got: $bottomSheetType'
                   },
                 ),
               if (imagePath == null)

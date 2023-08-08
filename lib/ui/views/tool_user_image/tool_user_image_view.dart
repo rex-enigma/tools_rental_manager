@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/image_view.dart';
 
 import 'tool_user_image_viewmodel.dart';
 
@@ -12,11 +13,14 @@ class ToolUserImageView extends StackedView<ToolUserImageViewModel> {
     ToolUserImageViewModel viewModel,
     Widget? child,
   ) {
-    return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
-      body: Container(
-        padding: const EdgeInsets.only(left: 25.0, right: 25.0),
+    return ImageView(
+      title: 'Profile photo',
+      imagePath: viewModel.toolUserImagePath,
+      placeholderImage: const Icon(
+        Icons.person,
+        color: Colors.grey,
       ),
+      onPressedEditButton: () => viewModel.showToolUserImageCaptureBottomSheet(),
     );
   }
 

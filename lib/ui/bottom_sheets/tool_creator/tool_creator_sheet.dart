@@ -53,8 +53,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
               child: Text(
                 'Create a tool',
                 style: switch (getThemeManager(context).selectedThemeMode) {
-                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
-                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
+                  ThemeMode.light =>
+                    Theme.of(context).typography.white.bodyMedium!,
+                  ThemeMode.dark =>
+                    Theme.of(context).typography.black.bodyMedium!,
                   _ => throw ' configure ThemeMode.system',
                 },
               ),
@@ -129,7 +131,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                           style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
                             hintText: 'Cost of renting a tool per hour',
-                            labelText: 'Rate (KES) *', // don't forget to make the KES dynamic.
+                            labelText:
+                                'Rate (KES) *', // don't forget to make the KES dynamic.
                           ),
                         ),
                         verticalSpaceMedium,
@@ -168,13 +171,17 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                               width: 120.0,
                               padding: const EdgeInsets.only(left: 6.0),
                               child: FilledButton(
-                                style: Theme.of(context).filledButtonTheme.style?.copyWith(
+                                style: Theme.of(context)
+                                    .filledButtonTheme
+                                    .style
+                                    ?.copyWith(
                                       fixedSize: const MaterialStatePropertyAll(
                                         Size(120.0, 50.0),
                                       ),
                                       shape: MaterialStatePropertyAll(
                                         RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                       ),
                                     ),
@@ -186,7 +193,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         ),
                         verticalSpaceMedium,
                         FormField(
-                          builder: (formFieldState) => DashedCircularBorderButtonWithIcons(
+                          builder: (formFieldState) =>
+                              DashedCircularBorderButtonWithIcons(
                             bottomSheetType: BottomSheetType.toolCreator,
                             imagePath: viewModel.toolImagePath,
                             onPressed: () {
@@ -234,5 +242,6 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
   }
 
   @override
-  ToolCreatorSheetModel viewModelBuilder(BuildContext context) => ToolCreatorSheetModel();
+  ToolCreatorSheetModel viewModelBuilder(BuildContext context) =>
+      ToolCreatorSheetModel();
 }

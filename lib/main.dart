@@ -50,33 +50,3 @@ class _MyAppState extends State<MyApp> {
     );
   }
 }
-
-/// [_MyAppState] will be used to manage global state
-// class _MyAppState extends State<MyApp> {
-//   ThemeMode _themeMode = ThemeMode.light;
-
-//   ThemeMode get themeMode => _themeMode;
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return MaterialApp(
-//       debugShowCheckedModeBanner: false,
-//       title: 'tools rental manager',
-//       theme: lightTheme,
-//       darkTheme: darkTheme,
-//       themeMode: themeMode,
-//       initialRoute: Routes.startupView,
-//       onGenerateRoute: StackedRouter().onGenerateRoute,
-//       navigatorKey: StackedService.navigatorKey,
-//       navigatorObservers: [
-//         StackedService.routeObserver,
-//       ],
-//     );
-//   }
-
-//   void changeTheme({required ThemeMode themeMode}) {
-//     setState(() {
-//       _themeMode = themeMode;
-//     });
-//   }
-// }

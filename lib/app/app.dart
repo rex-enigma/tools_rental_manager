@@ -21,7 +21,6 @@ import 'package:tools_rental_management/ui/views/tool_user_search/tool_user_sear
 import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart';
 import 'package:tools_rental_management/ui/views/tool_image/tool_image_view.dart';
 import 'package:tools_rental_management/ui/views/tool_user_image/tool_user_image_view.dart';
-import 'package:tools_rental_management/ui/views/national_id_image/national_id_image_view.dart';
 import 'package:tools_rental_management/ui/views/tools/tools_viewmodel.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_creator/tool_creator_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_user_creator/tool_user_creator_sheet.dart';
@@ -35,6 +34,14 @@ import 'package:tools_rental_management/ui/dialogs/tool_user_phonenumber_editor/
 import 'package:tools_rental_management/ui/dialogs/tool_disassociate_confirm/tool_disassociate_confirm_dialog.dart';
 import 'package:tools_rental_management/ui/dialogs/tool_user_delete_confirm/tool_user_delete_confirm_dialog.dart';
 import 'package:tools_rental_management/ui/dialogs/tool_delete_confirm/tool_delete_confirm_dialog.dart';
+import 'package:tools_rental_management/ui/bottom_sheets/tool_image_capture/tool_image_capture_sheet.dart';
+import 'package:tools_rental_management/ui/bottom_sheets/tool_user_image_capture/tool_user_image_capture_sheet.dart';
+import 'package:tools_rental_management/ui/bottom_sheets/national_id_image_capture/national_id_image_capture_sheet.dart';
+import 'package:tools_rental_management/ui/bottom_sheets/select_tool/select_tool_sheet.dart';
+import 'package:tools_rental_management/ui/bottom_sheets/more_tool_info/more_tool_info_sheet.dart';
+import 'package:tools_rental_management/ui/views/tool_image/tool_image_view.dart';
+import 'package:tools_rental_management/ui/views/front_national_id_image/front_national_id_image_view.dart';
+import 'package:tools_rental_management/ui/views/back_national_id_image/back_national_id_image_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -50,8 +57,10 @@ import 'package:tools_rental_management/ui/dialogs/tool_delete_confirm/tool_dele
     MaterialRoute(page: ToolNamesView),
     MaterialRoute(page: ToolImageView),
     MaterialRoute(page: ToolUserImageView),
-    MaterialRoute(page: NationalIdImageView),
     MaterialRoute(page: ToolUserView),
+    MaterialRoute(page: ToolImageView),
+    MaterialRoute(page: FrontNationalIdImageView),
+    MaterialRoute(page: BackNationalIdImageView),
 // @stacked-route
   ],
   dependencies: [
@@ -75,6 +84,11 @@ import 'package:tools_rental_management/ui/dialogs/tool_delete_confirm/tool_dele
   bottomsheets: [
     StackedBottomsheet(classType: ToolCreatorSheet),
     StackedBottomsheet(classType: ToolUserCreatorSheet),
+    StackedBottomsheet(classType: ToolImageCaptureSheet),
+    StackedBottomsheet(classType: ToolUserImageCaptureSheet),
+    StackedBottomsheet(classType: NationalIdImageCaptureSheet),
+    StackedBottomsheet(classType: SelectToolSheet),
+    StackedBottomsheet(classType: MoreToolInfoSheet),
 // @stacked-bottom-sheet
   ],
   dialogs: [
