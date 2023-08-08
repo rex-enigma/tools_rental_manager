@@ -79,10 +79,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                           Positioned.fill(
                             child: ClipOval(
                               child: GestureDetector(
-                                onTap: () {
-                                  // navigate to ToolUserImageView
-                                  // navigation implementation will be done in the ToolUserViewModel
-                                },
+                                onTap: () => viewModel.navigateToToolUserImageView(),
                                 child: viewModel.avatarImagePath == null
                                     ? const Icon(
                                         Icons.person,
@@ -99,14 +96,10 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                             bottom: 0.0,
                             right: 0.0,
                             child: IconButton(
-                              onPressed: () {
-                                // capture a new photo of the person or get the photo from gallery.
-                                // Implementation will be done in the ToolUserViewModel.
-                              },
+                              onPressed: () => viewModel.showToolUserImageCaptureSheet(),
                               icon: Icon(
                                 Icons.photo_camera,
-                                color:
-                                    Theme.of(context).colorScheme.onSecondary,
+                                color: Theme.of(context).colorScheme.onSecondary,
                               ),
                               style: ButtonStyle(
                                 backgroundColor: MaterialStatePropertyAll(
@@ -152,8 +145,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                               onTap: () {
-                                viewModel.showDialog(
-                                    DialogType.toolUserFirstnameEditor);
+                                viewModel.showDialog(DialogType.toolUserFirstnameEditor);
                               },
                             ),
                           ),
@@ -184,8 +176,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                               onTap: () {
-                                viewModel.showDialog(
-                                    DialogType.toolUserLastnameEditor);
+                                viewModel.showDialog(DialogType.toolUserLastnameEditor);
                               },
                             ),
                           ),
@@ -201,8 +192,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                               ),
                             ),
                             subtitle: Text(
-                              viewModel.phoneNumber?.toString() ??
-                                  '+254798321598',
+                              viewModel.phoneNumber?.toString() ?? '+254798321598',
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
                               style: TextStyle(
@@ -217,8 +207,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 color: Theme.of(context).colorScheme.secondary,
                               ),
                               onTap: () {
-                                viewModel.showDialog(
-                                    DialogType.toolUserPhonenumberEditor);
+                                viewModel.showDialog(DialogType.toolUserPhonenumberEditor);
                               },
                             ),
                           ),
@@ -246,28 +235,23 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
 
                 child: Theme(
                   // since ExpansionTile inherit both top and bottom border color from the global ThemeData.dividerColor, we set it to Colors.transparent
-                  data: Theme.of(context)
-                      .copyWith(dividerColor: Colors.transparent),
+                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                   child: ExpansionTile(
                     title: Center(
                       child: Text(
                         'National id',
                         // the text in ExpansionTile is unable to inherit our explicitly defined DefaultTextStyle, since ExpansionTile has its own DefaultTextStyle which is override ours
                         // so we set directly set the style
-                        style: switch (
-                            getThemeManager(context).selectedThemeMode) {
-                          ThemeMode.light =>
-                            Theme.of(context).typography.white.bodySmall!,
-                          ThemeMode.dark =>
-                            Theme.of(context).typography.black.bodySmall!,
+                        style: switch (getThemeManager(context).selectedThemeMode) {
+                          ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
+                          ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
                           _ => throw ' configure ThemeMode.system',
                         },
                       ),
                     ),
                     children: [
                       Padding(
-                        padding: const EdgeInsets.only(
-                            left: 10, right: 10, bottom: 10),
+                        padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                         child: Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
@@ -277,35 +261,30 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                               children: [
                                 Text(
                                   'Front',
-                                  style: switch (getThemeManager(context)
-                                      .selectedThemeMode) {
+                                  style: switch (getThemeManager(context).selectedThemeMode) {
                                     ThemeMode.light => TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
+                                        color: Theme.of(context).colorScheme.onPrimary,
                                       ),
                                     ThemeMode.dark => TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
+                                        color: Theme.of(context).colorScheme.onPrimary,
                                       ),
                                     _ => throw ' configure ThemeMode.system',
                                   },
                                 ),
                                 viewModel.frontNationalIdImagePath == null
                                     ? GestureDetector(
-                                        onTap: () {},
+                                        onTap: () => viewModel.navigateToFrontNationalIdImageView(),
                                         child: Image.asset(
                                           'lib/assets/images/front_national_id_placeholder.png',
                                           fit: BoxFit.cover,
                                         ),
                                       )
                                     : GestureDetector(
-                                        onTap: () {},
+                                        onTap: () => viewModel.navigateToFrontNationalIdImageView(),
                                         child: Image.asset(
                                           viewModel.frontNationalIdImagePath!,
                                           fit: BoxFit.cover,
@@ -319,35 +298,30 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                               children: [
                                 Text(
                                   'Back',
-                                  style: switch (getThemeManager(context)
-                                      .selectedThemeMode) {
+                                  style: switch (getThemeManager(context).selectedThemeMode) {
                                     ThemeMode.light => TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
+                                        color: Theme.of(context).colorScheme.onPrimary,
                                       ),
                                     ThemeMode.dark => TextStyle(
                                         fontSize: 14,
                                         fontWeight: FontWeight.w500,
-                                        color: Theme.of(context)
-                                            .colorScheme
-                                            .onPrimary,
+                                        color: Theme.of(context).colorScheme.onPrimary,
                                       ),
                                     _ => throw ' configure ThemeMode.system',
                                   },
                                 ),
                                 viewModel.backNationalIdImagePath == null
                                     ? GestureDetector(
-                                        onTap: () {},
+                                        onTap: () => viewModel.navigateToBackNationalIdImageView(),
                                         child: Image.asset(
                                           'lib/assets/images/back_national_id_placeholder.png',
                                           fit: BoxFit.cover,
                                         ),
                                       )
                                     : GestureDetector(
-                                        onTap: () {},
+                                        onTap: () => viewModel.navigateToBackNationalIdImageView(),
                                         child: Image.asset(
                                           viewModel.backNationalIdImagePath!,
                                           fit: BoxFit.cover,
@@ -373,10 +347,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                   maxLines: 1,
                   overflow: TextOverflow.ellipsis,
                   style: switch (getThemeManager(context).selectedThemeMode) {
-                    ThemeMode.light =>
-                      Theme.of(context).typography.white.bodyMedium,
-                    ThemeMode.dark =>
-                      Theme.of(context).typography.black.bodyMedium,
+                    ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
+                    ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
                     _ => throw ' configure ThemeMode.system',
                   },
                 ),

@@ -80,7 +80,7 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                     Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => FrontNationalIdImageView(),
+                        builder: (context) => ToolUserView(),
                       ),
                     );
                   },

@@ -1,10 +1,14 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/app/app.router.dart';
 
 class ToolUserViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
+  final _bottomSheetService = locator<BottomSheetService>();
+  final _navigationService = locator<NavigationService>();
 
   String? _firstName;
   String? _lastName;
@@ -25,5 +29,23 @@ class ToolUserViewModel extends BaseViewModel {
       variant: dialogType,
       data: 'passed data',
     );
+  }
+
+  void showToolUserImageCaptureSheet() async {
+    var response = await _bottomSheetService.showCustomSheet(
+      variant: BottomSheetType.toolUserImageCapture,
+    );
+  }
+
+  void navigateToToolUserImageView() {
+    _navigationService.navigateToToolUserImageView();
+  }
+
+  void navigateToFrontNationalIdImageView() {
+    _navigationService.navigateToFrontNationalIdImageView();
+  }
+
+  void navigateToBackNationalIdImageView() {
+    _navigationService.navigateToBackNationalIdImageView();
   }
 }
