@@ -7,6 +7,7 @@ import 'package:tools_rental_management/ui/views/back_national_id_image/back_nat
 import 'package:tools_rental_management/ui/views/front_national_id_image/front_national_id_image_view.dart';
 import 'package:tools_rental_management/ui/views/tool/tool_view.dart';
 import 'package:tools_rental_management/ui/views/tool_image/tool_image_view.dart';
+import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart';
 import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart';
 import 'package:tools_rental_management/ui/views/tool_user_image/tool_user_image_view.dart';
 
@@ -75,14 +76,15 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
               children: [
                 const Text('Click + button to add a tool user'),
                 ElevatedButton(
-                  onPressed: () {
+                  onPressed: () async {
                     // just for testing some view that depend on other ui to be navigatable but those UIs aren't available
-                    Navigator.push(
+                    var response = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ToolUserView(),
+                        builder: (context) => ToolView(),
                       ),
                     );
+                    print(response);
                   },
                   child: const Text(
                     'Testing button',

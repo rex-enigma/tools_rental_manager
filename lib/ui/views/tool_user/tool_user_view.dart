@@ -59,7 +59,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
               // Tool user data container (first and last name, phone number, profile image).
-              Container(
+              SizedBox(
                 height: 160,
                 width: screenWidth(context),
                 child: Row(

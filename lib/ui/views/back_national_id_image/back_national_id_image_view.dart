@@ -20,6 +20,7 @@ class BackNationalIdImageView extends StackedView<BackNationalIdImageViewModel> 
         'lib/assets/images/back_national_id_placeholder.png',
       ),
       onPressedEditButton: () => viewModel.showNationalIdImageCapture(),
+      navigateBack: () => Navigator.of(context).pop(),
     );
   }
 

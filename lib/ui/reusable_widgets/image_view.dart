@@ -4,6 +4,7 @@ class ImageView extends StatelessWidget {
   /// appBar title typically a [Text] widget
   final String title;
 
+  //didn't find a better description
   /// a callback for the button at the top right conner
   final VoidCallback onPressedEditButton;
 
@@ -12,7 +13,18 @@ class ImageView extends StatelessWidget {
 
   /// typically an icon used as a placeholder for the image when the actual image path is null
   final Widget placeholderImage;
-  const ImageView({super.key, required this.title, required this.onPressedEditButton, this.imagePath, required this.placeholderImage});
+
+  /// a function that allow as to navigate back to the previous screen/view
+  /// typically a function that used Navigator.of(context).pop functionality
+  final VoidCallback navigateBack;
+  const ImageView({
+    super.key,
+    required this.title,
+    required this.onPressedEditButton,
+    this.imagePath,
+    required this.placeholderImage,
+    required this.navigateBack,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +35,7 @@ class ImageView extends StatelessWidget {
         leading: IconButton(
           color: Colors.white,
           icon: const Icon(Icons.arrow_back_ios),
-          onPressed: () => Navigator.of(context).pop(),
+          onPressed: navigateBack,
         ),
         centerTitle: true,
         title: Text(

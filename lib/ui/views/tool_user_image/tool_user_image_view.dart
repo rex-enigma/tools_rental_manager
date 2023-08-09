@@ -21,6 +21,7 @@ class ToolUserImageView extends StackedView<ToolUserImageViewModel> {
         color: Colors.grey,
       ),
       onPressedEditButton: () => viewModel.showToolUserImageCaptureBottomSheet(),
+      navigateBack: () => Navigator.of(context).pop(),
     );
   }
 

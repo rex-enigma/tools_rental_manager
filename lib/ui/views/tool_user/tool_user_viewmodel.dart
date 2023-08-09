@@ -41,8 +41,9 @@ class ToolUserViewModel extends BaseViewModel {
     _navigationService.navigateToToolUserImageView();
   }
 
-  void navigateToFrontNationalIdImageView() {
-    _navigationService.navigateToFrontNationalIdImageView();
+  void navigateToFrontNationalIdImageView() async {
+    var response = await _navigationService.navigateToFrontNationalIdImageView(); // navigateTo.. functionality works, a value can be returned
+    print(response);
   }
 
   void navigateToBackNationalIdImageView() {

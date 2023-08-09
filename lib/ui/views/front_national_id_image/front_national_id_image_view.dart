@@ -20,6 +20,7 @@ class FrontNationalIdImageView extends StackedView<FrontNationalIdImageViewModel
         'lib/assets/images/front_national_id_placeholder.png',
       ),
       onPressedEditButton: () => viewModel.showNationalIdImageCapture(),
+      navigateBack: () => Navigator.of(context).pop(20), //testing to see if we can return a value to the previous screen
     );
   }
 

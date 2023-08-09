@@ -20,9 +20,8 @@ class ToolImageView extends StackedView<ToolImageViewModel> {
         Icons.construction_outlined,
         color: Colors.grey,
       ),
-      onPressedEditButton: () {
-        viewModel.showToolImageCaptureBottomSheet();
-      },
+      onPressedEditButton: () => viewModel.showToolImageCaptureBottomSheet(),
+      navigateBack: () => Navigator.of(context).pop(),
     );
   }
 

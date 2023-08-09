@@ -1,7 +1,9 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/app/app.router.dart';
 import 'package:tools_rental_management/data/data_models/tooluser.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
@@ -9,6 +11,8 @@ import 'package:tools_rental_management/enums/status.dart';
 
 class ToolViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
+  final _bottomSheetService = locator<BottomSheetService>();
+  final _navigationService = locator<NavigationService>();
 
   /// uniquely identifies a tool in the database (primary key)
   int? _toolId;
@@ -43,6 +47,23 @@ class ToolViewModel extends BaseViewModel {
     var response = await _dialogService.showCustomDialog(
       variant: dialogType,
       data: 'passed value',
+    );
+  }
+
+  void navigateToToolNamesView() async {
+    var response = await _navigationService.navigateToToolNamesView();
+    print(response);
+  }
+
+  void navigateToToolImageView() async {
+    _navigationService.navigateToToolImageView();
+  }
+
+  void showMoreToolInfoSheet() async {
+    var response = await _bottomSheetService.showCustomSheet(
+      isScrollControlled: true,
+      variant: BottomSheetType.moreToolInfo,
+      data: toolName,
     );
   }
 }
