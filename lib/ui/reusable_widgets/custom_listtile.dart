@@ -7,6 +7,7 @@ class CustomListTile extends StatelessWidget {
   final Widget? title;
   final Widget? subtitle;
   final Widget? trailing;
+  final CrossAxisAlignment? contentVerticalAlignment;
 
   /// horizontal space between leading an title/subtitle.
   final Widget? horizontalSpaceBtnLeadingAndTitle;
@@ -18,6 +19,7 @@ class CustomListTile extends StatelessWidget {
     this.title,
     this.subtitle,
     this.trailing,
+    this.contentVerticalAlignment,
   });
 
   @override
@@ -25,7 +27,7 @@ class CustomListTile extends StatelessWidget {
     return Container(
       padding: padding,
       child: Row(
-        // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        crossAxisAlignment: contentVerticalAlignment ?? CrossAxisAlignment.center,
         children: [
           leading ?? const SizedBox(),
           horizontalSpaceBtnLeadingAndTitle!,

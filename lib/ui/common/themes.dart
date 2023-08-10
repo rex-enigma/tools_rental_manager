@@ -129,7 +129,7 @@ TextStyle _bodyLarge = const TextStyle(
 );
 
 TextStyle _titleMedium = const TextStyle(
-  fontSize: 18.0,
+  fontSize: 20.0, // was 18.0
   fontWeight: FontWeight.bold,
   color: Colors.black,
 );
@@ -164,10 +164,8 @@ OutlinedButtonThemeData _outlinedButtonTheme = OutlinedButtonThemeData(
 
 InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
   isDense: true,
-  focusedBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-  enabledBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
   hintStyle: TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
@@ -186,8 +184,7 @@ InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
 
 InputDecorationTheme _inputDecorationThemeDark = const InputDecorationTheme(
   isDense: true,
-  focusedBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
   hintStyle: TextStyle(
     fontSize: 14,
