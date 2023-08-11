@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
-import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
 
@@ -20,8 +19,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Theme.of(context).colorScheme.background,
-        // if the testSelectedTools is empty, we display a back button else we display a cancel button to des-select all selected tools to be disassociated.
-        leading: viewModel.testSelectedTools.isEmpty
+        // if the selectedTools is empty, we display a back button else we display a cancel button to des-select all selected tools to be disassociated.
+        leading: viewModel.selectedTools.isEmpty
             ? IconButton(
                 onPressed: () {
                   Navigator.pop(context);
@@ -38,14 +37,13 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
               ),
         centerTitle: true,
         title: viewModel.isAnyToolSelected
-            ? Text("${viewModel.testSelectedTools.length} tool${viewModel.testSelectedTools.length > 1 ? 's' : ''} selected")
+            ? Text(
+                "${viewModel.selectedTools.length} tool${viewModel.selectedTools.length > 1 ? 's' : ''} selected",
+                style: appBarTitleTextStyle(context, displayToolSelectCount: true),
+              )
             : Text(
                 'Tool User',
-                style: switch (getThemeManager(context).selectedThemeMode) {
-                  ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
-                  ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
-                  _ => throw 'configure ThemeMode.system',
-                },
+                style: appBarTitleTextStyle(context),
               ),
         shape: Border(
           bottom: BorderSide(
@@ -154,7 +152,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 ),
                               ),
                               subtitle: Text(
-                                viewModel.firstName ?? 'john',
+                                viewModel.firstName.toString(),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -185,7 +183,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 ),
                               ),
                               subtitle: Text(
-                                viewModel.lastName ?? 'doe',
+                                viewModel.lastName.toString(),
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -216,7 +214,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 ),
                               ),
                               subtitle: Text(
-                                viewModel.phoneNumber?.toString() ?? '+254798321598',
+                                viewModel.phoneNumber?.toString() ?? '07xxxx',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -373,7 +371,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Current tools used by ${viewModel.firstName ?? 'john'} ${viewModel.lastName ?? 'doe'}',
+                    'Current tools used by ${viewModel.firstName} ${viewModel.lastName}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: switch (getThemeManager(context).selectedThemeMode) {
@@ -386,116 +384,126 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
               ),
               verticalSpaceSmall,
               smallSpaceHorizontalDivider(context),
-              // replace this code with the actual code, showing a list of tools associated with the tool user
-              // or the text 'click + button to add a tool for john' if no tool is currently being used by the tool user
-              Expanded(
-                child: ListView.builder(
-                  itemCount: viewModel.testTools.length,
-                  itemBuilder: (context, index) {
-                    var testTool = viewModel.testTools[index];
-                    return InkWell(
-                      onTap: () {
-                        if (viewModel.testSelectedTools.contains(testTool)) {
-                          viewModel.deselectTool(testTool);
-                          return;
-                        }
-                        if (viewModel.isAnyToolSelected) {
-                          viewModel.selectTool(testTool);
-                          return;
-                        }
 
-                        viewModel.navigateToToolView();
-                      },
-                      onLongPress: () {
-                        viewModel.selectTool(testTool);
-                      },
-                      child: Container(
-                        color: viewModel.testSelectedTools.contains(testTool)
-                            ? Color.fromARGB(255, 205, 208, 209) // dont forget to set the color for dark theme
-                            : null, // we are checking to see if our testSelectedTools list contains to toolTile that was long pressed or pressed(when isAnyToolSelected is true)
-                        padding: const EdgeInsets.only(left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
-                        child: CustomListTile(
-                          contentVerticalAlignment: CrossAxisAlignment.start,
-                          leading: Container(
-                            width: 90,
-                            height: 90,
-                            decoration: BoxDecoration(
-                              border: Border.all(
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
-                              borderRadius: BorderRadius.circular(6.0),
-                              color: const Color.fromARGB(64, 158, 158, 158),
-                            ),
-                          ),
-                          title: Text(
-                            'Circular saw',
-                            style: switch (getThemeManager(context).selectedThemeMode) {
-                              ThemeMode.light => Theme.of(context).typography.white.titleMedium!,
-                              ThemeMode.dark => Theme.of(context).typography.black.titleMedium!,
-                              _ => throw ' configure ThemeMode.system',
+              Expanded(
+                child: viewModel.tools.isEmpty
+                    ? Center(
+                        child: Text('click + button to add a tool for ${viewModel.firstName} ${viewModel.lastName}'),
+                      )
+                    : ListView.builder(
+                        itemCount: viewModel.tools.length,
+                        itemBuilder: (context, index) {
+                          var tool = viewModel.tools[index];
+                          return InkWell(
+                            onTap: () {
+                              // checks if 'this' taped tool is selected already and is in the selectedTools
+                              // if true, we deselect 'this' tool
+                              if (viewModel.selectedTools.contains(tool)) {
+                                viewModel.deselectTool(tool);
+                                return;
+                              }
+                              // checks if any tool is selected, if true, we select 'this' taped unselected tool
+                              if (viewModel.isAnyToolSelected) {
+                                viewModel.selectTool(tool);
+                                return;
+                              }
+                              // if 'this' tool is not selected and no other tools are selected then navigate to toolView when this tool is taped
+                              viewModel.navigateToToolView();
                             },
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                text: TextSpan(
+                            onLongPress: () {
+                              viewModel.selectTool(tool);
+                            },
+                            child: Container(
+                              color: viewModel.selectedTools.contains(tool)
+                                  ? selectedToolBackGroundColor(context)
+                                  : null, // we are checking if our selectedTools list contains a toolTile that was long pressed or pressed(when isAnyToolSelected is true)
+                              padding: const EdgeInsets.only(left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
+                              child: CustomListTile(
+                                contentVerticalAlignment: CrossAxisAlignment.start,
+                                leading: Container(
+                                  width: 90,
+                                  height: 90,
+                                  decoration: BoxDecoration(
+                                    border: Border.all(
+                                      color: Theme.of(context).colorScheme.secondary,
+                                    ),
+                                    borderRadius: BorderRadius.circular(6.0),
+                                    //color: const Color.fromARGB(64, 158, 158, 158),
+                                  ),
+                                  child: Image.asset(
+                                    tool.toolImagePath,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                title: Text(
+                                  tool.name,
+                                  style: switch (getThemeManager(context).selectedThemeMode) {
+                                    ThemeMode.light => Theme.of(context).typography.white.titleMedium!,
+                                    ThemeMode.dark => Theme.of(context).typography.black.titleMedium!,
+                                    _ => throw ' configure ThemeMode.system',
+                                  },
+                                ),
+                                subtitle: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    TextSpan(
-                                      text: 'Category : ',
-                                      style: subtitleFirstSubStringTextStyle(context),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: 'Category : ',
+                                            style: subtitleFirstSubStringTextStyle(context),
+                                          ),
+                                          TextSpan(
+                                            text: tool.category.name,
+                                            style: subtitleLastSubStringTextStyle(context),
+                                          ),
+                                        ],
+                                      ),
                                     ),
-                                    TextSpan(
-                                      text: 'powered tool',
-                                      style: subtitleLastSubStringTextStyle(context),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: 'Rate : ',
+                                            style: subtitleFirstSubStringTextStyle(context),
+                                          ),
+                                          TextSpan(
+                                            text: 'ksh ${tool.rate} / hr',
+                                            style: subtitleLastSubStringTextStyle(context),
+                                          ),
+                                        ],
+                                      ),
                                     ),
+                                    RichText(
+                                      text: TextSpan(
+                                        children: [
+                                          TextSpan(
+                                            text: 'Tool id : ',
+                                            style: subtitleFirstSubStringTextStyle(context),
+                                          ),
+                                          TextSpan(
+                                            text: tool.toolUniqueId.toString(),
+                                            style: subtitleLastSubStringTextStyle(context),
+                                          ),
+                                        ],
+                                      ),
+                                    )
                                   ],
                                 ),
+                                trailing: viewModel
+                                        .isAnyToolSelected // if any ToolTile is selected, we remove the IconButton preventing the user from accidentally pressing it to disassociate that particular Tool( reducing the complexity of the code)
+                                    ? null
+                                    : IconButton(
+                                        visualDensity: VisualDensity.compact,
+                                        iconSize: 26,
+                                        icon: const Icon(Icons.remove_circle_outline),
+                                        onPressed: () => viewModel.disassociateTool(tool),
+                                      ),
                               ),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Rate : ',
-                                      style: subtitleFirstSubStringTextStyle(context),
-                                    ),
-                                    TextSpan(
-                                      text: 'ksh 22 / hr',
-                                      style: subtitleLastSubStringTextStyle(context),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                              RichText(
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Tool id : ',
-                                      style: subtitleFirstSubStringTextStyle(context),
-                                    ),
-                                    TextSpan(
-                                      text: '1744nedsd4',
-                                      style: subtitleLastSubStringTextStyle(context),
-                                    ),
-                                  ],
-                                ),
-                              )
-                            ],
-                          ),
-                          trailing: viewModel
-                                  .isAnyToolSelected // if any ToolTile is selected, we completely remove the IconButton preventing the user from accidentally pressing it to disassociate that particular Tool( reducing the complexity of the code)
-                              ? null
-                              : IconButton(
-                                  visualDensity: VisualDensity.compact,
-                                  iconSize: 26,
-                                  icon: const Icon(Icons.remove_circle_outline),
-                                  onPressed: () {},
-                                ),
-                        ),
+                            ),
+                          );
+                        },
                       ),
-                    );
-                  },
-                ),
               )
             ],
           ),
@@ -515,10 +523,6 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
   ToolUserViewModel viewModelBuilder(BuildContext context) => ToolUserViewModel();
 }
 
-// Center(
-//                   child: Text('click + button to add a tool for john'), // the text should be dynamic to be able to represent the appropriate tool user.
-//                 )
-
 TextStyle subtitleFirstSubStringTextStyle(BuildContext context) {
   return switch (getThemeManager(context).selectedThemeMode) {
     ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
@@ -534,3 +538,28 @@ TextStyle subtitleLastSubStringTextStyle(BuildContext context) {
     _ => throw ' configure ThemeMode.system',
   };
 }
+
+/// [displayToolSelectCount] if true, display a predefined  fontSize = 18.0 on that title
+TextStyle? appBarTitleTextStyle(context, {bool displayToolSelectCount = false}) {
+  return displayToolSelectCount
+      ? switch (getThemeManager(context).selectedThemeMode) {
+          ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
+          ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
+          _ => throw 'configure ThemeMode.system',
+        }
+      : switch (getThemeManager(context).selectedThemeMode) {
+          ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
+          ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
+          _ => throw 'configure ThemeMode.system',
+        };
+}
+
+Color? selectedToolBackGroundColor(context) {
+  return switch (getThemeManager(context).selectedThemeMode) {
+    ThemeMode.light => Color.fromARGB(239, 226, 229, 229),
+    ThemeMode.dark => Color.fromARGB(96, 76, 78, 78),
+    _ => throw ' configure ThemeMode.system',
+  };
+}
+
+// Color.fromARGB(97, 97, 97, 1)

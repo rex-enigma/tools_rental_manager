@@ -18,30 +18,24 @@ class ToolUserViewModel extends BaseViewModel {
   String? frontNationalIdImagePath;
   String? backNationalIdImagePath;
 
-  // test list
-  List testTools = ['tool1', 'tool2', 'tool3', 'tool4', 'tool5'];
   List<Tool> tools = [];
-  //test selectedTools
-  List testSelectedTools = [];
   List<Tool> selectedTools = [];
   bool isAnyToolSelected = false;
 
-  //test long pressing a the customListTile
-  void selectTool(String customListTile) {
+  void selectTool(Tool tool) {
     isAnyToolSelected = true;
-    testSelectedTools.add(customListTile);
+    selectedTools.add(tool);
     rebuildUi();
   }
 
-  //test removing customListTile from testSelectedTools
-  void deselectTool(String customListTile) {
-    testSelectedTools.remove(customListTile);
-    if (testSelectedTools.isEmpty) isAnyToolSelected = false;
+  void deselectTool(Tool tool) {
+    selectedTools.remove(tool);
+    if (selectedTools.isEmpty) isAnyToolSelected = false;
     rebuildUi();
   }
 
   void deselectAllTools() {
-    testSelectedTools.clear();
+    selectedTools.clear();
     isAnyToolSelected = false;
     rebuildUi();
   }
@@ -86,7 +80,11 @@ class ToolUserViewModel extends BaseViewModel {
   void disassociateTools() {
     // implement disassociateTool functionality
     // probably call the repository function and pass the selectedTool(s) to be disassociated
-    // this function should also be called when an individual tool needs to be disassociated
-    print('functionality to disassociate tool');
+    print('functionality to disassociate tool(s) in the selectedTools list');
+  }
+
+  void disassociateTool(Tool tool) {
+    print(tool);
+    print('functionality to disassociate a tool');
   }
 }

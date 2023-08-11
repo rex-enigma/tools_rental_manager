@@ -4,6 +4,7 @@ class ToolNamesViewModel extends BaseViewModel {
   final toolNames = sortedToolNames();
   List<String> filteredToolNames = [];
 
+  /// tool name search text form field toggle
   bool _showAppBarTextField = false;
 
   void initState() {
