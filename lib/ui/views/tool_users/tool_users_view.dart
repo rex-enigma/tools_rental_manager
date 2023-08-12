@@ -81,7 +81,7 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                     var response = await Navigator.push(
                       context,
                       MaterialPageRoute(
-                        builder: (context) => ToolUserView(),
+                        builder: (context) => ToolNamesView(),
                       ),
                     );
                     print(response);

@@ -5,23 +5,23 @@ class ToolNamesViewModel extends BaseViewModel {
   List<String> filteredToolNames = [];
 
   /// tool name search text form field toggle
-  bool _showAppBarTextField = false;
+  bool _showAppBarSearchField = false;
 
   void initState() {
     filteredToolNames.addAll(toolNames);
   }
 
-  void filterToolNames(String query) {
+  void searchToolName(String query) {
     filteredToolNames = toolNames.where((toolName) {
       return toolName.toLowerCase().contains(query.toLowerCase());
     }).toList();
     rebuildUi();
   }
 
-  bool get showAppBarTextField => _showAppBarTextField;
+  bool get showAppBarSearchField => _showAppBarSearchField;
 
-  set showAppBarTextField(bool value) {
-    _showAppBarTextField = value;
+  set showAppBarSearchField(bool value) {
+    _showAppBarSearchField = value;
     rebuildUi();
   }
 

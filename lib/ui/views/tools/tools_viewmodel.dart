@@ -12,7 +12,7 @@ class ToolsViewModel extends BaseViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
 
   /// tool search text form field toggle
-  bool _showAppBarTextField = false;
+  bool _showAppBarSearchField = false;
 
   int currentSelectedTab = 0;
   // the current selected status filter in the status menu
@@ -23,11 +23,14 @@ class ToolsViewModel extends BaseViewModel {
   // filtered tools based on their status
   List<TestTool> _menuStatusFilteredTools = [];
   // contains all powered tools and un-powered tools
-  List<TestTool> allToolsTabView = []; // represent tools in currentSelectedTab = 0;
+  List<TestTool> allToolsTabView = []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
   List<TestTool> poweredToolsTabView = []; // currentSelectedTab = 1;
   List<TestTool> unPoweredToolsTabView = []; // currentSelectedTab = 2;
 
-// dont forget to initialize tools, currently the it is initialized on  by a test list of testTools.
+  // contain the search result for current TabView
+  // List<TestTool> searchedResults = [];
+
+// dont forget to initialize tools, currently  it is initialized  by a test list of testTools.
   void initState() {
     // initialize tools
 
@@ -36,10 +39,10 @@ class ToolsViewModel extends BaseViewModel {
     rebuildUi();
   }
 
-  bool get showAppBarTextField => _showAppBarTextField;
+  bool get showAppBarSearchField => _showAppBarSearchField;
 
-  set showAppBarTextField(bool value) {
-    _showAppBarTextField = value;
+  set showAppBarSearchField(bool value) {
+    _showAppBarSearchField = value;
     rebuildUi();
   }
 
@@ -58,6 +61,43 @@ class ToolsViewModel extends BaseViewModel {
     currentSelectedStatusFilter = menuStatusFilter;
     _filterToolsByStatus(currentSelectedStatusFilter);
     _displayTools(currentSelectedTab);
+    rebuildUi();
+  }
+
+  void searchForAToolInATabView(String query) {
+    // rest searchResults to an empty list when the query is an empty string
+
+    // we need to know the current selected tab so that we can search on a specific tabView
+    switch (currentSelectedTab) {
+      // the user is viewing 'All tab', so filter and set the searched tools in [allToolsTabView]
+      case 0:
+        allToolsTabView = _menuStatusFilteredTools
+            .where(
+              (testTool) => testTool.testToolName.toLowerCase().contains(query.toLowerCase()),
+            )
+            .toList();
+        break;
+      // the user is viewing 'Powered tools tab', so filter and set the searched tools in [poweredToolsTabView]
+      case 1:
+        poweredToolsTabView = _menuStatusFilteredTools.where(
+          (testTool) {
+            // returns true if any tool in _menuStatusFilteredTools contains a name that the user want and
+            // we also need to make sure we set poweredToolsTabView with tools whose category is powered since that is what poweredToolsTabView should contain
+            // hence both of them must be true
+            return (testTool.testToolName.toLowerCase().contains(query.toLowerCase()) && testTool.category == Category.poweredTool);
+          },
+        ).toList();
+        break;
+      // the user is viewing 'Unpowered tools tab', so filter and set the searched tools in [unPoweredToolsTabView]
+      case 2:
+        unPoweredToolsTabView = _menuStatusFilteredTools.where(
+          (testTool) {
+            return (testTool.testToolName.toLowerCase().contains(query.toLowerCase()) && testTool.category == Category.unpoweredTool);
+          },
+        ).toList();
+      default:
+    }
+
     rebuildUi();
   }
 
@@ -96,7 +136,6 @@ class ToolsViewModel extends BaseViewModel {
       // display only powered tools in Powered tab
       case 1:
         poweredToolsTabView = _menuStatusFilteredTools.where((testTool) => testTool.category == Category.poweredTool).toList();
-        print(poweredToolsTabView);
         break;
       // display only un-powered tools in Unpowered tab
       case 2:
