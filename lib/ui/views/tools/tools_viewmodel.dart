@@ -46,7 +46,8 @@ class ToolsViewModel extends BaseViewModel {
     rebuildUi();
   }
 
-  void cancelToolSearch() {
+  // will reset allToolsTabView / poweredToolsTabView /unPoweredToolsTabView to the tools thy contained before the user initiated search
+  void resetTabViewToolsToDefault() {
     _displayTools(currentSelectedTab);
     rebuildUi();
   }
@@ -149,7 +150,7 @@ class ToolsViewModel extends BaseViewModel {
     var response = await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.toolCreator,
       isScrollControlled: true,
-      // setting it to false will make sure if you use [SafeArea] when constructing bottomSheet, it won't be ignored.
+      // setting it to false will make sure when you use [SafeArea] when constructing bottomSheet, it won't be ignored.
       ignoreSafeArea: false,
       data: 'my passed data',
     );

@@ -80,6 +80,8 @@ class MyTabBarView extends StatelessWidget {
           leading: IconButton(
             onPressed: () {
               toolsViewModel.showAppBarSearchField = !toolsViewModel.showAppBarSearchField;
+              // if toolsViewModel.showAppBarSearchField = false, (the user cancelled search) we rest the corresponding TabView tools to default
+              if (!toolsViewModel.showAppBarSearchField) toolsViewModel.resetTabViewToolsToDefault();
             },
             icon: toolsViewModel.showAppBarSearchField
                 ? Icon(

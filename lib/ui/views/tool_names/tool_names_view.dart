@@ -38,6 +38,7 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
             IconButton(
               onPressed: () {
                 viewModel.showAppBarSearchField = !viewModel.showAppBarSearchField;
+                // if viewModel.showAppBarSearchField = false, (the user cancelled search) we reset filtered tool name to default
                 if (!viewModel.showAppBarSearchField) viewModel.resetFilteredToolNameToDefault();
               },
               icon: viewModel.showAppBarSearchField
