@@ -21,8 +21,8 @@ class ToolsView extends StackedView<ToolsViewModel> {
   @override
   bool get initialiseSpecialViewModelsOnce => true;
 
-  @override
-  bool get fireOnViewModelReadyOnce => true;
+  // @override
+  // bool get fireOnViewModelReadyOnce => true;
 
   @override
   Widget builder(
@@ -87,28 +87,33 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
 
   @override
   Widget build(BuildContext context) {
+    ToolsViewModel toolsViewModel = widget.toolsViewModel;
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: PreferredSize(
         preferredSize: Size(screenWidth(context), 100),
         child: AppBarWithSearchField(
-          showAppBarSearchField: widget.toolsViewModel.showAppBarSearchField,
+          showAppBarSearchField: toolsViewModel.showAppBarSearchField,
           searchFieldTextHint: 'search for a tool by name',
-          onSearchFieldValueChanged: (value) => widget.toolsViewModel.searchForAToolInATabView(value),
+          onSearchFieldValueChanged: (value) => toolsViewModel.searchForAToolInATabView(value),
           leading: IconButton(
-            onPressed: () {
-              widget.toolsViewModel.showAppBarSearchField = !widget.toolsViewModel.showAppBarSearchField;
-              // if toolsViewModel.showAppBarSearchField = false, (the user cancelled search) we rest the corresponding TabView tools to default
-              if (!widget.toolsViewModel.showAppBarSearchField) widget.toolsViewModel.resetTabViewToolsToDefault();
-            },
-            icon: widget.toolsViewModel.showAppBarSearchField
+            // disable this button if there is not tools gotten from the database, preventing the user from initiating search for a tool
+            onPressed: toolsViewModel.tools.isEmpty
+                ? null
+                : () {
+                    toolsViewModel.showAppBarSearchField = !toolsViewModel.showAppBarSearchField;
+                    // if toolsViewModel.showAppBarSearchField = false, (the user cancelled search) we rest the corresponding TabView tools to default
+                    if (!toolsViewModel.showAppBarSearchField) toolsViewModel.resetTabViewToolsToDefault();
+                  },
+            icon: toolsViewModel.showAppBarSearchField
                 ? Icon(
                     Icons.close,
                     color: Theme.of(context).colorScheme.secondary,
                   )
                 : Icon(
                     Icons.search,
-                    color: Theme.of(context).colorScheme.secondary,
+                    // use the disabledColor if toolsViewModel.tools is empty, showing the user the search button is disabled, since there is any tools to search for
+                    color: toolsViewModel.tools.isEmpty ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondary,
                   ),
           ),
           title: Text(
@@ -119,7 +124,7 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
             PopupMenuButton<MenuStatusFilter>(
               color: Theme.of(context).colorScheme.primary,
               surfaceTintColor: Theme.of(context).colorScheme.secondary,
-              initialValue: widget.toolsViewModel.currentSelectedStatusFilter,
+              initialValue: toolsViewModel.currentSelectedStatusFilter,
               itemBuilder: (context) {
                 // build PopMenuItem from a list of [MenuStatusFilter.values]
                 return MenuStatusFilter.values.map(
@@ -144,14 +149,14 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
                   },
                 ).toList();
               },
-              onSelected: (value) => widget.toolsViewModel.onMenuStatusFilter(value),
+              onSelected: (value) => toolsViewModel.onMenuStatusFilter(value),
               icon: Icon(
                 Icons.filter_list,
-                // use a disable color when the searchField is shown
-                color: widget.toolsViewModel.showAppBarSearchField ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondary,
+                // use a disable color when the searchField is shown or when toolsViewModel.tools is empty (prevent the user from filtering empty tools list)
+                color: toolsViewModel.showAppBarSearchField || toolsViewModel.tools.isEmpty ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondary,
               ),
               // disable [PopupMenuButton] when the searchField is shown
-              enabled: widget.toolsViewModel.showAppBarSearchField ? false : true,
+              enabled: toolsViewModel.showAppBarSearchField ? false : true,
             ),
           ],
           bottom: PreferredSize(
@@ -208,78 +213,15 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
           child: TabBarView(
             controller: tabController,
             children: <Widget>[
-              // display tools in All tabBarView
-              ListView(
-                // if  toolsViewModel.allToolsTabView is empty display some text explaining why
-                children: widget.toolsViewModel.allToolsTabView.map(
-                  (testTool) {
-                    return ListTile(
-                      leading: Container(
-                        width: 90,
-                        height: 90,
-                        color: Colors.grey,
-                      ),
-                      title: Text(testTool.testToolName),
-                      subtitle: Column(
-                        children: [
-                          Text('status: ${testTool.status.name}'),
-                          Text('category: ${testTool.category.name}'),
-                        ],
-                      ),
-                    );
-                  },
-                ).toList(),
-              ),
-              // display tools in Powered tools tabBarView
-              ListView(
-                // if  toolsViewModel.poweredToolsTabView is empty display some text explaining why
-                children: widget.toolsViewModel.poweredToolsTabView.map(
-                  (testTool) {
-                    return ListTile(
-                      leading: Container(
-                        width: 90,
-                        height: 90,
-                        color: Colors.grey,
-                      ),
-                      title: Text(testTool.testToolName),
-                      subtitle: Column(
-                        children: [
-                          Text('status: ${testTool.status.name}'),
-                          Text('category: ${testTool.category.name}'),
-                        ],
-                      ),
-                    );
-                  },
-                ).toList(),
-              ),
-              // display tools in Unpowered tools tabBarView
-              ListView(
-                // if  toolsViewModel.unPoweredToolsTabView is empty display some text explaining why
-                children: widget.toolsViewModel.unPoweredToolsTabView.map(
-                  (testTool) {
-                    return ListTile(
-                      leading: Container(
-                        width: 90,
-                        height: 90,
-                        color: Colors.grey,
-                      ),
-                      title: Text(testTool.testToolName),
-                      subtitle: Column(
-                        children: [
-                          Text('status: ${testTool.status.name}'),
-                          Text('category: ${testTool.category.name}'),
-                        ],
-                      ),
-                    );
-                  },
-                ).toList(),
-              )
+              createTabBarViewChild(toolsViewModel.allToolsTabView), // toolViewModel.currentSelectedTab = 0
+              createTabBarViewChild(toolsViewModel.poweredToolsTabView), // toolViewModel.currentSelectedTab = 1
+              createTabBarViewChild(toolsViewModel.unPoweredToolsTabView), // toolViewModel.currentSelectedTab = 2
             ],
           ),
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: widget.toolsViewModel.showToolCreatorBottomSheet,
+        onPressed: toolsViewModel.showToolCreatorBottomSheet,
         child: Icon(
           Icons.add,
           color: Theme.of(context).colorScheme.primary,
@@ -288,57 +230,146 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
       ),
     );
   }
+
+  Widget createTabBarViewChild(List<TestTool> tabBarViewChild) {
+    // if (toolsViewModel.tools is empty && toolsViewModel.showAppBarSearchField is false) we know that there is no tools in the database so we return a centred text that request the user to add a tool
+    // otherwise return a list of tools from toolsViewModel.allToolsTabView/poweredToolsTabView/unPoweredToolsTabView
+    return (widget.toolsViewModel.tools.isEmpty && widget.toolsViewModel.showAppBarSearchField == false
+        ? const Center(
+            child: Text('click + button to add a tool'),
+          )
+        :
+        // return tools for the given tabBarViewChild or centred text saying 'No tool found the given search name' if the user has initiated search and searched for a tool that doesn't exist
+        tabBarViewChild.isEmpty && widget.toolsViewModel.showAppBarSearchField
+            ? const Center(
+                child: Text('No tool found for the given search name'),
+              )
+            : ListView(
+                children: tabBarViewChild.map(
+                  (testTool) {
+                    return ListTile(
+                      leading: Container(
+                        width: 90,
+                        height: 90,
+                        color: Colors.grey,
+                      ),
+                      title: Text(testTool.testToolName),
+                      subtitle: Column(
+                        children: [
+                          Text('status: ${testTool.status.name}'),
+                          Text('category: ${testTool.category.name}'),
+                        ],
+                      ),
+                    );
+                  },
+                ).toList(),
+              ));
+  }
 }
 
+// List createL
 
 // Center(
 //                 child: Text('click + button to add a tool'),
 //               )
 
-
-// IconButton(
-//           onPressed: () => {},
-//           icon: Icon(
-//             Icons.search,
-//             color: Theme.of(context).colorScheme.secondary,
-//           ),
-//         ),
-
-
-// [
-//           PopupMenuButton<MenuStatusFilter>(
-//             color: Theme.of(context).colorScheme.primary,
-//             surfaceTintColor: Theme.of(context).colorScheme.secondary,
-//             initialValue: toolsViewModel.currentSelectedStatusFilter,
-//             itemBuilder: (context) {
-//               // build PopMenuItem from a list of [MenuStatusFilter.values]
-//               return MenuStatusFilter.values.map(
-//                 (menuStatusFilterValue) {
-//                   return PopupMenuItem<MenuStatusFilter>(
-//                     value: menuStatusFilterValue,
-//                     child: Container(
-//                       child: Text(
-//                         //return a string whose uppercase letters have been replaced with lowercase letter and a spaces inserted
-//                         menuStatusFilterValue.name
-//                             .replaceAllMapped(
-//                               RegExp(r'([a-z])([A-Z])'),
-//                               (match) => '${match.group(1)} ${match.group(2)}',
-//                             )
-//                             .toLowerCase(),
+// toolsViewModel.allToolsTabView.map(
+//                   (testTool) {
+//                     return ListTile(
+//                       leading: Container(
+//                         width: 90,
+//                         height: 90,
+//                         color: Colors.grey,
 //                       ),
-//                     ),
-//                     labelTextStyle: MaterialStatePropertyAll(
-//                       TextStyle(color: Theme.of(context).colorScheme.onPrimary),
-//                     ),
-//                   );
-//                 },
-//               ).toList();
-//             },
-//             onSelected: (value) => toolsViewModel.onMenuStatusFilter(value),
-//             icon: Icon(
-//               Icons.filter_list,
-//               color: Theme.of(context).colorScheme.secondary,
-//             ),
-//             enabled: toolsViewModel.showAppBarSearchField ? false : true,
+//                       title: Text(testTool.testToolName),
+//                       subtitle: Column(
+//                         children: [
+//                           Text('status: ${testTool.status.name}'),
+//                           Text('category: ${testTool.category.name}'),
+//                         ],
+//                       ),
+//                     );
+//                   },
+//                 ).toList(),
+
+// TabBarView(
+//             controller: tabController,
+//             children: <Widget>[
+//               // if (toolsViewModel.tools is empty && toolsViewModel.showAppBarSearchField is false) we know that there is no tools in the database so we request the user to add a tool
+//               // otherwise display a list of tools from toolsViewModel.allToolsTabView
+//               toolsViewModel.tools.isEmpty && toolsViewModel.showAppBarSearchField == false
+//                   ? const Center(
+//                       child: Text('click + button to add a tool'),
+//                     )
+//                   :
+//                   // display tools in All tabBarView or centred text saying 'No tool found the given search name' if the user has initiated search and searched for a tool that doesn't exist
+//                   toolsViewModel.allToolsTabView.isEmpty && toolsViewModel.showAppBarSearchField
+//                       ? const Center(
+//                           child: Text('No tool found for the given search name'),
+//                         )
+//                       : ListView(
+//                           children: toolsViewModel.allToolsTabView.map(
+//                             (testTool) {
+//                               return ListTile(
+//                                 leading: Container(
+//                                   width: 90,
+//                                   height: 90,
+//                                   color: Colors.grey,
+//                                 ),
+//                                 title: Text(testTool.testToolName),
+//                                 subtitle: Column(
+//                                   children: [
+//                                     Text('status: ${testTool.status.name}'),
+//                                     Text('category: ${testTool.category.name}'),
+//                                   ],
+//                                 ),
+//                               );
+//                             },
+//                           ).toList(),
+//                         ),
+//               // display tools in Powered tools tabBarView, toolViewModel.currentSelectedTab = 1
+//               ListView(
+//                 // if  toolsViewModel.poweredToolsTabView is empty display some text explaining why
+//                 children: toolsViewModel.poweredToolsTabView.map(
+//                   (testTool) {
+//                     return ListTile(
+//                       leading: Container(
+//                         width: 90,
+//                         height: 90,
+//                         color: Colors.grey,
+//                       ),
+//                       title: Text(testTool.testToolName),
+//                       subtitle: Column(
+//                         children: [
+//                           Text('status: ${testTool.status.name}'),
+//                           Text('category: ${testTool.category.name}'),
+//                         ],
+//                       ),
+//                     );
+//                   },
+//                 ).toList(),
+//               ),
+//               // display tools in Unpowered tools tabBarView, toolViewModel.currentSelectedTab = 2
+//               ListView(
+//                 // if  toolsViewModel.unPoweredToolsTabView is empty display some text explaining why
+//                 children: toolsViewModel.unPoweredToolsTabView.map(
+//                   (testTool) {
+//                     return ListTile(
+//                       leading: Container(
+//                         width: 90,
+//                         height: 90,
+//                         color: Colors.grey,
+//                       ),
+//                       title: Text(testTool.testToolName),
+//                       subtitle: Column(
+//                         children: [
+//                           Text('status: ${testTool.status.name}'),
+//                           Text('category: ${testTool.category.name}'),
+//                         ],
+//                       ),
+//                     );
+//                   },
+//                 ).toList(),
+//               )
+//             ],
 //           ),
-//         ]

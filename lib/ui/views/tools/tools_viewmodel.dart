@@ -19,16 +19,13 @@ class ToolsViewModel extends BaseViewModel {
   MenuStatusFilter currentSelectedStatusFilter = MenuStatusFilter.viewAllTools;
 
   // hold all tools from database
-  List<TestTool> _tools = testTools;
+  List<TestTool> tools = testTools;
   // filtered tools based on their status
   List<TestTool> _menuStatusFilteredTools = [];
   // contains all powered tools and un-powered tools
   List<TestTool> allToolsTabView = []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
   List<TestTool> poweredToolsTabView = []; // currentSelectedTab = 1;
   List<TestTool> unPoweredToolsTabView = []; // currentSelectedTab = 2;
-
-  // contain the search result for current TabView
-  // List<TestTool> searchedResults = [];
 
 // dont forget to initialize tools, currently  it is initialized  by a test list of testTools.
   void initState() {
@@ -66,8 +63,6 @@ class ToolsViewModel extends BaseViewModel {
   }
 
   void searchForAToolInATabView(String query) {
-    // rest searchResults to an empty list when the query is an empty string
-
     // we need to know the current selected tab so that we can search on a specific tabView
     switch (currentSelectedTab) {
       // the user is viewing 'All tab', so filter and set the searched tools in [allToolsTabView]
@@ -107,22 +102,22 @@ class ToolsViewModel extends BaseViewModel {
     switch (menuStatusFilter) {
       // contains all the tools regardless of there tool status
       case MenuStatusFilter.viewAllTools:
-        _menuStatusFilteredTools = [..._tools];
+        _menuStatusFilteredTools = [...tools];
 
         break;
       case MenuStatusFilter.viewOnlyToolsBeingUsed:
-        _menuStatusFilteredTools = _tools.where((testTool) => testTool.status == Status.beingUsed).toList();
+        _menuStatusFilteredTools = tools.where((testTool) => testTool.status == Status.beingUsed).toList();
 
         break;
       case MenuStatusFilter.viewOnlyIdleTools:
-        _menuStatusFilteredTools = _tools.where((testTool) => testTool.status == Status.idle).toList();
+        _menuStatusFilteredTools = tools.where((testTool) => testTool.status == Status.idle).toList();
 
         break;
       case MenuStatusFilter.viewOnlyRetiredTools:
-        _menuStatusFilteredTools = _tools.where((testTool) => testTool.status == Status.retired).toList();
+        _menuStatusFilteredTools = tools.where((testTool) => testTool.status == Status.retired).toList();
         break;
       case MenuStatusFilter.viewOnlyToolsUnderMaintenance:
-        _menuStatusFilteredTools = _tools.where((testTool) => testTool.status == Status.underMaintenance).toList();
+        _menuStatusFilteredTools = tools.where((testTool) => testTool.status == Status.underMaintenance).toList();
         break;
       default:
     }
