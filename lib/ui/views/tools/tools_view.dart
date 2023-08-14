@@ -30,11 +30,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
     ToolsViewModel viewModel,
     Widget? child,
   ) {
-    return DefaultTabController(
-      length: 3,
-      initialIndex: viewModel.currentSelectedTab,
-      child: MyTabBarView(viewModel),
-    );
+    return MyTabBarView(viewModel);
   }
 
   @override
@@ -52,38 +48,60 @@ class ToolsView extends StackedView<ToolsViewModel> {
   }
 }
 
-class MyTabBarView extends StatelessWidget {
+class MyTabBarView extends StatefulWidget {
   final ToolsViewModel toolsViewModel;
-  late final TabController tabController;
+
   MyTabBarView(
     this.toolsViewModel, {
     super.key,
   });
 
+  @override
+  State<MyTabBarView> createState() => _MyTabBarViewState();
+}
+
+class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMixin {
+  late TabController tabController;
+
+  @override
+  void initState() {
+    tabController = TabController(
+      length: 3,
+      vsync: this,
+      initialIndex: widget.toolsViewModel.currentSelectedTab,
+    );
+    tabController.addListener(handleTabTappedOrTabBarViewSwiped);
+    super.initState();
+  }
+
   /// invoked when a tab is tapped or when a tabBarView is swiped.
-  void handleTabTappedAndTabBarViewSwiped() {
-    toolsViewModel.changeTab(tabController.index);
+  void handleTabTappedOrTabBarViewSwiped() {
+    widget.toolsViewModel.changeTab(tabController.index);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    tabController = DefaultTabController.of(context);
-    tabController.addListener(handleTabTappedAndTabBarViewSwiped);
     return Scaffold(
       backgroundColor: Theme.of(context).colorScheme.background,
       appBar: PreferredSize(
         preferredSize: Size(screenWidth(context), 100),
         child: AppBarWithSearchField(
-          showAppBarSearchField: toolsViewModel.showAppBarSearchField,
+          showAppBarSearchField: widget.toolsViewModel.showAppBarSearchField,
           searchFieldTextHint: 'search for a tool by name',
-          onSearchFieldValueChanged: (value) => toolsViewModel.searchForAToolInATabView(value),
+          onSearchFieldValueChanged: (value) => widget.toolsViewModel.searchForAToolInATabView(value),
           leading: IconButton(
             onPressed: () {
-              toolsViewModel.showAppBarSearchField = !toolsViewModel.showAppBarSearchField;
+              widget.toolsViewModel.showAppBarSearchField = !widget.toolsViewModel.showAppBarSearchField;
               // if toolsViewModel.showAppBarSearchField = false, (the user cancelled search) we rest the corresponding TabView tools to default
-              if (!toolsViewModel.showAppBarSearchField) toolsViewModel.resetTabViewToolsToDefault();
+              if (!widget.toolsViewModel.showAppBarSearchField) widget.toolsViewModel.resetTabViewToolsToDefault();
             },
-            icon: toolsViewModel.showAppBarSearchField
+            icon: widget.toolsViewModel.showAppBarSearchField
                 ? Icon(
                     Icons.close,
                     color: Theme.of(context).colorScheme.secondary,
@@ -101,7 +119,7 @@ class MyTabBarView extends StatelessWidget {
             PopupMenuButton<MenuStatusFilter>(
               color: Theme.of(context).colorScheme.primary,
               surfaceTintColor: Theme.of(context).colorScheme.secondary,
-              initialValue: toolsViewModel.currentSelectedStatusFilter,
+              initialValue: widget.toolsViewModel.currentSelectedStatusFilter,
               itemBuilder: (context) {
                 // build PopMenuItem from a list of [MenuStatusFilter.values]
                 return MenuStatusFilter.values.map(
@@ -126,14 +144,14 @@ class MyTabBarView extends StatelessWidget {
                   },
                 ).toList();
               },
-              onSelected: (value) => toolsViewModel.onMenuStatusFilter(value),
+              onSelected: (value) => widget.toolsViewModel.onMenuStatusFilter(value),
               icon: Icon(
                 Icons.filter_list,
                 // use a disable color when the searchField is shown
-                color: toolsViewModel.showAppBarSearchField ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondary,
+                color: widget.toolsViewModel.showAppBarSearchField ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondary,
               ),
               // disable [PopupMenuButton] when the searchField is shown
-              enabled: toolsViewModel.showAppBarSearchField ? false : true,
+              enabled: widget.toolsViewModel.showAppBarSearchField ? false : true,
             ),
           ],
           bottom: PreferredSize(
@@ -153,6 +171,7 @@ class MyTabBarView extends StatelessWidget {
                 ),
               ),
               child: TabBar(
+                controller: tabController,
                 labelStyle: switch (getThemeManager(context).selectedThemeMode) {
                   ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
                   ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
@@ -187,11 +206,12 @@ class MyTabBarView extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.only(left: 16.0, right: 16.0),
           child: TabBarView(
+            controller: tabController,
             children: <Widget>[
               // display tools in All tabBarView
               ListView(
                 // if  toolsViewModel.allToolsTabView is empty display some text explaining why
-                children: toolsViewModel.allToolsTabView.map(
+                children: widget.toolsViewModel.allToolsTabView.map(
                   (testTool) {
                     return ListTile(
                       leading: Container(
@@ -213,7 +233,7 @@ class MyTabBarView extends StatelessWidget {
               // display tools in Powered tools tabBarView
               ListView(
                 // if  toolsViewModel.poweredToolsTabView is empty display some text explaining why
-                children: toolsViewModel.poweredToolsTabView.map(
+                children: widget.toolsViewModel.poweredToolsTabView.map(
                   (testTool) {
                     return ListTile(
                       leading: Container(
@@ -235,7 +255,7 @@ class MyTabBarView extends StatelessWidget {
               // display tools in Unpowered tools tabBarView
               ListView(
                 // if  toolsViewModel.unPoweredToolsTabView is empty display some text explaining why
-                children: toolsViewModel.unPoweredToolsTabView.map(
+                children: widget.toolsViewModel.unPoweredToolsTabView.map(
                   (testTool) {
                     return ListTile(
                       leading: Container(
@@ -259,7 +279,7 @@ class MyTabBarView extends StatelessWidget {
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: toolsViewModel.showToolCreatorBottomSheet,
+        onPressed: widget.toolsViewModel.showToolCreatorBottomSheet,
         child: Icon(
           Icons.add,
           color: Theme.of(context).colorScheme.primary,
