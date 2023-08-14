@@ -51,6 +51,5 @@ class EditDialog extends StatelessWidget {
         )
       ],
     );
-    ;
   }
 }

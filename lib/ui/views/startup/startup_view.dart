@@ -3,7 +3,6 @@ import 'package:flutter/scheduler.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/assets/font_icons/font_icons.dart';
-import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 
 import 'startup_viewmodel.dart';

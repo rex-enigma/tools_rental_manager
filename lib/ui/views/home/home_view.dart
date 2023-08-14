@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_view.dart';
-import 'package:tools_rental_management/ui/views/tool/tool_view.dart';
 import 'package:tools_rental_management/ui/views/tool_users/tool_users_view.dart';
 import 'package:tools_rental_management/ui/views/tools/tools_view.dart';
 

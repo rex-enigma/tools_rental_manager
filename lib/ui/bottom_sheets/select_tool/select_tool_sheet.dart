@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-import 'package:tools_rental_management/app/app.dart';
-import 'package:tools_rental_management/ui/common/app_colors.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
@@ -50,7 +48,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
               child: Scaffold(
                 appBar: AppBar(
                   backgroundColor: Theme.of(context).colorScheme.background,
-                  leading: Icon(Icons
+                  leading: const Icon(Icons
                       .arrow_back_ios), // make it dynamic to indicate X for canceling the selected tool items
                   centerTitle: true,
                   title: Text(
@@ -94,7 +92,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
                     child: ListTile(
                       leading:
                           Container(width: 90, height: 90, color: Colors.blue),
-                      title: Text('testing'),
+                      title: const Text('testing'),
                     ),
                   ),
                   Padding(
@@ -102,7 +100,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
                     child: ListTile(
                       leading:
                           Container(width: 90, height: 90, color: Colors.blue),
-                      title: Text('testing'),
+                      title: const Text('testing'),
                     ),
                   ),
                   Padding(
@@ -110,7 +108,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
                     child: ListTile(
                       leading:
                           Container(width: 90, height: 90, color: Colors.blue),
-                      title: Text('testing'),
+                      title: const Text('testing'),
                     ),
                   ),
                   Padding(
@@ -118,7 +116,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
                     child: ListTile(
                       leading:
                           Container(width: 90, height: 90, color: Colors.blue),
-                      title: Text('testing'),
+                      title: const Text('testing'),
                     ),
                   ),
                   Padding(
@@ -126,7 +124,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
                     child: ListTile(
                       leading:
                           Container(width: 90, height: 90, color: Colors.blue),
-                      title: Text('testing'),
+                      title: const Text('testing'),
                     ),
                   ),
                   Padding(
@@ -134,7 +132,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
                     child: ListTile(
                       leading:
                           Container(width: 90, height: 90, color: Colors.blue),
-                      title: Text('testing'),
+                      title: const Text('testing'),
                     ),
                   ),
                   Padding(
@@ -142,7 +140,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
                     child: ListTile(
                       leading:
                           Container(width: 90, height: 90, color: Colors.blue),
-                      title: Text('testing'),
+                      title: const Text('testing'),
                     ),
                   ),
                   Padding(
@@ -150,7 +148,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
                     child: ListTile(
                       leading:
                           Container(width: 90, height: 90, color: Colors.blue),
-                      title: Text('testing'),
+                      title: const Text('testing'),
                     ),
                   ),
                   Padding(
@@ -158,7 +156,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
                     child: ListTile(
                       leading:
                           Container(width: 90, height: 90, color: Colors.blue),
-                      title: Text('testing'),
+                      title: const Text('testing'),
                     ),
                   ),
                   Padding(
@@ -166,7 +164,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
                     child: ListTile(
                       leading:
                           Container(width: 90, height: 90, color: Colors.blue),
-                      title: Text('testing'),
+                      title: const Text('testing'),
                     ),
                   ),
                 ],

@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-import 'package:tools_rental_management/ui/common/app_colors.dart';
-import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog_layout.dart';
 
 import 'tool_disassociate_confirm_dialog_model.dart';
 
-class ToolDisassociateConfirmDialog
-    extends StackedView<ToolDisassociateConfirmDialogModel> {
+class ToolDisassociateConfirmDialog extends StackedView<ToolDisassociateConfirmDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -37,9 +34,7 @@ class ToolDisassociateConfirmDialog
           },
           children: const [
             TextSpan(text: 'Do you want to disassociate '),
-            TextSpan(
-                text: 'Circular saw ',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: 'Circular saw ', style: TextStyle(fontWeight: FontWeight.bold)),
             TextSpan(text: 'from john '),
           ],
         ),
@@ -48,6 +43,5 @@ class ToolDisassociateConfirmDialog
   }
 
   @override
-  ToolDisassociateConfirmDialogModel viewModelBuilder(BuildContext context) =>
-      ToolDisassociateConfirmDialogModel();
+  ToolDisassociateConfirmDialogModel viewModelBuilder(BuildContext context) => ToolDisassociateConfirmDialogModel();
 }

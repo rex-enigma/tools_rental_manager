@@ -1,17 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:phone_form_field/phone_form_field.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
-import 'package:tools_rental_management/main.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/dashed_circular_border_btn_with_icons.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/drag_handle.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/input_text_style.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/national_id_button.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 
 import 'tool_user_creator_sheet_model.dart';
 

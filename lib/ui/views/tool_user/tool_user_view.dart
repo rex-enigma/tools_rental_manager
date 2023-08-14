@@ -4,6 +4,7 @@ import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 
 import 'tool_user_viewmodel.dart';
 
@@ -384,7 +385,6 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
               ),
               verticalSpaceSmall,
               smallSpaceHorizontalDivider(context),
-
               Expanded(
                 child: viewModel.tools.isEmpty
                     ? Center(
@@ -523,41 +523,25 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
   ToolUserViewModel viewModelBuilder(BuildContext context) => ToolUserViewModel();
 }
 
-TextStyle subtitleFirstSubStringTextStyle(BuildContext context) {
-  return switch (getThemeManager(context).selectedThemeMode) {
-    ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
-    ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
-    _ => throw ' configure ThemeMode.system',
-  };
-}
-
-TextStyle subtitleLastSubStringTextStyle(BuildContext context) {
-  return switch (getThemeManager(context).selectedThemeMode) {
-    ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontWeight: FontWeight.bold),
-    ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontWeight: FontWeight.bold),
-    _ => throw ' configure ThemeMode.system',
-  };
-}
-
-/// [displayToolSelectCount] if true, display a predefined  fontSize = 18.0 on that title
-TextStyle? appBarTitleTextStyle(context, {bool displayToolSelectCount = false}) {
-  return displayToolSelectCount
-      ? switch (getThemeManager(context).selectedThemeMode) {
-          ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
-          ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
-          _ => throw 'configure ThemeMode.system',
-        }
-      : switch (getThemeManager(context).selectedThemeMode) {
-          ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
-          ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
-          _ => throw 'configure ThemeMode.system',
-        };
-}
+// /// [displayToolSelectCount] if true, display a predefined  fontSize = 18.0 on that title
+// TextStyle? appBarTitleTextStyle(context, {bool displayToolSelectCount = false}) {
+//   return displayToolSelectCount
+//       ? switch (getThemeManager(context).selectedThemeMode) {
+//           ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
+//           ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
+//           _ => throw 'configure ThemeMode.system',
+//         }
+//       : switch (getThemeManager(context).selectedThemeMode) {
+//           ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
+//           ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
+//           _ => throw 'configure ThemeMode.system',
+//         };
+// }
 
 Color? selectedToolBackGroundColor(context) {
   return switch (getThemeManager(context).selectedThemeMode) {
-    ThemeMode.light => Color.fromARGB(239, 226, 229, 229),
-    ThemeMode.dark => Color.fromARGB(96, 76, 78, 78),
+    ThemeMode.light => const Color.fromARGB(239, 226, 229, 229),
+    ThemeMode.dark => const Color.fromARGB(96, 76, 78, 78),
     _ => throw ' configure ThemeMode.system',
   };
 }

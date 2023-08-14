@@ -1,10 +1,10 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
-import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/data/data_models/tool.dart';
 import 'package:tools_rental_management/enums/category.dart';
+import 'package:tools_rental_management/enums/currency.dart';
 import 'package:tools_rental_management/enums/status.dart';
 import 'package:tools_rental_management/ui/views/tools/menu_status_filter.dart';
 
@@ -19,13 +19,13 @@ class ToolsViewModel extends BaseViewModel {
   MenuStatusFilter currentSelectedStatusFilter = MenuStatusFilter.viewAllTools;
 
   // hold all tools from database
-  List<TestTool> tools = testTools;
+  List<Tool> tools = testTools;
   // filtered tools based on their status
-  List<TestTool> _menuStatusFilteredTools = [];
+  List<Tool> _menuStatusFilteredTools = [];
   // contains all powered tools and un-powered tools
-  List<TestTool> allToolsTabView = []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
-  List<TestTool> poweredToolsTabView = []; // currentSelectedTab = 1;
-  List<TestTool> unPoweredToolsTabView = []; // currentSelectedTab = 2;
+  List<Tool> allToolsTabView = []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
+  List<Tool> poweredToolsTabView = []; // currentSelectedTab = 1;
+  List<Tool> unPoweredToolsTabView = []; // currentSelectedTab = 2;
 
 // dont forget to initialize tools, currently  it is initialized  by a test list of testTools.
   void initState() {
@@ -69,26 +69,26 @@ class ToolsViewModel extends BaseViewModel {
       case 0:
         allToolsTabView = _menuStatusFilteredTools
             .where(
-              (testTool) => testTool.testToolName.toLowerCase().contains(query.toLowerCase()),
+              (tool) => tool.name.toLowerCase().contains(query.toLowerCase()),
             )
             .toList();
         break;
       // the user is viewing 'Powered tools tab', so filter and set the searched tools in [poweredToolsTabView]
       case 1:
         poweredToolsTabView = _menuStatusFilteredTools.where(
-          (testTool) {
+          (tool) {
             // returns true if any tool in _menuStatusFilteredTools contains a name that the user want and
             // we also need to make sure we set poweredToolsTabView with tools whose category is powered since that is what poweredToolsTabView should contain
             // hence both of them must be true
-            return (testTool.testToolName.toLowerCase().contains(query.toLowerCase()) && testTool.category == Category.poweredTool);
+            return (tool.name.toLowerCase().contains(query.toLowerCase()) && tool.category == Category.poweredTool);
           },
         ).toList();
         break;
       // the user is viewing 'Unpowered tools tab', so filter and set the searched tools in [unPoweredToolsTabView]
       case 2:
         unPoweredToolsTabView = _menuStatusFilteredTools.where(
-          (testTool) {
-            return (testTool.testToolName.toLowerCase().contains(query.toLowerCase()) && testTool.category == Category.unpoweredTool);
+          (tool) {
+            return (tool.name.toLowerCase().contains(query.toLowerCase()) && tool.category == Category.unpoweredTool);
           },
         ).toList();
       default:
@@ -106,18 +106,18 @@ class ToolsViewModel extends BaseViewModel {
 
         break;
       case MenuStatusFilter.viewOnlyToolsBeingUsed:
-        _menuStatusFilteredTools = tools.where((testTool) => testTool.status == Status.beingUsed).toList();
+        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.beingUsed).toList();
 
         break;
       case MenuStatusFilter.viewOnlyIdleTools:
-        _menuStatusFilteredTools = tools.where((testTool) => testTool.status == Status.idle).toList();
+        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.idle).toList();
 
         break;
       case MenuStatusFilter.viewOnlyRetiredTools:
-        _menuStatusFilteredTools = tools.where((testTool) => testTool.status == Status.retired).toList();
+        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.retired).toList();
         break;
       case MenuStatusFilter.viewOnlyToolsUnderMaintenance:
-        _menuStatusFilteredTools = tools.where((testTool) => testTool.status == Status.underMaintenance).toList();
+        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.underMaintenance).toList();
         break;
       default:
     }
@@ -131,11 +131,11 @@ class ToolsViewModel extends BaseViewModel {
         break;
       // display only powered tools in Powered tab
       case 1:
-        poweredToolsTabView = _menuStatusFilteredTools.where((testTool) => testTool.category == Category.poweredTool).toList();
+        poweredToolsTabView = _menuStatusFilteredTools.where((tool) => tool.category == Category.poweredTool).toList();
         break;
       // display only un-powered tools in Unpowered tab
       case 2:
-        unPoweredToolsTabView = _menuStatusFilteredTools.where((testTool) => testTool.category == Category.unpoweredTool).toList();
+        unPoweredToolsTabView = _menuStatusFilteredTools.where((tool) => tool.category == Category.unpoweredTool).toList();
         break;
       default:
     }
@@ -151,26 +151,157 @@ class ToolsViewModel extends BaseViewModel {
     );
     print(response?.data);
   }
+
+  /// return the full name of a toolUser for the given toolUser key
+
+  String getToolUserFullName(int key) {
+    // should implement a functionality that returns the full name of a tool user for the given key
+    return 'John doe'; // return a placeholder name for testing purpose.
+  }
 }
 
-List<TestTool> testTools = const [
-  TestTool(status: Status.beingUsed, category: Category.poweredTool, testToolName: 'Tool1'),
-  TestTool(status: Status.idle, category: Category.unpoweredTool, testToolName: 'Tool2'),
-  TestTool(status: Status.retired, category: Category.poweredTool, testToolName: 'Tool3'),
-  TestTool(status: Status.underMaintenance, category: Category.poweredTool, testToolName: 'Tool4'),
-  TestTool(status: Status.beingUsed, category: Category.unpoweredTool, testToolName: 'Tool5'),
-  TestTool(status: Status.idle, category: Category.poweredTool, testToolName: 'Tool6'),
-  TestTool(status: Status.retired, category: Category.unpoweredTool, testToolName: 'Tool7'),
-  TestTool(status: Status.underMaintenance, category: Category.poweredTool, testToolName: 'Tool8'),
-  TestTool(status: Status.beingUsed, category: Category.poweredTool, testToolName: 'Tool9'),
-  TestTool(status: Status.idle, category: Category.unpoweredTool, testToolName: 'Tool10'),
-  TestTool(status: Status.retired, category: Category.unpoweredTool, testToolName: 'Tool11'),
+List<Tool> testTools = [
+  Tool(
+      status: Status.beingUsed,
+      category: Category.poweredTool,
+      name: 'Tool1',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 200,
+      rate: 22,
+      rentCount: 2,
+      toolId: 0,
+      toolImagePath: '',
+      toolUniqueId: 00,
+      toolUserId: 100),
+  Tool(
+      status: Status.idle,
+      category: Category.unpoweredTool,
+      name: 'Tool2',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 210,
+      rate: 22,
+      rentCount: 2,
+      toolId: 1,
+      toolImagePath: '',
+      toolUniqueId: 01,
+      toolUserId: null),
+  Tool(
+      status: Status.beingUsed,
+      category: Category.poweredTool,
+      name: 'Tool3',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 200,
+      rate: 22,
+      rentCount: 2,
+      toolId: 2,
+      toolImagePath: '',
+      toolUniqueId: 02,
+      toolUserId: 101),
+  Tool(
+      status: Status.retired,
+      category: Category.unpoweredTool,
+      name: 'Tool4',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 200,
+      rate: 22,
+      rentCount: 2,
+      toolId: 3,
+      toolImagePath: '',
+      toolUniqueId: 03,
+      toolUserId: null),
+  Tool(
+      status: Status.underMaintenance,
+      category: Category.unpoweredTool,
+      name: 'Tool5',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 200,
+      rate: 22,
+      rentCount: 2,
+      toolId: 4,
+      toolImagePath: '',
+      toolUniqueId: 04,
+      toolUserId: null),
+  Tool(
+      status: Status.idle,
+      category: Category.poweredTool,
+      name: 'Tool6',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 200,
+      rate: 22,
+      rentCount: 2,
+      toolId: 5,
+      toolImagePath: '',
+      toolUniqueId: 05,
+      toolUserId: null),
+  Tool(
+      status: Status.beingUsed,
+      category: Category.unpoweredTool,
+      name: 'Tool7',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 200,
+      rate: 22,
+      rentCount: 2,
+      toolId: 6,
+      toolImagePath: '',
+      toolUniqueId: 06,
+      toolUserId: 102),
+  Tool(
+      status: Status.underMaintenance,
+      category: Category.poweredTool,
+      name: 'Tool8',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 200,
+      rate: 22,
+      rentCount: 2,
+      toolId: 7,
+      toolImagePath: '',
+      toolUniqueId: 07,
+      toolUserId: null),
+  Tool(
+      status: Status.beingUsed,
+      category: Category.poweredTool,
+      name: 'Tool9',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 200,
+      rate: 22,
+      rentCount: 2,
+      toolId: 8,
+      toolImagePath: '',
+      toolUniqueId: 08,
+      toolUserId: 103),
+  Tool(
+      status: Status.retired,
+      category: Category.poweredTool,
+      name: 'Tool10',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 200,
+      rate: 22,
+      rentCount: 2,
+      toolId: 9,
+      toolImagePath: '',
+      toolUniqueId: 09,
+      toolUserId: null),
+  Tool(
+      status: Status.underMaintenance,
+      category: Category.poweredTool,
+      name: 'Tool11',
+      boughtAt: DateTime(2000),
+      currency: Currency.kes,
+      purchasedPrice: 200,
+      rate: 22,
+      rentCount: 2,
+      toolId: 10,
+      toolImagePath: '',
+      toolUniqueId: 010,
+      toolUserId: null),
 ];
-
-class TestTool {
-  final Status status;
-  final Category category;
-  final String testToolName;
-
-  const TestTool({required this.status, required this.category, required this.testToolName});
-}

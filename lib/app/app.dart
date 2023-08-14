@@ -39,7 +39,6 @@ import 'package:tools_rental_management/ui/bottom_sheets/tool_user_image_capture
 import 'package:tools_rental_management/ui/bottom_sheets/national_id_image_capture/national_id_image_capture_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/select_tool/select_tool_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/more_tool_info/more_tool_info_sheet.dart';
-import 'package:tools_rental_management/ui/views/tool_image/tool_image_view.dart';
 import 'package:tools_rental_management/ui/views/front_national_id_image/front_national_id_image_view.dart';
 import 'package:tools_rental_management/ui/views/back_national_id_image/back_national_id_image_view.dart';
 // @stacked-import

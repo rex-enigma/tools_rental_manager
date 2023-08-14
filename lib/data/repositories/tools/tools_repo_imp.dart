@@ -24,8 +24,9 @@ class ToolRepoImp implements ToolsRepo {
   ///  for it to be updated it must exist in the database
   @override
   Future<Tool> updateTool(Tool tool) async {
-    if (tool.toolId == null)
+    if (tool.toolId == null) {
       throw 'the [Tool] is missing a toolId, hence unable to update the given tool: $tool';
+    }
     await _toolsLocalDataSource.updateTool(tool);
     final Tool? workShopTool = await getToolByIdOrNull(tool.toolId!);
     return workShopTool!;
@@ -63,7 +64,7 @@ class ToolRepoImp implements ToolsRepo {
   /// update and return the updated tool status for the given toolId
   @override
   Future<Status?> updateToolStatus(Status toolStatus, int toolId) async {
-    await await _toolsLocalDataSource.updateToolStatus(toolStatus, toolId);
+    await _toolsLocalDataSource.updateToolStatus(toolStatus, toolId);
     return getToolStatusByIdOrNull(toolId);
   }
 

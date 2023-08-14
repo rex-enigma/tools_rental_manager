@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
-import 'package:path/path.dart';
-import 'package:tools_rental_management/assets/font_icons/font_icons.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
 
 /// button that displays national id.

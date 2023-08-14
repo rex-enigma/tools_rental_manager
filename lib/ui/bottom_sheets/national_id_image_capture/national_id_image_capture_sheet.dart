@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tools_rental_management/ui/common/app_colors.dart';
-import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/image_capture_bottom_sheet.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/image_capture_bottom_sheet_layout.dart';
 
 import 'national_id_image_capture_sheet_model.dart';
 
-class NationalIdImageCaptureSheet
-    extends StackedView<NationalIdImageCaptureSheetModel> {
+class NationalIdImageCaptureSheet extends StackedView<NationalIdImageCaptureSheetModel> {
   final Function(SheetResponse response)? completer;
   final SheetRequest request;
   const NationalIdImageCaptureSheet({
@@ -31,6 +28,5 @@ class NationalIdImageCaptureSheet
   }
 
   @override
-  NationalIdImageCaptureSheetModel viewModelBuilder(BuildContext context) =>
-      NationalIdImageCaptureSheetModel();
+  NationalIdImageCaptureSheetModel viewModelBuilder(BuildContext context) => NationalIdImageCaptureSheetModel();
 }

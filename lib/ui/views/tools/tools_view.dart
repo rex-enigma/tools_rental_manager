@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/main.dart';
+import 'package:tools_rental_management/data/data_models/tool.dart';
+import 'package:tools_rental_management/enums/status.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/appBar_title_text_style.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/appBar_with_search_field.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 import 'package:tools_rental_management/ui/views/tools/menu_status_filter.dart';
 
 import 'tools_viewmodel.dart';
@@ -51,7 +53,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
 class MyTabBarView extends StatefulWidget {
   final ToolsViewModel toolsViewModel;
 
-  MyTabBarView(
+  const MyTabBarView(
     this.toolsViewModel, {
     super.key,
   });
@@ -118,7 +120,7 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
           ),
           title: Text(
             'Tools',
-            style: appBarTitleTestStyle(context),
+            style: appBarTitleTextStyle(context),
           ),
           actions: [
             PopupMenuButton<MenuStatusFilter>(
@@ -208,16 +210,13 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
           ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
           _ => throw ' configure ThemeMode.system',
         },
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-          child: TabBarView(
-            controller: tabController,
-            children: <Widget>[
-              createTabBarViewChild(toolsViewModel.allToolsTabView), // toolViewModel.currentSelectedTab = 0
-              createTabBarViewChild(toolsViewModel.poweredToolsTabView), // toolViewModel.currentSelectedTab = 1
-              createTabBarViewChild(toolsViewModel.unPoweredToolsTabView), // toolViewModel.currentSelectedTab = 2
-            ],
-          ),
+        child: TabBarView(
+          controller: tabController,
+          children: <Widget>[
+            createTabBarViewChild(toolsViewModel.allToolsTabView), // toolViewModel.currentSelectedTab = 0
+            createTabBarViewChild(toolsViewModel.poweredToolsTabView), // toolViewModel.currentSelectedTab = 1
+            createTabBarViewChild(toolsViewModel.unPoweredToolsTabView), // toolViewModel.currentSelectedTab = 2
+          ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
@@ -231,34 +230,119 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
     );
   }
 
-  Widget createTabBarViewChild(List<TestTool> tabBarViewChild) {
+  Widget createTabBarViewChild(List<Tool> tabBarViewChild) {
+    ToolsViewModel toolsViewModel = widget.toolsViewModel;
     // if (toolsViewModel.tools is empty && toolsViewModel.showAppBarSearchField is false) we know that there is no tools in the database so we return a centred text that request the user to add a tool
     // otherwise return a list of tools from toolsViewModel.allToolsTabView/poweredToolsTabView/unPoweredToolsTabView
-    return (widget.toolsViewModel.tools.isEmpty && widget.toolsViewModel.showAppBarSearchField == false
+    return (toolsViewModel.tools.isEmpty && toolsViewModel.showAppBarSearchField == false
         ? const Center(
             child: Text('click + button to add a tool'),
           )
         :
         // return tools for the given tabBarViewChild or centred text saying 'No tool found the given search name' if the user has initiated search and searched for a tool that doesn't exist
-        tabBarViewChild.isEmpty && widget.toolsViewModel.showAppBarSearchField
+        tabBarViewChild.isEmpty && toolsViewModel.showAppBarSearchField
             ? const Center(
                 child: Text('No tool found for the given search name'),
               )
             : ListView(
                 children: tabBarViewChild.map(
-                  (testTool) {
-                    return ListTile(
-                      leading: Container(
-                        width: 90,
-                        height: 90,
-                        color: Colors.grey,
-                      ),
-                      title: Text(testTool.testToolName),
-                      subtitle: Column(
-                        children: [
-                          Text('status: ${testTool.status.name}'),
-                          Text('category: ${testTool.category.name}'),
-                        ],
+                  (tool) {
+                    return InkWell(
+                      onTap: () {
+                        print('${tool.name} has been  tapped'); // its here for testing
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
+                        child: CustomListTile(
+                          contentVerticalAlignment: CrossAxisAlignment.start,
+                          leading: Container(
+                            width: 90,
+                            height: 90,
+                            decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                              borderRadius: BorderRadius.circular(6.0),
+                              //color: const Color.fromARGB(64, 158, 158, 158),
+                            ),
+                            child: tool.toolImagePath.isEmpty // analyze this later to check if going to return a FontIcons.circularSaw
+                                ? const FittedBox(
+                                    child: Icon(
+                                    Icons.construction,
+                                    color: Colors.grey,
+                                  ))
+                                : Image.asset(
+                                    tool.toolImagePath,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                          title: Text(
+                            tool.name,
+                            style: switch (getThemeManager(context).selectedThemeMode) {
+                              ThemeMode.light => Theme.of(context).typography.white.titleMedium!,
+                              ThemeMode.dark => Theme.of(context).typography.black.titleMedium!,
+                              _ => throw ' configure ThemeMode.system',
+                            },
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Status : ',
+                                      style: subtitleFirstSubStringTextStyle(context),
+                                    ),
+                                    TextSpan(
+                                      text: tool.status.name,
+                                      style: subtitleLastSubStringTextStyle(context, status: tool.status),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Current tool user : ',
+                                      style: subtitleFirstSubStringTextStyle(context),
+                                    ),
+                                    TextSpan(
+                                      // if toolUserId is null, it means there is no toolUser using this tool represented by CustomListTile
+                                      text: tool.toolUserId == null ? 'none' : toolsViewModel.getToolUserFullName(tool.toolUserId!),
+                                      style: subtitleLastSubStringTextStyle(context),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              RichText(
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Tool unique id : ',
+                                      style: subtitleFirstSubStringTextStyle(context),
+                                    ),
+                                    TextSpan(
+                                      text: tool.toolUniqueId.toString(),
+                                      style: subtitleLastSubStringTextStyle(context),
+                                    ),
+                                  ],
+                                ),
+                              )
+                            ],
+                          ),
+                          trailing: tool.status == Status.retired // only show delete icon if a tool is retired (Status.retired) otherwise return null
+                              ? IconButton(
+                                  visualDensity: VisualDensity.compact,
+                                  iconSize: 26,
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    print('${tool.name} will be deleted');
+                                  }, // implement a delete functionality to delete retired tools
+                                )
+                              : null,
+                        ),
                       ),
                     );
                   },

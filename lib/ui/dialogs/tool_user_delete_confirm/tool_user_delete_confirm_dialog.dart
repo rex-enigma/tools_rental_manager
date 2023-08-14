@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-import 'package:tools_rental_management/ui/common/app_colors.dart';
-import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog_layout.dart';
 
 import 'tool_user_delete_confirm_dialog_model.dart';
 
-class ToolUserDeleteConfirmDialog
-    extends StackedView<ToolUserDeleteConfirmDialogModel> {
+class ToolUserDeleteConfirmDialog extends StackedView<ToolUserDeleteConfirmDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -37,9 +34,7 @@ class ToolUserDeleteConfirmDialog
           },
           children: const [
             TextSpan(text: 'Do you want to delete '),
-            TextSpan(
-                text: 'Mark dew',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(text: 'Mark dew', style: TextStyle(fontWeight: FontWeight.bold)),
           ],
         ),
       ),
@@ -47,6 +42,5 @@ class ToolUserDeleteConfirmDialog
   }
 
   @override
-  ToolUserDeleteConfirmDialogModel viewModelBuilder(BuildContext context) =>
-      ToolUserDeleteConfirmDialogModel();
+  ToolUserDeleteConfirmDialogModel viewModelBuilder(BuildContext context) => ToolUserDeleteConfirmDialogModel();
 }

@@ -21,8 +21,9 @@ class ToolUsersRepoImp implements ToolUsersRepo {
   ///  for it to be updated it must exist in the database
   @override
   Future<ToolUser> updateToolUser(ToolUser toolUser) async {
-    if (toolUser.toolUserId == null)
+    if (toolUser.toolUserId == null) {
       throw 'the [ToolUser] is missing a toolUserId, hence unable to update the given toolUser: $toolUser';
+    }
     await _toolUsersLocalDataSource.updateToolUser(toolUser);
     ToolUser? userOfTool = await getToolUserByOrNull(toolUser.toolUserId!);
     return userOfTool!;

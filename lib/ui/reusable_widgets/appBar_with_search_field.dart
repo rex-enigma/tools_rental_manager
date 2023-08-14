@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-import 'package:tools_rental_management/ui/common/ui_helpers.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/input_text_style.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 
 class AppBarWithSearchField extends StatelessWidget {
   /// A widget to display before the toolbar's [title].

@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:tools_rental_management/ui/common/app_colors.dart';
-import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/image_capture_bottom_sheet.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/image_capture_bottom_sheet_layout.dart';
 
 import 'tool_user_image_capture_sheet_model.dart';
 
-class ToolUserImageCaptureSheet
-    extends StackedView<ToolUserImageCaptureSheetModel> {
+class ToolUserImageCaptureSheet extends StackedView<ToolUserImageCaptureSheetModel> {
   final Function(SheetResponse response)? completer;
   final SheetRequest request;
   const ToolUserImageCaptureSheet({
@@ -31,6 +28,5 @@ class ToolUserImageCaptureSheet
   }
 
   @override
-  ToolUserImageCaptureSheetModel viewModelBuilder(BuildContext context) =>
-      ToolUserImageCaptureSheetModel();
+  ToolUserImageCaptureSheetModel viewModelBuilder(BuildContext context) => ToolUserImageCaptureSheetModel();
 }

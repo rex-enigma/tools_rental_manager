@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/image_view.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/image_view_layout.dart';
 
 import 'front_national_id_image_viewmodel.dart';
 

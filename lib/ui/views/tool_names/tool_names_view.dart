@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/appBar_title_text_style.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/appBar_with_search_field.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/input_text_style.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 
 import 'tool_names_viewmodel.dart';
 
@@ -29,7 +28,7 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
           ),
           title: Text(
             'Tool names',
-            style: appBarTitleTestStyle(context),
+            style: appBarTitleTextStyle(context),
           ),
           showAppBarSearchField: viewModel.showAppBarSearchField,
           searchFieldTextHint: 'search for a tool name',

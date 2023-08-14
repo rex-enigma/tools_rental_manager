@@ -56,8 +56,9 @@ class ImagesRepoImp implements ImagesRepo {
             final String? imagePathCache =
                 await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
             // imagePathCache is null if the user cancelled the image capture.
-            if (imagePathCache == null)
+            if (imagePathCache == null) {
               return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
+            }
             // we store the image in a permanent dir where platform won't delete it.
             final String imagePath = await _directoryImagesLocalDataSource
                 .storeImage(File(imagePathCache));
@@ -66,8 +67,9 @@ class ImagesRepoImp implements ImagesRepo {
           default:
             final String? imagePathCache =
                 await _galleryImagesLocalDataSource.selectImageFromGallery();
-            if (imagePathCache == null)
+            if (imagePathCache == null) {
               return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
+            }
             final String imagePath = await _directoryImagesLocalDataSource
                 .storeImage(File(imagePathCache));
             return imagePath;
@@ -86,8 +88,9 @@ class ImagesRepoImp implements ImagesRepo {
               final String? imagePathCache =
                   await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
 
-              if (imagePathCache == null)
+              if (imagePathCache == null) {
                 return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
+              }
 
               // delete the image of the given previousImagePath.
               oldImagePath.deleteSync();
@@ -100,8 +103,9 @@ class ImagesRepoImp implements ImagesRepo {
               final String? imagePathCache =
                   await _galleryImagesLocalDataSource.selectImageFromGallery();
 
-              if (imagePathCache == null)
+              if (imagePathCache == null) {
                 return null; // when you have time check if throwing a Exception would be appropriate instead of returning null
+              }
 
               // delete the image of the given previousImagePath.
               oldImagePath.deleteSync();

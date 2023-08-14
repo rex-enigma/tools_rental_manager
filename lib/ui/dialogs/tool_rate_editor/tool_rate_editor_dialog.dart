@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-import 'package:tools_rental_management/ui/common/app_colors.dart';
-import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/edit_dialog.dart';
-import 'package:tools_rental_management/ui/reusable_widgets/input_text_style.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/edit_dialog_layout.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 
 import 'tool_rate_editor_dialog_model.dart';
 
@@ -56,6 +54,5 @@ class ToolRateEditorDialog extends StackedView<ToolRateEditorDialogModel> {
   }
 
   @override
-  ToolRateEditorDialogModel viewModelBuilder(BuildContext context) =>
-      ToolRateEditorDialogModel();
+  ToolRateEditorDialogModel viewModelBuilder(BuildContext context) => ToolRateEditorDialogModel();
 }
