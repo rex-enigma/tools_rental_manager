@@ -5,7 +5,8 @@ import 'package:tools_rental_management/ui/reusable_widgets/image_capture_bottom
 
 import 'national_id_image_capture_sheet_model.dart';
 
-class NationalIdImageCaptureSheet extends StackedView<NationalIdImageCaptureSheetModel> {
+class NationalIdImageCaptureSheet
+    extends StackedView<NationalIdImageCaptureSheetModel> {
   final Function(SheetResponse response)? completer;
   final SheetRequest request;
   const NationalIdImageCaptureSheet({
@@ -28,5 +29,6 @@ class NationalIdImageCaptureSheet extends StackedView<NationalIdImageCaptureShee
   }
 
   @override
-  NationalIdImageCaptureSheetModel viewModelBuilder(BuildContext context) => NationalIdImageCaptureSheetModel();
+  NationalIdImageCaptureSheetModel viewModelBuilder(BuildContext context) =>
+      NationalIdImageCaptureSheetModel();
 }

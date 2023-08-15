@@ -4,7 +4,8 @@ import 'package:tools_rental_management/ui/reusable_widgets/image_view_layout.da
 
 import 'back_national_id_image_viewmodel.dart';
 
-class BackNationalIdImageView extends StackedView<BackNationalIdImageViewModel> {
+class BackNationalIdImageView
+    extends StackedView<BackNationalIdImageViewModel> {
   const BackNationalIdImageView({Key? key}) : super(key: key);
 
   @override

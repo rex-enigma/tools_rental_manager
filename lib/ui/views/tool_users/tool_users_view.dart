@@ -2,6 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/ui/common/ui_helpers.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/appBar_with_search_field.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart';
 
 import 'tool_users_viewmodel.dart';
@@ -24,35 +28,44 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
-        centerTitle: true,
-        title: Text(
-          'Tool Users',
-          style: switch (getThemeManager(context).selectedThemeMode) {
-            ThemeMode.light => Theme.of(context).typography.white.bodyLarge,
-            ThemeMode.dark => Theme.of(context).typography.black.bodyLarge,
-            _ => throw 'configure ThemeMode.system',
+      appBar: PreferredSize(
+        preferredSize: Size(screenWidth(context), 60),
+        child: AppBarWithSearchField(
+          title: Text(
+            'Tool Users',
+            style: appBarTitleTextStyle(context),
+          ),
+          showAppBarSearchField: viewModel.showAppBarSearchField,
+          searchFieldTextHint: 'search for a tool user by name',
+          onSearchFieldValueChanged: (value) {
+            viewModel.searchToolUser(value);
           },
-        ),
-        actions: [
-          IconButton(
-            onPressed: () => {},
-            icon: Icon(
-              Icons.search,
-              color: Theme.of(context).colorScheme.secondary,
+          actions: [
+            IconButton(
+              // if the viewModel.toolUsers list is empty, it means there aren't any tools in the database, so we disable the search button preventing the user from searching for tool users that don't exist
+              onPressed: viewModel.toolUsers.isEmpty
+                  ? null
+                  : () {
+                      viewModel.showAppBarSearchField =
+                          !viewModel.showAppBarSearchField;
+                      // if viewModel.showAppBarSearchField = false, (the user cancelled search) we reset filtered tool users to default
+                      if (!viewModel.showAppBarSearchField)
+                        viewModel.resetFilteredToolUsersToDefault();
+                    },
+              icon: viewModel.showAppBarSearchField
+                  ? Icon(
+                      Icons.close,
+                      color: Theme.of(context).colorScheme.secondary,
+                    )
+                  : Icon(
+                      Icons.search,
+                      // use grey color to indicate that the button is disabled when viewMode.toolUsers is empty
+                      color: viewModel.toolUsers.isEmpty
+                          ? Theme.of(context).disabledColor
+                          : Theme.of(context).colorScheme.secondary,
+                    ),
             ),
-          ),
-        ],
-        shape: Border(
-          bottom: BorderSide(
-            color: Theme.of(context).dividerColor,
-            width: switch (getThemeManager(context).selectedThemeMode) {
-              ThemeMode.light => 0.5,
-              ThemeMode.dark => 0.1,
-              _ => throw 'configure ThemeMode.system',
-            },
-          ),
+          ],
         ),
       ),
       body: DefaultTextStyle(
@@ -61,33 +74,115 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
           ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
           _ => throw ' configure ThemeMode.system',
         },
-        child: Padding(
-          padding: const EdgeInsets.only(left: 16.0, right: 16.0),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                const Text('Click + button to add a tool user'),
-                ElevatedButton(
-                  onPressed: () async {
-                    // just for testing some view that depend on other ui to be navigatable but those UIs aren't available
-                    var response = await Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const ToolNamesView(),
+        child: viewModel.toolUsers.isEmpty
+            ? Center(
+                child: Text(
+                  'click + button to add a tool user',
+                ),
+              )
+            : ListView(
+                children: viewModel.filteredToolUsers.map(
+                  (toolUser) {
+                    return InkWell(
+                      onTap: () {
+                        print(
+                            '${toolUser.firstName} has been  tapped'); // its here for testing
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(
+                            left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
+                        child: CustomListTile(
+                          contentVerticalAlignment: CrossAxisAlignment.start,
+                          leading: Container(
+                            width: 90,
+                            height: 90,
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              border: Border.all(
+                                color: Theme.of(context).colorScheme.secondary,
+                              ),
+                              //color: const Color.fromARGB(64, 158, 158, 158),
+                            ),
+                            child: toolUser.avatarImagePath.isEmpty
+                                ? const FittedBox(
+                                    child: Icon(
+                                    Icons.person,
+                                    color: Colors.grey,
+                                  ))
+                                : Image.asset(
+                                    toolUser.avatarImagePath,
+                                    fit: BoxFit.cover,
+                                  ),
+                          ),
+                          title: Text(
+                            '${toolUser.firstName} ${toolUser.lastName}',
+                            style: switch (
+                                getThemeManager(context).selectedThemeMode) {
+                              ThemeMode.light =>
+                                Theme.of(context).typography.white.titleMedium!,
+                              ThemeMode.dark =>
+                                Theme.of(context).typography.black.titleMedium!,
+                              _ => throw ' configure ThemeMode.system',
+                            },
+                          ),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              RichText(
+                                overflow: TextOverflow.ellipsis,
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Phone number : ',
+                                      style: subtitleFirstSubStringTextStyle(
+                                          context),
+                                    ),
+                                    TextSpan(
+                                      text: toolUser.phoneNumber.toString(),
+                                      style: subtitleLastSubStringTextStyle(
+                                          context),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              RichText(
+                                overflow: TextOverflow.ellipsis,
+                                text: TextSpan(
+                                  children: [
+                                    TextSpan(
+                                      text: 'Tool count : ',
+                                      style: subtitleFirstSubStringTextStyle(
+                                          context),
+                                    ),
+                                    TextSpan(
+                                      text: toolUser.tools?.length.toString() ??
+                                          '0',
+                                      style: subtitleLastSubStringTextStyle(
+                                          context),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                          trailing: toolUser.tools ==
+                                  null // if toolUser.tools is null, it means that the tool user is not using any tool (no tool(s) is associated with  that tool user)
+                              ? IconButton(
+                                  visualDensity: VisualDensity.compact,
+                                  iconSize: 26,
+                                  icon: const Icon(Icons.delete),
+                                  onPressed: () {
+                                    print(
+                                        '${toolUser.firstName} will be deleted'); // implement a delete functionality to delete retired tools
+                                  },
+                                )
+                              : null,
+                        ),
                       ),
                     );
-                    print(response);
                   },
-                  child: const Text(
-                    'Testing button',
-                    style: TextStyle(color: Colors.black),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ),
+                ).toList(),
+              ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: viewModel.showUserCreatorBottomSheet,
@@ -105,4 +200,10 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
     BuildContext context,
   ) =>
       locator<ToolUsersViewModel>();
+
+  @override
+  void onViewModelReady(ToolUsersViewModel viewModel) {
+    viewModel.initState();
+    super.onViewModelReady(viewModel);
+  }
 }

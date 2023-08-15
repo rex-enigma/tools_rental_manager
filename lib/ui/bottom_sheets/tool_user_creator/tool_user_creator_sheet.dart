@@ -52,8 +52,10 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
               child: Text(
                 'Create a tool user',
                 style: switch (getThemeManager(context).selectedThemeMode) {
-                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
-                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
+                  ThemeMode.light =>
+                    Theme.of(context).typography.white.bodyMedium!,
+                  ThemeMode.dark =>
+                    Theme.of(context).typography.black.bodyMedium!,
                   _ => throw ' configure ThemeMode.system',
                 },
               ),
@@ -113,13 +115,17 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             NationalIdButton(
-                              onPressed: () => viewModel.showNationalIdImageCaptureSheet(),
-                              nationalIdImage: viewModel.frontNationalIdImagePath,
+                              onPressed: () =>
+                                  viewModel.showNationalIdImageCaptureSheet(),
+                              nationalIdImage:
+                                  viewModel.frontNationalIdImagePath,
                               nationalIdSide: NationalIdSide.front,
                             ),
                             NationalIdButton(
-                              onPressed: () => viewModel.showNationalIdImageCaptureSheet(),
-                              nationalIdImage: viewModel.backNationalIdImagePath,
+                              onPressed: () =>
+                                  viewModel.showNationalIdImageCaptureSheet(),
+                              nationalIdImage:
+                                  viewModel.backNationalIdImagePath,
                               nationalIdSide: NationalIdSide.back,
                             ),
                           ],
@@ -128,7 +134,8 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                         DashedCircularBorderButtonWithIcons(
                           bottomSheetType: BottomSheetType.toolUserCreator,
                           imagePath: viewModel.userImagePath,
-                          onPressed: () => viewModel.showToolUserImageCaptureSheet(),
+                          onPressed: () =>
+                              viewModel.showToolUserImageCaptureSheet(),
                         ),
                         verticalSpaceMedium,
                         Row(
@@ -165,5 +172,6 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
   }
 
   @override
-  ToolUserCreatorSheetModel viewModelBuilder(BuildContext context) => ToolUserCreatorSheetModel();
+  ToolUserCreatorSheetModel viewModelBuilder(BuildContext context) =>
+      ToolUserCreatorSheetModel();
 }

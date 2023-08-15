@@ -3,7 +3,10 @@ import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/drag_handle.dart';
+import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
+import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart';
 
 import 'select_tool_sheet_model.dart';
 
@@ -48,28 +51,41 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
               child: Scaffold(
                 appBar: AppBar(
                   backgroundColor: Theme.of(context).colorScheme.background,
-                  leading: const Icon(Icons
-                      .arrow_back_ios), // make it dynamic to indicate X for canceling the selected tool items
+                  leading: viewModel.selectedTools
+                          .isNotEmpty // remove the X close button if viewMode.selectedTools is empty
+                      ? IconButton(
+                          onPressed: () {
+                            viewModel.deselectAllTools();
+                          },
+                          icon: const Icon(Icons.close),
+                          color: Theme.of(context).colorScheme.onPrimary,
+                        )
+                      : const SizedBox(),
                   centerTitle: true,
-                  title: Text(
-                    'select tool(s)', // make the text dynamic to indicate when the user multiselect  tool items
-                    style: switch (getThemeManager(context).selectedThemeMode) {
-                      ThemeMode.light =>
-                        Theme.of(context).typography.white.bodyMedium,
-                      ThemeMode.dark =>
-                        Theme.of(context).typography.black.bodyMedium,
-                      _ => throw 'configure ThemeMode.system',
-                    },
-                  ),
-                  actions: [
-                    IconButton(
-                      onPressed: () => {},
-                      icon: Icon(
-                        Icons.search,
-                        color: Theme.of(context).colorScheme.secondary,
-                      ),
-                    ), // make the icon dynamic to indicate 'tick' for associating the selected tool items the a tool user
-                  ],
+                  title: viewModel.isAnyToolSelected
+                      ? Text(
+                          "${viewModel.selectedTools.length} tool${viewModel.selectedTools.length > 1 ? 's' : ''} selected",
+                          style: appBarTitleTextStyle(context,
+                              displayToolSelectCount: true),
+                        )
+                      : Text(
+                          'Tool User',
+                          style: appBarTitleTextStyle(context),
+                        ),
+                  actions: viewModel.selectedTools.isEmpty
+                      ? null
+                      : [
+                          IconButton(
+                            onPressed: () {
+                              print(
+                                  '${viewModel.selectedTools.length} selected');
+                            },
+                            icon: Icon(
+                              Icons.check,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
+                          ),
+                        ],
                   shape: Border(
                     bottom: BorderSide(
                       color: Theme.of(context).dividerColor,
@@ -86,88 +102,116 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
             ),
             Expanded(
               child: ListView(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading:
-                          Container(width: 90, height: 90, color: Colors.blue),
-                      title: const Text('testing'),
+                children: viewModel.idleTools.map((idleTool) {
+                  return InkWell(
+                    onTap: () {
+                      // if a tool is already selected, then it will be found in viewModel.selectedTools, so we have to remove it first
+                      if (viewModel.selectedTools.contains(idleTool)) {
+                        viewModel.deselectTool(idleTool);
+                        return;
+                      }
+                      // add the idleTool to the viewModel.selectedTools
+                      viewModel.selectTool(idleTool);
+                    },
+                    child: Container(
+                      color: viewModel.selectedTools.contains(idleTool)
+                          ? selectedToolBackGroundColor(context)
+                          : null, // we are checking if our selectedTools list contains a toolTile that was long pressed or pressed(when isAnyToolSelected is true)
+                      padding: const EdgeInsets.only(
+                          left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
+                      child: CustomListTile(
+                        contentVerticalAlignment: CrossAxisAlignment.start,
+                        leading: Container(
+                          width: 90,
+                          height: 90,
+                          decoration: BoxDecoration(
+                            border: Border.all(
+                              color: Theme.of(context).colorScheme.secondary,
+                            ),
+                            borderRadius: BorderRadius.circular(6.0),
+                            //color: const Color.fromARGB(64, 158, 158, 158),
+                          ),
+                          child: idleTool.toolImagePath.isEmpty
+                              ? const FittedBox(
+                                  child: Icon(
+                                    Icons.construction,
+                                    color: Colors.grey,
+                                  ),
+                                )
+                              : Image.asset(
+                                  idleTool.toolImagePath,
+                                  fit: BoxFit.cover,
+                                ),
+                        ),
+                        title: Text(
+                          idleTool.name,
+                          style: switch (
+                              getThemeManager(context).selectedThemeMode) {
+                            ThemeMode.light =>
+                              Theme.of(context).typography.white.titleMedium!,
+                            ThemeMode.dark =>
+                              Theme.of(context).typography.black.titleMedium!,
+                            _ => throw ' configure ThemeMode.system',
+                          },
+                        ),
+                        subtitle: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Status : ',
+                                    style: subtitleFirstSubStringTextStyle(
+                                        context),
+                                  ),
+                                  TextSpan(
+                                    text: idleTool.status.name,
+                                    style: subtitleLastSubStringTextStyle(
+                                        context,
+                                        status: idleTool.status),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Category : ',
+                                    style: subtitleFirstSubStringTextStyle(
+                                        context),
+                                  ),
+                                  TextSpan(
+                                    text: idleTool.category.name,
+                                    style:
+                                        subtitleLastSubStringTextStyle(context),
+                                  ),
+                                ],
+                              ),
+                            ),
+                            RichText(
+                              text: TextSpan(
+                                children: [
+                                  TextSpan(
+                                    text: 'Tool unique id : ',
+                                    style: subtitleFirstSubStringTextStyle(
+                                        context),
+                                  ),
+                                  TextSpan(
+                                    text: idleTool.toolUniqueId.toString(),
+                                    style:
+                                        subtitleLastSubStringTextStyle(context),
+                                  ),
+                                ],
+                              ),
+                            )
+                          ],
+                        ),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading:
-                          Container(width: 90, height: 90, color: Colors.blue),
-                      title: const Text('testing'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading:
-                          Container(width: 90, height: 90, color: Colors.blue),
-                      title: const Text('testing'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading:
-                          Container(width: 90, height: 90, color: Colors.blue),
-                      title: const Text('testing'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading:
-                          Container(width: 90, height: 90, color: Colors.blue),
-                      title: const Text('testing'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading:
-                          Container(width: 90, height: 90, color: Colors.blue),
-                      title: const Text('testing'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading:
-                          Container(width: 90, height: 90, color: Colors.blue),
-                      title: const Text('testing'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading:
-                          Container(width: 90, height: 90, color: Colors.blue),
-                      title: const Text('testing'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading:
-                          Container(width: 90, height: 90, color: Colors.blue),
-                      title: const Text('testing'),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 10),
-                    child: ListTile(
-                      leading:
-                          Container(width: 90, height: 90, color: Colors.blue),
-                      title: const Text('testing'),
-                    ),
-                  ),
-                ],
+                  );
+                }).toList(),
               ),
             ),
 

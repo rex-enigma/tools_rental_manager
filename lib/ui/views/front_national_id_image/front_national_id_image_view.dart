@@ -4,7 +4,8 @@ import 'package:tools_rental_management/ui/reusable_widgets/image_view_layout.da
 
 import 'front_national_id_image_viewmodel.dart';
 
-class FrontNationalIdImageView extends StackedView<FrontNationalIdImageViewModel> {
+class FrontNationalIdImageView
+    extends StackedView<FrontNationalIdImageViewModel> {
   const FrontNationalIdImageView({Key? key}) : super(key: key);
 
   @override
@@ -20,7 +21,8 @@ class FrontNationalIdImageView extends StackedView<FrontNationalIdImageViewModel
         'lib/assets/images/front_national_id_placeholder.png',
       ),
       onPressedEditButton: () => viewModel.showNationalIdImageCapture(),
-      navigateBack: () => Navigator.of(context).pop(20), //testing to see if we can return a value to the previous screen
+      navigateBack: () => Navigator.of(context).pop(
+          20), //testing to see if we can return a value to the previous screen
     );
   }
 

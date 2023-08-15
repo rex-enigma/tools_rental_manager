@@ -9,6 +9,7 @@ class ToolNamesViewModel extends BaseViewModel {
 
   void initState() {
     filteredToolNames.addAll(toolNames);
+    // check if without rebuildUi() call is still working
   }
 
   void searchToolName(String query) {

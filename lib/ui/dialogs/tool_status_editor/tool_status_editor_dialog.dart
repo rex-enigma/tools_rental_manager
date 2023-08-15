@@ -48,7 +48,10 @@ class ToolStatusEditorDialog extends StackedView<ToolStatusEditorDialogModel> {
               value: status.name,
               child: Text(
                 status.name,
-                style: TextStyle(color: isBeingUsed == true ? Theme.of(context).disabledColor : null),
+                style: TextStyle(
+                    color: isBeingUsed == true
+                        ? Theme.of(context).disabledColor
+                        : null),
               ),
               // if the status is Status.beingUsed   we disable DropdownMenuItem for the item beingUsed
               enabled: !isBeingUsed,
@@ -65,5 +68,6 @@ class ToolStatusEditorDialog extends StackedView<ToolStatusEditorDialogModel> {
   }
 
   @override
-  ToolStatusEditorDialogModel viewModelBuilder(BuildContext context) => ToolStatusEditorDialogModel();
+  ToolStatusEditorDialogModel viewModelBuilder(BuildContext context) =>
+      ToolStatusEditorDialogModel();
 }

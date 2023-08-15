@@ -6,7 +6,8 @@ import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog_layou
 
 import 'tool_user_delete_confirm_dialog_model.dart';
 
-class ToolUserDeleteConfirmDialog extends StackedView<ToolUserDeleteConfirmDialogModel> {
+class ToolUserDeleteConfirmDialog
+    extends StackedView<ToolUserDeleteConfirmDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -34,7 +35,9 @@ class ToolUserDeleteConfirmDialog extends StackedView<ToolUserDeleteConfirmDialo
           },
           children: const [
             TextSpan(text: 'Do you want to delete '),
-            TextSpan(text: 'Mark dew', style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(
+                text: 'Mark dew',
+                style: TextStyle(fontWeight: FontWeight.bold)),
           ],
         ),
       ),
@@ -42,5 +45,6 @@ class ToolUserDeleteConfirmDialog extends StackedView<ToolUserDeleteConfirmDialo
   }
 
   @override
-  ToolUserDeleteConfirmDialogModel viewModelBuilder(BuildContext context) => ToolUserDeleteConfirmDialogModel();
+  ToolUserDeleteConfirmDialogModel viewModelBuilder(BuildContext context) =>
+      ToolUserDeleteConfirmDialogModel();
 }

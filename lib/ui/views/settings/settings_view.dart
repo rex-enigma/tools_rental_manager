@@ -224,6 +224,11 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   ),
                 ),
               ),
+              IconButton(
+                  onPressed: () {
+                    viewModel.showSelectToolSheet();
+                  },
+                  icon: Icon(Icons.ads_click))
             ],
           ),
         ),

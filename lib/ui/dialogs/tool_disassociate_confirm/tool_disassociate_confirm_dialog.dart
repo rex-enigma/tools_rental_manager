@@ -6,7 +6,8 @@ import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog_layou
 
 import 'tool_disassociate_confirm_dialog_model.dart';
 
-class ToolDisassociateConfirmDialog extends StackedView<ToolDisassociateConfirmDialogModel> {
+class ToolDisassociateConfirmDialog
+    extends StackedView<ToolDisassociateConfirmDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -34,7 +35,9 @@ class ToolDisassociateConfirmDialog extends StackedView<ToolDisassociateConfirmD
           },
           children: const [
             TextSpan(text: 'Do you want to disassociate '),
-            TextSpan(text: 'Circular saw ', style: TextStyle(fontWeight: FontWeight.bold)),
+            TextSpan(
+                text: 'Circular saw ',
+                style: TextStyle(fontWeight: FontWeight.bold)),
             TextSpan(text: 'from john '),
           ],
         ),
@@ -43,5 +46,6 @@ class ToolDisassociateConfirmDialog extends StackedView<ToolDisassociateConfirmD
   }
 
   @override
-  ToolDisassociateConfirmDialogModel viewModelBuilder(BuildContext context) => ToolDisassociateConfirmDialogModel();
+  ToolDisassociateConfirmDialogModel viewModelBuilder(BuildContext context) =>
+      ToolDisassociateConfirmDialogModel();
 }

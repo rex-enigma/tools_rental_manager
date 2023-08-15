@@ -27,7 +27,8 @@ class CustomListTile extends StatelessWidget {
     return Container(
       padding: padding,
       child: Row(
-        crossAxisAlignment: contentVerticalAlignment ?? CrossAxisAlignment.center,
+        crossAxisAlignment:
+            contentVerticalAlignment ?? CrossAxisAlignment.center,
         children: [
           leading ?? const SizedBox(),
           horizontalSpaceBtnLeadingAndTitle!,

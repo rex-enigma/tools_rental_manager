@@ -42,6 +42,7 @@ ThemeData lightTheme = ThemeData(
   tabBarTheme: _tabBarTheme,
   outlinedButtonTheme: _outlinedButtonTheme,
   inputDecorationTheme: _inputDecorationThemeLight,
+  datePickerTheme: datePickerThemeData,
 );
 
 ThemeData darkTheme = ThemeData(
@@ -86,6 +87,7 @@ ThemeData darkTheme = ThemeData(
   tabBarTheme: _tabBarTheme,
   outlinedButtonTheme: _outlinedButtonTheme,
   inputDecorationTheme: _inputDecorationThemeDark,
+  datePickerTheme: datePickerThemeData,
 );
 
 TextTheme _textThemeBlack = _textTheme.copyWith(
@@ -166,6 +168,7 @@ InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
   isDense: true,
   focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+  disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
   hintStyle: TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
@@ -185,7 +188,8 @@ InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
 InputDecorationTheme _inputDecorationThemeDark = const InputDecorationTheme(
   isDense: true,
   focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+  disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
   hintStyle: TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
@@ -200,4 +204,9 @@ InputDecorationTheme _inputDecorationThemeDark = const InputDecorationTheme(
   ),
   floatingLabelStyle: TextStyle(color: Colors.white),
   floatingLabelBehavior: FloatingLabelBehavior.always,
+);
+
+DatePickerThemeData datePickerThemeData = const DatePickerThemeData(
+  backgroundColor: Color.fromRGBO(171, 212, 221, 1),
+  surfaceTintColor: Color.fromRGBO(57, 190, 219, 1.0),
 );

@@ -28,5 +28,6 @@ class ToolImageCaptureSheet extends StackedView<ToolImageCaptureSheetModel> {
   }
 
   @override
-  ToolImageCaptureSheetModel viewModelBuilder(BuildContext context) => ToolImageCaptureSheetModel();
+  ToolImageCaptureSheetModel viewModelBuilder(BuildContext context) =>
+      ToolImageCaptureSheetModel();
 }

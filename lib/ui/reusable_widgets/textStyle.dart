@@ -9,7 +9,8 @@ import 'package:tools_rental_management/enums/status.dart';
 
 /// text style for a customListTile's subtitle last substring
 /// the second argument will be used to decide the color codes of the substring
-TextStyle subtitleLastSubStringTextStyle(BuildContext context, {Status? status}) {
+TextStyle subtitleLastSubStringTextStyle(BuildContext context,
+    {Status? status}) {
   // decide the color code for a single substring text when toolStatus is not null
   Color? color = switch (status) {
     Status.beingUsed => Color.fromARGB(255, 212, 193, 122),
@@ -20,8 +21,16 @@ TextStyle subtitleLastSubStringTextStyle(BuildContext context, {Status? status})
   };
 
   return switch (getThemeManager(context).selectedThemeMode) {
-    ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontWeight: FontWeight.bold, color: color),
-    ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontWeight: FontWeight.bold, color: color),
+    ThemeMode.light => Theme.of(context)
+        .typography
+        .white
+        .bodySmall!
+        .copyWith(fontWeight: FontWeight.bold, color: color),
+    ThemeMode.dark => Theme.of(context)
+        .typography
+        .black
+        .bodySmall!
+        .copyWith(fontWeight: FontWeight.bold, color: color),
     _ => throw ' configure ThemeMode.system',
   };
 }
@@ -34,8 +43,9 @@ TextStyle subtitleFirstSubStringTextStyle(BuildContext context) {
   };
 }
 
-/// [displayToolSelectCount] if true, display a predefined  fontSize = 18.0 on that title
-TextStyle? appBarTitleTextStyle(context, {bool displayToolSelectCount = false}) {
+/// [displayToolSelectCount] if true, display a predefined  fontSize = 18.0 on the title '[# of tools] tools selected'
+TextStyle? appBarTitleTextStyle(context,
+    {bool displayToolSelectCount = false}) {
   return displayToolSelectCount
       ? switch (getThemeManager(context).selectedThemeMode) {
           ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
@@ -55,5 +65,14 @@ TextStyle? textFormFieldInputTextStyle(BuildContext context) {
     ThemeMode.light => Theme.of(context).typography.white.bodySmall,
     ThemeMode.dark => Theme.of(context).typography.black.bodySmall,
     _ => throw 'configure ThemeMode.system',
+  };
+}
+
+/// container background color for a selected tool in SelectedToolSheet or ToolUserView
+Color? selectedToolBackGroundColor(context) {
+  return switch (getThemeManager(context).selectedThemeMode) {
+    ThemeMode.light => const Color.fromARGB(239, 226, 229, 229),
+    ThemeMode.dark => const Color.fromARGB(96, 76, 78, 78),
+    _ => throw ' configure ThemeMode.system',
   };
 }

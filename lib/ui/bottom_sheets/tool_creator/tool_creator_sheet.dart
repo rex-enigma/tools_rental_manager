@@ -85,20 +85,29 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         ),
                         verticalSpaceMedium,
                         TextFormField(
-                          onTap: () => print('textFormField taped'),
+                          onTap: () {
+                            // i had to pass the context because DatePickerDialog doen't have a callback to get the date back, which if it had, i could have used it to return the date
+                            // which i would wrap it in the DialogResponse and get returned by showCustomDialog
+                            viewModel.showDatePickerDialog(context);
+                          },
                           readOnly: true,
                           style: textFormFieldInputTextStyle(context),
-                          decoration: const InputDecoration(
+                          decoration: InputDecoration(
                             hintText: 'The date the tool was bought',
                             labelText: 'Purchased date *',
+                            suffixIcon: Icon(
+                              Icons.calendar_today,
+                              color: Theme.of(context).colorScheme.onPrimary,
+                            ),
                           ),
                         ),
                         verticalSpaceMedium,
                         DropdownButtonFormField(
-                          value: Currency.kes.name,
+                          value: null,
                           style: textFormFieldInputTextStyle(context),
                           // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
                           decoration: const InputDecoration(
+                            hintText: 'currency used for purchase the tool',
                             labelText: 'Currency',
                           ),
                           items: Currency.values
@@ -113,7 +122,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         ),
                         verticalSpaceMedium,
                         TextFormField(
-                          cursorColor: Theme.of(context).colorScheme.onPrimary,
+                          cursorColor: Theme.of(context).colorScheme.secondary,
                           cursorWidth: 1,
                           style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
@@ -123,7 +132,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         ),
                         verticalSpaceMedium,
                         TextFormField(
-                          cursorColor: Theme.of(context).colorScheme.onPrimary,
+                          cursorColor: Theme.of(context).colorScheme.secondary,
                           cursorWidth: 1,
                           style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
@@ -133,6 +142,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                         ),
                         verticalSpaceMedium,
                         DropdownButtonFormField(
+                          value: null,
                           style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
                             hintText: 'Powered tool or un-powered tool',
@@ -140,13 +150,15 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                           ),
                           items: Category.values
                               .map(
-                                (category) => DropdownMenuItem(
-                                  value: category.name,
+                                (category) => DropdownMenuItem<Category>(
+                                  value: category,
                                   child: Text(category.name),
                                 ),
                               )
                               .toList(),
-                          onChanged: (value) => {},
+                          onChanged: (value) {
+                            print(value);
+                          },
                         ),
                         verticalSpaceMedium,
                         Row(
@@ -157,7 +169,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                 readOnly: true,
                                 style: textFormFieldInputTextStyle(context),
                                 decoration: const InputDecoration(
-                                  hintText: 'Id to be assigned to this tool',
+                                  hintText: "tap 'Gen id' to generate a tool id ",
                                   labelText: 'Tool id (Unique) *',
                                 ),
                               ),
@@ -230,5 +242,62 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
   }
 
   @override
+  void onDispose(ToolCreatorSheetModel viewModel) {
+    // TODO: implement onDispose
+    super.onDispose(viewModel);
+  }
+
+  @override
   ToolCreatorSheetModel viewModelBuilder(BuildContext context) => ToolCreatorSheetModel();
+
+  @override
+  void onViewModelReady(ToolCreatorSheetModel viewModel) {
+    // pass the currentSelectedTab from ToolsView
+
+    super.onViewModelReady(viewModel);
+  }
 }
+
+//  TextFormField(
+//                           onTap: () => print('textFormField taped'),
+//                           readOnly: true,
+//                           style: textFormFieldInputTextStyle(context),
+//                           decoration: const InputDecoration(
+//                             hintText: 'The date the tool was bought',
+//                             labelText: 'Purchased date *',
+//                           ),
+//                         ),
+
+
+// DropdownButtonFormField(
+//                           value: switch (viewModel.currentSelectedTabInToolsView) {
+//                             // the value will be preset to 'poweredTool' to prevent the user from selecting any other category when in ToolsView he is currently on powered tool tabView
+//                             1 => Category.poweredTool.name,
+//                             // the value will be preset to 'unpoweredTool' to prevent the user from selecting any other category when in ToolsView he is currently on unpowered tool tabView
+//                             2 => Category.unpoweredTool.name,
+//                             _ => null,
+//                           },
+//                           style: textFormFieldInputTextStyle(context),
+//                           decoration: InputDecoration(
+//                               hintText: 'Powered tool or un-powered tool',
+//                               labelText: 'Category *',
+//                               labelStyle: viewModel.isCategoryDropDownEnabled ? Theme.of(context).inputDecorationTheme.labelStyle : const TextStyle(color: Colors.grey),
+//                               enabledBorder: viewModel.isCategoryDropDownEnabled
+//                                   ? Theme.of(context).inputDecorationTheme.enabledBorder
+//                                   : Theme.of(context).inputDecorationTheme.disabledBorder),
+//                           items: Category.values
+//                               .map(
+//                                 (category) => DropdownMenuItem<Category>(
+//                                   value: category,
+//                                   child: Text(category.name),
+//                                 ),
+//                               )
+//                               .toList(),
+//                           // allow the value of the DropDownFormField to be changed when viewModel.isCategoryDropDownEnabled = true, this means the user is on allTabView
+//                           onChanged: viewModel.isCategoryDropDownEnabled
+//                               ? (value) {
+//                                   print(value);
+//                                   viewModel.setToolCategory(value as Category);
+//                                 }
+//                               : null,
+//                         ),

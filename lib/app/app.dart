@@ -80,6 +80,7 @@ import 'package:tools_rental_management/ui/views/back_national_id_image/back_nat
     LazySingleton(classType: ToolUsersViewModel),
     LazySingleton(classType: SettingsViewModel),
   ],
+  // @stacked-bottom-sheets
   bottomsheets: [
     StackedBottomsheet(classType: ToolCreatorSheet),
     StackedBottomsheet(classType: ToolUserCreatorSheet),
@@ -88,8 +89,8 @@ import 'package:tools_rental_management/ui/views/back_national_id_image/back_nat
     StackedBottomsheet(classType: NationalIdImageCaptureSheet),
     StackedBottomsheet(classType: SelectToolSheet),
     StackedBottomsheet(classType: MoreToolInfoSheet),
-// @stacked-bottom-sheet
   ],
+  // @stacked-dialogs
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
     StackedDialog(classType: ToolRateEditorDialog),
@@ -101,6 +102,7 @@ import 'package:tools_rental_management/ui/views/back_national_id_image/back_nat
     StackedDialog(classType: ToolDisassociateConfirmDialog),
     StackedDialog(classType: ToolUserDeleteConfirmDialog),
     StackedDialog(classType: ToolDeleteConfirmDialog),
+
 // @stacked-dialog
   ],
 )

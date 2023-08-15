@@ -84,9 +84,12 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
                       verticalSpaceSmall,
                       Text(
                         viewModel.toolName ?? 'Tool Name',
-                        style: switch (getThemeManager(context).selectedThemeMode) {
-                          ThemeMode.light => Theme.of(context).typography.white.bodyLarge!,
-                          ThemeMode.dark => Theme.of(context).typography.black.bodyLarge!,
+                        style: switch (
+                            getThemeManager(context).selectedThemeMode) {
+                          ThemeMode.light =>
+                            Theme.of(context).typography.white.bodyLarge!,
+                          ThemeMode.dark =>
+                            Theme.of(context).typography.black.bodyLarge!,
                           _ => throw ' configure ThemeMode.system',
                         },
                       ),
@@ -113,5 +116,6 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
   }
 
   @override
-  MoreToolInfoSheetModel viewModelBuilder(BuildContext context) => MoreToolInfoSheetModel();
+  MoreToolInfoSheetModel viewModelBuilder(BuildContext context) =>
+      MoreToolInfoSheetModel();
 }

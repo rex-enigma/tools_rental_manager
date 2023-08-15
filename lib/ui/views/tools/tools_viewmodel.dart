@@ -147,7 +147,7 @@ class ToolsViewModel extends BaseViewModel {
       isScrollControlled: true,
       // setting it to false will make sure when you use [SafeArea] when constructing bottomSheet, it won't be ignored.
       ignoreSafeArea: false,
-      data: 'my passed data',
+      data: 'passed data',
     );
     print(response?.data);
   }

@@ -9,7 +9,8 @@ import 'tool_user_lastname_editor_dialog_model.dart';
 
 const double _graphicSize = 60;
 
-class ToolUserLastnameEditorDialog extends StackedView<ToolUserLastnameEditorDialogModel> {
+class ToolUserLastnameEditorDialog
+    extends StackedView<ToolUserLastnameEditorDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -51,5 +52,6 @@ class ToolUserLastnameEditorDialog extends StackedView<ToolUserLastnameEditorDia
   }
 
   @override
-  ToolUserLastnameEditorDialogModel viewModelBuilder(BuildContext context) => ToolUserLastnameEditorDialogModel();
+  ToolUserLastnameEditorDialogModel viewModelBuilder(BuildContext context) =>
+      ToolUserLastnameEditorDialogModel();
 }
