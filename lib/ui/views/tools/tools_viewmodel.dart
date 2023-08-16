@@ -10,6 +10,11 @@ import 'package:tools_rental_management/ui/views/tools/menu_status_filter.dart';
 
 class ToolsViewModel extends BaseViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
+  // final _toolsRepo = locator<ToolsRe>
+
+  // this the the new tool that has been constructed from ToolCreatorSheet
+  // remember this newTool does't have an toolId yet, it will be assigned by sqlite so don't thing about using it directly here
+  Tool? _newTool;
 
   /// tool search text form field toggle
   bool _showAppBarSearchField = false;
@@ -31,6 +36,13 @@ class ToolsViewModel extends BaseViewModel {
   void initState() {
     // initialize tools
 
+    updateUi();
+  }
+
+// initstate and insertNewTool will use this
+// initState will use this to initialize the states
+// insertNewTool will use this when it is done inserting a new tool to the database so that the new tool can get reflected in the ui
+  void updateUi() {
     _filterToolsByStatus(currentSelectedStatusFilter);
     _displayTools(currentSelectedTab);
     rebuildUi();
@@ -141,13 +153,15 @@ class ToolsViewModel extends BaseViewModel {
     }
   }
 
+  // Future<int> insertNewTool() {}
+
   void showToolCreatorBottomSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.toolCreator,
       isScrollControlled: true,
       // setting it to false will make sure when you use [SafeArea] when constructing bottomSheet, it won't be ignored.
       ignoreSafeArea: false,
-      data: 'passed data',
+      data: 'passed data', // its not used currently, its just there to remind me that i can send data to the new screen
     );
     print(response?.data);
   }

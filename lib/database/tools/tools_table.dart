@@ -27,8 +27,6 @@ class Tools extends Table {
   IntColumn get toolUniqueId => integer().unique()();
   // on the reference method, onDelete value is set to KeyAction.setNull so that when the parent referenced
   // column is deleted, tool_user_id column will be set to null.(tool de-touching from the deleted toolUser).
-  IntColumn get toolUserId => integer()
-      .nullable()
-      .references(ToolUsers, #toolUserId, onDelete: KeyAction.setNull)();
+  IntColumn get toolUserId => integer().nullable().references(ToolUsers, #toolUserId, onDelete: KeyAction.setNull)();
   TextColumn get status => textEnum<Status>()();
 }

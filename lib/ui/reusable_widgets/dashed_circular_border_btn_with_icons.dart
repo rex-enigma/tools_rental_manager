@@ -18,11 +18,14 @@ class DashedCircularBorderButtonWithIcons extends StatelessWidget {
   /// image path either for a tool image or toolUser image depending on the bottomSheetType.
   final String? imagePath;
   final VoidCallback onPressed;
+  // checks if the Wrapping FormField has any error
+  final bool hasError;
 
   const DashedCircularBorderButtonWithIcons({
     required this.bottomSheetType,
     required this.imagePath,
     required this.onPressed,
+    this.hasError = false,
     Key? key,
   }) : super(key: key);
 
@@ -30,64 +33,76 @@ class DashedCircularBorderButtonWithIcons extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: onPressed,
-      // DottedBorder is a third-party package
-      child: DottedBorder(
-        borderType: BorderType.Circle,
-        dashPattern: const [8, 8],
-        strokeCap: StrokeCap.square,
-        color: Theme.of(context).colorScheme.onPrimary,
-        child: Container(
-          width: 100,
-          height: 100,
-          decoration: const BoxDecoration(
-            shape: BoxShape.circle,
-          ),
-          child: Stack(
-            children: [
-              Positioned.fill(
-                child: ClipOval(
-                  child: imagePath == null
-                      ? Container(
-                          decoration: const BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Color.fromRGBO(244, 244, 244, 1),
-                          ),
-                        )
-                      : Image.asset(
-                          imagePath!,
-                          fit: BoxFit.cover,
-                        ),
-                ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          DottedBorder(
+            borderType: BorderType.Circle,
+            dashPattern: hasError ? [8, 1] : [8, 8],
+            strokeCap: StrokeCap.square,
+            color: hasError ? Colors.red : Theme.of(context).colorScheme.onPrimary,
+            child: Container(
+              width: 100,
+              height: 100,
+              decoration: const BoxDecoration(
+                shape: BoxShape.circle,
               ),
-              if (imagePath == null)
-                Align(
-                  alignment: Alignment.center,
-                  child: switch (bottomSheetType) {
-                    BottomSheetType.toolCreator => const Icon(
-                        FontIcons.circularSaw,
-                        color: Color.fromRGBO(202, 202, 202, 1.0),
-                        size: 56.0,
-                      ),
-                    BottomSheetType.toolUserCreator => const Icon(
-                        Icons.person,
-                        color: Color.fromRGBO(202, 202, 202, 1.0),
-                        size: 80.0,
-                      ),
-                    _ =>
-                      throw 'expected ${BottomSheetType.toolCreator} or ${BottomSheetType.toolUserCreator} but got: $bottomSheetType'
-                  },
-                ),
-              if (imagePath == null)
-                const Align(
-                  alignment: Alignment.center,
-                  child: Icon(
-                    Icons.photo_camera,
-                    color: Colors.black,
+              child: Stack(
+                children: [
+                  Positioned.fill(
+                    child: ClipOval(
+                      child: imagePath == null
+                          ? Container(
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Color.fromRGBO(244, 244, 244, 1),
+                              ),
+                            )
+                          : Image.asset(
+                              imagePath!,
+                              fit: BoxFit.cover,
+                            ),
+                    ),
                   ),
-                ),
-            ],
+                  if (imagePath == null)
+                    Align(
+                      alignment: Alignment.center,
+                      child: switch (bottomSheetType) {
+                        BottomSheetType.toolCreator => const Icon(
+                            FontIcons.circularSaw,
+                            color: Color.fromRGBO(202, 202, 202, 1.0),
+                            size: 56.0,
+                          ),
+                        BottomSheetType.toolUserCreator => const Icon(
+                            Icons.person,
+                            color: Color.fromRGBO(202, 202, 202, 1.0),
+                            size: 80.0,
+                          ),
+                        _ => throw 'expected ${BottomSheetType.toolCreator} or ${BottomSheetType.toolUserCreator} but got: $bottomSheetType'
+                      },
+                    ),
+                  if (imagePath == null)
+                    const Align(
+                      alignment: Alignment.center,
+                      child: Icon(
+                        Icons.photo_camera,
+                        color: Colors.black,
+                      ),
+                    ),
+                ],
+              ),
+            ),
           ),
-        ),
+          if (hasError == true)
+            const Text(
+              'tap to add a tool image',
+              style: TextStyle(
+                fontStyle: FontStyle.italic,
+                fontSize: 14,
+                color: Colors.red,
+              ),
+            )
+        ],
       ),
     );
   }

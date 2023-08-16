@@ -1,6 +1,9 @@
 import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
+import 'package:tools_rental_management/app/app.locator.dart';
 
 class ToolNamesViewModel extends BaseViewModel {
+  final _navigationService = locator<NavigationService>();
   final toolNames = sortedToolNames();
   List<String> filteredToolNames = [];
 
@@ -29,6 +32,11 @@ class ToolNamesViewModel extends BaseViewModel {
   void resetFilteredToolNameToDefault() {
     filteredToolNames = [...toolNames];
     rebuildUi();
+  }
+
+  void navigateBack({String? toolName}) {
+    // return tool name back to the calling function (currently will be returned to navigateToToolNamesView in ToolCreatorSheetModel)
+    _navigationService.back(result: toolName);
   }
 }
 

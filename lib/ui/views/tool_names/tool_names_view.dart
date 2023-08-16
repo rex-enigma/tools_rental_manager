@@ -24,7 +24,9 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
           leading: IconButton(
             icon: const Icon(Icons.arrow_back_ios),
             color: Theme.of(context).colorScheme.onPrimary,
-            onPressed: () => Navigator.of(context).pop(),
+            onPressed: () {
+              viewModel.navigateBack();
+            },
           ),
           title: Text(
             'Tool names',
@@ -38,11 +40,9 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
           actions: [
             IconButton(
               onPressed: () {
-                viewModel.showAppBarSearchField =
-                    !viewModel.showAppBarSearchField;
+                viewModel.showAppBarSearchField = !viewModel.showAppBarSearchField;
                 // if viewModel.showAppBarSearchField = false, (the user cancelled search) we reset filtered tool name to default
-                if (!viewModel.showAppBarSearchField)
-                  viewModel.resetFilteredToolNameToDefault();
+                if (!viewModel.showAppBarSearchField) viewModel.resetFilteredToolNameToDefault();
               },
               icon: viewModel.showAppBarSearchField
                   ? Icon(
@@ -68,15 +68,14 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
               child: Text(
                 toolName,
                 style: switch (getThemeManager(context).selectedThemeMode) {
-                  ThemeMode.light =>
-                    Theme.of(context).typography.white.bodyMedium,
-                  ThemeMode.dark =>
-                    Theme.of(context).typography.black.bodyMedium,
+                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
+                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
                   _ => throw 'configure ThemeMode.system',
                 },
               ),
-              onPressed: () => Navigator.of(context).pop(
-                  toolName), // pop this view and return the name of a tool associated with this TextButton
+              onPressed: () {
+                viewModel.navigateBack(toolName: toolName);
+              }, // pop this view and return the name of a tool associated with this TextButton
             ),
           );
         },
@@ -85,8 +84,7 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
   }
 
   @override
-  ToolNamesViewModel viewModelBuilder(BuildContext context) =>
-      ToolNamesViewModel();
+  ToolNamesViewModel viewModelBuilder(BuildContext context) => ToolNamesViewModel();
 
   @override
   void onViewModelReady(ToolNamesViewModel viewModel) {

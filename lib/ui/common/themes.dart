@@ -169,6 +169,9 @@ InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
   focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
   disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+  errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+  focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+  errorStyle: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
   hintStyle: TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,
@@ -190,6 +193,9 @@ InputDecorationTheme _inputDecorationThemeDark = const InputDecorationTheme(
   focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
   enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
   disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+  errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+  focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+  errorStyle: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
   hintStyle: TextStyle(
     fontSize: 14,
     fontWeight: FontWeight.w400,

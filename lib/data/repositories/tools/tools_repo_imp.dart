@@ -6,12 +6,11 @@ import 'package:tools_rental_management/data/repositories/tools/tools_repo_inter
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
-class ToolRepoImp implements ToolsRepo {
+class ToolsRepoImp implements ToolsRepo {
   late ToolsLocalDataSource _toolsLocalDataSource;
 
-  ToolRepoImp({ToolsLocalDataSource? toolsLocalDataSource}) {
-    _toolsLocalDataSource =
-        toolsLocalDataSource ?? locator.get<ToolsLocalSqliteDbDataSource>();
+  ToolsRepoImp({ToolsLocalDataSource? toolsLocalDataSource}) {
+    _toolsLocalDataSource = toolsLocalDataSource ?? locator<ToolsLocalSqliteDbDataSource>();
   }
 
   @override
@@ -20,7 +19,7 @@ class ToolRepoImp implements ToolsRepo {
   }
 
   /// update and return the updated tool.
-  /// The tool passed as argument cant contain null value for Tool.toolId property because
+  /// The tool passed as argument cant contain null value for Tool.toolId property
   ///  for it to be updated it must exist in the database
   @override
   Future<Tool> updateTool(Tool tool) async {
@@ -34,8 +33,7 @@ class ToolRepoImp implements ToolsRepo {
 
   /// update and return the updated tool category for the given toolId
   @override
-  Future<Category?> updateToolCategory(
-      Category toolCategory, int toolId) async {
+  Future<Category?> updateToolCategory(Category toolCategory, int toolId) async {
     await _toolsLocalDataSource.updateToolCategory(toolCategory, toolId);
     return getToolCategoryByIdOrNull(toolId);
   }
@@ -70,8 +68,7 @@ class ToolRepoImp implements ToolsRepo {
 
   /// will return the updated tools that are associated with a [ToolUser] of the given toolUserId.
   @override
-  Future<List<Tool>> associateToolsWithToolUser(
-      List<Tool> tools, int toolUserId) async {
+  Future<List<Tool>> associateToolsWithToolUser(List<Tool> tools, int toolUserId) async {
     final List<Tool> associatedTools = tools.map((tool) {
       return tool.copyWith(
         toolUserId: toolUserId,
@@ -108,8 +105,7 @@ class ToolRepoImp implements ToolsRepo {
     int amountOfToolsUpdated = 0;
 
     for (var disassociatedTool in disassociatedTools) {
-      amountOfToolsUpdated +=
-          await _toolsLocalDataSource.updateTool(disassociatedTool);
+      amountOfToolsUpdated += await _toolsLocalDataSource.updateTool(disassociatedTool);
     }
     return amountOfToolsUpdated;
   }

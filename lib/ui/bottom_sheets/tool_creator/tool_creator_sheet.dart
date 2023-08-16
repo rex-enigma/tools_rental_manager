@@ -9,6 +9,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/dashed_circular_border_btn_with_icons.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/drag_handle.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
+import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart';
 
 import 'tool_creator_sheet_model.dart';
 
@@ -70,11 +71,15 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                     left: 16.0,
                   ),
                   child: Form(
+                    key: viewModel.formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextFormField(
-                          onTap: () => print('textFormField taped'),
+                          controller: viewModel.toolNameTextEditingController,
+                          onTap: () {
+                            viewModel.navigateToToolNamesView();
+                          },
                           readOnly: true,
                           style: textFormFieldInputTextStyle(context),
                           // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
@@ -82,11 +87,13 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                             hintText: 'Name of a tool',
                             labelText: 'Tool name *',
                           ),
+                          validator: (value) => ToolCreatorSheetValidators.validateToolName(value),
                         ),
                         verticalSpaceMedium,
                         TextFormField(
+                          controller: viewModel.purchaseDateTextEditController,
                           onTap: () {
-                            // i had to pass the context because DatePickerDialog doen't have a callback to get the date back, which if it had, i could have used it to return the date
+                            // i had to pass the context because DatePickerDialog doesn't have a callback to get the date back, which if it had, i could have used it to return the date
                             // which i would wrap it in the DialogResponse and get returned by showCustomDialog
                             viewModel.showDatePickerDialog(context);
                           },
@@ -100,9 +107,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
+                          validator: (value) => ToolCreatorSheetValidators.validatePurchaseDate(value),
                         ),
                         verticalSpaceMedium,
-                        DropdownButtonFormField(
+                        DropdownButtonFormField<Currency>(
                           value: null,
                           style: textFormFieldInputTextStyle(context),
                           // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
@@ -113,35 +121,44 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                           items: Currency.values
                               .map(
                                 (currency) => DropdownMenuItem(
-                                  value: currency.name,
+                                  value: currency,
                                   child: Text(currency.name.toUpperCase()),
                                 ),
                               )
                               .toList(),
-                          onChanged: (value) => {},
+                          validator: (value) => ToolCreatorSheetValidators.validateCurrency(value),
+                          onChanged: (value) {
+                            viewModel.setCurrency(value);
+                          },
                         ),
                         verticalSpaceMedium,
                         TextFormField(
+                          controller: viewModel.purchasedPriceTextEditingController,
                           cursorColor: Theme.of(context).colorScheme.secondary,
                           cursorWidth: 1,
+                          keyboardType: TextInputType.number,
                           style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
                             hintText: "How much the tool was purchased for",
                             labelText: 'Purchased price *',
                           ),
+                          validator: (value) => ToolCreatorSheetValidators.validatePurchasePriceInput(value),
                         ),
                         verticalSpaceMedium,
                         TextFormField(
+                          controller: viewModel.rateTextEditingController,
                           cursorColor: Theme.of(context).colorScheme.secondary,
                           cursorWidth: 1,
+                          keyboardType: TextInputType.number,
                           style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
                             hintText: 'Cost of renting a tool per hour',
-                            labelText: 'Rate (KES) *', // don't forget to make the KES dynamic.
+                            labelText: 'Rate (KES) *',
                           ),
+                          validator: (value) => ToolCreatorSheetValidators.validateRate(value),
                         ),
                         verticalSpaceMedium,
-                        DropdownButtonFormField(
+                        DropdownButtonFormField<Category>(
                           value: null,
                           style: textFormFieldInputTextStyle(context),
                           decoration: const InputDecoration(
@@ -156,22 +173,25 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                 ),
                               )
                               .toList(),
+                          validator: (value) => ToolCreatorSheetValidators.validateCategory(value),
                           onChanged: (value) {
-                            print(value);
+                            viewModel.setCategory(value);
                           },
                         ),
                         verticalSpaceMedium,
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.end,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Expanded(
                               child: TextFormField(
+                                controller: viewModel.toolUniqueIdTextEditingController,
                                 readOnly: true,
                                 style: textFormFieldInputTextStyle(context),
                                 decoration: const InputDecoration(
                                   hintText: "tap 'Gen id' to generate a tool id ",
-                                  labelText: 'Tool id (Unique) *',
+                                  labelText: 'Tool unique id  *',
                                 ),
+                                validator: (value) => ToolCreatorSheetValidators.validateToolUniqueId(value),
                               ),
                             ),
                             Container(
@@ -190,18 +210,30 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                       ),
                                     ),
                                 child: const Text('Gen id'),
-                                onPressed: () => {},
+                                onPressed: () {
+                                  viewModel.generateToolUniqueId();
+                                },
                               ),
                             )
                           ],
                         ),
                         verticalSpaceMedium,
                         FormField(
-                          builder: (formFieldState) => DashedCircularBorderButtonWithIcons(
-                            bottomSheetType: BottomSheetType.toolCreator,
-                            imagePath: viewModel.toolImagePath,
-                            onPressed: () => viewModel.showToolImageCaptureSheet(),
-                          ),
+                          builder: (formFieldState) {
+                            return DashedCircularBorderButtonWithIcons(
+                              bottomSheetType: BottomSheetType.toolCreator,
+                              imagePath: viewModel.toolImagePath,
+                              onPressed: () => viewModel.showToolImageCaptureSheet(),
+                              // will be true if this form has any error(when the validator returns a string value)
+                              hasError: formFieldState.hasError,
+                            );
+                          },
+                          validator: (value) {
+                            if (viewModel.toolImagePath == null) {
+                              return 'tap to add a tool image';
+                            }
+                            return null;
+                          },
                         ),
                         verticalSpaceMedium,
                         Row(
@@ -224,7 +256,14 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              onPressed: () => {},
+                              onPressed: () {
+                                // the condition will b true if all the form validators pass
+                                if (viewModel.formKey.currentState!.validate()) {
+                                  viewModel.handleFormSubmission();
+                                } else {
+                                  print('some form are not valid');
+                                }
+                              },
                               child: const Text('Add'),
                             ),
                           ],
@@ -241,9 +280,14 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
     );
   }
 
+  /////////// don't forget to dispose the TextEditingControllers
   @override
   void onDispose(ToolCreatorSheetModel viewModel) {
-    // TODO: implement onDispose
+    viewModel.toolNameTextEditingController.dispose();
+    viewModel.purchaseDateTextEditController.dispose();
+    viewModel.purchasedPriceTextEditingController.dispose();
+    viewModel.rateTextEditingController.dispose();
+    viewModel.toolUniqueIdTextEditingController.dispose();
     super.onDispose(viewModel);
   }
 
@@ -252,8 +296,6 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
 
   @override
   void onViewModelReady(ToolCreatorSheetModel viewModel) {
-    // pass the currentSelectedTab from ToolsView
-
     super.onViewModelReady(viewModel);
   }
 }

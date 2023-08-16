@@ -1,24 +1,45 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/app/app.router.dart';
+import 'package:tools_rental_management/data/data_models/tool.dart';
 import 'package:tools_rental_management/enums/category.dart';
+import 'package:tools_rental_management/enums/currency.dart';
 
 class ToolCreatorSheetModel extends BaseViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
-  final _dialogService = locator<DialogService>();
+  final _navigationService = locator<NavigationService>();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   TextEditingController toolNameTextEditingController = TextEditingController();
-  String? _toolImagePath;
-
-  String? get toolImagePath => _toolImagePath;
+  // the date in held by text is formatted using intl package, don't forget to convert convert it back to DateTime when preparing it for storage
+  TextEditingController purchaseDateTextEditController = TextEditingController();
+  Currency? currency;
+  TextEditingController purchasedPriceTextEditingController = TextEditingController();
+  TextEditingController rateTextEditingController = TextEditingController();
+  Category? category;
+  // the id held by text is of type string, don't forget to convert it back to int type when preparing it for storage
+  TextEditingController toolUniqueIdTextEditingController = TextEditingController();
+  String? toolImagePath;
 
   void showToolImageCaptureSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.toolImageCapture,
     );
+    // the returned value will be null or a string representing a path of a tool image
+    toolImagePath = response?.data;
+  }
+
+  void navigateToToolNamesView() async {
+    String? response = await _navigationService.navigateToToolNamesView(null, false);
+    if (response != null) toolNameTextEditingController.text = response;
+    // no need to call rebuildUi() because text is a setter which when set/called will notify the listeners which will be our inputField in TextFormField for the tool name, hence it will rebuild showing the value which was set
   }
 
   // i had to pass context so that i can use showDatePicker functionality, since the stacked way for returning data using showCustomDialog doesn't work with DatePickerDialog
@@ -31,6 +52,106 @@ class ToolCreatorSheetModel extends BaseViewModel {
       initialEntryMode: DatePickerEntryMode.calendarOnly,
     );
 
-    print(dateTime);
+    if (dateTime != null) purchaseDateTextEditController.text = DateFormat('dd/MM/yyyy').format(dateTime);
+    // no need to call rebuildUi() because text is a setter which when set/called will notify the listeners which will be our inputField in TextFormField for the purchase date, hence it will rebuild showing the value which was set
+  }
+
+  void setCurrency(Currency? currency) {
+    currency = currency;
+  }
+
+  void setCategory(Category? category) {
+    category = category;
+  }
+
+  void generateToolUniqueId() {
+    int toolUniqueId = generateUniqueToolId();
+    // convert the id to string so that we can set the toolUniqueIdTextEditingController with it
+    String strToolUniqueId = toolUniqueId.toString();
+    // no need to call rebuildUi() because when text is set it will notify the inputField wrapped by the TextFormField hence rebuild which will display the value
+    toolUniqueIdTextEditingController.text = strToolUniqueId;
+  }
+
+  /// its called when all forms validation pass
+  void handleFormSubmission() {
+    Tool newTool = Tool.insert(
+      name: toolNameTextEditingController.text,
+      boughtAt: DateFormat().parse(purchaseDateTextEditController.text),
+      purchasedPrice: int.parse(purchasedPriceTextEditingController.text),
+      rate: int.parse(rateTextEditingController.text),
+      currency: currency!, // we guaranty the currency cant be null because it has already been validate not to be null
+      category: category!, // we guaranty the category cant be null because it has already been validated not to be null
+      toolImagePath: toolImagePath!,
+      toolUniqueId: int.parse(toolUniqueIdTextEditingController.text),
+    );
+
+    // send this newTool back to ToolsView for it to be added to the database
+    _navigationService.back(result: newTool);
+  }
+}
+
+// this function might return identical values
+// its just because the app is a prototype
+int generateUniqueToolId() {
+  int fixValue = 51928347;
+  int randomValue = Random().nextInt(100);
+  return fixValue * randomValue;
+}
+
+class ToolCreatorSheetValidators {
+  static String? validateToolName(String? text) {
+    if (text == null) {
+      return null;
+    } else if (text.isEmpty) {
+      return 'tap and pick a tool name';
+    }
+  }
+
+  static String? validatePurchaseDate(String? text) {
+    if (text == null) {
+      return null;
+    } else if (text.isEmpty) {
+      return 'tap and pick a purchase date';
+    }
+  }
+
+  static String? validateCurrency(Currency? currency) {
+    if (currency == null) {
+      return 'choose the currency used to purchase the tool';
+    }
+  }
+
+  static String? validatePurchasePriceInput(String? text) {
+    if (text == null) {
+      return null;
+    } else if (text.contains(RegExp(r'[a-zA-Z]'))) {
+      return 'no letters are allowed';
+    } else if (text.isEmpty) {
+      return 'please input a purchase value';
+    }
+  }
+
+  static String? validateRate(String? text) {
+    if (text == null) {
+      return null;
+    } else if (text.contains(RegExp(r'[a-zA-Z]'))) {
+      return 'no letters are allowed';
+    } else if (text.isEmpty) {
+      return 'please input a rate value';
+    }
+  }
+
+  static String? validateCategory(Category? category) {
+    if (category == null) {
+      return 'choose in which category a tool is in';
+    }
+  }
+
+  static String? validateToolUniqueId(String? text) {
+    if (text == null) {
+      return null;
+    } else if (text.isEmpty) {
+      return "tap 'Gen id' to generate a tool id";
+    }
   }
 }
