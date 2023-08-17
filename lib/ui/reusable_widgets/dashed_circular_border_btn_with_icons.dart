@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
@@ -58,8 +60,8 @@ class DashedCircularBorderButtonWithIcons extends StatelessWidget {
                                 color: Color.fromRGBO(244, 244, 244, 1),
                               ),
                             )
-                          : Image.asset(
-                              imagePath!,
+                          : Image.file(
+                              File(imagePath!),
                               fit: BoxFit.cover,
                             ),
                     ),

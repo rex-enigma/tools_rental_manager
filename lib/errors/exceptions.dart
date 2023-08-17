@@ -17,8 +17,7 @@
 // }
 
 class ArticleNotFoundException implements Exception {
-  String message =
-      'ArticleNotFoundException: article not found of the given title';
+  String message = 'ArticleNotFoundException: article not found of the given title';
 
   @override
   String toString() {
@@ -45,5 +44,15 @@ class ImageNotFoundInDir implements Exception {
   @override
   String toString() {
     return 'ImageNotFoundInDir: $message';
+  }
+}
+
+class FailedToDeleteATool implements Exception {
+  String message;
+  FailedToDeleteATool({required this.message});
+
+  @override
+  String toString() {
+    return 'FailedToDeleteATool: $message';
   }
 }

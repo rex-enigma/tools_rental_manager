@@ -34,6 +34,7 @@ class ToolRateEditorDialog extends StackedView<ToolRateEditorDialogModel> {
         },
       ),
       input: TextFormField(
+        controller: viewModel.rateEditController,
         cursorColor: Theme.of(context).colorScheme.onPrimary,
         cursorWidth: 1,
         style: textFormFieldInputTextStyle(context),
@@ -45,15 +46,35 @@ class ToolRateEditorDialog extends StackedView<ToolRateEditorDialogModel> {
         decoration: const InputDecoration(
           labelText: 'Rate (KES) *', // don't forget to make the KES dynamic.
         ),
+        onChanged: (value) {
+          if (value == '') {
+            viewModel.rateEditController.text = '0';
+            return;
+          }
+        },
       ),
-      onSaved: () {},
+      onSaved: () {
+        // make sure you return rate as integer
+        completer(DialogResponse(data: int.parse(viewModel.rateEditController.text)));
+      },
       onCancelled: () {
-        Navigator.pop(context);
+        completer(DialogResponse(data: null));
       },
     );
   }
 
   @override
-  ToolRateEditorDialogModel viewModelBuilder(BuildContext context) =>
-      ToolRateEditorDialogModel();
+  ToolRateEditorDialogModel viewModelBuilder(BuildContext context) => ToolRateEditorDialogModel();
+
+  @override
+  void onViewModelReady(ToolRateEditorDialogModel viewModel) {
+    viewModel.rateEditController.text = request.data.toString();
+    super.onViewModelReady(viewModel);
+  }
+
+  @override
+  void onDispose(ToolRateEditorDialogModel viewModel) {
+    viewModel.rateEditController.dispose();
+    super.onDispose(viewModel);
+  }
 }

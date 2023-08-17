@@ -1,19 +1,29 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
+import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/app/app.router.dart';
 import 'package:tools_rental_management/data/data_models/tool.dart';
+import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
+import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
 import 'package:tools_rental_management/enums/status.dart';
+import 'package:tools_rental_management/errors/exceptions.dart';
 import 'package:tools_rental_management/ui/views/tools/menu_status_filter.dart';
 
 class ToolsViewModel extends BaseViewModel {
+  // we are directly instanciating snackbarService since its not part of dependencies managed by Locator
+  final _snackbarService = SnackbarService();
+  final _dialogService = locator<DialogService>();
+  final _navigationService = locator<NavigationService>();
   final _bottomSheetService = locator<BottomSheetService>();
-  // final _toolsRepo = locator<ToolsRe>
+  final _toolsRepoImp = locator<ToolsRepoImp>();
+  final _toolUsersRepoImp = locator<ToolUsersRepoImp>();
 
   // this the the new tool that has been constructed from ToolCreatorSheet
-  // remember this newTool does't have an toolId yet, it will be assigned by sqlite so don't thing about using it directly here
+  // remember this newTool does't have an toolId yet, it will be assigned by sqlite so don't think about using it directly here
   Tool? _newTool;
 
   /// tool search text form field toggle
@@ -24,7 +34,7 @@ class ToolsViewModel extends BaseViewModel {
   MenuStatusFilter currentSelectedStatusFilter = MenuStatusFilter.viewAllTools;
 
   // hold all tools from database
-  List<Tool> tools = testTools;
+  List<Tool> tools = [];
   // filtered tools based on their status
   List<Tool> _menuStatusFilteredTools = [];
   // contains all powered tools and un-powered tools
@@ -32,16 +42,33 @@ class ToolsViewModel extends BaseViewModel {
   List<Tool> poweredToolsTabView = []; // currentSelectedTab = 1;
   List<Tool> unPoweredToolsTabView = []; // currentSelectedTab = 2;
 
-// dont forget to initialize tools, currently  it is initialized  by a test list of testTools.
-  void initState() {
-    // initialize tools
+  /// a map containing toolUser ids as key and toolUser fullname as values;
+  /// These names contained here represents toolUsers currently using a specific tool that is being displayed
+  /// when view is constructing tools, it should access this map with a specific key(toolUser key) to get
+  /// the name of a toolUser for a corresponding tool
+  Map<int, String> toolUserNames = {};
 
-    updateUi();
+// dont forget to initialize tools, currently  it is initialized  by a test list of testTools.
+  void initState() async {
+    List<Tool>? toolsOrNull = await _fetchAllTools();
+    await setToolUserNames(toolsOrNull);
+    addTools(toolsOrNull);
   }
 
-// initstate and insertNewTool will use this
-// initState will use this to initialize the states
-// insertNewTool will use this when it is done inserting a new tool to the database so that the new tool can get reflected in the ui
+  Future setToolUserNames(List<Tool>? tools) async {
+    if (tools == null) return;
+    for (var tool in tools) {
+      int? toolUserId = tool.toolUserId;
+      if (toolUserId != null) {
+        String? firstName = await _toolUsersRepoImp.getToolUserFirstNameByIdOrNull(toolUserId);
+        String? lastName = await _toolUsersRepoImp.getToolUserLastNameByIdOrNull(toolUserId);
+        String fullName = '$firstName $lastName';
+        toolUserNames[toolUserId] = fullName;
+      }
+    }
+  }
+
+  // will be called after tools? have been fetched from the database and have already been added to the [tools] property
   void updateUi() {
     _filterToolsByStatus(currentSelectedStatusFilter);
     _displayTools(currentSelectedTab);
@@ -100,7 +127,7 @@ class ToolsViewModel extends BaseViewModel {
       case 2:
         unPoweredToolsTabView = _menuStatusFilteredTools.where(
           (tool) {
-            return (tool.name.toLowerCase().contains(query.toLowerCase()) && tool.category == Category.unpoweredTool);
+            return (tool.name.toLowerCase().contains(query.toLowerCase()) && tool.category == Category.unPoweredTool);
           },
         ).toList();
       default:
@@ -111,11 +138,12 @@ class ToolsViewModel extends BaseViewModel {
 
   // filter tools by there status and add them to [menuStatusFilteredTools]
   void _filterToolsByStatus(MenuStatusFilter menuStatusFilter) {
+    // print(tools);
     switch (menuStatusFilter) {
       // contains all the tools regardless of there tool status
       case MenuStatusFilter.viewAllTools:
         _menuStatusFilteredTools = [...tools];
-
+        // print(_menuStatusFilteredTools);
         break;
       case MenuStatusFilter.viewOnlyToolsBeingUsed:
         _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.beingUsed).toList();
@@ -147,13 +175,48 @@ class ToolsViewModel extends BaseViewModel {
         break;
       // display only un-powered tools in Unpowered tab
       case 2:
-        unPoweredToolsTabView = _menuStatusFilteredTools.where((tool) => tool.category == Category.unpoweredTool).toList();
+        unPoweredToolsTabView = _menuStatusFilteredTools.where((tool) => tool.category == Category.unPoweredTool).toList();
         break;
       default:
     }
   }
 
-  // Future<int> insertNewTool() {}
+  /// return the full name of a toolUser for the given toolUser key
+  String? getToolUserFullName(int key) {
+    return toolUserNames[key];
+  }
+
+  void addTools(List<Tool>? tools) {
+    if (tools != null) {
+      // order the tools in descending order
+      // since the toolIds are sequentially incremented, its guaranteed that the newly added tool to the database will have a larger toolId value
+      // and therefore we want it get display at the top
+      tools.sort((toolA, toolB) => toolB.toolId!.compareTo(toolA.toolId!));
+    }
+    this.tools = tools == null ? [] : [...tools];
+    updateUi();
+  }
+
+  // we are using runBusyFuture function so that it can allow as to check if our viewModel is busy through the isBusy property handling a future function
+  Future _insertTool() async {
+    // Sets busy to true before starting future and sets it to false after executing
+    // the ui will be rebuild in both situations
+    return runBusyFuture(_insertNewTool());
+  }
+
+  Future<List<Tool>?> _fetchAllTools() async {
+    // Sets busy to true before starting future and sets it to false after executing
+    // the ui will be rebuild in both situations
+    return runBusyFuture(_getAllTools());
+  }
+
+  Future<List<Tool>?> _getAllTools() {
+    return _toolsRepoImp.getAllToolsOrNull();
+  }
+
+  Future<int> _insertNewTool() {
+    return _toolsRepoImp.insertTool(_newTool!);
+  }
 
   void showToolCreatorBottomSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
@@ -163,14 +226,52 @@ class ToolsViewModel extends BaseViewModel {
       ignoreSafeArea: false,
       data: 'passed data', // its not used currently, its just there to remind me that i can send data to the new screen
     );
-    print(response?.data);
+    // response.data is not null when a user has constructed a new tool
+    if (response?.data != null) {
+      _newTool = response!.data;
+      await _insertTool();
+      List<Tool>? toolsOrNull = await _fetchAllTools();
+      // this will add the tools? gotten from the database to the [tools] property
+      addTools(toolsOrNull);
+    }
   }
 
-  /// return the full name of a toolUser for the given toolUser key
+// will be called when the user navigate to toolView then back or when a tool is deleted
+// the user might update the tool in toolView therefore we refetch 'all the tools' and update toolsView [yea i know i should only fetch that updated tool but its just a prototype]
+  void updateTools() async {
+    List<Tool>? toolsOrNull = await _fetchAllTools();
+    addTools(toolsOrNull);
+  }
 
-  String getToolUserFullName(int key) {
-    // should implement a functionality that returns the full name of a tool user for the given key
-    return 'John doe'; // return a placeholder name for testing purpose.
+  void deleteRetiredTool(Tool tool) async {
+    // status of the tool to be used to validate the tool to be deleted is actually retired
+    if (tool.status != Status.retired) throw FailedToDeleteATool(message: '$tool is not retired yet');
+    // a value on 1 will be will be extracted from awaited future if the deletion was successful
+
+    // Sets busy to true before starting future and sets it to false after executing
+    // the ui will be rebuild in both situations
+    await runBusyFuture(_toolsRepoImp.deleteToolById(tool.toolId!));
+    // once the deletion is complete, show a snackbar message to the user
+    _snackbarService.showSnackbar(message: '${tool.name} deleted successfully');
+    updateTools();
+  }
+
+  void navigateToToolView(int toolId) async {
+    await _navigationService.navigateToToolView(toolId: toolId);
+    updateTools();
+  }
+
+  void showToolDeleteConfirmDialog(Tool tool) async {
+    var response = await _dialogService.showCustomDialog(
+      variant: DialogType.toolDeleteConfirm,
+      // pass the name of the tool to be displayed on the ToolDeleteConfirmDialog
+      data: tool.name,
+    );
+
+    // response.confirm will be true if the user has confirms the tool deletion by pressing confirm or false when the user has pressed cancel
+    if (response?.confirmed == true) {
+      deleteRetiredTool(tool);
+    }
   }
 }
 
@@ -190,7 +291,7 @@ List<Tool> testTools = [
       toolUserId: 100),
   Tool(
       status: Status.idle,
-      category: Category.unpoweredTool,
+      category: Category.unPoweredTool,
       name: 'Tool2',
       boughtAt: DateTime(2000),
       currency: Currency.kes,
@@ -216,7 +317,7 @@ List<Tool> testTools = [
       toolUserId: 101),
   Tool(
       status: Status.retired,
-      category: Category.unpoweredTool,
+      category: Category.unPoweredTool,
       name: 'Tool4',
       boughtAt: DateTime(2000),
       currency: Currency.kes,
@@ -229,7 +330,7 @@ List<Tool> testTools = [
       toolUserId: null),
   Tool(
       status: Status.underMaintenance,
-      category: Category.unpoweredTool,
+      category: Category.unPoweredTool,
       name: 'Tool5',
       boughtAt: DateTime(2000),
       currency: Currency.kes,
@@ -255,7 +356,7 @@ List<Tool> testTools = [
       toolUserId: null),
   Tool(
       status: Status.beingUsed,
-      category: Category.unpoweredTool,
+      category: Category.unPoweredTool,
       name: 'Tool7',
       boughtAt: DateTime(2000),
       currency: Currency.kes,

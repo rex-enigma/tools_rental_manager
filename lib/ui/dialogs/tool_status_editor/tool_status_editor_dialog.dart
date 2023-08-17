@@ -36,6 +36,7 @@ class ToolStatusEditorDialog extends StackedView<ToolStatusEditorDialogModel> {
         },
       ),
       input: DropdownButtonFormField(
+        value: viewModel.status ?? request.data,
         style: textFormFieldInputTextStyle(context),
         // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
         decoration: const InputDecoration(
@@ -45,29 +46,29 @@ class ToolStatusEditorDialog extends StackedView<ToolStatusEditorDialogModel> {
           (status) {
             var isBeingUsed = status == Status.beingUsed ? true : false;
             return DropdownMenuItem(
-              value: status.name,
+              value: status,
               child: Text(
                 status.name,
-                style: TextStyle(
-                    color: isBeingUsed == true
-                        ? Theme.of(context).disabledColor
-                        : null),
+                style: TextStyle(color: isBeingUsed == true ? Theme.of(context).disabledColor : null),
               ),
               // if the status is Status.beingUsed   we disable DropdownMenuItem for the item beingUsed
               enabled: !isBeingUsed,
             );
           },
         ).toList(),
-        onChanged: (value) => {},
+        onChanged: (value) {
+          viewModel.setStatusValue(value);
+        },
       ),
-      onSaved: () {},
+      onSaved: () {
+        completer(DialogResponse(data: viewModel.status));
+      },
       onCancelled: () {
-        Navigator.pop(context);
+        completer(DialogResponse(data: null));
       },
     );
   }
 
   @override
-  ToolStatusEditorDialogModel viewModelBuilder(BuildContext context) =>
-      ToolStatusEditorDialogModel();
+  ToolStatusEditorDialogModel viewModelBuilder(BuildContext context) => ToolStatusEditorDialogModel();
 }

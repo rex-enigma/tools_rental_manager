@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
@@ -103,8 +105,8 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                                     Icons.person,
                                     color: Colors.grey,
                                   ))
-                                : Image.asset(
-                                    toolUser.avatarImagePath,
+                                : Image.file(
+                                    File(toolUser.avatarImagePath),
                                     fit: BoxFit.cover,
                                   ),
                           ),

@@ -8,8 +8,7 @@ import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 
 import 'tool_category_editor_dialog_model.dart';
 
-class ToolCategoryEditorDialog
-    extends StackedView<ToolCategoryEditorDialogModel> {
+class ToolCategoryEditorDialog extends StackedView<ToolCategoryEditorDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -35,6 +34,7 @@ class ToolCategoryEditorDialog
         },
       ),
       input: DropdownButtonFormField(
+        value: viewModel.category ?? request.data,
         style: textFormFieldInputTextStyle(context),
         // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
         decoration: const InputDecoration(
@@ -43,21 +43,24 @@ class ToolCategoryEditorDialog
         items: Category.values
             .map(
               (category) => DropdownMenuItem(
-                value: category.name,
+                value: category,
                 child: Text(category.name),
               ),
             )
             .toList(),
-        onChanged: (value) => {},
+        onChanged: (value) {
+          viewModel.setCategoryValue(value);
+        },
       ),
-      onSaved: () {},
+      onSaved: () {
+        completer(DialogResponse(data: viewModel.category));
+      },
       onCancelled: () {
-        Navigator.pop(context);
+        completer(DialogResponse(data: null));
       },
     );
   }
 
   @override
-  ToolCategoryEditorDialogModel viewModelBuilder(BuildContext context) =>
-      ToolCategoryEditorDialogModel();
+  ToolCategoryEditorDialogModel viewModelBuilder(BuildContext context) => ToolCategoryEditorDialogModel();
 }

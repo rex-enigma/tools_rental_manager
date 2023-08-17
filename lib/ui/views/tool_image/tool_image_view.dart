@@ -5,7 +5,8 @@ import 'package:tools_rental_management/ui/reusable_widgets/image_view_layout.da
 import 'tool_image_viewmodel.dart';
 
 class ToolImageView extends StackedView<ToolImageViewModel> {
-  const ToolImageView({Key? key}) : super(key: key);
+  final int toolId;
+  const ToolImageView({Key? key, required this.toolId}) : super(key: key);
 
   @override
   Widget builder(
@@ -14,7 +15,7 @@ class ToolImageView extends StackedView<ToolImageViewModel> {
     Widget? child,
   ) {
     return ImageView(
-      title: viewModel.toolImagePath ?? 'Tool Name',
+      title: viewModel.toolName ?? 'Tool Name',
       imagePath: viewModel.toolImagePath,
       placeholderImage: const Icon(
         Icons.construction_outlined,
@@ -26,8 +27,11 @@ class ToolImageView extends StackedView<ToolImageViewModel> {
   }
 
   @override
-  ToolImageViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      ToolImageViewModel();
+  ToolImageViewModel viewModelBuilder(BuildContext context) => ToolImageViewModel();
+
+  @override
+  void onViewModelReady(ToolImageViewModel viewModel) {
+    viewModel.initState(toolId);
+    super.onViewModelReady(viewModel);
+  }
 }

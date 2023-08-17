@@ -13,9 +13,7 @@ class CameraPhotosLocalCameraDataSource implements CameraPhotosLocalDataSource {
   Future<String?> selectPhotoFromCamera() async {
     try {
       // first, try to take a photo with the camera,
-      XFile? imageFile = await _imagePicker.pickImage(
-          source: ImageSource
-              .camera); // the image_picker package is using the device camera app to capture photos.
+      XFile? imageFile = await _imagePicker.pickImage(source: ImageSource.camera); // the image_picker package is using the device camera app to capture photos.
 
       // second, only execute the code below if the photo has been captured,
       if (imageFile != null) {
@@ -33,6 +31,7 @@ class CameraPhotosLocalCameraDataSource implements CameraPhotosLocalDataSource {
           ],
         );
         // last, return the cropped image path or return non-cropped image path if the cropping of the image wasn't done.
+        print(croppedImageFile?.path ?? imageFile.path);
         return croppedImageFile?.path ?? imageFile.path;
       }
       // indicate that no image was captured;

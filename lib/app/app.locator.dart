@@ -18,6 +18,10 @@ import '../data/data_sources/local/toolarticles/toolarticles_localsharedpreferen
 import '../data/data_sources/local/tools/tools_localsqlite_datasource_imp.dart';
 import '../data/data_sources/local/toolusers/toolusers_localsqlite_datasource_imp.dart';
 import '../data/data_sources/remote/toolarticles/toolarticles_remotewikipedia_datasource_imp.dart';
+import '../data/repositories/images/images_repo_imp.dart';
+import '../data/repositories/toolarticles/toolarticles_repo_imp.dart';
+import '../data/repositories/tools/tools_repo_imp.dart';
+import '../data/repositories/toolusers/toolusers_repo_imp.dart';
 import '../ui/views/settings/settings_viewmodel.dart';
 import '../ui/views/tool_users/tool_users_viewmodel.dart';
 import '../ui/views/tools/tools_viewmodel.dart';
@@ -44,6 +48,10 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => ToolArticlesRemoteWikipediaDataSource());
   locator.registerLazySingleton(
       () => ToolArticleLocalSharedPreferencesDataSource());
+  locator.registerLazySingleton(() => ToolArticlesRepoImp());
+  locator.registerLazySingleton(() => ToolsRepoImp());
+  locator.registerLazySingleton(() => ToolUsersRepoImp());
+  locator.registerLazySingleton(() => ImagesRepoImp());
   locator.registerLazySingleton(() => ToolsViewModel());
   locator.registerLazySingleton(() => ToolUsersViewModel());
   locator.registerLazySingleton(() => SettingsViewModel());

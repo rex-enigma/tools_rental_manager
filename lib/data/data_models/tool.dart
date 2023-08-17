@@ -146,7 +146,7 @@ class Tool {
       purchasedPrice: $purchasedPrice 
       rate: $rate 
       rentCount: $rentCount 
-      currency ${currency.name} 
+      currency : ${currency.name} 
       category: ${category.name} 
       imagePath: $toolImagePath 
       toolUniqueId: $toolUniqueId 

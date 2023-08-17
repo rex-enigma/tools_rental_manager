@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
@@ -44,8 +46,8 @@ class NationalIdButton extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                     }
-                  : Image.asset(
-                      nationalIdImage!,
+                  : Image.file(
+                      File(nationalIdImage!),
                       fit: BoxFit.cover,
                     ),
               if (nationalIdImage == null)

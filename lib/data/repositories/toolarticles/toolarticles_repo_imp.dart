@@ -6,52 +6,41 @@ import 'package:tools_rental_management/data/data_sources/remote/toolarticles/to
 import 'package:tools_rental_management/data/data_sources/remote/toolarticles/toolarticles_remotewikipedia_datasource_imp.dart';
 import 'toolarticles_repo_interface.dart';
 
-class ToolArticleRepoImp implements ToolArticleRepo {
+class ToolArticlesRepoImp implements ToolArticleRepo {
   // will be used to retrieve workshop tool data from remote data source.
   late ToolArticlesRemoteDataSource _toolArticlesRemoteDataSource;
   // will be used to cache tool article data to local data source.
   late ToolArticlesLocalDataSource _toolArticlesLocalDataSource;
 
-  ToolArticleImp(
-      {ToolArticlesRemoteDataSource? toolArticlesRemoteDataSource,
-      ToolArticlesLocalDataSource? toolArticlesLocalDataSource}) {
-    _toolArticlesRemoteDataSource = toolArticlesRemoteDataSource ??
-        locator.get<ToolArticlesRemoteWikipediaDataSource>();
-    _toolArticlesLocalDataSource = toolArticlesLocalDataSource ??
-        locator.get<ToolArticleLocalSharedPreferencesDataSource>();
+  ToolArticleImp({ToolArticlesRemoteDataSource? toolArticlesRemoteDataSource, ToolArticlesLocalDataSource? toolArticlesLocalDataSource}) {
+    _toolArticlesRemoteDataSource = toolArticlesRemoteDataSource ?? locator<ToolArticlesRemoteWikipediaDataSource>();
+    _toolArticlesLocalDataSource = toolArticlesLocalDataSource ?? locator<ToolArticleLocalSharedPreferencesDataSource>();
   }
 
   @override
   Future<ToolArticle> fetchToolArticle(String title) async {
     // first check if we have [ToolArticle] for the given title cached locally.
-    ToolArticle? toolArticle =
-        await _toolArticlesLocalDataSource.getToolArticle(key: title);
+    ToolArticle? toolArticle = await _toolArticlesLocalDataSource.getToolArticle(key: title);
 
     try {
       if (toolArticle == null) {
         // we fetch tool article data remotely.
-        ToolArticle remoteToolArticle =
-            await _toolArticlesRemoteDataSource.fetchToolArticle(title);
+        ToolArticle remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
         // then we cache it.
-        await _toolArticlesLocalDataSource.setToolArticle(
-            key: remoteToolArticle.title, toolArticle: remoteToolArticle);
+        await _toolArticlesLocalDataSource.setToolArticle(key: remoteToolArticle.title, toolArticle: remoteToolArticle);
         return remoteToolArticle;
       } else {
         const int cacheExpirationTimeMilli = 300000; // 5 minutes
         // how long(in millisecond) a tool article for the given title has been cached.
-        final toolArticleCachedDuration =
-            DateTime.now().millisecondsSinceEpoch -
-                toolArticle.fetchedAt.millisecondsSinceEpoch;
+        final toolArticleCachedDuration = DateTime.now().millisecondsSinceEpoch - toolArticle.fetchedAt.millisecondsSinceEpoch;
 
         //if the tool article for the given title has been cached for less than or equal to 5 minute, just
         // return it.
         if (toolArticleCachedDuration <= cacheExpirationTimeMilli) {
           return toolArticle;
         } else {
-          ToolArticle remoteToolArticle =
-              await _toolArticlesRemoteDataSource.fetchToolArticle(title);
-          await _toolArticlesLocalDataSource.setToolArticle(
-              key: remoteToolArticle.title, toolArticle: remoteToolArticle);
+          ToolArticle remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
+          await _toolArticlesLocalDataSource.setToolArticle(key: remoteToolArticle.title, toolArticle: remoteToolArticle);
           return remoteToolArticle;
         }
       }

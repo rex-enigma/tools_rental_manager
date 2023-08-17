@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 
 class ImageView extends StatelessWidget {
@@ -51,30 +53,28 @@ class ImageView extends StatelessWidget {
         ],
       ),
       body: Center(
-          child: Container(
-        height: placeholderImage is Image
-            ? 200
-            : 280.0, // we are checking the placeholderImage type, we use typically icons for the placeholder, but when a actual image of type [Image] is used we need to change the height of the container.
-        width: placeholderImage is Image
-            ? 360
-            : 382.0, // we are checking the placeholderImage type, we use typically icons for the placeholder, but when a actual image of type [Image] is used we need to change the width of the container.
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.transparent,
-          ),
-          borderRadius: BorderRadius.circular(6.0),
-          color: const Color.fromARGB(64, 158, 158, 158),
-        ),
         child: imagePath == null
-            ? FittedBox(
-                fit: BoxFit.contain,
-                child: placeholderImage,
+            ? Container(
+                height: 360,
+                width: 380,
+                decoration: BoxDecoration(
+                  border: Border.all(
+                    color: Colors.transparent,
+                  ),
+                  borderRadius: BorderRadius.circular(6.0),
+                  color: const Color.fromARGB(64, 158, 158, 158),
+                ),
+                child: FittedBox(
+                  fit: BoxFit.contain,
+                  child: placeholderImage,
+                ),
               )
-            : Image.asset(
-                imagePath!,
+            // if an image path is provided display that image in is original size, let it get constrain from the parent(the screen or any other parent that will constrain its size)
+            : Image.file(
+                File(imagePath!),
                 fit: BoxFit.cover,
               ),
-      )),
+      ),
     );
   }
 }

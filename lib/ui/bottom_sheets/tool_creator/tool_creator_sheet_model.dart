@@ -31,9 +31,13 @@ class ToolCreatorSheetModel extends BaseViewModel {
   void showToolImageCaptureSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.toolImageCapture,
+      // send the toolImagePath to the ToolImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
+      data: toolImagePath,
     );
+
     // the returned value will be null or a string representing a path of a tool image
     toolImagePath = response?.data;
+    rebuildUi();
   }
 
   void navigateToToolNamesView() async {
@@ -57,11 +61,11 @@ class ToolCreatorSheetModel extends BaseViewModel {
   }
 
   void setCurrency(Currency? currency) {
-    currency = currency;
+    this.currency = currency;
   }
 
   void setCategory(Category? category) {
-    category = category;
+    this.category = category;
   }
 
   void generateToolUniqueId() {
@@ -76,7 +80,7 @@ class ToolCreatorSheetModel extends BaseViewModel {
   void handleFormSubmission() {
     Tool newTool = Tool.insert(
       name: toolNameTextEditingController.text,
-      boughtAt: DateFormat().parse(purchaseDateTextEditController.text),
+      boughtAt: DateFormat('dd/MM/yyyy').parse(purchaseDateTextEditController.text),
       purchasedPrice: int.parse(purchasedPriceTextEditingController.text),
       rate: int.parse(rateTextEditingController.text),
       currency: currency!, // we guaranty the currency cant be null because it has already been validate not to be null
@@ -86,7 +90,8 @@ class ToolCreatorSheetModel extends BaseViewModel {
     );
 
     // send this newTool back to ToolsView for it to be added to the database
-    _navigationService.back(result: newTool);
+    // it must be wrapped in SheetResponse<dynamic> for it to be accessed
+    _navigationService.back(result: SheetResponse<dynamic>(data: newTool));
   }
 }
 

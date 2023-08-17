@@ -5,7 +5,10 @@ import 'package:tools_rental_management/data/data_sources/local/toolarticles/too
 import 'package:tools_rental_management/data/data_sources/local/toolusers/toolusers_localsqlite_datasource_imp.dart';
 import 'package:tools_rental_management/data/data_sources/local/tools/tools_localsqlite_datasource_imp.dart';
 import 'package:tools_rental_management/data/data_sources/remote/toolarticles/toolarticles_remotewikipedia_datasource_imp.dart';
+import 'package:tools_rental_management/data/repositories/images/images_repo_imp.dart';
+import 'package:tools_rental_management/data/repositories/toolarticles/toolarticles_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
+import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:tools_rental_management/ui/views/home/home_view.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_viewmodel.dart';
@@ -77,7 +80,11 @@ import 'package:tools_rental_management/ui/views/back_national_id_image/back_nat
     LazySingleton(classType: ToolArticlesRemoteWikipediaDataSource),
     LazySingleton(classType: ToolArticleLocalSharedPreferencesDataSource),
     // repositories
-    // LazySingleton(classType: ToolsRepoImp),
+    LazySingleton(classType: ToolArticlesRepoImp),
+    LazySingleton(classType: ToolsRepoImp),
+    LazySingleton(classType: ToolUsersRepoImp),
+    LazySingleton(classType: ImagesRepoImp),
+
     //viewmodels
     LazySingleton(classType: ToolsViewModel),
     LazySingleton(classType: ToolUsersViewModel),

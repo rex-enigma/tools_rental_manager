@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
@@ -36,8 +38,7 @@ class ToolsView extends StackedView<ToolsViewModel> {
   }
 
   @override
-  ToolsViewModel viewModelBuilder(BuildContext context) => locator<
-      ToolsViewModel>(); // toolsViewModel is persisted between ToolsView Rebuilds.
+  ToolsViewModel viewModelBuilder(BuildContext context) => locator<ToolsViewModel>(); // toolsViewModel is persisted between ToolsView Rebuilds.
 
   // i want some function to be invoked when ToolsView is rebuild
   // am going to test out onViewModelReady to see if it works that one or i need to used another function
@@ -63,8 +64,7 @@ class MyTabBarView extends StatefulWidget {
   State<MyTabBarView> createState() => _MyTabBarViewState();
 }
 
-class _MyTabBarViewState extends State<MyTabBarView>
-    with TickerProviderStateMixin {
+class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMixin {
   late TabController tabController;
 
   @override
@@ -99,18 +99,15 @@ class _MyTabBarViewState extends State<MyTabBarView>
         child: AppBarWithSearchField(
           showAppBarSearchField: toolsViewModel.showAppBarSearchField,
           searchFieldTextHint: 'search for a tool by name',
-          onSearchFieldValueChanged: (value) =>
-              toolsViewModel.searchForAToolInATabView(value),
+          onSearchFieldValueChanged: (value) => toolsViewModel.searchForAToolInATabView(value),
           leading: IconButton(
             // disable this button if there is not tools gotten from the database, preventing the user from initiating search for a tool
             onPressed: toolsViewModel.tools.isEmpty
                 ? null
                 : () {
-                    toolsViewModel.showAppBarSearchField =
-                        !toolsViewModel.showAppBarSearchField;
+                    toolsViewModel.showAppBarSearchField = !toolsViewModel.showAppBarSearchField;
                     // if toolsViewModel.showAppBarSearchField = false, (the user cancelled search) we rest the corresponding TabView tools to default
-                    if (!toolsViewModel.showAppBarSearchField)
-                      toolsViewModel.resetTabViewToolsToDefault();
+                    if (!toolsViewModel.showAppBarSearchField) toolsViewModel.resetTabViewToolsToDefault();
                   },
             icon: toolsViewModel.showAppBarSearchField
                 ? Icon(
@@ -120,9 +117,7 @@ class _MyTabBarViewState extends State<MyTabBarView>
                 : Icon(
                     Icons.search,
                     // use the disabledColor if toolsViewModel.tools is empty, showing the user the search button is disabled, since there is any tools to search for
-                    color: toolsViewModel.tools.isEmpty
-                        ? Theme.of(context).disabledColor
-                        : Theme.of(context).colorScheme.secondary,
+                    color: toolsViewModel.tools.isEmpty ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondary,
                   ),
           ),
           title: Text(
@@ -146,15 +141,13 @@ class _MyTabBarViewState extends State<MyTabBarView>
                           menuStatusFilterValue.name
                               .replaceAllMapped(
                                 RegExp(r'([a-z])([A-Z])'),
-                                (match) =>
-                                    '${match.group(1)} ${match.group(2)}',
+                                (match) => '${match.group(1)} ${match.group(2)}',
                               )
                               .toLowerCase(),
                         ),
                       ),
                       labelTextStyle: MaterialStatePropertyAll(
-                        TextStyle(
-                            color: Theme.of(context).colorScheme.onPrimary),
+                        TextStyle(color: Theme.of(context).colorScheme.onPrimary),
                       ),
                     );
                   },
@@ -164,10 +157,7 @@ class _MyTabBarViewState extends State<MyTabBarView>
               icon: Icon(
                 Icons.filter_list,
                 // use a disable color when the searchField is shown or when toolsViewModel.tools is empty (prevent the user from filtering empty tools list)
-                color: toolsViewModel.showAppBarSearchField ||
-                        toolsViewModel.tools.isEmpty
-                    ? Theme.of(context).disabledColor
-                    : Theme.of(context).colorScheme.secondary,
+                color: toolsViewModel.showAppBarSearchField || toolsViewModel.tools.isEmpty ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondary,
               ),
               // disable [PopupMenuButton] when the searchField is shown
               enabled: toolsViewModel.showAppBarSearchField ? false : true,
@@ -191,12 +181,9 @@ class _MyTabBarViewState extends State<MyTabBarView>
               ),
               child: TabBar(
                 controller: tabController,
-                labelStyle: switch (
-                    getThemeManager(context).selectedThemeMode) {
-                  ThemeMode.light =>
-                    Theme.of(context).typography.white.bodyMedium,
-                  ThemeMode.dark =>
-                    Theme.of(context).typography.black.bodyMedium,
+                labelStyle: switch (getThemeManager(context).selectedThemeMode) {
+                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
+                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
                   _ => throw ' configure ThemeMode.system',
                 },
                 unselectedLabelColor: Theme.of(context).colorScheme.onPrimary,
@@ -228,12 +215,17 @@ class _MyTabBarViewState extends State<MyTabBarView>
         child: TabBarView(
           controller: tabController,
           children: <Widget>[
-            createTabBarViewChild(toolsViewModel
-                .allToolsTabView), // toolViewModel.currentSelectedTab = 0
-            createTabBarViewChild(toolsViewModel
-                .poweredToolsTabView), // toolViewModel.currentSelectedTab = 1
-            createTabBarViewChild(toolsViewModel
-                .unPoweredToolsTabView), // toolViewModel.currentSelectedTab = 2
+            toolsViewModel.isBusy
+                ? Center(child: CircularProgressIndicator(backgroundColor: Theme.of(context).colorScheme.secondary))
+                : createTabBarViewChild(toolsViewModel.allToolsTabView), // toolViewModel.currentSelectedTab = 0
+
+            toolsViewModel.isBusy
+                ? Center(child: CircularProgressIndicator(backgroundColor: Theme.of(context).colorScheme.secondary))
+                : createTabBarViewChild(toolsViewModel.poweredToolsTabView), // toolViewModel.currentSelectedTab = 1
+
+            toolsViewModel.isBusy
+                ? Center(child: CircularProgressIndicator(backgroundColor: Theme.of(context).colorScheme.secondary))
+                : createTabBarViewChild(toolsViewModel.unPoweredToolsTabView), // toolViewModel.currentSelectedTab = 2
           ],
         ),
       ),
@@ -252,8 +244,7 @@ class _MyTabBarViewState extends State<MyTabBarView>
     ToolsViewModel toolsViewModel = widget.toolsViewModel;
     // if (toolsViewModel.tools is empty && toolsViewModel.showAppBarSearchField is false) we know that there is no tools in the database so we return a centred text that request the user to add a tool
     // otherwise return a list of tools from toolsViewModel.allToolsTabView/poweredToolsTabView/unPoweredToolsTabView
-    return (toolsViewModel.tools.isEmpty &&
-            toolsViewModel.showAppBarSearchField == false
+    return (toolsViewModel.tools.isEmpty && toolsViewModel.showAppBarSearchField == false
         ? const Center(
             child: Text('click + button to add a tool'),
           )
@@ -268,12 +259,10 @@ class _MyTabBarViewState extends State<MyTabBarView>
                   (tool) {
                     return InkWell(
                       onTap: () {
-                        print(
-                            '${tool.name} has been  tapped'); // its here for testing
+                        toolsViewModel.navigateToToolView(tool.toolId!);
                       },
                       child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
+                        padding: const EdgeInsets.only(left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
                         child: CustomListTile(
                           contentVerticalAlignment: CrossAxisAlignment.start,
                           leading: Container(
@@ -293,19 +282,19 @@ class _MyTabBarViewState extends State<MyTabBarView>
                                       color: Colors.grey,
                                     ),
                                   )
-                                : Image.asset(
-                                    tool.toolImagePath,
-                                    fit: BoxFit.cover,
+                                : ClipRRect(
+                                    borderRadius: BorderRadius.circular(6),
+                                    child: Image.file(
+                                      File(tool.toolImagePath),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                           ),
                           title: Text(
                             tool.name,
-                            style: switch (
-                                getThemeManager(context).selectedThemeMode) {
-                              ThemeMode.light =>
-                                Theme.of(context).typography.white.titleMedium!,
-                              ThemeMode.dark =>
-                                Theme.of(context).typography.black.titleMedium!,
+                            style: switch (getThemeManager(context).selectedThemeMode) {
+                              ThemeMode.light => Theme.of(context).typography.white.titleMedium!,
+                              ThemeMode.dark => Theme.of(context).typography.black.titleMedium!,
                               _ => throw ' configure ThemeMode.system',
                             },
                           ),
@@ -317,14 +306,11 @@ class _MyTabBarViewState extends State<MyTabBarView>
                                   children: [
                                     TextSpan(
                                       text: 'Status : ',
-                                      style: subtitleFirstSubStringTextStyle(
-                                          context),
+                                      style: subtitleFirstSubStringTextStyle(context),
                                     ),
                                     TextSpan(
                                       text: tool.status.name,
-                                      style: subtitleLastSubStringTextStyle(
-                                          context,
-                                          status: tool.status),
+                                      style: subtitleLastSubStringTextStyle(context, status: tool.status),
                                     ),
                                   ],
                                 ),
@@ -335,17 +321,12 @@ class _MyTabBarViewState extends State<MyTabBarView>
                                   children: [
                                     TextSpan(
                                       text: 'Current tool user : ',
-                                      style: subtitleFirstSubStringTextStyle(
-                                          context),
+                                      style: subtitleFirstSubStringTextStyle(context),
                                     ),
                                     TextSpan(
                                       // if toolUserId is null, it means there is no toolUser using this tool represented by CustomListTile
-                                      text: tool.toolUserId == null
-                                          ? 'none'
-                                          : toolsViewModel.getToolUserFullName(
-                                              tool.toolUserId!),
-                                      style: subtitleLastSubStringTextStyle(
-                                          context),
+                                      text: tool.toolUserId == null ? 'none' : toolsViewModel.getToolUserFullName(tool.toolUserId!),
+                                      style: subtitleLastSubStringTextStyle(context),
                                     ),
                                   ],
                                 ),
@@ -355,29 +336,24 @@ class _MyTabBarViewState extends State<MyTabBarView>
                                   children: [
                                     TextSpan(
                                       text: 'Tool unique id : ',
-                                      style: subtitleFirstSubStringTextStyle(
-                                          context),
+                                      style: subtitleFirstSubStringTextStyle(context),
                                     ),
                                     TextSpan(
                                       text: tool.toolUniqueId.toString(),
-                                      style: subtitleLastSubStringTextStyle(
-                                          context),
+                                      style: subtitleLastSubStringTextStyle(context),
                                     ),
                                   ],
                                 ),
                               )
                             ],
                           ),
-                          trailing: tool.status ==
-                                  Status
-                                      .retired // only show delete icon if a tool is retired (Status.retired) otherwise return null
+                          trailing: tool.status == Status.retired // only show delete icon if a tool is retired (Status.retired) otherwise return null
                               ? IconButton(
                                   visualDensity: VisualDensity.compact,
                                   iconSize: 26,
                                   icon: const Icon(Icons.delete),
                                   onPressed: () {
-                                    print(
-                                        '${tool.name} will be deleted'); // implement a delete functionality to delete retired tools
+                                    toolsViewModel.showToolDeleteConfirmDialog(tool);
                                   },
                                 )
                               : null,

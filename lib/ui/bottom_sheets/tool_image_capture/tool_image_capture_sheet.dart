@@ -22,12 +22,21 @@ class ToolImageCaptureSheet extends StackedView<ToolImageCaptureSheetModel> {
   ) {
     return ImageCaptureSheet(
       title: 'Tool image',
-      onPressedCameraButton: () {},
-      onPressedGalleryButton: () {},
+      onPressedCameraButton: () {
+        viewModel.fetchImageFromCamera();
+      },
+      onPressedGalleryButton: () {
+        viewModel.fetchImageFromGallery();
+      },
     );
   }
 
   @override
-  ToolImageCaptureSheetModel viewModelBuilder(BuildContext context) =>
-      ToolImageCaptureSheetModel();
+  ToolImageCaptureSheetModel viewModelBuilder(BuildContext context) => ToolImageCaptureSheetModel();
+
+  @override
+  void onViewModelReady(ToolImageCaptureSheetModel viewModel) {
+    viewModel.imagePath = request.data;
+    super.onViewModelReady(viewModel);
+  }
 }

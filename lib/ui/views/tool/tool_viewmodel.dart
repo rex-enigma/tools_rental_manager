@@ -4,6 +4,9 @@ import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
+import 'package:tools_rental_management/data/data_models/tool.dart';
+import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
+import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
 import 'package:tools_rental_management/enums/status.dart';
@@ -12,57 +15,136 @@ class ToolViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
   final _navigationService = locator<NavigationService>();
+  final _toolsRepoImp = locator<ToolsRepoImp>();
+  final _toolUsersRepoImp = locator<ToolUsersRepoImp>();
 
   /// uniquely identifies a tool in the database (primary key)
-  int? _toolId;
-  String? _toolImagePath;
-  String? _toolName;
-  Status? _toolStatus;
-  int? _toolRate;
-  Category? _toolCategory;
-  Currency? _toolCurrency;
-  String? _currentToolUser;
-  // id that uniquely identifies this tool in the warehouse store.
-  int? _toolUniqueId;
-  // will be extracted from the returned toolUser
+  int? toolId;
+  Tool? tool;
+  // String? toolImagePath;
+  // String? toolName;
+  // Status? toolStatus;
+  // int? toolRate;
+  // Category? toolCategory;
+  // Currency? toolCurrency;
+  // String? currentToolUser;
+  // // id that uniquely identifies this tool in the warehouse store.
+  // int? toolUniqueId;
+  // // will be extracted from the returned toolUser
   String? toolUserName;
-  DateTime? _toolPurchaseDate;
-  int? _purchasedPrice;
-  String? _toolRentCount;
+  // DateTime? toolPurchaseDate;
+  // int? purchasedPrice;
+  // String? toolRentCount;
 
-  String? get toolImagePath => _toolImagePath;
-  String? get toolName => _toolName;
-  Status? get toolStatus => _toolStatus;
-  int? get toolRate => _toolRate;
-  Category? get toolCategory => _toolCategory;
-  Currency? get toolCurrency => _toolCurrency;
-  String? get currentToolUser => _currentToolUser;
-  int? get toolUniqueId => _toolUniqueId;
-  DateTime? get toolPurchaseDate => _toolPurchaseDate;
-  int? get purchasedPrice => _purchasedPrice;
-  String? get toolRentCount => _toolRentCount;
+  void initState(int toolId) async {
+    this.toolId = toolId;
+    fetchTool(this.toolId!);
+  }
 
-  void showDialog(DialogType dialogType) async {
+  Future fetchTool(int toolId) async {
+    // Sets busy to true before starting future and sets it to false after executing
+    // the ui will be rebuild in both situations
+    Tool? tool = await runBusyFuture(_toolsRepoImp.getToolByIdOrNull(toolId));
+    this.tool = tool;
+    await fetchToolUserFullName();
+    // rebuildUi();
+  }
+
+  Future fetchToolUserFullName() async {
+    if (tool!.toolUserId != null) {
+      String? firstName = await _toolUsersRepoImp.getToolUserFirstNameByIdOrNull(tool!.toolUserId!);
+      String? lastName = await _toolUsersRepoImp.getToolUserLastNameByIdOrNull(tool!.toolUserId!);
+      String fullName = '$firstName $lastName';
+      toolUserName = fullName;
+    }
+  }
+
+  void showStatusEditorDialog() async {
     var response = await _dialogService.showCustomDialog(
-      variant: dialogType,
-      data: 'passed value',
+      variant: DialogType.toolStatusEditor,
+      data: tool!.status,
     );
+    // if the returned data is non-null(user hasn't canceled the dialog) and the  data is different from the one sent in, then execute
+    if (response?.data != null && response?.data != tool?.status) {
+      updateToolProperty(ToolProperty.toolStatus, response!.data);
+    }
+  }
+
+  void showRateEditorDialog() async {
+    var response = await _dialogService.showCustomDialog(
+      variant: DialogType.toolRateEditor,
+      data: tool!.rate,
+    );
+
+    // if the returned data is non-null(user hasn't canceled the dialog) and the data is different from the one sent in, then execute
+    if (response!.data != null && response.data != tool!.rate) {
+      print(response.data);
+      updateToolProperty(ToolProperty.toolRate, response.data);
+    }
+
+    // int? editedRate = response!.data;
+    // if (editedRate != null && editedRate != tool!.rate) {}
+  }
+
+  void showCategoryEditorDialog() async {
+    var response = await _dialogService.showCustomDialog(
+      variant: DialogType.toolCategoryEditor,
+      data: tool!.category,
+    );
+    // if the returned data is non-null(user hasn't canceled the dialog) and the  data is different from the one sent in, then execute
+    if (response?.data != null && response?.data != tool?.category) {
+      updateToolProperty(ToolProperty.toolCategory, response!.data);
+    }
   }
 
   void navigateToToolNamesView() async {
     var response = await _navigationService.navigateToToolNamesView();
-    print(response);
+    if (response != null) {
+      updateToolProperty(ToolProperty.toolName, response);
+    }
   }
 
   void navigateToToolImageView() async {
-    _navigationService.navigateToToolImageView();
+    await _navigationService.navigateToToolImageView(toolId: toolId!);
+    // the user might update the tool image, we refetch the tool image to display the new image if it was changed
+    // the [toolId] am guaranteeing its not null since this viewModel wont be disposed when we navigate to ToolImageView
+    await fetchTool(toolId!);
   }
 
   void showMoreToolInfoSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
       isScrollControlled: true,
       variant: BottomSheetType.moreToolInfo,
-      data: toolName,
+      data: tool?.name,
     );
   }
+
+// we update a specific tool property
+// the value parameter will hold the appropriate value for that specific toolProperty
+  void updateToolProperty(ToolProperty toolProperty, dynamic value) async {
+    switch (toolProperty) {
+      case ToolProperty.toolName:
+        String? updatedName = await _toolsRepoImp.updateToolName(value, toolId!);
+        tool = tool!.copyWith(name: updatedName);
+        break;
+      case ToolProperty.toolStatus:
+        Status? updatedStatus = await _toolsRepoImp.updateToolStatus(value, toolId!);
+        tool = tool!.copyWith(status: updatedStatus);
+      case ToolProperty.toolRate:
+        int? updatedRate = await _toolsRepoImp.updateToolRate(value, toolId!);
+        tool = tool!.copyWith(rate: updatedRate);
+      case ToolProperty.toolCategory:
+        Category? updatedCategory = await _toolsRepoImp.updateToolCategory(value, toolId!);
+        tool = tool!.copyWith(category: updatedCategory);
+    }
+
+    rebuildUi();
+  }
+}
+
+enum ToolProperty {
+  toolName,
+  toolStatus,
+  toolRate,
+  toolCategory,
 }
