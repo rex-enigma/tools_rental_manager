@@ -5,13 +5,15 @@ import 'package:tools_rental_management/app/app.locator.dart';
 
 class BackNationalIdImageViewModel extends BaseViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
-  String? _backNationalIdImagePath;
+  String? backNationalIdImagePath;
 
-  String? get backNationalIdImagePath => _backNationalIdImagePath;
-
-  void showNationalIdImageCapture() async {
+  void showNationalIdImageCaptureSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.nationalIdImageCapture,
+      // title to be used for the ImageCaptureSheet
+      title: 'National id image',
+      variant: BottomSheetType.imageCapture,
+      // send the backNationalIdImagePath to the ImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
+      data: backNationalIdImagePath,
     );
   }
 }

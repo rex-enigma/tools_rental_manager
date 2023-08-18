@@ -40,11 +40,11 @@ import 'package:tools_rental_management/ui/dialogs/tool_user_delete_confirm/tool
 import 'package:tools_rental_management/ui/dialogs/tool_delete_confirm/tool_delete_confirm_dialog.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_image_capture/tool_image_capture_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_user_image_capture/tool_user_image_capture_sheet.dart';
-import 'package:tools_rental_management/ui/bottom_sheets/national_id_image_capture/national_id_image_capture_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/select_tool/select_tool_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/more_tool_info/more_tool_info_sheet.dart';
 import 'package:tools_rental_management/ui/views/front_national_id_image/front_national_id_image_view.dart';
 import 'package:tools_rental_management/ui/views/back_national_id_image/back_national_id_image_view.dart';
+import 'package:tools_rental_management/ui/bottom_sheets/image_capture/image_capture_sheet.dart';
 // @stacked-import
 
 @StackedApp(
@@ -58,7 +58,6 @@ import 'package:tools_rental_management/ui/views/back_national_id_image/back_nat
     MaterialRoute(page: ToolUsersView),
     MaterialRoute(page: ToolUserSearchView),
     MaterialRoute(page: ToolNamesView),
-    MaterialRoute(page: ToolImageView),
     MaterialRoute(page: ToolUserImageView),
     MaterialRoute(page: ToolUserView),
     MaterialRoute(page: ToolImageView),
@@ -90,17 +89,13 @@ import 'package:tools_rental_management/ui/views/back_national_id_image/back_nat
     LazySingleton(classType: ToolUsersViewModel),
     LazySingleton(classType: SettingsViewModel),
   ],
-  // @stacked-bottom-sheets
   bottomsheets: [
+    StackedBottomsheet(classType: ImageCaptureSheet),
     StackedBottomsheet(classType: ToolCreatorSheet),
     StackedBottomsheet(classType: ToolUserCreatorSheet),
-    StackedBottomsheet(classType: ToolImageCaptureSheet),
-    StackedBottomsheet(classType: ToolUserImageCaptureSheet),
-    StackedBottomsheet(classType: NationalIdImageCaptureSheet),
     StackedBottomsheet(classType: SelectToolSheet),
     StackedBottomsheet(classType: MoreToolInfoSheet),
   ],
-  // @stacked-dialogs
   dialogs: [
     StackedDialog(classType: InfoAlertDialog),
     StackedDialog(classType: ToolRateEditorDialog),

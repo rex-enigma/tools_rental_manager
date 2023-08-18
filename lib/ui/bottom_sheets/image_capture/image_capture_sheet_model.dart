@@ -4,19 +4,18 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/data/repositories/images/images_repo_imp.dart';
 
-// ToolUserImageCaptureSheetModel/ToolImageCaptureSheetModel/nationalImageCaptureSheetModel shrink then down to only one ImageCaptureSheetModel
-class ToolImageCaptureSheetModel extends BaseViewModel {
+class ImageCaptureSheetModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   final _imagesRepoImp = locator<ImagesRepoImp>();
 
-  /// will hold an imagePath if the previous View/BottomSheet that invoked it has one.
-  /// this imagePath will be used when updating an image
-  String? toolImagePath;
+  // will hold an imagePath if the previous View/BottomSheet that invoked it has one.
+  // this imagePath will be used when updating an image
+  String? imagePath;
 
   void fetchImageFromCamera() async {
     String? cameraImagePath = await _imagesRepoImp.fetchImagePath(
       source: ImageSource.camera,
-      previousImagePath: toolImagePath,
+      previousImagePath: imagePath,
     );
 
     navigateBack(cameraImagePath);
@@ -25,7 +24,7 @@ class ToolImageCaptureSheetModel extends BaseViewModel {
   void fetchImageFromGallery() async {
     String? galleryImagePath = await _imagesRepoImp.fetchImagePath(
       source: ImageSource.gallery,
-      previousImagePath: toolImagePath,
+      previousImagePath: imagePath,
     );
 
     navigateBack(galleryImagePath);

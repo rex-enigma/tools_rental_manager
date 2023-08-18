@@ -40,9 +40,11 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
           actions: [
             IconButton(
               onPressed: () {
-                viewModel.showAppBarSearchField = !viewModel.showAppBarSearchField;
+                viewModel.showAppBarSearchField =
+                    !viewModel.showAppBarSearchField;
                 // if viewModel.showAppBarSearchField = false, (the user cancelled search) we reset filtered tool name to default
-                if (!viewModel.showAppBarSearchField) viewModel.resetFilteredToolNameToDefault();
+                if (!viewModel.showAppBarSearchField)
+                  viewModel.resetFilteredToolNameToDefault();
               },
               icon: viewModel.showAppBarSearchField
                   ? Icon(
@@ -68,8 +70,10 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
               child: Text(
                 toolName,
                 style: switch (getThemeManager(context).selectedThemeMode) {
-                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
-                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
+                  ThemeMode.light =>
+                    Theme.of(context).typography.white.bodyMedium,
+                  ThemeMode.dark =>
+                    Theme.of(context).typography.black.bodyMedium,
                   _ => throw 'configure ThemeMode.system',
                 },
               ),
@@ -84,7 +88,8 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
   }
 
   @override
-  ToolNamesViewModel viewModelBuilder(BuildContext context) => ToolNamesViewModel();
+  ToolNamesViewModel viewModelBuilder(BuildContext context) =>
+      ToolNamesViewModel();
 
   @override
   void onViewModelReady(ToolNamesViewModel viewModel) {

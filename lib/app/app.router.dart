@@ -9,19 +9,30 @@ import 'package:flutter/material.dart' as _i16;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
 import 'package:stacked_services/stacked_services.dart' as _i17;
-import 'package:tools_rental_management/ui/views/back_national_id_image/back_national_id_image_view.dart' as _i15;
-import 'package:tools_rental_management/ui/views/front_national_id_image/front_national_id_image_view.dart' as _i14;
+import 'package:tools_rental_management/ui/views/back_national_id_image/back_national_id_image_view.dart'
+    as _i15;
+import 'package:tools_rental_management/ui/views/front_national_id_image/front_national_id_image_view.dart'
+    as _i14;
 import 'package:tools_rental_management/ui/views/home/home_view.dart' as _i2;
-import 'package:tools_rental_management/ui/views/settings/settings_view.dart' as _i5;
-import 'package:tools_rental_management/ui/views/startup/startup_view.dart' as _i3;
+import 'package:tools_rental_management/ui/views/settings/settings_view.dart'
+    as _i5;
+import 'package:tools_rental_management/ui/views/startup/startup_view.dart'
+    as _i3;
 import 'package:tools_rental_management/ui/views/tool/tool_view.dart' as _i6;
-import 'package:tools_rental_management/ui/views/tool_image/tool_image_view.dart' as _i11;
-import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart' as _i10;
-import 'package:tools_rental_management/ui/views/tool_search/tool_search_view.dart' as _i7;
-import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart' as _i13;
-import 'package:tools_rental_management/ui/views/tool_user_image/tool_user_image_view.dart' as _i12;
-import 'package:tools_rental_management/ui/views/tool_user_search/tool_user_search_view.dart' as _i9;
-import 'package:tools_rental_management/ui/views/tool_users/tool_users_view.dart' as _i8;
+import 'package:tools_rental_management/ui/views/tool_image/tool_image_view.dart'
+    as _i13;
+import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart'
+    as _i10;
+import 'package:tools_rental_management/ui/views/tool_search/tool_search_view.dart'
+    as _i7;
+import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart'
+    as _i12;
+import 'package:tools_rental_management/ui/views/tool_user_image/tool_user_image_view.dart'
+    as _i11;
+import 'package:tools_rental_management/ui/views/tool_user_search/tool_user_search_view.dart'
+    as _i9;
+import 'package:tools_rental_management/ui/views/tool_users/tool_users_view.dart'
+    as _i8;
 import 'package:tools_rental_management/ui/views/tools/tools_view.dart' as _i4;
 
 class Routes {
@@ -43,11 +54,11 @@ class Routes {
 
   static const toolNamesView = '/tool-names-view';
 
-  static const toolImageView = '/tool-image-view';
-
   static const toolUserImageView = '/tool-user-image-view';
 
   static const toolUserView = '/tool-user-view';
+
+  static const toolImageView = '/tool-image-view';
 
   static const frontNationalIdImageView = '/front-national-id-image-view';
 
@@ -63,9 +74,9 @@ class Routes {
     toolUsersView,
     toolUserSearchView,
     toolNamesView,
-    toolImageView,
     toolUserImageView,
     toolUserView,
+    toolImageView,
     frontNationalIdImageView,
     backNationalIdImageView,
   };
@@ -110,20 +121,16 @@ class StackedRouter extends _i1.RouterBase {
       page: _i10.ToolNamesView,
     ),
     _i1.RouteDef(
-      Routes.toolImageView,
-      page: _i11.ToolImageView,
-    ),
-    _i1.RouteDef(
       Routes.toolUserImageView,
-      page: _i12.ToolUserImageView,
+      page: _i11.ToolUserImageView,
     ),
     _i1.RouteDef(
       Routes.toolUserView,
-      page: _i13.ToolUserView,
+      page: _i12.ToolUserView,
     ),
     _i1.RouteDef(
       Routes.toolImageView,
-      page: _i11.ToolImageView,
+      page: _i13.ToolImageView,
     ),
     _i1.RouteDef(
       Routes.frontNationalIdImageView,
@@ -191,22 +198,23 @@ class StackedRouter extends _i1.RouterBase {
         settings: data,
       );
     },
-    _i11.ToolImageView: (data) {
+    _i11.ToolUserImageView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i11.ToolUserImageView(),
+        settings: data,
+      );
+    },
+    _i12.ToolUserView: (data) {
+      return _i16.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i12.ToolUserView(),
+        settings: data,
+      );
+    },
+    _i13.ToolImageView: (data) {
       final args = data.getArgs<ToolImageViewArguments>(nullOk: false);
       return _i16.MaterialPageRoute<dynamic>(
-        builder: (context) => _i11.ToolImageView(key: args.key, toolId: args.toolId),
-        settings: data,
-      );
-    },
-    _i12.ToolUserImageView: (data) {
-      return _i16.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i12.ToolUserImageView(),
-        settings: data,
-      );
-    },
-    _i13.ToolUserView: (data) {
-      return _i16.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i13.ToolUserView(),
+        builder: (context) =>
+            _i13.ToolImageView(key: args.key, toolId: args.toolId),
         settings: data,
       );
     },
@@ -289,36 +297,56 @@ extension NavigatorStateExtension on _i17.NavigationService {
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.homeView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return navigateTo<dynamic>(Routes.homeView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToStartupView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.startupView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return navigateTo<dynamic>(Routes.startupView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToToolsView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.toolsView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return navigateTo<dynamic>(Routes.toolsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToSettingsView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.settingsView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return navigateTo<dynamic>(Routes.settingsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToToolView({
@@ -327,46 +355,99 @@ extension NavigatorStateExtension on _i17.NavigationService {
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   }) async {
     return navigateTo<dynamic>(Routes.toolView,
-        arguments: ToolViewArguments(key: key, toolId: toolId), id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+        arguments: ToolViewArguments(key: key, toolId: toolId),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToToolSearchView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.toolSearchView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return navigateTo<dynamic>(Routes.toolSearchView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToToolUsersView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.toolUsersView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return navigateTo<dynamic>(Routes.toolUsersView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToToolUserSearchView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.toolUserSearchView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return navigateTo<dynamic>(Routes.toolUserSearchView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToToolNamesView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.toolNamesView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return navigateTo<dynamic>(Routes.toolNamesView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToToolUserImageView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.toolUserImageView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> navigateToToolUserView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return navigateTo<dynamic>(Routes.toolUserView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToToolImageView({
@@ -375,82 +456,99 @@ extension NavigatorStateExtension on _i17.NavigationService {
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   }) async {
     return navigateTo<dynamic>(Routes.toolImageView,
-        arguments: ToolImageViewArguments(key: key, toolId: toolId), id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
-  }
-
-  Future<dynamic> navigateToToolUserImageView([
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
-  ]) async {
-    return navigateTo<dynamic>(Routes.toolUserImageView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
-  }
-
-  Future<dynamic> navigateToToolUserView([
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
-  ]) async {
-    return navigateTo<dynamic>(Routes.toolUserView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+        arguments: ToolImageViewArguments(key: key, toolId: toolId),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToFrontNationalIdImageView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.frontNationalIdImageView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return navigateTo<dynamic>(Routes.frontNationalIdImageView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> navigateToBackNationalIdImageView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return navigateTo<dynamic>(Routes.backNationalIdImageView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return navigateTo<dynamic>(Routes.backNationalIdImageView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithHomeView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.homeView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return replaceWith<dynamic>(Routes.homeView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithStartupView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.startupView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return replaceWith<dynamic>(Routes.startupView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithToolsView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.toolsView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return replaceWith<dynamic>(Routes.toolsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithSettingsView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.settingsView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return replaceWith<dynamic>(Routes.settingsView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithToolView({
@@ -459,46 +557,99 @@ extension NavigatorStateExtension on _i17.NavigationService {
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   }) async {
     return replaceWith<dynamic>(Routes.toolView,
-        arguments: ToolViewArguments(key: key, toolId: toolId), id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+        arguments: ToolViewArguments(key: key, toolId: toolId),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithToolSearchView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.toolSearchView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return replaceWith<dynamic>(Routes.toolSearchView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithToolUsersView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.toolUsersView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return replaceWith<dynamic>(Routes.toolUsersView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithToolUserSearchView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.toolUserSearchView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return replaceWith<dynamic>(Routes.toolUserSearchView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithToolNamesView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.toolNamesView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return replaceWith<dynamic>(Routes.toolNamesView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithToolUserImageView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.toolUserImageView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
+  }
+
+  Future<dynamic> replaceWithToolUserView([
+    int? routerId,
+    bool preventDuplicates = true,
+    Map<String, String>? parameters,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
+  ]) async {
+    return replaceWith<dynamic>(Routes.toolUserView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithToolImageView({
@@ -507,45 +658,42 @@ extension NavigatorStateExtension on _i17.NavigationService {
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   }) async {
     return replaceWith<dynamic>(Routes.toolImageView,
-        arguments: ToolImageViewArguments(key: key, toolId: toolId), id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
-  }
-
-  Future<dynamic> replaceWithToolUserImageView([
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
-  ]) async {
-    return replaceWith<dynamic>(Routes.toolUserImageView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
-  }
-
-  Future<dynamic> replaceWithToolUserView([
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
-  ]) async {
-    return replaceWith<dynamic>(Routes.toolUserView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+        arguments: ToolImageViewArguments(key: key, toolId: toolId),
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithFrontNationalIdImageView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.frontNationalIdImageView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return replaceWith<dynamic>(Routes.frontNationalIdImageView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 
   Future<dynamic> replaceWithBackNationalIdImageView([
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)? transition,
+    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
+        transition,
   ]) async {
-    return replaceWith<dynamic>(Routes.backNationalIdImageView, id: routerId, preventDuplicates: preventDuplicates, parameters: parameters, transition: transition);
+    return replaceWith<dynamic>(Routes.backNationalIdImageView,
+        id: routerId,
+        preventDuplicates: preventDuplicates,
+        parameters: parameters,
+        transition: transition);
   }
 }

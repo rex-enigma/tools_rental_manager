@@ -44,7 +44,11 @@ class ToolImageViewModel extends BaseViewModel {
 
   void showToolImageCaptureBottomSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.toolImageCapture,
+      // title to be used for the ImageCaptureSheet
+      title: 'Tool image',
+      variant: BottomSheetType.imageCapture,
+      // send the toolImagePath to the ImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
+      data: toolImagePath,
     );
     // when response!.data is not equal to null, it means the user has captured/selected a new image, hence we need to update out tool imagePath in the database.
     if (response?.data != null) {

@@ -30,8 +30,10 @@ class ToolCreatorSheetModel extends BaseViewModel {
 
   void showToolImageCaptureSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.toolImageCapture,
-      // send the toolImagePath to the ToolImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
+      // title to be used for the ImageCaptureSheet
+      title: 'Tool image',
+      variant: BottomSheetType.imageCapture,
+      // send the toolImagePath to the ImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
       data: toolImagePath,
     );
 

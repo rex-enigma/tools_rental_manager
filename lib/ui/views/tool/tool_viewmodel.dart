@@ -52,8 +52,10 @@ class ToolViewModel extends BaseViewModel {
 
   Future fetchToolUserFullName() async {
     if (tool!.toolUserId != null) {
-      String? firstName = await _toolUsersRepoImp.getToolUserFirstNameByIdOrNull(tool!.toolUserId!);
-      String? lastName = await _toolUsersRepoImp.getToolUserLastNameByIdOrNull(tool!.toolUserId!);
+      String? firstName = await _toolUsersRepoImp
+          .getToolUserFirstNameByIdOrNull(tool!.toolUserId!);
+      String? lastName = await _toolUsersRepoImp
+          .getToolUserLastNameByIdOrNull(tool!.toolUserId!);
       String fullName = '$firstName $lastName';
       toolUserName = fullName;
     }
@@ -124,17 +126,20 @@ class ToolViewModel extends BaseViewModel {
   void updateToolProperty(ToolProperty toolProperty, dynamic value) async {
     switch (toolProperty) {
       case ToolProperty.toolName:
-        String? updatedName = await _toolsRepoImp.updateToolName(value, toolId!);
+        String? updatedName =
+            await _toolsRepoImp.updateToolName(value, toolId!);
         tool = tool!.copyWith(name: updatedName);
         break;
       case ToolProperty.toolStatus:
-        Status? updatedStatus = await _toolsRepoImp.updateToolStatus(value, toolId!);
+        Status? updatedStatus =
+            await _toolsRepoImp.updateToolStatus(value, toolId!);
         tool = tool!.copyWith(status: updatedStatus);
       case ToolProperty.toolRate:
         int? updatedRate = await _toolsRepoImp.updateToolRate(value, toolId!);
         tool = tool!.copyWith(rate: updatedRate);
       case ToolProperty.toolCategory:
-        Category? updatedCategory = await _toolsRepoImp.updateToolCategory(value, toolId!);
+        Category? updatedCategory =
+            await _toolsRepoImp.updateToolCategory(value, toolId!);
         tool = tool!.copyWith(category: updatedCategory);
     }
 

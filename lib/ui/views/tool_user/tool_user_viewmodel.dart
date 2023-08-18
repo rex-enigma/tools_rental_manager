@@ -49,7 +49,11 @@ class ToolUserViewModel extends BaseViewModel {
 
   void showToolUserImageCaptureSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.toolUserImageCapture,
+      // title to be used for the ImageCaptureSheet
+      title: 'Tool user image',
+      variant: BottomSheetType.imageCapture,
+      // send the avatarImagePath to the ImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
+      data: avatarImagePath,
     );
   }
 

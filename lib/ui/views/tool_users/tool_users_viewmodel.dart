@@ -11,7 +11,8 @@ class ToolUsersViewModel extends BaseViewModel {
 
   /// toolUser search text form field toggle
   bool _showAppBarSearchField = false;
-  List<ToolUser> toolUsers = testToolUsers; // create an empty list if there aren't any tool users in the database
+  List<ToolUser> toolUsers =
+      testToolUsers; // create an empty list if there aren't any tool users in the database
   List<ToolUser> filteredToolUsers = [];
   void initState() {
     // initialize toolUsers
@@ -72,7 +73,12 @@ List<ToolUser> testToolUsers = [
     avatarImagePath: '',
     phoneNumber: 011000000,
     countryCallingCode: 254,
-    tools: [testTools[0], testTools[1], testTools[2], testTools[3]], // just for testing
+    tools: [
+      testTools[0],
+      testTools[1],
+      testTools[2],
+      testTools[3]
+    ], // just for testing
   ),
   ToolUser(
     toolUserId: 3,

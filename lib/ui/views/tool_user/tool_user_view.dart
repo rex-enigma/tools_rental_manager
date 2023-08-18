@@ -42,7 +42,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
         title: viewModel.isAnyToolSelected
             ? Text(
                 "${viewModel.selectedTools.length} tool${viewModel.selectedTools.length > 1 ? 's' : ''} selected",
-                style: appBarTitleTextStyle(context, displayToolSelectCount: true),
+                style:
+                    appBarTitleTextStyle(context, displayToolSelectCount: true),
               )
             : Text(
                 'Tool User',
@@ -104,7 +105,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                             Positioned.fill(
                               child: ClipOval(
                                 child: GestureDetector(
-                                  onTap: () => viewModel.navigateToToolUserImageView(),
+                                  onTap: () =>
+                                      viewModel.navigateToToolUserImageView(),
                                   child: viewModel.avatarImagePath == null
                                       ? const Icon(
                                           Icons.person,
@@ -121,10 +123,12 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                               bottom: 0.0,
                               right: 0.0,
                               child: IconButton(
-                                onPressed: () => viewModel.showToolUserImageCaptureSheet(),
+                                onPressed: () =>
+                                    viewModel.showToolUserImageCaptureSheet(),
                                 icon: Icon(
                                   Icons.photo_camera,
-                                  color: Theme.of(context).colorScheme.onSecondary,
+                                  color:
+                                      Theme.of(context).colorScheme.onSecondary,
                                 ),
                                 style: ButtonStyle(
                                   backgroundColor: MaterialStatePropertyAll(
@@ -151,7 +155,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                               title: Text(
                                 'First name',
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                               subtitle: Text(
@@ -159,7 +164,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.onPrimary,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
                                   fontWeight: FontWeight.bold,
                                 ),
                               ),
@@ -167,10 +173,12 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 child: Icon(
                                   Icons.edit,
                                   size: 26.0,
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                                 onTap: () {
-                                  viewModel.showDialog(DialogType.toolUserFirstnameEditor);
+                                  viewModel.showDialog(
+                                      DialogType.toolUserFirstnameEditor);
                                 },
                               ),
                             ),
@@ -182,7 +190,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                               title: Text(
                                 'Last name',
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                               subtitle: Text(
@@ -191,17 +200,20 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.onPrimary,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
                                 ),
                               ),
                               trailing: InkWell(
                                 child: Icon(
                                   Icons.edit,
                                   size: 26.0,
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                                 onTap: () {
-                                  viewModel.showDialog(DialogType.toolUserLastnameEditor);
+                                  viewModel.showDialog(
+                                      DialogType.toolUserLastnameEditor);
                                 },
                               ),
                             ),
@@ -213,7 +225,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                               title: Text(
                                 'Phone',
                                 style: TextStyle(
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                               ),
                               subtitle: Text(
@@ -222,17 +235,20 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
-                                  color: Theme.of(context).colorScheme.onPrimary,
+                                  color:
+                                      Theme.of(context).colorScheme.onPrimary,
                                 ),
                               ),
                               trailing: InkWell(
                                 child: Icon(
                                   Icons.edit,
                                   size: 26.0,
-                                  color: Theme.of(context).colorScheme.secondary,
+                                  color:
+                                      Theme.of(context).colorScheme.secondary,
                                 ),
                                 onTap: () {
-                                  viewModel.showDialog(DialogType.toolUserPhonenumberEditor);
+                                  viewModel.showDialog(
+                                      DialogType.toolUserPhonenumberEditor);
                                 },
                               ),
                             ),
@@ -251,7 +267,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                   decoration: BoxDecoration(
                     border: Border.all(
                       color: Theme.of(context).colorScheme.onPrimary,
-                      width: switch (getThemeManager(context).selectedThemeMode) {
+                      width: switch (
+                          getThemeManager(context).selectedThemeMode) {
                         ThemeMode.light => 0.5,
                         ThemeMode.dark => 0.1,
                         _ => throw 'configure ThemeMode.system',
@@ -263,23 +280,28 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
 
                   child: Theme(
                     // since ExpansionTile inherit both top and bottom border color from the global ThemeData.dividerColor, we set it to Colors.transparent
-                    data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
+                    data: Theme.of(context)
+                        .copyWith(dividerColor: Colors.transparent),
                     child: ExpansionTile(
                       title: Center(
                         child: Text(
                           'National id',
                           // the text in ExpansionTile is unable to inherit our explicitly defined DefaultTextStyle, since ExpansionTile has its own DefaultTextStyle which is override ours
                           // so we set directly set the style
-                          style: switch (getThemeManager(context).selectedThemeMode) {
-                            ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
-                            ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
+                          style: switch (
+                              getThemeManager(context).selectedThemeMode) {
+                            ThemeMode.light =>
+                              Theme.of(context).typography.white.bodySmall!,
+                            ThemeMode.dark =>
+                              Theme.of(context).typography.black.bodySmall!,
                             _ => throw ' configure ThemeMode.system',
                           },
                         ),
                       ),
                       children: [
                         Padding(
-                          padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                          padding: const EdgeInsets.only(
+                              left: 10, right: 10, bottom: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
@@ -289,32 +311,40 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 children: [
                                   Text(
                                     'Front',
-                                    style: switch (getThemeManager(context).selectedThemeMode) {
+                                    style: switch (getThemeManager(context)
+                                        .selectedThemeMode) {
                                       ThemeMode.light => TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: Theme.of(context).colorScheme.onPrimary,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
                                         ),
                                       ThemeMode.dark => TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: Theme.of(context).colorScheme.onPrimary,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
                                         ),
                                       _ => throw ' configure ThemeMode.system',
                                     },
                                   ),
                                   viewModel.frontNationalIdImagePath == null
                                       ? GestureDetector(
-                                          onTap: () => viewModel.navigateToFrontNationalIdImageView(),
+                                          onTap: () => viewModel
+                                              .navigateToFrontNationalIdImageView(),
                                           child: Image.asset(
                                             'lib/assets/images/front_national_id_placeholder.png',
                                             fit: BoxFit.cover,
                                           ),
                                         )
                                       : GestureDetector(
-                                          onTap: () => viewModel.navigateToFrontNationalIdImageView(),
+                                          onTap: () => viewModel
+                                              .navigateToFrontNationalIdImageView(),
                                           child: Image.file(
-                                            File(viewModel.frontNationalIdImagePath!),
+                                            File(viewModel
+                                                .frontNationalIdImagePath!),
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -326,32 +356,40 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 children: [
                                   Text(
                                     'Back',
-                                    style: switch (getThemeManager(context).selectedThemeMode) {
+                                    style: switch (getThemeManager(context)
+                                        .selectedThemeMode) {
                                       ThemeMode.light => TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: Theme.of(context).colorScheme.onPrimary,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
                                         ),
                                       ThemeMode.dark => TextStyle(
                                           fontSize: 14,
                                           fontWeight: FontWeight.w500,
-                                          color: Theme.of(context).colorScheme.onPrimary,
+                                          color: Theme.of(context)
+                                              .colorScheme
+                                              .onPrimary,
                                         ),
                                       _ => throw ' configure ThemeMode.system',
                                     },
                                   ),
                                   viewModel.backNationalIdImagePath == null
                                       ? GestureDetector(
-                                          onTap: () => viewModel.navigateToBackNationalIdImageView(),
+                                          onTap: () => viewModel
+                                              .navigateToBackNationalIdImageView(),
                                           child: Image.asset(
                                             'lib/assets/images/back_national_id_placeholder.png',
                                             fit: BoxFit.cover,
                                           ),
                                         )
                                       : GestureDetector(
-                                          onTap: () => viewModel.navigateToBackNationalIdImageView(),
+                                          onTap: () => viewModel
+                                              .navigateToBackNationalIdImageView(),
                                           child: Image.file(
-                                            File(viewModel.backNationalIdImagePath!),
+                                            File(viewModel
+                                                .backNationalIdImagePath!),
                                             fit: BoxFit.cover,
                                           ),
                                         ),
@@ -362,7 +400,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                         ),
                       ],
                       iconColor: Theme.of(context).colorScheme.onPrimary,
-                      collapsedIconColor: Theme.of(context).colorScheme.onPrimary,
+                      collapsedIconColor:
+                          Theme.of(context).colorScheme.onPrimary,
                       tilePadding: EdgeInsets.zero,
                     ),
                   ),
@@ -378,8 +417,10 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: switch (getThemeManager(context).selectedThemeMode) {
-                      ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
-                      ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,
+                      ThemeMode.light =>
+                        Theme.of(context).typography.white.bodyMedium,
+                      ThemeMode.dark =>
+                        Theme.of(context).typography.black.bodyMedium,
                       _ => throw ' configure ThemeMode.system',
                     },
                   ),
@@ -390,7 +431,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
               Expanded(
                 child: viewModel.tools.isEmpty
                     ? Center(
-                        child: Text('click + button to add a tool for ${viewModel.firstName} ${viewModel.lastName}'),
+                        child: Text(
+                            'click + button to add a tool for ${viewModel.firstName} ${viewModel.lastName}'),
                       )
                     : ListView.builder(
                         itemCount: viewModel.tools.length,
@@ -419,15 +461,22 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                               color: viewModel.selectedTools.contains(tool)
                                   ? selectedToolBackGroundColor(context)
                                   : null, // we are checking if our selectedTools list contains a tool that was long pressed or pressed(when isAnyToolSelected is true)
-                              padding: const EdgeInsets.only(left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
+                              padding: const EdgeInsets.only(
+                                  left: 16.0,
+                                  right: 5.0,
+                                  top: 10.0,
+                                  bottom: 10.0),
                               child: CustomListTile(
-                                contentVerticalAlignment: CrossAxisAlignment.start,
+                                contentVerticalAlignment:
+                                    CrossAxisAlignment.start,
                                 leading: Container(
                                   width: 90,
                                   height: 90,
                                   decoration: BoxDecoration(
                                     border: Border.all(
-                                      color: Theme.of(context).colorScheme.secondary,
+                                      color: Theme.of(context)
+                                          .colorScheme
+                                          .secondary,
                                     ),
                                     borderRadius: BorderRadius.circular(6.0),
                                     //color: const Color.fromARGB(64, 158, 158, 158),
@@ -439,9 +488,16 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 ),
                                 title: Text(
                                   tool.name,
-                                  style: switch (getThemeManager(context).selectedThemeMode) {
-                                    ThemeMode.light => Theme.of(context).typography.white.titleMedium!,
-                                    ThemeMode.dark => Theme.of(context).typography.black.titleMedium!,
+                                  style: switch (getThemeManager(context)
+                                      .selectedThemeMode) {
+                                    ThemeMode.light => Theme.of(context)
+                                        .typography
+                                        .white
+                                        .titleMedium!,
+                                    ThemeMode.dark => Theme.of(context)
+                                        .typography
+                                        .black
+                                        .titleMedium!,
                                     _ => throw ' configure ThemeMode.system',
                                   },
                                 ),
@@ -453,11 +509,15 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                         children: [
                                           TextSpan(
                                             text: 'Category : ',
-                                            style: subtitleFirstSubStringTextStyle(context),
+                                            style:
+                                                subtitleFirstSubStringTextStyle(
+                                                    context),
                                           ),
                                           TextSpan(
                                             text: tool.category.name,
-                                            style: subtitleLastSubStringTextStyle(context),
+                                            style:
+                                                subtitleLastSubStringTextStyle(
+                                                    context),
                                           ),
                                         ],
                                       ),
@@ -467,11 +527,15 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                         children: [
                                           TextSpan(
                                             text: 'Rate : ',
-                                            style: subtitleFirstSubStringTextStyle(context),
+                                            style:
+                                                subtitleFirstSubStringTextStyle(
+                                                    context),
                                           ),
                                           TextSpan(
                                             text: 'ksh ${tool.rate} / hr',
-                                            style: subtitleLastSubStringTextStyle(context),
+                                            style:
+                                                subtitleLastSubStringTextStyle(
+                                                    context),
                                           ),
                                         ],
                                       ),
@@ -481,11 +545,15 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                         children: [
                                           TextSpan(
                                             text: 'Tool unique id : ',
-                                            style: subtitleFirstSubStringTextStyle(context),
+                                            style:
+                                                subtitleFirstSubStringTextStyle(
+                                                    context),
                                           ),
                                           TextSpan(
                                             text: tool.toolUniqueId.toString(),
-                                            style: subtitleLastSubStringTextStyle(context),
+                                            style:
+                                                subtitleLastSubStringTextStyle(
+                                                    context),
                                           ),
                                         ],
                                       ),
@@ -498,8 +566,10 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                     : IconButton(
                                         visualDensity: VisualDensity.compact,
                                         iconSize: 26,
-                                        icon: const Icon(Icons.remove_circle_outline),
-                                        onPressed: () => viewModel.disassociateTool(tool),
+                                        icon: const Icon(
+                                            Icons.remove_circle_outline),
+                                        onPressed: () =>
+                                            viewModel.disassociateTool(tool),
                                       ),
                               ),
                             ),
@@ -522,7 +592,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
   }
 
   @override
-  ToolUserViewModel viewModelBuilder(BuildContext context) => ToolUserViewModel();
+  ToolUserViewModel viewModelBuilder(BuildContext context) =>
+      ToolUserViewModel();
 }
 
 // Color.fromARGB(97, 97, 97, 1)

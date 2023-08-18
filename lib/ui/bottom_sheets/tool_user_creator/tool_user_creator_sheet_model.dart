@@ -20,7 +20,9 @@ class ToolUserCreatorSheetModel extends BaseViewModel {
 
   void showNationalIdImageCaptureSheet(NationalIdSide nationalIdSide) async {
     var response = await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.nationalIdImageCapture,
+      // title to be used for the ImageCaptureSheet
+      title: 'National id image',
+      variant: BottomSheetType.imageCapture,
       // send the frontNationalIdImagePath or backNationalIdImagePath to the NationalIdImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
       data: switch (nationalIdSide) {
         NationalIdSide.front => frontNationalIdImagePath,
@@ -47,7 +49,10 @@ class ToolUserCreatorSheetModel extends BaseViewModel {
 
   void showToolUserImageCaptureSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.toolUserImageCapture,
+      // title to be used for the ImageCaptureSheet
+      title: 'Tool user image',
+      variant: BottomSheetType.imageCapture,
+      // send the userImagePath to the ImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
       data: userImagePath,
     );
 

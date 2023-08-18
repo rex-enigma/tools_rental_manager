@@ -52,8 +52,10 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
               child: Text(
                 'Create a tool user',
                 style: switch (getThemeManager(context).selectedThemeMode) {
-                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
-                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
+                  ThemeMode.light =>
+                    Theme.of(context).typography.white.bodyMedium!,
+                  ThemeMode.dark =>
+                    Theme.of(context).typography.black.bodyMedium!,
                   _ => throw ' configure ThemeMode.system',
                 },
               ),
@@ -84,7 +86,8 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                             hintText: 'Your first name',
                             labelText: 'First Name *',
                           ),
-                          validator: (value) => ToolUserCreatorSheetValidators.validateToolUserFirstName(value),
+                          validator: (value) => ToolUserCreatorSheetValidators
+                              .validateToolUserFirstName(value),
                         ),
                         verticalSpaceMedium,
                         TextFormField(
@@ -96,11 +99,13 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                             hintText: 'Your last name',
                             labelText: 'Last Name *',
                           ),
-                          validator: (value) => ToolUserCreatorSheetValidators.validateToolUserLastName(value),
+                          validator: (value) => ToolUserCreatorSheetValidators
+                              .validateToolUserLastName(value),
                         ),
                         verticalSpaceMedium,
                         TextFormField(
-                          controller: viewModel.phoneNumberTextEditingController,
+                          controller:
+                              viewModel.phoneNumberTextEditingController,
                           cursorColor: Theme.of(context).colorScheme.onPrimary,
                           cursorWidth: 1,
                           keyboardType: TextInputType.phone,
@@ -113,7 +118,8 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                             hintText: 'Your phone number',
                             labelText: 'Phone number *',
                           ),
-                          validator: (value) => ToolUserCreatorSheetValidators.validateToolUserPhoneNumber(value),
+                          validator: (value) => ToolUserCreatorSheetValidators
+                              .validateToolUserPhoneNumber(value),
                         ),
                         verticalSpaceMedium,
                         Row(
@@ -124,16 +130,19 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                               builder: (formFieldState) {
                                 return NationalIdButton(
                                   onPressed: () {
-                                    viewModel.showNationalIdImageCaptureSheet(NationalIdSide.front);
+                                    viewModel.showNationalIdImageCaptureSheet(
+                                        NationalIdSide.front);
                                   },
-                                  nationalIdImage: viewModel.frontNationalIdImagePath,
+                                  nationalIdImage:
+                                      viewModel.frontNationalIdImagePath,
                                   nationalIdSide: NationalIdSide.front,
                                   hasError: formFieldState.hasError,
                                   errorMessage: formFieldState.errorText,
                                 );
                               },
                               validator: (value) {
-                                if (viewModel.frontNationalIdImagePath == null) {
+                                if (viewModel.frontNationalIdImagePath ==
+                                    null) {
                                   return "add front national id";
                                 }
                                 return null;
@@ -143,9 +152,11 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                               builder: (formFieldState) {
                                 return NationalIdButton(
                                   onPressed: () {
-                                    viewModel.showNationalIdImageCaptureSheet(NationalIdSide.back);
+                                    viewModel.showNationalIdImageCaptureSheet(
+                                        NationalIdSide.back);
                                   },
-                                  nationalIdImage: viewModel.backNationalIdImagePath,
+                                  nationalIdImage:
+                                      viewModel.backNationalIdImagePath,
                                   nationalIdSide: NationalIdSide.back,
                                   hasError: formFieldState.hasError,
                                   errorMessage: formFieldState.errorText,
@@ -166,7 +177,8 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                             return DashedCircularBorderButtonWithIcons(
                               bottomSheetType: BottomSheetType.toolUserCreator,
                               imagePath: viewModel.userImagePath,
-                              onPressed: () => viewModel.showToolUserImageCaptureSheet(),
+                              onPressed: () =>
+                                  viewModel.showToolUserImageCaptureSheet(),
                               hasError: formFieldState.hasError,
                               errorMessage: formFieldState.errorText,
                             );
@@ -197,7 +209,8 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                               ),
                               onPressed: () {
                                 // the condition will be true if all the form validators pass
-                                if (viewModel.formKey.currentState!.validate()) {
+                                if (viewModel.formKey.currentState!
+                                    .validate()) {
                                   // submit form if all the forms are valid
                                 }
                               },
@@ -218,7 +231,8 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
   }
 
   @override
-  ToolUserCreatorSheetModel viewModelBuilder(BuildContext context) => ToolUserCreatorSheetModel();
+  ToolUserCreatorSheetModel viewModelBuilder(BuildContext context) =>
+      ToolUserCreatorSheetModel();
 
   @override
   void onDispose(ToolUserCreatorSheetModel viewModel) {

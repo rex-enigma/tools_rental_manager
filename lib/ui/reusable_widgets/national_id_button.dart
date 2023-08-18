@@ -37,7 +37,8 @@ class NationalIdButton extends StatelessWidget {
           DottedBorder(
             dashPattern: hasError ? [8, 1] : [8, 8],
             strokeCap: StrokeCap.square,
-            color: hasError ? Colors.red : Theme.of(context).colorScheme.onPrimary,
+            color:
+                hasError ? Colors.red : Theme.of(context).colorScheme.onPrimary,
             child: Container(
               width: 180,
               height: 100,

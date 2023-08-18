@@ -18,7 +18,8 @@ abstract class ToolsRepo {
   // update and returns the updated value
   Future<String?> updateToolImagePath(String toolImagePath, int toolId);
 
-  Future<List<Tool>> associateToolsWithToolUser(List<Tool> tools, int toolUserId);
+  Future<List<Tool>> associateToolsWithToolUser(
+      List<Tool> tools, int toolUserId);
   Future<int> disassociateToolsFromToolUser(List<Tool> tools);
 
   Future<Tool?> getToolByIdOrNull(int toolId);

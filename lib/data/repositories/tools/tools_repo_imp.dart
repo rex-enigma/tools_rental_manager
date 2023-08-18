@@ -10,7 +10,8 @@ class ToolsRepoImp implements ToolsRepo {
   late ToolsLocalDataSource _toolsLocalDataSource;
 
   ToolsRepoImp({ToolsLocalDataSource? toolsLocalDataSource}) {
-    _toolsLocalDataSource = toolsLocalDataSource ?? locator<ToolsLocalSqliteDbDataSource>();
+    _toolsLocalDataSource =
+        toolsLocalDataSource ?? locator<ToolsLocalSqliteDbDataSource>();
   }
 
   @override
@@ -33,7 +34,8 @@ class ToolsRepoImp implements ToolsRepo {
 
   /// update and return the updated tool category for the given toolId
   @override
-  Future<Category?> updateToolCategory(Category toolCategory, int toolId) async {
+  Future<Category?> updateToolCategory(
+      Category toolCategory, int toolId) async {
     await _toolsLocalDataSource.updateToolCategory(toolCategory, toolId);
     return getToolCategoryByIdOrNull(toolId);
   }
@@ -68,7 +70,8 @@ class ToolsRepoImp implements ToolsRepo {
 
   /// will return the updated tools that are associated with a [ToolUser] of the given toolUserId.
   @override
-  Future<List<Tool>> associateToolsWithToolUser(List<Tool> tools, int toolUserId) async {
+  Future<List<Tool>> associateToolsWithToolUser(
+      List<Tool> tools, int toolUserId) async {
     final List<Tool> associatedTools = tools.map((tool) {
       return tool.copyWith(
         toolUserId: toolUserId,
@@ -105,7 +108,8 @@ class ToolsRepoImp implements ToolsRepo {
     int amountOfToolsUpdated = 0;
 
     for (var disassociatedTool in disassociatedTools) {
-      amountOfToolsUpdated += await _toolsLocalDataSource.updateTool(disassociatedTool);
+      amountOfToolsUpdated +=
+          await _toolsLocalDataSource.updateTool(disassociatedTool);
     }
     return amountOfToolsUpdated;
   }

@@ -27,7 +27,8 @@ class ToolImageView extends StackedView<ToolImageViewModel> {
   }
 
   @override
-  ToolImageViewModel viewModelBuilder(BuildContext context) => ToolImageViewModel();
+  ToolImageViewModel viewModelBuilder(BuildContext context) =>
+      ToolImageViewModel();
 
   @override
   void onViewModelReady(ToolImageViewModel viewModel) {

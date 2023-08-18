@@ -4,8 +4,7 @@ import 'package:tools_rental_management/ui/reusable_widgets/image_view_layout.da
 
 import 'back_national_id_image_viewmodel.dart';
 
-class BackNationalIdImageView
-    extends StackedView<BackNationalIdImageViewModel> {
+class BackNationalIdImageView extends StackedView<BackNationalIdImageViewModel> {
   const BackNationalIdImageView({Key? key}) : super(key: key);
 
   @override
@@ -20,7 +19,7 @@ class BackNationalIdImageView
       placeholderImage: Image.asset(
         'lib/assets/images/back_national_id_placeholder.png',
       ),
-      onPressedEditButton: () => viewModel.showNationalIdImageCapture(),
+      onPressedEditButton: () => viewModel.showNationalIdImageCaptureSheet(),
       navigateBack: () => Navigator.of(context).pop(),
     );
   }

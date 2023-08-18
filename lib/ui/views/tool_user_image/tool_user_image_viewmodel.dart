@@ -5,13 +5,15 @@ import 'package:tools_rental_management/app/app.locator.dart';
 
 class ToolUserImageViewModel extends BaseViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
-  String? _toolUserImagePath;
-
-  String? get toolUserImagePath => _toolUserImagePath;
+  String? toolUserImagePath;
 
   void showToolUserImageCaptureBottomSheet() async {
     var response = await _bottomSheetService.showCustomSheet(
-      variant: BottomSheetType.toolUserImageCapture,
+      // title to be used for the ImageCaptureSheet
+      title: 'Tool user image',
+      variant: BottomSheetType.imageCapture,
+      // send the toolUserImagePath to the ImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
+      data: toolUserImagePath,
     );
   }
 }

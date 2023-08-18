@@ -1,21 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_themes/stacked_themes.dart';
+import 'package:tools_rental_management/ui/common/app_colors.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
+import 'package:stacked/stacked.dart';
+import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/drag_handle.dart';
 
-class ImageCaptureSheet extends StatelessWidget {
-  final String title;
-  final VoidCallback onPressedCameraButton;
-  final VoidCallback onPressedGalleryButton;
+import 'image_capture_sheet_model.dart';
+
+class ImageCaptureSheet extends StackedView<ImageCaptureSheetModel> {
+  final Function(SheetResponse response)? completer;
+  final SheetRequest request;
   const ImageCaptureSheet({
-    super.key,
-    this.title = 'Image capture',
-    required this.onPressedCameraButton,
-    required this.onPressedGalleryButton,
-  });
+    Key? key,
+    required this.completer,
+    required this.request,
+  }) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
+  Widget builder(
+    BuildContext context,
+    ImageCaptureSheetModel viewModel,
+    Widget? child,
+  ) {
     return DefaultTextStyle(
       style: switch (getThemeManager(context).selectedThemeMode) {
         ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
@@ -42,12 +49,10 @@ class ImageCaptureSheet extends StatelessWidget {
                   const DragHandle(),
                   verticalSpaceSmall,
                   Text(
-                    title,
+                    request.title ?? 'National id image',
                     style: switch (getThemeManager(context).selectedThemeMode) {
-                      ThemeMode.light =>
-                        Theme.of(context).typography.white.bodyMedium!,
-                      ThemeMode.dark =>
-                        Theme.of(context).typography.black.bodyMedium!,
+                      ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
+                      ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
                       _ => throw ' configure ThemeMode.system',
                     },
                   ),
@@ -56,20 +61,23 @@ class ImageCaptureSheet extends StatelessWidget {
             ),
             smallSpaceHorizontalDivider(context),
             Padding(
-              padding: const EdgeInsets.only(
-                  left: 20, right: 10, top: 10, bottom: 20),
+              padding: const EdgeInsets.only(left: 20, right: 10, top: 10, bottom: 20),
               child: Row(
                 children: [
                   CustomIconButton(
                     icon: const Icon(Icons.photo_camera),
                     bottomLabel: 'Camera',
-                    onPressed: onPressedCameraButton,
+                    onPressed: () {
+                      viewModel.fetchImageFromCamera();
+                    },
                   ),
                   horizontalSpaceLarge,
                   CustomIconButton(
                     icon: const Icon(Icons.photo),
                     bottomLabel: 'Gallery',
-                    onPressed: onPressedGalleryButton,
+                    onPressed: () {
+                      viewModel.fetchImageFromGallery();
+                    },
                   )
                 ],
               ),
@@ -79,7 +87,27 @@ class ImageCaptureSheet extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  ImageCaptureSheetModel viewModelBuilder(BuildContext context) => ImageCaptureSheetModel();
+
+  @override
+  void onViewModelReady(ImageCaptureSheetModel viewModel) {
+    viewModel.imagePath = request.data;
+    super.onViewModelReady(viewModel);
+  }
 }
+
+// ImageCaptureSheetLayout(
+//       // expecting the showCustomSheet function that to pass the title of this imageCaptureSheet
+//       title: request.title ?? 'National id image',
+//       onPressedCameraButton: () {
+//         viewModel.fetchImageFromCamera();
+//       },
+//       onPressedGalleryButton: () {
+//         viewModel.fetchImageFromGallery();
+//       },
+//     );
 
 class CustomIconButton extends StatelessWidget {
   /// label for the button

@@ -47,7 +47,8 @@ class DashedCircularBorderButtonWithIcons extends StatelessWidget {
             borderType: BorderType.Circle,
             dashPattern: hasError ? [8, 1] : [8, 8],
             strokeCap: StrokeCap.square,
-            color: hasError ? Colors.red : Theme.of(context).colorScheme.onPrimary,
+            color:
+                hasError ? Colors.red : Theme.of(context).colorScheme.onPrimary,
             child: Container(
               width: 100,
               height: 100,
@@ -85,7 +86,8 @@ class DashedCircularBorderButtonWithIcons extends StatelessWidget {
                             color: Color.fromRGBO(202, 202, 202, 1.0),
                             size: 80.0,
                           ),
-                        _ => throw 'expected ${BottomSheetType.toolCreator} or ${BottomSheetType.toolUserCreator} but got: $bottomSheetType'
+                        _ =>
+                          throw 'expected ${BottomSheetType.toolCreator} or ${BottomSheetType.toolUserCreator} but got: $bottomSheetType'
                       },
                     ),
                   if (imagePath == null)
