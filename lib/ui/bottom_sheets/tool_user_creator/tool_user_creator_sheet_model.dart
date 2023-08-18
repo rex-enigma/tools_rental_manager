@@ -3,7 +3,6 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
 
 class ToolUserCreatorSheetModel extends BaseViewModel {
@@ -13,7 +12,6 @@ class ToolUserCreatorSheetModel extends BaseViewModel {
   TextEditingController firstNameTextEditingController = TextEditingController();
   TextEditingController lastNameTextEditingController = TextEditingController();
   TextEditingController phoneNumberTextEditingController = TextEditingController();
-
   String? frontNationalIdImagePath;
   String? backNationalIdImagePath;
   String? userImagePath;
@@ -61,6 +59,9 @@ class ToolUserCreatorSheetModel extends BaseViewModel {
     }
     rebuildUi();
   }
+
+  // will be called when all the forms are valid
+  void submitForm() {}
 }
 
 class ToolUserCreatorSheetValidators {

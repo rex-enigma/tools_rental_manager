@@ -4,7 +4,7 @@ import 'package:tools_rental_management/app/app.locator.dart';
 import '../helpers/test_helpers.dart';
 
 void main() {
-  group('ToolUserDeleteConfirmDialogModel Tests -', () {
+  group('DeleteConfirmDialogModel Tests -', () {
     setUp(() => registerServices());
     tearDown(() => locator.reset());
   });

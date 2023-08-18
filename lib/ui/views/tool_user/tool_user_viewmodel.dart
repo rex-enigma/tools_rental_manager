@@ -65,16 +65,18 @@ class ToolUserViewModel extends BaseViewModel {
   }
 
   void navigateToToolUserImageView() {
-    _navigationService.navigateToToolUserImageView();
+    // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
+    // _navigationService.navigateToImageView(idImageTypeGroup: ());
   }
 
   void navigateToFrontNationalIdImageView() async {
-    var response = await _navigationService.navigateToFrontNationalIdImageView(); // navigateTo.. functionality works, a value can be returned
-    print(response);
+    // var response = await _navigationService
+    //     .navigateToFrontNationalIdImageView(); // navigateTo.. functionality works, a value can be returned
+    // print(response);
   }
 
   void navigateToBackNationalIdImageView() {
-    _navigationService.navigateToBackNationalIdImageView();
+    // _navigationService.navigateToBackNationalIdImageView();
   }
 
   // void navigateToToolView() {

@@ -53,8 +53,3 @@ class ConfirmDialog extends StatelessWidget {
     );
   }
 }
-// switch (getThemeManager(context).selectedThemeMode) {
-//         ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
-//         ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
-//         _ => throw ' configure ThemeMode.system',
-//       },

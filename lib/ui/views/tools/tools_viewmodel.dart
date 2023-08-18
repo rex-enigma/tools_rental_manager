@@ -280,8 +280,8 @@ class ToolsViewModel extends BaseViewModel {
 
   void showToolDeleteConfirmDialog(Tool tool) async {
     var response = await _dialogService.showCustomDialog(
-      variant: DialogType.toolDeleteConfirm,
-      // pass the name of the tool to be displayed on the ToolDeleteConfirmDialog
+      variant: DialogType.deleteConfirm,
+      // pass the name of the tool to be displayed on the DeleteConfirmDialog
       data: tool.name,
     );
 

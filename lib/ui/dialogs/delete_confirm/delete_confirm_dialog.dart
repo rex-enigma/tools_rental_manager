@@ -1,17 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_themes/stacked_themes.dart';
+import 'package:tools_rental_management/ui/common/app_colors.dart';
+import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog_layout.dart';
 
-import 'tool_user_delete_confirm_dialog_model.dart';
+import 'delete_confirm_dialog_model.dart';
 
-class ToolUserDeleteConfirmDialog
-    extends StackedView<ToolUserDeleteConfirmDialogModel> {
+class DeleteConfirmDialog extends StackedView<DeleteConfirmDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
-  const ToolUserDeleteConfirmDialog({
+  const DeleteConfirmDialog({
     Key? key,
     required this.request,
     required this.completer,
@@ -20,7 +21,7 @@ class ToolUserDeleteConfirmDialog
   @override
   Widget builder(
     BuildContext context,
-    ToolUserDeleteConfirmDialogModel viewModel,
+    DeleteConfirmDialogModel viewModel,
     Widget? child,
   ) {
     return ConfirmDialog(
@@ -33,11 +34,13 @@ class ToolUserDeleteConfirmDialog
             ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
             _ => throw ' configure ThemeMode.system',
           },
-          children: const [
-            TextSpan(text: 'Do you want to delete '),
+          children: [
+            const TextSpan(text: 'Do you want to delete '),
             TextSpan(
-                text: 'Mark dew',
-                style: TextStyle(fontWeight: FontWeight.bold)),
+              text: request.data ??
+                  " 'add the name of the item you want to delete' ",
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
           ],
         ),
       ),
@@ -45,6 +48,6 @@ class ToolUserDeleteConfirmDialog
   }
 
   @override
-  ToolUserDeleteConfirmDialogModel viewModelBuilder(BuildContext context) =>
-      ToolUserDeleteConfirmDialogModel();
+  DeleteConfirmDialogModel viewModelBuilder(BuildContext context) =>
+      DeleteConfirmDialogModel();
 }

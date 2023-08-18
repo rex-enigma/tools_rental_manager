@@ -5,16 +5,13 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/edit_dialog_layout.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 
-import 'tool_user_firstname_editor_dialog_model.dart';
+import 'tool_user_name_editor_dialog_model.dart';
 
-const double _graphicSize = 60;
-
-class ToolUserFirstnameEditorDialog
-    extends StackedView<ToolUserFirstnameEditorDialogModel> {
+class ToolUserNameEditorDialog extends StackedView<ToolUserNameEditorDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
-  const ToolUserFirstnameEditorDialog({
+  const ToolUserNameEditorDialog({
     Key? key,
     required this.request,
     required this.completer,
@@ -23,7 +20,7 @@ class ToolUserFirstnameEditorDialog
   @override
   Widget builder(
     BuildContext context,
-    ToolUserFirstnameEditorDialogModel viewModel,
+    ToolUserNameEditorDialogModel viewModel,
     Widget? child,
   ) {
     return EditDialog(
@@ -40,8 +37,8 @@ class ToolUserFirstnameEditorDialog
         cursorWidth: 1,
         style: textFormFieldInputTextStyle(context),
         // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
-        decoration: const InputDecoration(
-          labelText: 'First name *',
+        decoration: InputDecoration(
+          labelText: request.title ?? 'tool user name*',
         ),
       ),
       onSaved: () {},
@@ -52,6 +49,5 @@ class ToolUserFirstnameEditorDialog
   }
 
   @override
-  ToolUserFirstnameEditorDialogModel viewModelBuilder(BuildContext context) =>
-      ToolUserFirstnameEditorDialogModel();
+  ToolUserNameEditorDialogModel viewModelBuilder(BuildContext context) => ToolUserNameEditorDialogModel();
 }

@@ -79,7 +79,7 @@ class ToolCreatorSheetModel extends BaseViewModel {
   }
 
   /// its called when all forms validation pass
-  void handleFormSubmission() {
+  void submitForm() {
     Tool newTool = Tool.insert(
       name: toolNameTextEditingController.text,
       boughtAt: DateFormat('dd/MM/yyyy').parse(purchaseDateTextEditController.text),
@@ -92,8 +92,8 @@ class ToolCreatorSheetModel extends BaseViewModel {
     );
 
     // send this newTool back to ToolsView for it to be added to the database
-    // it must be wrapped in SheetResponse<dynamic> for it to be accessed
-    _navigationService.back(result: SheetResponse<dynamic>(data: newTool));
+    // it must be wrapped in SheetResponse for it to be accessed
+    _navigationService.back(result: SheetResponse(data: newTool));
   }
 }
 

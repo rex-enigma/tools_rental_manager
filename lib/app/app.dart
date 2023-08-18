@@ -19,12 +19,9 @@ import 'package:tools_rental_management/ui/views/tool_users/tool_users_viewmodel
 import 'package:tools_rental_management/ui/views/tools/tools_view.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_view.dart';
 import 'package:tools_rental_management/ui/views/tool/tool_view.dart';
-import 'package:tools_rental_management/ui/views/tool_search/tool_search_view.dart';
 import 'package:tools_rental_management/ui/views/tool_users/tool_users_view.dart';
 import 'package:tools_rental_management/ui/views/tool_user_search/tool_user_search_view.dart';
 import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart';
-import 'package:tools_rental_management/ui/views/tool_image/tool_image_view.dart';
-import 'package:tools_rental_management/ui/views/tool_user_image/tool_user_image_view.dart';
 import 'package:tools_rental_management/ui/views/tools/tools_viewmodel.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_creator/tool_creator_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_user_creator/tool_user_creator_sheet.dart';
@@ -32,19 +29,14 @@ import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart';
 import 'package:tools_rental_management/ui/dialogs/tool_rate_editor/tool_rate_editor_dialog.dart';
 import 'package:tools_rental_management/ui/dialogs/tool_category_editor/tool_category_editor_dialog.dart';
 import 'package:tools_rental_management/ui/dialogs/tool_status_editor/tool_status_editor_dialog.dart';
-import 'package:tools_rental_management/ui/dialogs/tool_user_firstname_editor/tool_user_firstname_editor_dialog.dart';
-import 'package:tools_rental_management/ui/dialogs/tool_user_lastname_editor/tool_user_lastname_editor_dialog.dart';
 import 'package:tools_rental_management/ui/dialogs/tool_user_phonenumber_editor/tool_user_phonenumber_editor_dialog.dart';
 import 'package:tools_rental_management/ui/dialogs/tool_disassociate_confirm/tool_disassociate_confirm_dialog.dart';
-import 'package:tools_rental_management/ui/dialogs/tool_user_delete_confirm/tool_user_delete_confirm_dialog.dart';
-import 'package:tools_rental_management/ui/dialogs/tool_delete_confirm/tool_delete_confirm_dialog.dart';
-import 'package:tools_rental_management/ui/bottom_sheets/tool_image_capture/tool_image_capture_sheet.dart';
-import 'package:tools_rental_management/ui/bottom_sheets/tool_user_image_capture/tool_user_image_capture_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/select_tool/select_tool_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/more_tool_info/more_tool_info_sheet.dart';
-import 'package:tools_rental_management/ui/views/front_national_id_image/front_national_id_image_view.dart';
-import 'package:tools_rental_management/ui/views/back_national_id_image/back_national_id_image_view.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/image_capture/image_capture_sheet.dart';
+import 'package:tools_rental_management/ui/views/image/image_view.dart';
+import 'package:tools_rental_management/ui/dialogs/delete_confirm/delete_confirm_dialog.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_user_name_editor/tool_user_name_editor_dialog.dart';
 // @stacked-import
 
 @StackedApp(
@@ -54,15 +46,11 @@ import 'package:tools_rental_management/ui/bottom_sheets/image_capture/image_cap
     MaterialRoute(page: ToolsView),
     MaterialRoute(page: SettingsView),
     MaterialRoute(page: ToolView),
-    MaterialRoute(page: ToolSearchView),
     MaterialRoute(page: ToolUsersView),
     MaterialRoute(page: ToolUserSearchView),
     MaterialRoute(page: ToolNamesView),
-    MaterialRoute(page: ToolUserImageView),
     MaterialRoute(page: ToolUserView),
-    MaterialRoute(page: ToolImageView),
-    MaterialRoute(page: FrontNationalIdImageView),
-    MaterialRoute(page: BackNationalIdImageView),
+    MaterialRoute(page: ImageView),
 // @stacked-route
   ],
   dependencies: [
@@ -101,12 +89,10 @@ import 'package:tools_rental_management/ui/bottom_sheets/image_capture/image_cap
     StackedDialog(classType: ToolRateEditorDialog),
     StackedDialog(classType: ToolCategoryEditorDialog),
     StackedDialog(classType: ToolStatusEditorDialog),
-    StackedDialog(classType: ToolUserFirstnameEditorDialog),
-    StackedDialog(classType: ToolUserLastnameEditorDialog),
     StackedDialog(classType: ToolUserPhonenumberEditorDialog),
     StackedDialog(classType: ToolDisassociateConfirmDialog),
-    StackedDialog(classType: ToolUserDeleteConfirmDialog),
-    StackedDialog(classType: ToolDeleteConfirmDialog),
+    StackedDialog(classType: DeleteConfirmDialog),
+    StackedDialog(classType: ToolUserNameEditorDialog),
   ],
 )
 class App {}

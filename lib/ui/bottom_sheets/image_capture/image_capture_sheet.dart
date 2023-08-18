@@ -49,10 +49,12 @@ class ImageCaptureSheet extends StackedView<ImageCaptureSheetModel> {
                   const DragHandle(),
                   verticalSpaceSmall,
                   Text(
-                    request.title ?? 'National id image',
+                    request.title ?? ' bottom sheet image',
                     style: switch (getThemeManager(context).selectedThemeMode) {
-                      ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
-                      ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
+                      ThemeMode.light =>
+                        Theme.of(context).typography.white.bodyMedium!,
+                      ThemeMode.dark =>
+                        Theme.of(context).typography.black.bodyMedium!,
                       _ => throw ' configure ThemeMode.system',
                     },
                   ),
@@ -61,7 +63,8 @@ class ImageCaptureSheet extends StackedView<ImageCaptureSheetModel> {
             ),
             smallSpaceHorizontalDivider(context),
             Padding(
-              padding: const EdgeInsets.only(left: 20, right: 10, top: 10, bottom: 20),
+              padding: const EdgeInsets.only(
+                  left: 20, right: 10, top: 10, bottom: 20),
               child: Row(
                 children: [
                   CustomIconButton(
@@ -89,7 +92,8 @@ class ImageCaptureSheet extends StackedView<ImageCaptureSheetModel> {
   }
 
   @override
-  ImageCaptureSheetModel viewModelBuilder(BuildContext context) => ImageCaptureSheetModel();
+  ImageCaptureSheetModel viewModelBuilder(BuildContext context) =>
+      ImageCaptureSheetModel();
 
   @override
   void onViewModelReady(ImageCaptureSheetModel viewModel) {

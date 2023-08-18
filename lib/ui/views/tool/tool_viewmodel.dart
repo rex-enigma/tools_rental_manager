@@ -9,6 +9,7 @@ import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.d
 import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
+import 'package:tools_rental_management/enums/image_type.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
 class ToolViewModel extends BaseViewModel {
@@ -107,7 +108,9 @@ class ToolViewModel extends BaseViewModel {
   }
 
   void navigateToToolImageView() async {
-    await _navigationService.navigateToToolImageView(toolId: toolId!);
+    // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
+    await _navigationService.navigateToImageView(
+        idImageTypeGroup: (id: toolId!, imageType: ImageType.toolImage));
     // the user might update the tool image, we refetch the tool image to display the new image if it was changed
     // the [toolId] am guaranteeing its not null since this viewModel wont be disposed when we navigate to ToolImageView
     await fetchTool(toolId!);
