@@ -226,6 +226,7 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                               onPressed: () => viewModel.showToolImageCaptureSheet(),
                               // will be true if this form has any error(when the validator returns a string value)
                               hasError: formFieldState.hasError,
+                              errorMessage: formFieldState.errorText,
                             );
                           },
                           validator: (value) {
@@ -257,11 +258,9 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                 ),
                               ),
                               onPressed: () {
-                                // the condition will b true if all the form validators pass
+                                // the condition will be true if all the form validators pass
                                 if (viewModel.formKey.currentState!.validate()) {
                                   viewModel.handleFormSubmission();
-                                } else {
-                                  print('some form are not valid');
                                 }
                               },
                               child: const Text('Add'),

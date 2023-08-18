@@ -36,7 +36,7 @@ class ToolImageCaptureSheet extends StackedView<ToolImageCaptureSheetModel> {
 
   @override
   void onViewModelReady(ToolImageCaptureSheetModel viewModel) {
-    viewModel.imagePath = request.data;
+    viewModel.toolImagePath = request.data;
     super.onViewModelReady(viewModel);
   }
 }

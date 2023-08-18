@@ -260,7 +260,7 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
 
   /// returns a future that completes with the tool user first_name for the given toolUserId.
   Future<String?> getToolUserFirstNameByIdOrNull(int toolUserId) async {
-    final toolNameResult = await customSelect(
+    final toolUserFirstNameResult = await customSelect(
       'SELECT first_name FROM tool_users WHERE tool_user_id = :toolUserId',
       variables: [Variable.withInt(toolUserId)],
     )
@@ -271,12 +271,12 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
     // since we selected the first_name attribute then we expect the map returned will have [first_name] as key, and will allow as to
     // get the corresponding value which will be the first_name of the tool user for the given toolUserId.
-    return toolNameResult?.data['first_name'];
+    return toolUserFirstNameResult?.data['first_name'];
   }
 
   /// returns a future that completes with the tool user last_name for the given toolUserId.
   Future<String?> getToolUserLastNameByIdOrNull(int toolUserId) async {
-    final toolNameResult = await customSelect(
+    final toolUserLastNameResult = await customSelect(
       'SELECT last_name FROM tool_users WHERE tool_user_id = :toolUserId',
       variables: [Variable.withInt(toolUserId)],
     )
@@ -287,12 +287,12 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
     // since we selected the last_name attribute then we expect the map returned will have [last_name] as key, and will allow as to
     // get the corresponding value which will be the last_name of the tool user for the given toolUserId.
-    return toolNameResult?.data['last_name'];
+    return toolUserLastNameResult?.data['last_name'];
   }
 
   /// returns a future that completes with the tool user phone_number for the given toolUserId.
   Future<int?> getToolUserPhoneNumberByIdOrNull(int toolUserId) async {
-    final toolNameResult = await customSelect(
+    final toolUserPhoneNumberResult = await customSelect(
       'SELECT phone_number FROM tool_users WHERE tool_user_id = :toolUserId',
       variables: [Variable.withInt(toolUserId)],
     )
@@ -303,12 +303,28 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
     // since we selected the phone_number attribute then we expect the map returned will have [phone_number] as key, and will allow as to
     // get the corresponding value which will be the phone_number of the tool user for the given toolUserId.
-    return toolNameResult?.data['phone_number'];
+    return toolUserPhoneNumberResult?.data['phone_number'];
+  }
+
+  /// return a future that completes with the provided phoneNumber or null if not found
+  Future<int?> getToolUserPhoneNumberOrNull(int phoneNumber) async {
+    final toolUserPhoneNumberResult = await customSelect(
+      'SELECT phone_number FROM tool_users WHERE phone_number = :phoneNumber',
+      variables: [Variable.withInt(phoneNumber)],
+    )
+        .getSingleOrNull() // return a future that will complete with a queryRow(representing a tool user) for the given toolId, or null if there is no row(tool user) for the given toolUserId.
+        .catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+    // since we selected the phone_number attribute then we expect the map returned will have [phone_number] as key, and will allow as to
+    // get the corresponding value which will be the phone_number of the tool user for the given toolUserId.
+    return toolUserPhoneNumberResult?.data['phone_number'];
   }
 
   /// returns a future that completes with the tool user front_national_id_image_path, for the given toolUserId.
   Future<String?> getToolUserFrontNationalIdImagePathByIdOrNull(int toolUserId) async {
-    final toolNameResult = await customSelect(
+    final toolUserFrontNationalIdImagePathResult = await customSelect(
       'SELECT front_national_id_image_path FROM tool_users WHERE tool_user_id = :toolUserId',
       variables: [Variable.withInt(toolUserId)],
     )
@@ -319,12 +335,12 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
     // since we selected the front_national_id_image_path, attribute then we expect the map returned will have [front_national_id_image_path,] as key, and will allow as to
     // get the corresponding value which will be the front_national_id_image_path, of the tool user for the given toolUserId.
-    return toolNameResult?.data['front_national_id_image_path,'];
+    return toolUserFrontNationalIdImagePathResult?.data['front_national_id_image_path,'];
   }
 
   /// returns a future that completes with the tool user back_national_id_image_path for the given toolUserId.
   Future<String?> getToolUserBackNationalIdImagePathByIdOrNull(int toolUserId) async {
-    final toolNameResult = await customSelect(
+    final toolUserBackNationalIdImagePathResult = await customSelect(
       'SELECT back_national_id_image_path FROM tool_users WHERE tool_user_id = :toolUserId',
       variables: [Variable.withInt(toolUserId)],
     )
@@ -335,12 +351,12 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
     // since we selected the back_national_id_image_path attribute then we expect the map returned will have [back_national_id_image_path,] as key, and will allow as to
     // get the corresponding value which will be the back_national_id_image_path of the tool user for the given toolUserId.
-    return toolNameResult?.data['back_national_id_image_path'];
+    return toolUserBackNationalIdImagePathResult?.data['back_national_id_image_path'];
   }
 
   /// returns a future that completes with the tool user avatar_image_path for the given toolUserId.
   Future<String?> getToolUserAvatarImagePathByIdOrNull(int toolUserId) async {
-    final toolNameResult = await customSelect(
+    final toolUserAvatarImagePath = await customSelect(
       'SELECT avatar_image_path FROM tool_users WHERE tool_user_id = :toolUserId',
       variables: [Variable.withInt(toolUserId)],
     )
@@ -351,7 +367,7 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
     // since we selected the avatar_image_path attribute then we expect the map returned will have [avatar_image_path,] as key, and will allow as to
     // get the corresponding value which will be the avatar_image_path of the tool user for the given toolUserId.
-    return toolNameResult?.data['avatar_image_path'];
+    return toolUserAvatarImagePath?.data['avatar_image_path'];
   }
 
   Future<List<ToolUser>?> getAllToolUsersOrNull() async {

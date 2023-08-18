@@ -52,10 +52,8 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
               child: Text(
                 'Create a tool user',
                 style: switch (getThemeManager(context).selectedThemeMode) {
-                  ThemeMode.light =>
-                    Theme.of(context).typography.white.bodyMedium!,
-                  ThemeMode.dark =>
-                    Theme.of(context).typography.black.bodyMedium!,
+                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
+                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
                   _ => throw ' configure ThemeMode.system',
                 },
               ),
@@ -72,10 +70,12 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                     right: 16.0,
                   ),
                   child: Form(
+                    key: viewModel.formKey,
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextFormField(
+                          controller: viewModel.firstNameTextEditingController,
                           cursorColor: Theme.of(context).colorScheme.onPrimary,
                           cursorWidth: 1,
                           style: textFormFieldInputTextStyle(context),
@@ -84,9 +84,11 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                             hintText: 'Your first name',
                             labelText: 'First Name *',
                           ),
+                          validator: (value) => ToolUserCreatorSheetValidators.validateToolUserFirstName(value),
                         ),
                         verticalSpaceMedium,
                         TextFormField(
+                          controller: viewModel.lastNameTextEditingController,
                           cursorColor: Theme.of(context).colorScheme.onPrimary,
                           cursorWidth: 1,
                           style: textFormFieldInputTextStyle(context),
@@ -94,9 +96,11 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                             hintText: 'Your last name',
                             labelText: 'Last Name *',
                           ),
+                          validator: (value) => ToolUserCreatorSheetValidators.validateToolUserLastName(value),
                         ),
                         verticalSpaceMedium,
                         TextFormField(
+                          controller: viewModel.phoneNumberTextEditingController,
                           cursorColor: Theme.of(context).colorScheme.onPrimary,
                           cursorWidth: 1,
                           keyboardType: TextInputType.phone,
@@ -109,33 +113,70 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                             hintText: 'Your phone number',
                             labelText: 'Phone number *',
                           ),
+                          validator: (value) => ToolUserCreatorSheetValidators.validateToolUserPhoneNumber(value),
                         ),
                         verticalSpaceMedium,
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            NationalIdButton(
-                              onPressed: () =>
-                                  viewModel.showNationalIdImageCaptureSheet(),
-                              nationalIdImage:
-                                  viewModel.frontNationalIdImagePath,
-                              nationalIdSide: NationalIdSide.front,
+                            FormField(
+                              builder: (formFieldState) {
+                                return NationalIdButton(
+                                  onPressed: () {
+                                    viewModel.showNationalIdImageCaptureSheet(NationalIdSide.front);
+                                  },
+                                  nationalIdImage: viewModel.frontNationalIdImagePath,
+                                  nationalIdSide: NationalIdSide.front,
+                                  hasError: formFieldState.hasError,
+                                  errorMessage: formFieldState.errorText,
+                                );
+                              },
+                              validator: (value) {
+                                if (viewModel.frontNationalIdImagePath == null) {
+                                  return "add front national id";
+                                }
+                                return null;
+                              },
                             ),
-                            NationalIdButton(
-                              onPressed: () =>
-                                  viewModel.showNationalIdImageCaptureSheet(),
-                              nationalIdImage:
-                                  viewModel.backNationalIdImagePath,
-                              nationalIdSide: NationalIdSide.back,
+                            FormField(
+                              builder: (formFieldState) {
+                                return NationalIdButton(
+                                  onPressed: () {
+                                    viewModel.showNationalIdImageCaptureSheet(NationalIdSide.back);
+                                  },
+                                  nationalIdImage: viewModel.backNationalIdImagePath,
+                                  nationalIdSide: NationalIdSide.back,
+                                  hasError: formFieldState.hasError,
+                                  errorMessage: formFieldState.errorText,
+                                );
+                              },
+                              validator: (value) {
+                                if (viewModel.backNationalIdImagePath == null) {
+                                  return "add back national id";
+                                }
+                                return null;
+                              },
                             ),
                           ],
                         ),
                         verticalSpaceMedium,
-                        DashedCircularBorderButtonWithIcons(
-                          bottomSheetType: BottomSheetType.toolUserCreator,
-                          imagePath: viewModel.userImagePath,
-                          onPressed: () =>
-                              viewModel.showToolUserImageCaptureSheet(),
+                        FormField(
+                          builder: (formFieldState) {
+                            return DashedCircularBorderButtonWithIcons(
+                              bottomSheetType: BottomSheetType.toolUserCreator,
+                              imagePath: viewModel.userImagePath,
+                              onPressed: () => viewModel.showToolUserImageCaptureSheet(),
+                              hasError: formFieldState.hasError,
+                              errorMessage: formFieldState.errorText,
+                            );
+                          },
+                          validator: (value) {
+                            if (viewModel.userImagePath == null) {
+                              return 'tap to add a tool user image';
+                            }
+                            return null;
+                          },
                         ),
                         verticalSpaceMedium,
                         Row(
@@ -154,7 +195,12 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
                                   borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                              onPressed: () => {},
+                              onPressed: () {
+                                // the condition will be true if all the form validators pass
+                                if (viewModel.formKey.currentState!.validate()) {
+                                  // submit form if all the forms are valid
+                                }
+                              },
                               child: const Text('Add'),
                             ),
                           ],
@@ -172,6 +218,13 @@ class ToolUserCreatorSheet extends StackedView<ToolUserCreatorSheetModel> {
   }
 
   @override
-  ToolUserCreatorSheetModel viewModelBuilder(BuildContext context) =>
-      ToolUserCreatorSheetModel();
+  ToolUserCreatorSheetModel viewModelBuilder(BuildContext context) => ToolUserCreatorSheetModel();
+
+  @override
+  void onDispose(ToolUserCreatorSheetModel viewModel) {
+    viewModel.firstNameTextEditingController.dispose();
+    viewModel.lastNameTextEditingController.dispose();
+    viewModel.phoneNumberTextEditingController.dispose();
+    super.onDispose(viewModel);
+  }
 }

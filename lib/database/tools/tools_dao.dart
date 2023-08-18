@@ -246,7 +246,7 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
 
   /// returns a future that completes with the tool status for the given toolId.
   Future<Status?> getToolStatusByIdOrNull(int toolId) async {
-    final toolNameResult = await customSelect(
+    final toolStatusResult = await customSelect(
       'SELECT status FROM tools WHERE tool_id = :toolId',
       variables: [Variable.withInt(toolId)],
     )
@@ -257,13 +257,13 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     });
     // since we selected the status attribute then we expect the map returned will have [status] as key, and will allow as to
     // get the corresponding value which will be the status(represented as string) of the tool for the given toolId.
-    String status = toolNameResult?.data['status'];
+    String status = toolStatusResult?.data['status'];
     return Status.fromString(status);
   }
 
   /// returns a future that completes with the tool rate for the given toolId.
   Future<int?> getToolRateByIdOrNull(int toolId) async {
-    final toolNameResult = await customSelect(
+    final toolRateResult = await customSelect(
       'SELECT rate FROM tools WHERE tool_id = :toolId',
       variables: [Variable.withInt(toolId)],
     )
@@ -274,12 +274,12 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     });
     // since we selected the rate attribute then we expect the map returned will have [rate] as key, and will allow as to
     // get the corresponding value which will be the rate for the tool for the given toolId.
-    return toolNameResult?.data['rate'];
+    return toolRateResult?.data['rate'];
   }
 
   /// returns a future that completes with the tool category for the given toolId.
   Future<Category?> getToolCategoryByIdOrNull(int toolId) async {
-    final toolNameResult = await customSelect(
+    final toolCategoryResult = await customSelect(
       'SELECT category FROM tools WHERE tool_id = :toolId',
       variables: [Variable.withInt(toolId)],
     )
@@ -290,13 +290,13 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     });
     // since we selected the category attribute then we expect the map returned will have [category] as key, and will allow as to
     // get the corresponding value which will be the category(represented as string) for the tool for the given toolId.
-    String category = toolNameResult?.data['category'];
+    String category = toolCategoryResult?.data['category'];
     return Category.fromString(category);
   }
 
   /// returns a future that completes with the tool image paths for the given toolId.
   Future<String?> getToolImagePathByIdOrNull(int toolId) async {
-    final toolNameResult = await customSelect(
+    final toolImagePathResult = await customSelect(
       'SELECT tool_image_path FROM tools WHERE tool_id = :toolId',
       variables: [Variable.withInt(toolId)],
     )
@@ -307,12 +307,12 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     });
     // since we selected the tool_image_path attribute then we expect the map returned will have [tool_image_path] as key, and will allow as to
     // get the corresponding value which will be the image path for the tool for the given toolId.
-    return toolNameResult?.data['tool_image_path'];
+    return toolImagePathResult?.data['tool_image_path'];
   }
 
   // return a future that completes with a list of tools or null for the given status .
   Future<List<Tool>?> getToolsByStatusOrNull(Status status) async {
-    final toolResults = await customSelect(
+    final toolByStatusResults = await customSelect(
       'SELECT * FROM tools WHERE status = :status',
       variables: [Variable.withString(status.name)],
     ).get().catchError((Object e, StackTrace stacktrace) {
@@ -321,10 +321,10 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     });
 
     //toolResults might be an empty list if there isn't any tools for the given status
-    if (toolResults.isEmpty) {
+    if (toolByStatusResults.isEmpty) {
       return null;
     } else {
-      List<Tool> tools = toolResults.map((queryRow) => Tool.fromMap(toolMap: queryRow.data)).toList();
+      List<Tool> tools = toolByStatusResults.map((queryRow) => Tool.fromMap(toolMap: queryRow.data)).toList();
       return tools;
     }
   }

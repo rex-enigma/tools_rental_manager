@@ -96,7 +96,7 @@ class ToolCreatorSheetModel extends BaseViewModel {
 }
 
 // this function might return identical values
-// its just because the app is a prototype
+// an using it just because the app is a prototype
 int generateUniqueToolId() {
   int fixValue = 51928347;
   int randomValue = Random().nextInt(100);

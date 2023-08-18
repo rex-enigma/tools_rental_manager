@@ -5,8 +5,7 @@ import 'package:tools_rental_management/ui/reusable_widgets/image_capture_bottom
 
 import 'tool_user_image_capture_sheet_model.dart';
 
-class ToolUserImageCaptureSheet
-    extends StackedView<ToolUserImageCaptureSheetModel> {
+class ToolUserImageCaptureSheet extends StackedView<ToolUserImageCaptureSheetModel> {
   final Function(SheetResponse response)? completer;
   final SheetRequest request;
   const ToolUserImageCaptureSheet({
@@ -23,12 +22,21 @@ class ToolUserImageCaptureSheet
   ) {
     return ImageCaptureSheet(
       title: 'Tool user image',
-      onPressedCameraButton: () {},
-      onPressedGalleryButton: () {},
+      onPressedCameraButton: () {
+        viewModel.fetchImageFromCamera();
+      },
+      onPressedGalleryButton: () {
+        viewModel.fetchImageFromGallery();
+      },
     );
   }
 
   @override
-  ToolUserImageCaptureSheetModel viewModelBuilder(BuildContext context) =>
-      ToolUserImageCaptureSheetModel();
+  ToolUserImageCaptureSheetModel viewModelBuilder(BuildContext context) => ToolUserImageCaptureSheetModel();
+
+  @override
+  void onViewModelReady(ToolUserImageCaptureSheetModel viewModel) {
+    viewModel.toolUserImagePath = request.data;
+    super.onViewModelReady(viewModel);
+  }
 }

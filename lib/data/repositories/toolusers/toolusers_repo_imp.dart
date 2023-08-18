@@ -106,6 +106,11 @@ class ToolUsersRepoImp implements ToolUsersRepo {
   }
 
   @override
+  Future<int?> getToolUserPhoneNumberOrNull(int phoneNumber) {
+    return getToolUserPhoneNumberOrNull(phoneNumber);
+  }
+
+  @override
   Future<List<ToolUser>?> getAllToolUsersOrNull() {
     return _toolUsersLocalDataSource.getAllToolUsersOrNull();
   }

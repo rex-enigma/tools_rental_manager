@@ -5,8 +5,7 @@ import 'package:tools_rental_management/ui/reusable_widgets/image_capture_bottom
 
 import 'national_id_image_capture_sheet_model.dart';
 
-class NationalIdImageCaptureSheet
-    extends StackedView<NationalIdImageCaptureSheetModel> {
+class NationalIdImageCaptureSheet extends StackedView<NationalIdImageCaptureSheetModel> {
   final Function(SheetResponse response)? completer;
   final SheetRequest request;
   const NationalIdImageCaptureSheet({
@@ -23,12 +22,21 @@ class NationalIdImageCaptureSheet
   ) {
     return ImageCaptureSheet(
       title: 'National id image',
-      onPressedCameraButton: () {},
-      onPressedGalleryButton: () {},
+      onPressedCameraButton: () {
+        viewModel.fetchImageFromCamera();
+      },
+      onPressedGalleryButton: () {
+        viewModel.fetchImageFromGallery();
+      },
     );
   }
 
   @override
-  NationalIdImageCaptureSheetModel viewModelBuilder(BuildContext context) =>
-      NationalIdImageCaptureSheetModel();
+  NationalIdImageCaptureSheetModel viewModelBuilder(BuildContext context) => NationalIdImageCaptureSheetModel();
+
+  @override
+  void onViewModelReady(NationalIdImageCaptureSheetModel viewModel) {
+    viewModel.nationalIdImagePath = request.data;
+    super.onViewModelReady(viewModel);
+  }
 }

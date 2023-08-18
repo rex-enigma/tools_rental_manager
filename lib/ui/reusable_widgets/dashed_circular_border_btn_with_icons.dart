@@ -20,14 +20,19 @@ class DashedCircularBorderButtonWithIcons extends StatelessWidget {
   /// image path either for a tool image or toolUser image depending on the bottomSheetType.
   final String? imagePath;
   final VoidCallback onPressed;
-  // checks if the Wrapping FormField has any error
+
+  /// checks if the Wrapping FormField has any error
   final bool hasError;
+
+  /// will be displayed if the wrapping formField validator returns a string representing an error text
+  final String? errorMessage;
 
   const DashedCircularBorderButtonWithIcons({
     required this.bottomSheetType,
     required this.imagePath,
     required this.onPressed,
     this.hasError = false,
+    this.errorMessage,
     Key? key,
   }) : super(key: key);
 
@@ -95,10 +100,10 @@ class DashedCircularBorderButtonWithIcons extends StatelessWidget {
               ),
             ),
           ),
-          if (hasError == true)
-            const Text(
-              'tap to add a tool image',
-              style: TextStyle(
+          if (hasError == true && errorMessage != null)
+            Text(
+              errorMessage!,
+              style: const TextStyle(
                 fontStyle: FontStyle.italic,
                 fontSize: 14,
                 color: Colors.red,

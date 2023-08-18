@@ -186,6 +186,7 @@ class ToolsViewModel extends BaseViewModel {
     return toolUserNames[key];
   }
 
+// add tools fetched from the database to this.tools list
   void addTools(List<Tool>? tools) {
     if (tools != null) {
       // order the tools in descending order
