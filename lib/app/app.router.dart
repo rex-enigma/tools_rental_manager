@@ -5,23 +5,21 @@
 // **************************************************************************
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
-import 'package:flutter/material.dart' as _i12;
+import 'package:flutter/material.dart' as _i11;
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart' as _i1;
-import 'package:stacked_services/stacked_services.dart' as _i13;
+import 'package:stacked_services/stacked_services.dart' as _i12;
 import 'package:tools_rental_management/ui/views/home/home_view.dart' as _i2;
-import 'package:tools_rental_management/ui/views/image/image_view.dart' as _i11;
+import 'package:tools_rental_management/ui/views/image/image_view.dart' as _i10;
 import 'package:tools_rental_management/ui/views/settings/settings_view.dart'
     as _i5;
 import 'package:tools_rental_management/ui/views/startup/startup_view.dart'
     as _i3;
 import 'package:tools_rental_management/ui/views/tool/tool_view.dart' as _i6;
 import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart'
-    as _i9;
-import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart'
-    as _i10;
-import 'package:tools_rental_management/ui/views/tool_user_search/tool_user_search_view.dart'
     as _i8;
+import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart'
+    as _i9;
 import 'package:tools_rental_management/ui/views/tool_users/tool_users_view.dart'
     as _i7;
 import 'package:tools_rental_management/ui/views/tools/tools_view.dart' as _i4;
@@ -39,8 +37,6 @@ class Routes {
 
   static const toolUsersView = '/tool-users-view';
 
-  static const toolUserSearchView = '/tool-user-search-view';
-
   static const toolNamesView = '/tool-names-view';
 
   static const toolUserView = '/tool-user-view';
@@ -54,7 +50,6 @@ class Routes {
     settingsView,
     toolView,
     toolUsersView,
-    toolUserSearchView,
     toolNamesView,
     toolUserView,
     imageView,
@@ -88,83 +83,75 @@ class StackedRouter extends _i1.RouterBase {
       page: _i7.ToolUsersView,
     ),
     _i1.RouteDef(
-      Routes.toolUserSearchView,
-      page: _i8.ToolUserSearchView,
-    ),
-    _i1.RouteDef(
       Routes.toolNamesView,
-      page: _i9.ToolNamesView,
+      page: _i8.ToolNamesView,
     ),
     _i1.RouteDef(
       Routes.toolUserView,
-      page: _i10.ToolUserView,
+      page: _i9.ToolUserView,
     ),
     _i1.RouteDef(
       Routes.imageView,
-      page: _i11.ImageView,
+      page: _i10.ImageView,
     ),
   ];
 
   final _pagesMap = <Type, _i1.StackedRouteFactory>{
     _i2.HomeView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i2.HomeView(),
         settings: data,
       );
     },
     _i3.StartupView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i3.StartupView(),
         settings: data,
       );
     },
     _i4.ToolsView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i4.ToolsView(),
         settings: data,
       );
     },
     _i5.SettingsView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i5.SettingsView(),
         settings: data,
       );
     },
     _i6.ToolView: (data) {
       final args = data.getArgs<ToolViewArguments>(nullOk: false);
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => _i6.ToolView(key: args.key, toolId: args.toolId),
         settings: data,
       );
     },
     _i7.ToolUsersView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
+      return _i11.MaterialPageRoute<dynamic>(
         builder: (context) => const _i7.ToolUsersView(),
         settings: data,
       );
     },
-    _i8.ToolUserSearchView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i8.ToolUserSearchView(),
+    _i8.ToolNamesView: (data) {
+      return _i11.MaterialPageRoute<dynamic>(
+        builder: (context) => const _i8.ToolNamesView(),
         settings: data,
       );
     },
-    _i9.ToolNamesView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i9.ToolNamesView(),
+    _i9.ToolUserView: (data) {
+      final args = data.getArgs<ToolUserViewArguments>(nullOk: false);
+      return _i11.MaterialPageRoute<dynamic>(
+        builder: (context) =>
+            _i9.ToolUserView(key: args.key, toolUserId: args.toolUserId),
         settings: data,
       );
     },
-    _i10.ToolUserView: (data) {
-      return _i12.MaterialPageRoute<dynamic>(
-        builder: (context) => const _i10.ToolUserView(),
-        settings: data,
-      );
-    },
-    _i11.ImageView: (data) {
+    _i10.ImageView: (data) {
       final args = data.getArgs<ImageViewArguments>(nullOk: false);
-      return _i12.MaterialPageRoute<dynamic>(
-        builder: (context) => _i11.ImageView(
+      return _i11.MaterialPageRoute<dynamic>(
+        builder: (context) => _i10.ImageView(
             key: args.key, idImageTypeGroup: args.idImageTypeGroup),
         settings: data,
       );
@@ -183,7 +170,7 @@ class ToolViewArguments {
     required this.toolId,
   });
 
-  final _i12.Key? key;
+  final _i11.Key? key;
 
   final int toolId;
 
@@ -204,13 +191,40 @@ class ToolViewArguments {
   }
 }
 
+class ToolUserViewArguments {
+  const ToolUserViewArguments({
+    this.key,
+    required this.toolUserId,
+  });
+
+  final _i11.Key? key;
+
+  final int toolUserId;
+
+  @override
+  String toString() {
+    return '{"key": "$key", "toolUserId": "$toolUserId"}';
+  }
+
+  @override
+  bool operator ==(covariant ToolUserViewArguments other) {
+    if (identical(this, other)) return true;
+    return other.key == key && other.toolUserId == toolUserId;
+  }
+
+  @override
+  int get hashCode {
+    return key.hashCode ^ toolUserId.hashCode;
+  }
+}
+
 class ImageViewArguments {
   const ImageViewArguments({
     this.key,
     required this.idImageTypeGroup,
   });
 
-  final _i12.Key? key;
+  final _i11.Key? key;
 
   final ({int id, dynamic imageType}) idImageTypeGroup;
 
@@ -231,7 +245,7 @@ class ImageViewArguments {
   }
 }
 
-extension NavigatorStateExtension on _i13.NavigationService {
+extension NavigatorStateExtension on _i12.NavigationService {
   Future<dynamic> navigateToHomeView([
     int? routerId,
     bool preventDuplicates = true,
@@ -289,7 +303,7 @@ extension NavigatorStateExtension on _i13.NavigationService {
   }
 
   Future<dynamic> navigateToToolView({
-    _i12.Key? key,
+    _i11.Key? key,
     required int toolId,
     int? routerId,
     bool preventDuplicates = true,
@@ -319,20 +333,6 @@ extension NavigatorStateExtension on _i13.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToToolUserSearchView([
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  ]) async {
-    return navigateTo<dynamic>(Routes.toolUserSearchView,
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
   Future<dynamic> navigateToToolNamesView([
     int? routerId,
     bool preventDuplicates = true,
@@ -347,14 +347,17 @@ extension NavigatorStateExtension on _i13.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> navigateToToolUserView([
+  Future<dynamic> navigateToToolUserView({
+    _i11.Key? key,
+    required int toolUserId,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return navigateTo<dynamic>(Routes.toolUserView,
+        arguments: ToolUserViewArguments(key: key, toolUserId: toolUserId),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -362,7 +365,7 @@ extension NavigatorStateExtension on _i13.NavigationService {
   }
 
   Future<dynamic> navigateToImageView({
-    _i12.Key? key,
+    _i11.Key? key,
     required ({int id, dynamic imageType}) idImageTypeGroup,
     int? routerId,
     bool preventDuplicates = true,
@@ -436,7 +439,7 @@ extension NavigatorStateExtension on _i13.NavigationService {
   }
 
   Future<dynamic> replaceWithToolView({
-    _i12.Key? key,
+    _i11.Key? key,
     required int toolId,
     int? routerId,
     bool preventDuplicates = true,
@@ -466,20 +469,6 @@ extension NavigatorStateExtension on _i13.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithToolUserSearchView([
-    int? routerId,
-    bool preventDuplicates = true,
-    Map<String, String>? parameters,
-    Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
-        transition,
-  ]) async {
-    return replaceWith<dynamic>(Routes.toolUserSearchView,
-        id: routerId,
-        preventDuplicates: preventDuplicates,
-        parameters: parameters,
-        transition: transition);
-  }
-
   Future<dynamic> replaceWithToolNamesView([
     int? routerId,
     bool preventDuplicates = true,
@@ -494,14 +483,17 @@ extension NavigatorStateExtension on _i13.NavigationService {
         transition: transition);
   }
 
-  Future<dynamic> replaceWithToolUserView([
+  Future<dynamic> replaceWithToolUserView({
+    _i11.Key? key,
+    required int toolUserId,
     int? routerId,
     bool preventDuplicates = true,
     Map<String, String>? parameters,
     Widget Function(BuildContext, Animation<double>, Animation<double>, Widget)?
         transition,
-  ]) async {
+  }) async {
     return replaceWith<dynamic>(Routes.toolUserView,
+        arguments: ToolUserViewArguments(key: key, toolUserId: toolUserId),
         id: routerId,
         preventDuplicates: preventDuplicates,
         parameters: parameters,
@@ -509,7 +501,7 @@ extension NavigatorStateExtension on _i13.NavigationService {
   }
 
   Future<dynamic> replaceWithImageView({
-    _i12.Key? key,
+    _i11.Key? key,
     required ({int id, dynamic imageType}) idImageTypeGroup,
     int? routerId,
     bool preventDuplicates = true,

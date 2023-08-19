@@ -48,11 +48,9 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
               onPressed: viewModel.toolUsers.isEmpty
                   ? null
                   : () {
-                      viewModel.showAppBarSearchField =
-                          !viewModel.showAppBarSearchField;
+                      viewModel.showAppBarSearchField = !viewModel.showAppBarSearchField;
                       // if viewModel.showAppBarSearchField = false, (the user cancelled search) we reset filtered tool users to default
-                      if (!viewModel.showAppBarSearchField)
-                        viewModel.resetFilteredToolUsersToDefault();
+                      if (!viewModel.showAppBarSearchField) viewModel.resetFilteredToolUsersToDefault();
                     },
               icon: viewModel.showAppBarSearchField
                   ? Icon(
@@ -62,9 +60,7 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                   : Icon(
                       Icons.search,
                       // use grey color to indicate that the button is disabled when viewMode.toolUsers is empty
-                      color: viewModel.toolUsers.isEmpty
-                          ? Theme.of(context).disabledColor
-                          : Theme.of(context).colorScheme.secondary,
+                      color: viewModel.toolUsers.isEmpty ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondary,
                     ),
             ),
           ],
@@ -76,118 +72,111 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
           ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
           _ => throw ' configure ThemeMode.system',
         },
-        child: viewModel.toolUsers.isEmpty
-            ? Center(
-                child: Text(
-                  'click + button to add a tool user',
-                ),
-              )
-            : ListView(
-                children: viewModel.filteredToolUsers.map(
-                  (toolUser) {
-                    return InkWell(
-                      onTap: () {
-                        print(
-                            '${toolUser.firstName} has been  tapped'); // its here for testing
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.only(
-                            left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
-                        child: CustomListTile(
-                          contentVerticalAlignment: CrossAxisAlignment.center,
-                          leading: Container(
-                            width: 90,
-                            height: 90,
-                            decoration: BoxDecoration(
-                              shape: BoxShape.circle,
-                              border: Border.all(
-                                color: Theme.of(context).colorScheme.secondary,
-                              ),
-                              //color: const Color.fromARGB(64, 158, 158, 158),
-                            ),
-                            child: toolUser.avatarImagePath.isEmpty
-                                ? const FittedBox(
-                                    child: Icon(
-                                    Icons.person,
-                                    color: Colors.grey,
-                                  ))
-                                : Image.file(
-                                    File(toolUser.avatarImagePath),
-                                    fit: BoxFit.cover,
+        child: viewModel.isBusy
+            ? Center(child: CircularProgressIndicator(backgroundColor: Theme.of(context).colorScheme.secondary))
+            : viewModel.toolUsers.isEmpty
+                ? const Center(
+                    child: Text(
+                      'click + button to add a tool user',
+                    ),
+                  )
+                : ListView(
+                    children: viewModel.filteredToolUsers.map(
+                      (toolUser) {
+                        return InkWell(
+                          onTap: () {
+                            viewModel.navigateToToolUser(toolUser.toolUserId!);
+                          },
+                          child: Padding(
+                            padding: const EdgeInsets.only(left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
+                            child: CustomListTile(
+                              contentVerticalAlignment: CrossAxisAlignment.center,
+                              leading: Container(
+                                width: 90,
+                                height: 90,
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  border: Border.all(
+                                    color: Theme.of(context).colorScheme.secondary,
                                   ),
-                          ),
-                          title: Text(
-                            '${toolUser.firstName} ${toolUser.lastName}',
-                            style: switch (
-                                getThemeManager(context).selectedThemeMode) {
-                              ThemeMode.light =>
-                                Theme.of(context).typography.white.titleMedium!,
-                              ThemeMode.dark =>
-                                Theme.of(context).typography.black.titleMedium!,
-                              _ => throw ' configure ThemeMode.system',
-                            },
-                          ),
-                          subtitle: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              RichText(
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Phone number : ',
-                                      style: subtitleFirstSubStringTextStyle(
-                                          context),
-                                    ),
-                                    TextSpan(
-                                      text: toolUser.phoneNumber.toString(),
-                                      style: subtitleLastSubStringTextStyle(
-                                          context),
-                                    ),
-                                  ],
+                                  //color: const Color.fromARGB(64, 158, 158, 158),
                                 ),
+                                child: toolUser.avatarImagePath.isEmpty
+                                    ? const FittedBox(
+                                        child: Icon(
+                                        Icons.person,
+                                        color: Colors.grey,
+                                      ))
+                                    : ClipOval(
+                                        child: Image.file(
+                                          File(toolUser.avatarImagePath),
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
                               ),
-                              RichText(
-                                overflow: TextOverflow.ellipsis,
-                                text: TextSpan(
-                                  children: [
-                                    TextSpan(
-                                      text: 'Tool count : ',
-                                      style: subtitleFirstSubStringTextStyle(
-                                          context),
-                                    ),
-                                    TextSpan(
-                                      text: toolUser.tools?.length.toString() ??
-                                          '0',
-                                      style: subtitleLastSubStringTextStyle(
-                                          context),
-                                    ),
-                                  ],
-                                ),
+                              title: Text(
+                                '${toolUser.firstName} ${toolUser.lastName}',
+                                style: switch (getThemeManager(context).selectedThemeMode) {
+                                  ThemeMode.light => Theme.of(context).typography.white.titleMedium!,
+                                  ThemeMode.dark => Theme.of(context).typography.black.titleMedium!,
+                                  _ => throw ' configure ThemeMode.system',
+                                },
                               ),
-                            ],
+                              subtitle: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Phone number : ',
+                                          style: subtitleFirstSubStringTextStyle(context),
+                                        ),
+                                        TextSpan(
+                                          text: ' +${toolUser.countryCallingCode} ${toolUser.phoneNumber.toString()}',
+                                          style: subtitleLastSubStringTextStyle(context),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                  RichText(
+                                    overflow: TextOverflow.ellipsis,
+                                    text: TextSpan(
+                                      children: [
+                                        TextSpan(
+                                          text: 'Tool count : ',
+                                          style: subtitleFirstSubStringTextStyle(context),
+                                        ),
+                                        TextSpan(
+                                          text: toolUser.tools?.length.toString() ?? '0',
+                                          style: subtitleLastSubStringTextStyle(context),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              trailing: toolUser.tools ==
+                                      null // if toolUser.tools is null, it means that the tool user is not using any tool (no tool(s) is associated with  that tool user)
+                                  ? IconButton(
+                                      visualDensity: VisualDensity.compact,
+                                      iconSize: 26,
+                                      icon: const Icon(Icons.delete),
+                                      onPressed: () {
+                                        viewModel.showToolDeleteConfirmDialog(toolUser);
+                                      },
+                                    )
+                                  : null,
+                            ),
                           ),
-                          trailing: toolUser.tools ==
-                                  null // if toolUser.tools is null, it means that the tool user is not using any tool (no tool(s) is associated with  that tool user)
-                              ? IconButton(
-                                  visualDensity: VisualDensity.compact,
-                                  iconSize: 26,
-                                  icon: const Icon(Icons.delete),
-                                  onPressed: () {
-                                    print(
-                                        '${toolUser.firstName} will be deleted'); // implement a delete functionality to delete retired tools
-                                  },
-                                )
-                              : null,
-                        ),
-                      ),
-                    );
-                  },
-                ).toList(),
-              ),
+                        );
+                      },
+                    ).toList(),
+                  ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: viewModel.showUserCreatorBottomSheet,
+        onPressed: viewModel.showToolUserCreatorBottomSheet,
         child: Icon(
           Icons.person_add,
           color: Theme.of(context).colorScheme.primary,

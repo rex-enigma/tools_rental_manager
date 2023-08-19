@@ -11,7 +11,8 @@ import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 import 'tool_user_viewmodel.dart';
 
 class ToolUserView extends StackedView<ToolUserViewModel> {
-  const ToolUserView({Key? key}) : super(key: key);
+  final int toolUserId;
+  const ToolUserView({Key? key, required this.toolUserId}) : super(key: key);
 
   @override
   Widget builder(
@@ -104,14 +105,14 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                             Positioned.fill(
                               child: ClipOval(
                                 child: GestureDetector(
-                                  onTap: () => viewModel.navigateToToolUserImageView(),
-                                  child: viewModel.avatarImagePath == null
+                                  onTap: () => viewModel.navigateToImageView(),
+                                  child: viewModel.toolUser?.avatarImagePath == null
                                       ? const Icon(
                                           Icons.person,
                                           size: 120,
                                         )
                                       : Image.file(
-                                          File(viewModel.avatarImagePath!),
+                                          File(viewModel.toolUser!.avatarImagePath),
                                           fit: BoxFit.cover,
                                         ),
                                 ),
@@ -155,7 +156,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 ),
                               ),
                               subtitle: Text(
-                                viewModel.firstName.toString(),
+                                viewModel.toolUser?.firstName.toString() ?? 'null',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -186,7 +187,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 ),
                               ),
                               subtitle: Text(
-                                viewModel.lastName.toString(),
+                                viewModel.toolUser?.lastName.toString() ?? 'null',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -217,7 +218,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 ),
                               ),
                               subtitle: Text(
-                                viewModel.phoneNumber?.toString() ?? '07xxxx',
+                                viewModel.toolUser?.phoneNumber.toString() ?? '07xxxx',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
@@ -282,6 +283,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                           padding: const EdgeInsets.only(left: 10, right: 10, bottom: 10),
                           child: Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -303,21 +305,32 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                       _ => throw ' configure ThemeMode.system',
                                     },
                                   ),
-                                  viewModel.frontNationalIdImagePath == null
-                                      ? GestureDetector(
-                                          onTap: () => viewModel.navigateToFrontNationalIdImageView(),
-                                          child: Image.asset(
-                                            'lib/assets/images/front_national_id_placeholder.png',
-                                            fit: BoxFit.cover,
+                                  Container(
+                                    width: 178,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(width: 0.5, color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: viewModel.toolUser?.frontNationalIdImagePath == null
+                                        ? GestureDetector(
+                                            onTap: () => viewModel.navigateToFrontNationalIdImageView(),
+                                            child: Image.asset(
+                                              'lib/assets/images/front_national_id_placeholder.png',
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )
+                                        : GestureDetector(
+                                            onTap: () => viewModel.navigateToFrontNationalIdImageView(),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(6),
+                                              child: Image.file(
+                                                File(viewModel.toolUser!.frontNationalIdImagePath),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ),
-                                        )
-                                      : GestureDetector(
-                                          onTap: () => viewModel.navigateToFrontNationalIdImageView(),
-                                          child: Image.file(
-                                            File(viewModel.frontNationalIdImagePath!),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
+                                  ),
                                 ],
                               ),
                               Column(
@@ -340,21 +353,32 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                       _ => throw ' configure ThemeMode.system',
                                     },
                                   ),
-                                  viewModel.backNationalIdImagePath == null
-                                      ? GestureDetector(
-                                          onTap: () => viewModel.navigateToBackNationalIdImageView(),
-                                          child: Image.asset(
-                                            'lib/assets/images/back_national_id_placeholder.png',
-                                            fit: BoxFit.cover,
+                                  Container(
+                                    width: 178,
+                                    height: 100,
+                                    decoration: BoxDecoration(
+                                      border: Border.all(width: 0.5, color: Colors.grey),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
+                                    child: viewModel.toolUser?.backNationalIdImagePath == null
+                                        ? GestureDetector(
+                                            onTap: () => viewModel.navigateToBackNationalIdImageView(),
+                                            child: Image.asset(
+                                              'lib/assets/images/back_national_id_placeholder.png',
+                                              fit: BoxFit.cover,
+                                            ),
+                                          )
+                                        : GestureDetector(
+                                            onTap: () => viewModel.navigateToBackNationalIdImageView(),
+                                            child: ClipRRect(
+                                              borderRadius: BorderRadius.circular(6),
+                                              child: Image.file(
+                                                File(viewModel.toolUser!.backNationalIdImagePath),
+                                                fit: BoxFit.cover,
+                                              ),
+                                            ),
                                           ),
-                                        )
-                                      : GestureDetector(
-                                          onTap: () => viewModel.navigateToBackNationalIdImageView(),
-                                          child: Image.file(
-                                            File(viewModel.backNationalIdImagePath!),
-                                            fit: BoxFit.cover,
-                                          ),
-                                        ),
+                                  ),
                                 ],
                               )
                             ],
@@ -374,7 +398,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                 child: Align(
                   alignment: Alignment.topLeft,
                   child: Text(
-                    'Current tools used by ${viewModel.firstName} ${viewModel.lastName}',
+                    'Current tools used by ${viewModel.toolUser?.firstName} ${viewModel.toolUser?.lastName}',
                     maxLines: 1,
                     overflow: TextOverflow.ellipsis,
                     style: switch (getThemeManager(context).selectedThemeMode) {
@@ -388,14 +412,14 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
               verticalSpaceSmall,
               smallSpaceHorizontalDivider(context),
               Expanded(
-                child: viewModel.tools.isEmpty
+                child: viewModel.toolUser?.tools == null
                     ? Center(
-                        child: Text('click + button to add a tool for ${viewModel.firstName} ${viewModel.lastName}'),
+                        child: Text('click + button to add a tool for ${viewModel.toolUser?.firstName} ${viewModel.toolUser?.lastName}'),
                       )
                     : ListView.builder(
-                        itemCount: viewModel.tools.length,
+                        itemCount: viewModel.toolUser!.tools!.length,
                         itemBuilder: (context, index) {
-                          var tool = viewModel.tools[index];
+                          var tool = viewModel.toolUser!.tools![index];
                           return InkWell(
                             onTap: () {
                               // checks if 'this' taped tool is selected already and is in the selectedTools
@@ -523,6 +547,13 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
 
   @override
   ToolUserViewModel viewModelBuilder(BuildContext context) => ToolUserViewModel();
+
+  @override
+  void onViewModelReady(ToolUserViewModel viewModel) {
+    // pass in the toolUserId to the viewModel to initialize it with the toolUser data model from database
+    viewModel.initState(toolUserId);
+    super.onViewModelReady(viewModel);
+  }
 }
 
 // Color.fromARGB(97, 97, 97, 1)

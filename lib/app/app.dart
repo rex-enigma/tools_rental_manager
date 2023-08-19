@@ -9,6 +9,7 @@ import 'package:tools_rental_management/data/repositories/images/images_repo_imp
 import 'package:tools_rental_management/data/repositories/toolarticles/toolarticles_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
+import 'package:tools_rental_management/database/app_database.dart';
 import 'package:tools_rental_management/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:tools_rental_management/ui/views/home/home_view.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_viewmodel.dart';
@@ -20,7 +21,6 @@ import 'package:tools_rental_management/ui/views/tools/tools_view.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_view.dart';
 import 'package:tools_rental_management/ui/views/tool/tool_view.dart';
 import 'package:tools_rental_management/ui/views/tool_users/tool_users_view.dart';
-import 'package:tools_rental_management/ui/views/tool_user_search/tool_user_search_view.dart';
 import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart';
 import 'package:tools_rental_management/ui/views/tools/tools_viewmodel.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/tool_creator/tool_creator_sheet.dart';
@@ -47,7 +47,6 @@ import 'package:tools_rental_management/ui/dialogs/tool_user_name_editor/tool_us
     MaterialRoute(page: SettingsView),
     MaterialRoute(page: ToolView),
     MaterialRoute(page: ToolUsersView),
-    MaterialRoute(page: ToolUserSearchView),
     MaterialRoute(page: ToolNamesView),
     MaterialRoute(page: ToolUserView),
     MaterialRoute(page: ImageView),
@@ -76,6 +75,8 @@ import 'package:tools_rental_management/ui/dialogs/tool_user_name_editor/tool_us
     LazySingleton(classType: ToolsViewModel),
     LazySingleton(classType: ToolUsersViewModel),
     LazySingleton(classType: SettingsViewModel),
+    // database
+    LazySingleton(classType: AppDatabase),
   ],
   bottomsheets: [
     StackedBottomsheet(classType: ImageCaptureSheet),

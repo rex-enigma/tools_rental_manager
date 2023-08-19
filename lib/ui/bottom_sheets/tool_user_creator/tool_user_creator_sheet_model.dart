@@ -3,12 +3,15 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/data/data_models/tooluser.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
 
 class ToolUserCreatorSheetModel extends BaseViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
+  final _navigationService = locator<NavigationService>();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
+  // no need to call rebuildUi() because the text in these controllers are setters which when set/called will notify the listeners which will be our inputField in TextFormField for the firstName/lastName/phoneNumber, hence it will rebuild showing the value which was set
   TextEditingController firstNameTextEditingController = TextEditingController();
   TextEditingController lastNameTextEditingController = TextEditingController();
   TextEditingController phoneNumberTextEditingController = TextEditingController();
@@ -61,7 +64,23 @@ class ToolUserCreatorSheetModel extends BaseViewModel {
   }
 
   // will be called when all the forms are valid
-  void submitForm() {}
+  void submitForm() {
+    print(phoneNumberTextEditingController.text);
+    ToolUser newToolUser = ToolUser.insert(
+      firstName: firstNameTextEditingController.text,
+      lastName: lastNameTextEditingController.text,
+      frontNationalIdImagePath: frontNationalIdImagePath!,
+      backNationalIdImagePath: backNationalIdImagePath!,
+      avatarImagePath: userImagePath!,
+      phoneNumber: int.parse(phoneNumberTextEditingController.text),
+      // hardcoded this value to kenya's callingCode, myb will be sent dynamic later if we provide that input to the user
+      countryCallingCode: 254,
+    );
+
+    // send this newToolUser back to ToolUsersView for it to be added to the database
+    // it must be wrapped in SheetResponse for it to be accessed
+    _navigationService.back(result: SheetResponse(data: newToolUser));
+  }
 }
 
 class ToolUserCreatorSheetValidators {
@@ -82,6 +101,7 @@ class ToolUserCreatorSheetValidators {
   }
 
   static String? validateToolUserPhoneNumber(String? text) {
+    print(text);
     if (text == null) {
       return null;
     } else if (text.isEmpty) {

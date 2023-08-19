@@ -29,7 +29,7 @@ class ImageView extends StackedView<ImageViewModel> {
           color: Colors.white,
           icon: const Icon(Icons.arrow_back_ios),
           onPressed: () {
-            Navigator.of(context).pop();
+            viewModel.navigateBack();
           },
         ),
         centerTitle: true,
@@ -40,7 +40,7 @@ class ImageView extends StackedView<ImageViewModel> {
         actions: [
           IconButton(
             color: Theme.of(context).colorScheme.secondary,
-            onPressed: () => viewModel.showToolImageCaptureBottomSheet(),
+            onPressed: () => viewModel.showImageCaptureBottomSheet(),
             icon: const Icon(Icons.edit),
           ),
         ],
@@ -59,8 +59,7 @@ class ImageView extends StackedView<ImageViewModel> {
                 ),
                 child: FittedBox(
                   fit: BoxFit.contain,
-                  child: CircularProgressIndicator(
-                      backgroundColor: Theme.of(context).colorScheme.secondary),
+                  child: CircularProgressIndicator(backgroundColor: Theme.of(context).colorScheme.secondary),
                 ),
               )
             // if an image path is provided display that image in is original size, let it get constrain from the parent(the screen or any other parent that will constrain its size)

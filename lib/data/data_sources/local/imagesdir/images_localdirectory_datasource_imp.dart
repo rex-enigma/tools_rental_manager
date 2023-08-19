@@ -15,13 +15,14 @@ class ImagesLocalDirectoryDataSource implements ImagesLocalDataSource {
       // first, try to get document directory.
       _documentDir = await getApplicationDocumentsDirectory();
       // second, get the name of the image from the [imageFile] that we want to store in the document directory.
-      String basename = p.basename(imageFile.path);
+      String imageName = p.basename(imageFile.path);
       // third, create a new path where the image should be stored by joining the document directory's
       // path and the name of the image.
-      String newPath = p.join(_documentDir.path, basename);
+      String newPath = p.join(_documentDir.path, imageName);
       // then, copy the file to the document directory.
       File newFile = await imageFile.copy(newPath);
       // finally, return the new file path.
+
       return newFile.path;
     } catch (e) {
       rethrow;

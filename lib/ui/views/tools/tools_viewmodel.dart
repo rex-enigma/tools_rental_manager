@@ -14,7 +14,7 @@ import 'package:tools_rental_management/errors/exceptions.dart';
 import 'package:tools_rental_management/ui/views/tools/menu_status_filter.dart';
 
 class ToolsViewModel extends BaseViewModel {
-  // we are directly instanciating snackbarService since its not part of dependencies managed by Locator
+  // we are directly instantiating snackbarService since its not part of dependencies managed by Locator
   final _snackbarService = SnackbarService();
   final _dialogService = locator<DialogService>();
   final _navigationService = locator<NavigationService>();
@@ -22,9 +22,9 @@ class ToolsViewModel extends BaseViewModel {
   final _toolsRepoImp = locator<ToolsRepoImp>();
   final _toolUsersRepoImp = locator<ToolUsersRepoImp>();
 
-  // this the the new tool that has been constructed from ToolCreatorSheet
-  // remember this newTool does't have an toolId yet, it will be assigned by sqlite so don't think about using it directly here
-  Tool? _newTool;
+  // // this the the new tool that has been constructed from ToolCreatorSheet
+  // // remember this newTool does't have an toolId yet, it will be assigned by sqlite so don't think about using it directly here
+  // Tool? _newTool;
 
   /// tool search text form field toggle
   bool _showAppBarSearchField = false;
@@ -38,8 +38,7 @@ class ToolsViewModel extends BaseViewModel {
   // filtered tools based on their status
   List<Tool> _menuStatusFilteredTools = [];
   // contains all powered tools and un-powered tools
-  List<Tool> allToolsTabView =
-      []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
+  List<Tool> allToolsTabView = []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
   List<Tool> poweredToolsTabView = []; // currentSelectedTab = 1;
   List<Tool> unPoweredToolsTabView = []; // currentSelectedTab = 2;
 
@@ -61,10 +60,8 @@ class ToolsViewModel extends BaseViewModel {
     for (var tool in tools) {
       int? toolUserId = tool.toolUserId;
       if (toolUserId != null) {
-        String? firstName =
-            await _toolUsersRepoImp.getToolUserFirstNameByIdOrNull(toolUserId);
-        String? lastName =
-            await _toolUsersRepoImp.getToolUserLastNameByIdOrNull(toolUserId);
+        String? firstName = await _toolUsersRepoImp.getToolUserFirstNameByIdOrNull(toolUserId);
+        String? lastName = await _toolUsersRepoImp.getToolUserLastNameByIdOrNull(toolUserId);
         String fullName = '$firstName $lastName';
         toolUserNames[toolUserId] = fullName;
       }
@@ -122,8 +119,7 @@ class ToolsViewModel extends BaseViewModel {
             // returns true if any tool in _menuStatusFilteredTools contains a name that the user want and
             // we also need to make sure we set poweredToolsTabView with tools whose category is powered since that is what poweredToolsTabView should contain
             // hence both of them must be true
-            return (tool.name.toLowerCase().contains(query.toLowerCase()) &&
-                tool.category == Category.poweredTool);
+            return (tool.name.toLowerCase().contains(query.toLowerCase()) && tool.category == Category.poweredTool);
           },
         ).toList();
         break;
@@ -131,8 +127,7 @@ class ToolsViewModel extends BaseViewModel {
       case 2:
         unPoweredToolsTabView = _menuStatusFilteredTools.where(
           (tool) {
-            return (tool.name.toLowerCase().contains(query.toLowerCase()) &&
-                tool.category == Category.unPoweredTool);
+            return (tool.name.toLowerCase().contains(query.toLowerCase()) && tool.category == Category.unPoweredTool);
           },
         ).toList();
       default:
@@ -151,23 +146,18 @@ class ToolsViewModel extends BaseViewModel {
         // print(_menuStatusFilteredTools);
         break;
       case MenuStatusFilter.viewOnlyToolsBeingUsed:
-        _menuStatusFilteredTools =
-            tools.where((tool) => tool.status == Status.beingUsed).toList();
+        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.beingUsed).toList();
 
         break;
       case MenuStatusFilter.viewOnlyIdleTools:
-        _menuStatusFilteredTools =
-            tools.where((tool) => tool.status == Status.idle).toList();
+        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.idle).toList();
 
         break;
       case MenuStatusFilter.viewOnlyRetiredTools:
-        _menuStatusFilteredTools =
-            tools.where((tool) => tool.status == Status.retired).toList();
+        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.retired).toList();
         break;
       case MenuStatusFilter.viewOnlyToolsUnderMaintenance:
-        _menuStatusFilteredTools = tools
-            .where((tool) => tool.status == Status.underMaintenance)
-            .toList();
+        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.underMaintenance).toList();
         break;
       default:
     }
@@ -181,15 +171,11 @@ class ToolsViewModel extends BaseViewModel {
         break;
       // display only powered tools in Powered tab
       case 1:
-        poweredToolsTabView = _menuStatusFilteredTools
-            .where((tool) => tool.category == Category.poweredTool)
-            .toList();
+        poweredToolsTabView = _menuStatusFilteredTools.where((tool) => tool.category == Category.poweredTool).toList();
         break;
       // display only un-powered tools in Unpowered tab
       case 2:
-        unPoweredToolsTabView = _menuStatusFilteredTools
-            .where((tool) => tool.category == Category.unPoweredTool)
-            .toList();
+        unPoweredToolsTabView = _menuStatusFilteredTools.where((tool) => tool.category == Category.unPoweredTool).toList();
         break;
       default:
     }
@@ -212,25 +198,23 @@ class ToolsViewModel extends BaseViewModel {
     updateUi();
   }
 
-  // we are using runBusyFuture function so that it can allow as to check if our viewModel is busy through the isBusy property handling a future function
-  Future _insertTool() async {
-    // Sets busy to true before starting future and sets it to false after executing
-    // the ui will be rebuild in both situations
-    return runBusyFuture(_insertNewTool());
-  }
+  // // we are using runBusyFuture function so that it can allow as to check if our viewModel is busy through the isBusy property handling a future function
+  // Future _insertTool(Tool newTool) async {}
 
   Future<List<Tool>?> _fetchAllTools() async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    return runBusyFuture(_getAllTools());
+    return runBusyFuture(_toolsRepoImp.getAllToolsOrNull());
   }
 
-  Future<List<Tool>?> _getAllTools() {
-    return _toolsRepoImp.getAllToolsOrNull();
-  }
+  // Future<List<Tool>?> _getAllTools() {
+  //   return _toolsRepoImp.getAllToolsOrNull();
+  // }
 
-  Future<int> _insertNewTool() {
-    return _toolsRepoImp.insertTool(_newTool!);
+  Future<int> _insertNewTool(Tool newTool) {
+    // Sets busy to true before starting future and sets it to false after executing
+    // the ui will be rebuild in both situations
+    return runBusyFuture(_toolsRepoImp.insertTool(newTool));
   }
 
   void showToolCreatorBottomSheet() async {
@@ -239,13 +223,12 @@ class ToolsViewModel extends BaseViewModel {
       isScrollControlled: true,
       // setting it to false will make sure when you use [SafeArea] when constructing bottomSheet, it won't be ignored.
       ignoreSafeArea: false,
-      data:
-          'passed data', // its not used currently, its just there to remind me that i can send data to the new screen
+      data: 'passed data', // its not used currently, its just there to remind me that i can send data to the new screen
     );
     // response.data is not null when a user has constructed a new tool
     if (response?.data != null) {
-      _newTool = response!.data;
-      await _insertTool();
+      Tool newTool = response!.data;
+      await _insertNewTool(newTool);
       List<Tool>? toolsOrNull = await _fetchAllTools();
       // this will add the tools? gotten from the database to the [tools] property
       addTools(toolsOrNull);
@@ -261,8 +244,7 @@ class ToolsViewModel extends BaseViewModel {
 
   void deleteRetiredTool(Tool tool) async {
     // status of the tool to be used to validate the tool to be deleted is actually retired
-    if (tool.status != Status.retired)
-      throw FailedToDeleteATool(message: '$tool is not retired yet');
+    if (tool.status != Status.retired) throw FailedToDeleteATool(message: '$tool is not retired yet');
     // a value on 1 will be will be extracted from awaited future if the deletion was successful
 
     // Sets busy to true before starting future and sets it to false after executing
@@ -275,6 +257,7 @@ class ToolsViewModel extends BaseViewModel {
 
   void navigateToToolView(int toolId) async {
     await _navigationService.navigateToToolView(toolId: toolId);
+    // the user might have updated a tool, so we run updateTool to refetch all the tools to display any updates that might have been done on a tool { i know we should only fetch that updated tool instead of the all the tools}
     updateTools();
   }
 

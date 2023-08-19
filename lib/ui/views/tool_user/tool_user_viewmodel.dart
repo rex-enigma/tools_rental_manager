@@ -5,22 +5,33 @@ import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
 import 'package:tools_rental_management/data/data_models/tool.dart';
+import 'package:tools_rental_management/data/data_models/tooluser.dart';
+import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
+import 'package:tools_rental_management/enums/image_type.dart';
 
 class ToolUserViewModel extends BaseViewModel {
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
+  final _toolUsersRepoImp = locator<ToolUsersRepoImp>();
   final _navigationService = locator<NavigationService>();
 
-  String? firstName;
-  String? lastName;
-  String? avatarImagePath;
-  int? phoneNumber;
-  String? frontNationalIdImagePath;
-  String? backNationalIdImagePath;
+  late int toolUserId;
+  ToolUser? toolUser;
+  // String? firstName;
+  // String? lastName;
+  // String? avatarImagePath;
+  // int? phoneNumber;
+  // String? frontNationalIdImagePath;
+  // String? backNationalIdImagePath;
 
-  List<Tool> tools = [];
+  // List<Tool> tools = [];
   List<Tool> selectedTools = [];
   bool isAnyToolSelected = false;
+
+  void initState(int toolUserId) async {
+    this.toolUserId = toolUserId;
+    await fetchToolUser(this.toolUserId);
+  }
 
   void selectTool(Tool tool) {
     isAnyToolSelected = true;
@@ -40,6 +51,13 @@ class ToolUserViewModel extends BaseViewModel {
     rebuildUi();
   }
 
+  Future fetchToolUser(int toolUserId) async {
+    // Sets busy to true before starting future and sets it to false after executing
+    // the ui will be rebuild in both situations
+    ToolUser? toolUser = await runBusyFuture(_toolUsersRepoImp.getToolUserByOrNull(toolUserId));
+    this.toolUser = toolUser;
+  }
+
   void showDialog(DialogType dialogType) async {
     var response = await _dialogService.showCustomDialog(
       variant: dialogType,
@@ -53,7 +71,7 @@ class ToolUserViewModel extends BaseViewModel {
       title: 'Tool user image',
       variant: BottomSheetType.imageCapture,
       // send the avatarImagePath to the ImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
-      data: avatarImagePath,
+      data: toolUser?.avatarImagePath,
     );
   }
 
@@ -64,9 +82,12 @@ class ToolUserViewModel extends BaseViewModel {
     );
   }
 
-  void navigateToToolUserImageView() {
+  void navigateToImageView() async {
     // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-    // _navigationService.navigateToImageView(idImageTypeGroup: ());
+    await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.toolUserImage));
+    // the user might update the tool image, we refetch the tool image to display the new image if it was changed
+    // the [toolId] am guaranteeing its not null since this viewModel wont be disposed when we navigate to ToolImageView
+    await fetchToolUser(toolUserId);
   }
 
   void navigateToFrontNationalIdImageView() async {

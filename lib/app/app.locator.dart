@@ -22,6 +22,7 @@ import '../data/repositories/images/images_repo_imp.dart';
 import '../data/repositories/toolarticles/toolarticles_repo_imp.dart';
 import '../data/repositories/tools/tools_repo_imp.dart';
 import '../data/repositories/toolusers/toolusers_repo_imp.dart';
+import '../database/app_database.dart';
 import '../ui/views/settings/settings_viewmodel.dart';
 import '../ui/views/tool_users/tool_users_viewmodel.dart';
 import '../ui/views/tools/tools_viewmodel.dart';
@@ -55,4 +56,5 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => ToolsViewModel());
   locator.registerLazySingleton(() => ToolUsersViewModel());
   locator.registerLazySingleton(() => SettingsViewModel());
+  locator.registerLazySingleton(() => AppDatabase());
 }

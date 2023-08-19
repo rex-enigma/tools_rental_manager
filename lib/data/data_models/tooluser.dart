@@ -74,10 +74,8 @@ class ToolUser {
       toolUserId: toolUserId,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
-      frontNationalIdImagePath:
-          frontNationalIdImagePath ?? this.frontNationalIdImagePath,
-      backNationalIdImagePath:
-          backNationalIdImagePath ?? this.backNationalIdImagePath,
+      frontNationalIdImagePath: frontNationalIdImagePath ?? this.frontNationalIdImagePath,
+      backNationalIdImagePath: backNationalIdImagePath ?? this.backNationalIdImagePath,
       avatarImagePath: imagePath ?? avatarImagePath,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       countryCallingCode: countryCallingCode ?? this.countryCallingCode,
@@ -137,6 +135,7 @@ class ToolUser {
       imagePath: $avatarImagePath 
       phoneNumber: $phoneNumber 
       countryCallingCode: $countryCallingCode
+      tool count : ${tools == null ? '0' : tools!.length}
     }""";
   }
 }

@@ -1,3 +1,4 @@
+import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/data/data_models/tool.dart';
 import 'package:tools_rental_management/data/data_sources/local/tools/tools_local_datasource_interface.dart';
 import 'package:tools_rental_management/database/app_database.dart';
@@ -7,7 +8,7 @@ import 'package:tools_rental_management/enums/status.dart';
 // data source class: type of data + type of source + DataSource (tools + localSqlDb + DataSource);
 // the data source class should only work with one source of data (AppDatabase)
 class ToolsLocalSqliteDbDataSource implements ToolsLocalDataSource {
-  final AppDatabase _db = AppDatabase();
+  final AppDatabase _db = locator<AppDatabase>();
 
   @override
   Future<int> insertTool(Tool tool) {
