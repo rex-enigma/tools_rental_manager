@@ -36,15 +36,15 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
             : IconButton(
                 icon: Icon(
                   Icons.close,
-                  color: Theme.of(context).colorScheme.onPrimary,
+                  color: Theme.of(context).colorScheme.secondary,
                 ),
-                onPressed: () => viewModel.deselectAllTools(),
+                onPressed: () => viewModel.clearSelectedTools(),
               ),
         centerTitle: true,
         title: viewModel.isAnyToolSelected
             ? Text(
                 "${viewModel.selectedTools.length} tool${viewModel.selectedTools.length > 1 ? 's' : ''} selected",
-                style: appBarTitleTextStyle(context, displayToolSelectCount: true),
+                style: appBarTitleTextStyle(context, displayFontSizeMedium: true),
               )
             : Text(
                 'Tool User',
@@ -63,10 +63,10 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
         actions: viewModel.isAnyToolSelected
             ? [
                 IconButton(
-                  onPressed: () => viewModel.disassociateTools(),
+                  onPressed: () => viewModel.repossessToolsFromToolUser(),
                   icon: Icon(
                     Icons.check,
-                    color: Theme.of(context).colorScheme.onPrimary,
+                    color: Theme.of(context).colorScheme.secondary,
                   ),
                 ),
               ]
@@ -435,10 +435,12 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 viewModel.selectTool(tool);
                                 return;
                               }
-                              // if 'this' tool is not selected and no other tools are selected then navigate to toolView when this tool is taped
-                              // viewModel.navigateToToolView();
                             },
                             onLongPress: () {
+                              // do nothing if the tool that is being longPressed has already been selected
+                              if (viewModel.selectedTools.contains(tool)) {
+                                return;
+                              }
                               viewModel.selectTool(tool);
                             },
                             child: Container(
@@ -458,9 +460,12 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                     borderRadius: BorderRadius.circular(6.0),
                                     //color: const Color.fromARGB(64, 158, 158, 158),
                                   ),
-                                  child: Image.file(
-                                    File(tool.toolImagePath),
-                                    fit: BoxFit.cover,
+                                  child: ClipRRect(
+                                    borderRadius: BorderRadius.circular(6),
+                                    child: Image.file(
+                                      File(tool.toolImagePath),
+                                      fit: BoxFit.cover,
+                                    ),
                                   ),
                                 ),
                                 title: Text(
@@ -525,7 +530,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                         visualDensity: VisualDensity.compact,
                                         iconSize: 26,
                                         icon: const Icon(Icons.remove_circle_outline),
-                                        onPressed: () => viewModel.disassociateTool(tool),
+                                        onPressed: () => viewModel.showToolRepossessionConfirmDialog(tool),
                                       ),
                               ),
                             ),

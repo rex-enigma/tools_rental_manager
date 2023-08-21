@@ -9,8 +9,7 @@ import 'package:tools_rental_management/enums/status.dart';
 
 /// text style for a customListTile's subtitle last substring
 /// the second argument will be used to decide the color codes of the substring
-TextStyle subtitleLastSubStringTextStyle(BuildContext context,
-    {Status? status}) {
+TextStyle subtitleLastSubStringTextStyle(BuildContext context, {Status? status}) {
   // decide the color code for a single substring text when toolStatus is not null
   Color? color = switch (status) {
     Status.beingUsed => Color.fromARGB(255, 212, 193, 122),
@@ -21,16 +20,8 @@ TextStyle subtitleLastSubStringTextStyle(BuildContext context,
   };
 
   return switch (getThemeManager(context).selectedThemeMode) {
-    ThemeMode.light => Theme.of(context)
-        .typography
-        .white
-        .bodySmall!
-        .copyWith(fontWeight: FontWeight.bold, color: color),
-    ThemeMode.dark => Theme.of(context)
-        .typography
-        .black
-        .bodySmall!
-        .copyWith(fontWeight: FontWeight.bold, color: color),
+    ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontWeight: FontWeight.bold, color: color),
+    ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontWeight: FontWeight.bold, color: color),
     _ => throw ' configure ThemeMode.system',
   };
 }
@@ -43,10 +34,9 @@ TextStyle subtitleFirstSubStringTextStyle(BuildContext context) {
   };
 }
 
-/// [displayToolSelectCount] if true, display a predefined  fontSize = 18.0 on the title '[# of tools] tools selected'
-TextStyle? appBarTitleTextStyle(context,
-    {bool displayToolSelectCount = false}) {
-  return displayToolSelectCount
+/// [displayFontSizeMedium] if true, display a predefined  fontSize = 18.0 on the title
+TextStyle? appBarTitleTextStyle(context, {bool displayFontSizeMedium = false}) {
+  return displayFontSizeMedium
       ? switch (getThemeManager(context).selectedThemeMode) {
           ThemeMode.light => Theme.of(context).typography.white.bodyMedium,
           ThemeMode.dark => Theme.of(context).typography.black.bodyMedium,

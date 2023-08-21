@@ -66,15 +66,15 @@ class ToolsRepoImp implements ToolsRepo {
     return getToolStatusByIdOrNull(toolId);
   }
 
-  /// will return the updated tools that are associated with a [ToolUser] of the given toolUserId.
+  /// will return the updated tools that are rented by [ToolUser] of the given toolUserId.
   @override
-  Future<List<Tool>> associateToolsWithToolUser(List<Tool> tools, int toolUserId) async {
-    final List<Tool> associatedTools = tools.map((tool) {
-      return tool.copyWith(
+  Future<List<Tool>> rentToolsToToolUser(List<Tool> idleTools, int toolUserId) async {
+    final List<Tool> associatedTools = idleTools.map((idleTool) {
+      return idleTool.copyWith(
         toolUserId: toolUserId,
         // every time we associate a tool with a [ToolUser], we increment the rent count of the tool, which
         // will keep track of how many times the tool has been rented out over its life time.
-        rentCount: tool.rentCount + 1,
+        rentCount: idleTool.rentCount + 1,
         // we also have to update status to 'being used' since the tool is now
         // being used by a [ToolUser] of the given toolUserId.
         status: Status.beingUsed,
@@ -92,22 +92,22 @@ class ToolsRepoImp implements ToolsRepo {
     return updatedTools;
   }
 
-  /// return a future that complete with the amount of tools that have been disassociated.
+  /// return a future that complete with the amount of tools that have been returned by a toolUser.
   @override
-  Future<int> disassociateToolsFromToolUser(List<Tool> tools) async {
-    final List<Tool> disassociatedTools = tools.map((tool) {
+  Future<int> repossessToolsFromToolUser(List<Tool> tools) async {
+    final List<Tool> repossessedTools = tools.map((tool) {
       return tool.copyWith(
         toolUserId: null,
         status: Status.idle,
       );
     }).toList();
 
-    int amountOfToolsUpdated = 0;
+    int numberOfToolsUpdated = 0;
 
-    for (var disassociatedTool in disassociatedTools) {
-      amountOfToolsUpdated += await _toolsLocalDataSource.updateTool(disassociatedTool);
+    for (var repossessedTool in repossessedTools) {
+      numberOfToolsUpdated += await _toolsLocalDataSource.updateTool(repossessedTool);
     }
-    return amountOfToolsUpdated;
+    return numberOfToolsUpdated;
   }
 
   @override

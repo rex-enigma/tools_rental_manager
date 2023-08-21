@@ -4,14 +4,13 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog_layout.dart';
 
-import 'tool_disassociate_confirm_dialog_model.dart';
+import 'tool_repossession_confirm_dialog_model.dart';
 
-class ToolDisassociateConfirmDialog
-    extends StackedView<ToolDisassociateConfirmDialogModel> {
+class ToolRepossessionConfirmDialog extends StackedView<ToolDisassociateConfirmDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
-  const ToolDisassociateConfirmDialog({
+  const ToolRepossessionConfirmDialog({
     Key? key,
     required this.request,
     required this.completer,
@@ -33,12 +32,13 @@ class ToolDisassociateConfirmDialog
             ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
             _ => throw ' configure ThemeMode.system',
           },
-          children: const [
-            TextSpan(text: 'Do you want to disassociate '),
+          children: [
+            const TextSpan(text: 'Do you want to repossess '),
             TextSpan(
-                text: 'Circular saw ',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            TextSpan(text: 'from john '),
+              text: request.title ?? 'tool',
+              style: const TextStyle(fontWeight: FontWeight.bold),
+            ),
+            TextSpan(text: ' from ${request.data}'),
           ],
         ),
       ),
@@ -46,6 +46,5 @@ class ToolDisassociateConfirmDialog
   }
 
   @override
-  ToolDisassociateConfirmDialogModel viewModelBuilder(BuildContext context) =>
-      ToolDisassociateConfirmDialogModel();
+  ToolDisassociateConfirmDialogModel viewModelBuilder(BuildContext context) => ToolDisassociateConfirmDialogModel();
 }

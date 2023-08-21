@@ -1,42 +1,53 @@
 import 'package:stacked/stacked.dart';
+import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/data/data_models/tool.dart';
+import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
+import 'package:tools_rental_management/enums/status.dart';
 import 'package:tools_rental_management/ui/views/tools/tools_viewmodel.dart';
 
 class SelectToolSheetModel extends BaseViewModel {
+  final _toolsRepoImp = locator<ToolsRepoImp>();
   // these are tools whose status is idle
-  List<Tool> idleTools = testIdleTools;
-  List<Tool> selectedTools = [];
+  List<Tool> idleTools = [];
+  List<Tool> selectedIdleTools = [];
   bool isAnyToolSelected = false;
 
-  void initState() {
-    // getIdleTools();
+  void initState() async {
+    await fetchIdleTools();
   }
 
   void selectTool(Tool tool) {
     isAnyToolSelected = true;
-    selectedTools.add(tool);
+    selectedIdleTools.add(tool);
     rebuildUi();
   }
 
-  void deselectTool(Tool tool) {
-    selectedTools.remove(tool);
-    if (selectedTools.isEmpty) isAnyToolSelected = false;
+  void deselectIdleTool(Tool toolIdle) {
+    selectedIdleTools.remove(toolIdle);
+    if (selectedIdleTools.isEmpty) isAnyToolSelected = false;
     rebuildUi();
   }
 
-  void deselectAllTools() {
-    selectedTools.clear();
+  void deselectAllIdleTools() {
+    selectedIdleTools.clear();
     isAnyToolSelected = false;
     rebuildUi();
   }
 
-  // having a return of only void also works since it will be wrapped in a future
-  Future<void> getIdleTools() async {
-    // code a functionality that fetched idleTools async from the database
+  Future<void> fetchIdleTools() async {
+    List<Tool>? idleTools = await runBusyFuture(_toolsRepoImp.getToolsByStatusOrNull(Status.idle));
+    // only add to the this.idleTools if the idleTools is not null
+    if (idleTools != null) {
+      // order the idleTools in descending order to display the newly add idle tool in the database at the top in th UI
+      idleTools.sort((idleToolA, idleToolB) => idleToolB.toolId!.compareTo(idleToolA.toolId!));
+      this.idleTools = [...idleTools];
+    } else {
+      this.idleTools = [];
+    }
   }
 }
 
-// for tsting purposes
+// for testing purposes
 List<Tool> testIdleTools = [
   testTools[1],
   testTools[5],

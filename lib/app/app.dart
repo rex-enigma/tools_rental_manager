@@ -30,7 +30,7 @@ import 'package:tools_rental_management/ui/dialogs/tool_rate_editor/tool_rate_ed
 import 'package:tools_rental_management/ui/dialogs/tool_category_editor/tool_category_editor_dialog.dart';
 import 'package:tools_rental_management/ui/dialogs/tool_status_editor/tool_status_editor_dialog.dart';
 import 'package:tools_rental_management/ui/dialogs/tool_user_phonenumber_editor/tool_user_phonenumber_editor_dialog.dart';
-import 'package:tools_rental_management/ui/dialogs/tool_disassociate_confirm/tool_disassociate_confirm_dialog.dart';
+import 'package:tools_rental_management/ui/dialogs/tool_repossession_confirm/tool_repossession_confirm_dialog.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/select_tool/select_tool_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/more_tool_info/more_tool_info_sheet.dart';
 import 'package:tools_rental_management/ui/bottom_sheets/image_capture/image_capture_sheet.dart';
@@ -91,7 +91,7 @@ import 'package:tools_rental_management/ui/dialogs/tool_user_name_editor/tool_us
     StackedDialog(classType: ToolCategoryEditorDialog),
     StackedDialog(classType: ToolStatusEditorDialog),
     StackedDialog(classType: ToolUserPhonenumberEditorDialog),
-    StackedDialog(classType: ToolDisassociateConfirmDialog),
+    StackedDialog(classType: ToolRepossessionConfirmDialog),
     StackedDialog(classType: DeleteConfirmDialog),
     StackedDialog(classType: ToolUserNameEditorDialog),
   ],

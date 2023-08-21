@@ -25,8 +25,6 @@ class ToolUsersViewModel extends BaseViewModel {
     // print(toolUsersOrNull);
     addToToolUser(toolUsersOrNull);
     addToFilteredToolUsers();
-    // // ui used filteredToolUsers list to display the toolUser rather than toolUser
-    // filteredToolUsers = [...toolUsers];
   }
 
   bool get showAppBarSearchField => _showAppBarSearchField;
@@ -43,13 +41,15 @@ class ToolUsersViewModel extends BaseViewModel {
       // since the toolUserIds are sequentially incremented, its guaranteed that the newly added toolUser to the database will have a larger toolUserId value
       // and therefore we want it get display at the top
       toolUsers.sort((toolUserA, toolUserB) => toolUserB.toolUserId!.compareTo(toolUserA.toolUserId!));
+      this.toolUsers = [...toolUsers];
+    } else {
+      this.toolUsers = [];
     }
-    this.toolUsers = toolUsers == null ? [] : [...toolUsers];
-    // ui used filteredToolUsers list to display the toolUser rather than toolUser
+    // this.toolUsers = toolUsers == null ? [] : [...toolUsers];
   }
 
   void addToFilteredToolUsers() {
-    // ui used filteredToolUsers list to display the toolUser rather than toolUser
+    // ui uses filteredToolUsers list to display the tool user
     filteredToolUsers = [...toolUsers];
     rebuildUi();
   }
@@ -72,9 +72,6 @@ class ToolUsersViewModel extends BaseViewModel {
     List<ToolUser>? toolUsersOrNull = await _fetchAllToolUsers();
     addToToolUser(toolUsersOrNull);
     addToFilteredToolUsers();
-    // ui used filteredToolUsers list to display the toolUser rather than toolUser
-    // filteredToolUsers = [...toolUsers];
-    // rebuildUi();
   }
 
   // we are using runBusyFuture function so that it can allow as to check if our viewModel is busy through the isBusy property handling a future function

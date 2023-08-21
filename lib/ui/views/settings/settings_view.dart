@@ -83,16 +83,9 @@ class SettingsView extends StackedView<SettingsViewModel> {
                               ),
                               Text(
                                 'Theme',
-                                style: switch (getThemeManager(context)
-                                    .selectedThemeMode) {
-                                  ThemeMode.light => Theme.of(context)
-                                      .typography
-                                      .white
-                                      .bodyMedium!,
-                                  ThemeMode.dark => Theme.of(context)
-                                      .typography
-                                      .black
-                                      .bodyMedium!,
+                                style: switch (getThemeManager(context).selectedThemeMode) {
+                                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
+                                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
                                   _ => throw ' configure ThemeMode.system',
                                 },
                               ),
@@ -107,18 +100,14 @@ class SettingsView extends StackedView<SettingsViewModel> {
                             title: const Text('Light Mode'),
                             trailing: Radio<ThemeMode>(
                               visualDensity: VisualDensity.compact,
-                              activeColor:
-                                  Theme.of(context).colorScheme.secondary,
-                              fillColor: MaterialStatePropertyAll(
-                                  Theme.of(context).colorScheme.secondary),
+                              activeColor: Theme.of(context).colorScheme.secondary,
+                              fillColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
                               value: ThemeMode.light,
-                              groupValue:
-                                  getThemeManager(context).selectedThemeMode,
+                              groupValue: getThemeManager(context).selectedThemeMode,
                               // when called, will change the current selectedThemeMode in ThemeManager to ThemeMode.light
                               // which intern will cause ThemeBuilder at the top of the widget tree to invoke its builder function
                               // rebuilding the MaterialApp widget with themeMode property set to ThemeMode.light
-                              onChanged: (ThemeMode? value) =>
-                                  getThemeManager(context).setThemeMode(value!),
+                              onChanged: (ThemeMode? value) => getThemeManager(context).setThemeMode(value!),
                             ),
                           ),
                         ],
@@ -143,16 +132,13 @@ class SettingsView extends StackedView<SettingsViewModel> {
                         trailing: Radio<ThemeMode>(
                           visualDensity: VisualDensity.compact,
                           activeColor: Theme.of(context).colorScheme.secondary,
-                          fillColor: MaterialStatePropertyAll(
-                              Theme.of(context).colorScheme.secondary),
+                          fillColor: MaterialStatePropertyAll(Theme.of(context).colorScheme.secondary),
                           value: ThemeMode.dark,
-                          groupValue:
-                              getThemeManager(context).selectedThemeMode,
+                          groupValue: getThemeManager(context).selectedThemeMode,
                           // when called, will change the current selectedThemeMode in ThemeManager to ThemeMode.dark
                           // which intern will cause ThemeBuilder at the top of the widget tree to invoke its builder function
                           // rebuilding the MaterialApp widget with themeMode property set to ThemeMode.dark
-                          onChanged: (ThemeMode? value) =>
-                              getThemeManager(context).setThemeMode(value!),
+                          onChanged: (ThemeMode? value) => getThemeManager(context).setThemeMode(value!),
                         ),
                       ),
                     )
@@ -174,8 +160,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   borderRadius: BorderRadius.circular(6.0),
                 ),
                 child: Theme(
-                  data: Theme.of(context)
-                      .copyWith(dividerColor: Colors.transparent),
+                  data: Theme.of(context).copyWith(dividerColor: Colors.transparent),
                   child: ExpansionTile(
                     title: Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -194,12 +179,9 @@ class SettingsView extends StackedView<SettingsViewModel> {
                             'About',
                             // the text in ExpansionTile is unable to inherit our explicitly defined DefaultTextStyle, since ExpansionTile has its own DefaultTextStyle which is override ours
                             // so we set directly set the style
-                            style: switch (
-                                getThemeManager(context).selectedThemeMode) {
-                              ThemeMode.light =>
-                                Theme.of(context).typography.white.bodySmall!,
-                              ThemeMode.dark =>
-                                Theme.of(context).typography.black.bodySmall!,
+                            style: switch (getThemeManager(context).selectedThemeMode) {
+                              ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
+                              ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
                               _ => throw ' configure ThemeMode.system',
                             },
                           ),
@@ -208,8 +190,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                     ),
                     children: const [
                       Padding(
-                        padding:
-                            EdgeInsets.only(left: 10, right: 10, bottom: 10),
+                        padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
                         child: Text(
                           'A prototype app that can assist you with managing workshop tools that you rent out.',
                           style: TextStyle(
@@ -224,11 +205,6 @@ class SettingsView extends StackedView<SettingsViewModel> {
                   ),
                 ),
               ),
-              IconButton(
-                  onPressed: () {
-                    viewModel.showSelectToolSheet();
-                  },
-                  icon: Icon(Icons.ads_click))
             ],
           ),
         ),
@@ -237,8 +213,5 @@ class SettingsView extends StackedView<SettingsViewModel> {
   }
 
   @override
-  SettingsViewModel viewModelBuilder(
-    BuildContext context,
-  ) =>
-      locator<SettingsViewModel>();
+  SettingsViewModel viewModelBuilder(BuildContext context) => locator<SettingsViewModel>();
 }

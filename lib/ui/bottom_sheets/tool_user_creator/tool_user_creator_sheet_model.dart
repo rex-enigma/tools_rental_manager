@@ -65,7 +65,6 @@ class ToolUserCreatorSheetModel extends BaseViewModel {
 
   // will be called when all the forms are valid
   void submitForm() {
-    print(phoneNumberTextEditingController.text);
     ToolUser newToolUser = ToolUser.insert(
       firstName: firstNameTextEditingController.text,
       lastName: lastNameTextEditingController.text,

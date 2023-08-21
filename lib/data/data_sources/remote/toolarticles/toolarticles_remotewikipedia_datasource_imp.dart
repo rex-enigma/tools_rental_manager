@@ -32,17 +32,13 @@ class Wikipedia {
         return ToolArticle(
           title: articleData['title'],
           source: 'wikipedia',
-          description: (articleData['description'] as String).isEmpty
-              ? 'tool'
-              : articleData['description'],
+          description: (articleData['description'] as String).isEmpty ? 'tool' : articleData['description'],
           excerpt: articleData['extract'],
           urlImagePath: articleData['thumbnail']?['source'],
           fetchedAt: DateTime.now(),
         );
       }
-      throw FailedToFetchToolArticleData(
-          message:
-              'Failed to fetch article data, http statusCode: ${response.statusCode}');
+      throw FailedToFetchToolArticleData(message: 'Failed to fetch article data, http statusCode: ${response.statusCode}');
     } catch (e) {
       rethrow;
     }
@@ -51,8 +47,7 @@ class Wikipedia {
 
 // data source class: type of data + type of source + DataSource (tools + localSqlDb + DataSource);
 // the data source class should only work with one source of data ( Wikipedia)
-class ToolArticlesRemoteWikipediaDataSource
-    implements ToolArticlesRemoteDataSource {
+class ToolArticlesRemoteWikipediaDataSource implements ToolArticlesRemoteDataSource {
   final Wikipedia _wikipedia = Wikipedia();
 
   @override

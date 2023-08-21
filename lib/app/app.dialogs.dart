@@ -10,8 +10,8 @@ import 'app.locator.dart';
 import '../ui/dialogs/delete_confirm/delete_confirm_dialog.dart';
 import '../ui/dialogs/info_alert/info_alert_dialog.dart';
 import '../ui/dialogs/tool_category_editor/tool_category_editor_dialog.dart';
-import '../ui/dialogs/tool_disassociate_confirm/tool_disassociate_confirm_dialog.dart';
 import '../ui/dialogs/tool_rate_editor/tool_rate_editor_dialog.dart';
+import '../ui/dialogs/tool_repossession_confirm/tool_repossession_confirm_dialog.dart';
 import '../ui/dialogs/tool_status_editor/tool_status_editor_dialog.dart';
 import '../ui/dialogs/tool_user_name_editor/tool_user_name_editor_dialog.dart';
 import '../ui/dialogs/tool_user_phonenumber_editor/tool_user_phonenumber_editor_dialog.dart';
@@ -22,7 +22,7 @@ enum DialogType {
   toolCategoryEditor,
   toolStatusEditor,
   toolUserPhonenumberEditor,
-  toolDisassociateConfirm,
+  toolRepossessionConfirm,
   deleteConfirm,
   toolUserNameEditor,
 }
@@ -41,8 +41,8 @@ void setupDialogUi() {
         ToolStatusEditorDialog(request: request, completer: completer),
     DialogType.toolUserPhonenumberEditor: (context, request, completer) =>
         ToolUserPhonenumberEditorDialog(request: request, completer: completer),
-    DialogType.toolDisassociateConfirm: (context, request, completer) =>
-        ToolDisassociateConfirmDialog(request: request, completer: completer),
+    DialogType.toolRepossessionConfirm: (context, request, completer) =>
+        ToolRepossessionConfirmDialog(request: request, completer: completer),
     DialogType.deleteConfirm: (context, request, completer) =>
         DeleteConfirmDialog(request: request, completer: completer),
     DialogType.toolUserNameEditor: (context, request, completer) =>

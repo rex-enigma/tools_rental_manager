@@ -8,23 +8,30 @@ class Tool {
   /// uniquely identifies a tool in the database (primary key)
   final int? toolId;
   final String name;
-  // the date this tool was bought.
-  // since sqlite does't support [DateTime] data type, when inserted to the database, we shall convert
-  // it into milliseconds which will be of type integer which sqlite support.
+
+  /// the date this tool was bought.
+  /// since sqlite does't support [DateTime] data type, when inserted to the database, we shall convert
+  /// it into milliseconds which will be of type integer which sqlite support.
   final DateTime boughtAt;
-  // how much this tool was purchased for.
+
+  /// how much this tool was purchased for.
   final int purchasedPrice;
-  // how much this tool will cost to rent out per hour.
+
+  /// how much this tool will cost to rent out per hour.
   final int rate;
-  // how many times this tool it has been rented.
+
+  /// how many times this tool it has been rented.
   final int rentCount;
   final Currency currency;
   final Category category;
-  // path to where the tool image is stored.
+
+  /// path to where the tool image is stored.
   final String toolImagePath;
-  // id that uniquely identifies this tool in the warehouse store.
+
+  /// id that uniquely identifies this tool in the warehouse store.
   final int toolUniqueId;
-  // a foreign key that reference a tool user currently using this tool.
+
+  /// a foreign key that reference a tool user currently using this tool.
   final int? toolUserId;
   final Status status;
 
@@ -101,7 +108,7 @@ class Tool {
       category: category ?? this.category,
       toolImagePath: toolImagePath ?? this.toolImagePath,
       toolUniqueId: toolUniqueId ?? this.toolUniqueId,
-      toolUserId: toolUserId ?? this.toolUserId,
+      toolUserId: toolUserId,
       status: status ?? this.status,
     );
   }

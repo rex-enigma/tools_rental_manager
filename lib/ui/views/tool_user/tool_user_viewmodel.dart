@@ -6,12 +6,16 @@ import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
 import 'package:tools_rental_management/data/data_models/tool.dart';
 import 'package:tools_rental_management/data/data_models/tooluser.dart';
+import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/enums/image_type.dart';
 
 class ToolUserViewModel extends BaseViewModel {
+  // we are directly instantiating snackbarService since its not part of dependencies managed by Locator
+  final _snackbarService = SnackbarService();
   final _dialogService = locator<DialogService>();
   final _bottomSheetService = locator<BottomSheetService>();
+  final _toolsRepoImp = locator<ToolsRepoImp>();
   final _toolUsersRepoImp = locator<ToolUsersRepoImp>();
   final _navigationService = locator<NavigationService>();
 
@@ -25,6 +29,7 @@ class ToolUserViewModel extends BaseViewModel {
   // String? backNationalIdImagePath;
 
   // List<Tool> tools = [];
+  // selected tools to be repossessed back
   List<Tool> selectedTools = [];
   bool isAnyToolSelected = false;
 
@@ -45,7 +50,7 @@ class ToolUserViewModel extends BaseViewModel {
     rebuildUi();
   }
 
-  void deselectAllTools() {
+  void clearSelectedTools() {
     selectedTools.clear();
     isAnyToolSelected = false;
     rebuildUi();
@@ -55,15 +60,15 @@ class ToolUserViewModel extends BaseViewModel {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     ToolUser? toolUser = await runBusyFuture(_toolUsersRepoImp.getToolUserByOrNull(toolUserId));
-    this.toolUser = toolUser;
+    // only order toolUser.tools if the toolUser.tools is not null
+    if (toolUser?.tools != null) {
+      //
+      toolUser!.tools!.sort((toolA, toolB) => toolB.toolId!.compareTo(toolA.toolId!));
+      this.toolUser = toolUser;
+    } else {
+      this.toolUser = toolUser;
+    }
   }
-
-  // void showDialog(DialogType dialogType) async {
-  //   var response = await _dialogService.showCustomDialog(
-  //     variant: dialogType,
-  //     data: 'passed data',
-  //   );
-  // }
 
   void showFirstNameEditorDialog() async {
     var response = await _dialogService.showCustomDialog(
@@ -132,6 +137,11 @@ class ToolUserViewModel extends BaseViewModel {
       isScrollControlled: true,
       variant: BottomSheetType.selectTool,
     );
+    List<Tool>? idleTools = response?.data;
+    // only start the process of associating the returned idle tools if response isn't null (the user haven't dragged down the selectToolSheet or taped the tapped the background scrim of that selectToolSheet)
+    if (idleTools != null) {
+      rentTools(idleTools);
+    }
   }
 
   /// the ImageType parameter determines what image will be fetched/displayed/updated in the ImageView
@@ -147,7 +157,7 @@ class ToolUserViewModel extends BaseViewModel {
         break;
       case ImageType.backNationalIdImage:
         // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.frontNationalIdImage));
+        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.backNationalIdImage));
         break;
       default:
         throw 'The imageType should be either: ImageType.toolUserImage or  ImageType.frontNationalIdImage or  ImageType.frontNationalIdImage but $imageType was received';
@@ -156,15 +166,55 @@ class ToolUserViewModel extends BaseViewModel {
     await fetchToolUser(toolUserId);
   }
 
-  void disassociateTools() {
-    // implement disassociateTool functionality
-    // probably call the repository function and pass the selectedTool(s) to be disassociated
-    print('functionality to disassociate tool(s) in the selectedTools list');
+  // rent out tool(s) selected from the selectToolSheet bottom sheet to this toolUser
+  void rentTools(List<Tool> idleTools) async {
+    await runBusyFuture(_toolsRepoImp.rentToolsToToolUser(idleTools, toolUserId));
+    await fetchToolUser(toolUserId);
+    if (idleTools.length == 1) {
+      _snackbarService.showSnackbar(message: '${idleTools[0].name} tool has been rented out to ${toolUser!.firstName} successfully');
+    } else if (idleTools.length == 2) {
+      _snackbarService.showSnackbar(message: '${idleTools[0].name} and ${idleTools[1].name} have been rented out to ${toolUser!.firstName} successfully');
+    } else if (idleTools.length >= 3) {
+      _snackbarService.showSnackbar(message: '${idleTools.length} tools have been rented out to ${toolUser!.firstName} successfully');
+    }
   }
 
-  void disassociateTool(Tool tool) {
-    print(tool);
-    print('functionality to disassociate a tool');
+  // repossess back the tools this toolUser was using
+  // this function works with the selectedTools list
+  void repossessToolsFromToolUser() async {
+    await runBusyFuture(_toolsRepoImp.repossessToolsFromToolUser(selectedTools));
+    await fetchToolUser(toolUserId);
+    // show the names of the tools in a snackbar if the rented out tool is exactly one
+    if (selectedTools.length == 1) {
+      _snackbarService.showSnackbar(message: '${selectedTools[0].name} has been repossessed back from ${toolUser!.firstName} successfully');
+    } else {
+      _snackbarService.showSnackbar(message: '${selectedTools.length} tools have been repossessed back from ${toolUser!.firstName}  successfully');
+    }
+    // clear the selectedTools after repossession completes
+    clearSelectedTools();
+  }
+
+  void showToolRepossessionConfirmDialog(Tool tool) async {
+    var response = await _dialogService.showCustomDialog(
+      variant: DialogType.toolRepossessionConfirm,
+      // this should be the name of the tool that is about to be repossessed back to the the owner
+      title: tool.name,
+      // this should be the name of the the tool user who is using this corresponding tool
+      data: toolUser!.firstName,
+    );
+
+    if (response?.confirmed == true) {
+      repossessAToolFromToolUser(tool);
+    }
+  }
+
+  // repossess back a tool this toolUser was using
+  void repossessAToolFromToolUser(Tool tool) async {
+    // you need to supply a list of tools to _toolsRepoImp.repossessToolsFromToolUser,
+    // since we have only one tool to get repossessed, we create a list with only that one tool
+    await runBusyFuture(_toolsRepoImp.repossessToolsFromToolUser([tool]));
+    await fetchToolUser(toolUserId);
+    _snackbarService.showSnackbar(message: '${tool.name} has been repossessed back from ${toolUser!.firstName} successfully');
   }
 
   void navigateBackToToolUsers() async {
