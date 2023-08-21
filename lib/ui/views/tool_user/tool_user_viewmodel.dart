@@ -58,11 +58,63 @@ class ToolUserViewModel extends BaseViewModel {
     this.toolUser = toolUser;
   }
 
-  void showDialog(DialogType dialogType) async {
+  // void showDialog(DialogType dialogType) async {
+  //   var response = await _dialogService.showCustomDialog(
+  //     variant: dialogType,
+  //     data: 'passed data',
+  //   );
+  // }
+
+  void showFirstNameEditorDialog() async {
     var response = await _dialogService.showCustomDialog(
-      variant: dialogType,
-      data: 'passed data',
+      title: 'Edit tool user first name',
+      // will be used as labelText for the TextFormField in the Dialog
+      description: 'First name *',
+      variant: DialogType.toolUserNameEditor,
+      // send the current toolUser.firstName so that the TextFormField controller get initialized with it
+      data: toolUser!.firstName,
     );
+
+    String? firstName = response?.data;
+    // make sure the first name is updated only when the text returned isn't similar will toolUser.firstName and isn't null
+    if (firstName != null && firstName != toolUser!.firstName) {
+      await _toolUsersRepoImp.updateToolUserFirstName(firstName, toolUserId);
+      await fetchToolUser(toolUserId);
+    }
+  }
+
+  void showLastNameEditorDialog() async {
+    var response = await _dialogService.showCustomDialog(
+      title: 'Edit tool user last name',
+      // will be used as labelText for the TextFormField in the Dialog
+      description: 'Last name *',
+      variant: DialogType.toolUserNameEditor,
+      // send the current toolUser.lastName so the that the TextFormField controller get initialized with it
+      data: toolUser!.lastName,
+    );
+    String? lastName = response?.data;
+    // make sure the last name is updated only when the text returned isn't similar will toolUser.LastName and null
+    if (lastName != null && lastName != toolUser!.lastName) {
+      await _toolUsersRepoImp.updateToolUserLastName(lastName, toolUserId);
+      await fetchToolUser(toolUserId);
+    }
+  }
+
+  void showPhoneNumberEditorDialog() async {
+    var response = await _dialogService.showCustomDialog(
+      title: 'Edit tool user phone number',
+      // will be used as labelText for the TextFormField in the Dialog
+      description: 'Phone number *',
+      variant: DialogType.toolUserPhonenumberEditor,
+      // send the current toolUser.phoneNumber so the that the TextFormField controller get initialized with it
+      data: toolUser!.phoneNumber.toString(),
+    );
+    int? phoneNumber = response?.data;
+    // make sure the phone number is updated only when the integer returned isn't similar will toolUser.phoneNumber and null
+    if (phoneNumber != null && phoneNumber != toolUser!.phoneNumber) {
+      await _toolUsersRepoImp.updateToolUserPhoneNUmber(phoneNumber, toolUserId);
+      await fetchToolUser(toolUserId);
+    }
   }
 
   void showToolUserImageCaptureSheet() async {
@@ -82,27 +134,27 @@ class ToolUserViewModel extends BaseViewModel {
     );
   }
 
-  void navigateToImageView() async {
-    // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-    await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.toolUserImage));
-    // the user might update the tool image, we refetch the tool image to display the new image if it was changed
-    // the [toolId] am guaranteeing its not null since this viewModel wont be disposed when we navigate to ToolImageView
+  /// the ImageType parameter determines what image will be fetched/displayed/updated in the ImageView
+  void navigateToImageView({required ImageType imageType}) async {
+    switch (imageType) {
+      case ImageType.toolUserImage:
+        // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
+        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.toolUserImage));
+        break;
+      case ImageType.frontNationalIdImage:
+        // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
+        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.frontNationalIdImage));
+        break;
+      case ImageType.backNationalIdImage:
+        // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
+        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.frontNationalIdImage));
+        break;
+      default:
+        throw 'The imageType should be either: ImageType.toolUserImage or  ImageType.frontNationalIdImage or  ImageType.frontNationalIdImage but $imageType was received';
+    }
+    // the user might update one of toolUserImage or frontNationalIdImage or backNationalIdImage, we refetch the tool user data to display the new image if it was changed
     await fetchToolUser(toolUserId);
   }
-
-  void navigateToFrontNationalIdImageView() async {
-    // var response = await _navigationService
-    //     .navigateToFrontNationalIdImageView(); // navigateTo.. functionality works, a value can be returned
-    // print(response);
-  }
-
-  void navigateToBackNationalIdImageView() {
-    // _navigationService.navigateToBackNationalIdImageView();
-  }
-
-  // void navigateToToolView() {
-  //   _navigationService.navigateToToolView();
-  // }
 
   void disassociateTools() {
     // implement disassociateTool functionality
@@ -113,5 +165,14 @@ class ToolUserViewModel extends BaseViewModel {
   void disassociateTool(Tool tool) {
     print(tool);
     print('functionality to disassociate a tool');
+  }
+
+  void navigateBackToToolUsers() async {
+    // the future delay code is quick fix if its not here for some reason an error get thrown when i update an image and quickly navigate back to the previous screen.
+    // Error: Cannot retrieve length of file, path = <image path> (OS Error: No such file or directory, errno = 2).
+    // Where the <image path> is the path of the a new image.
+    // The duration cant be less than 1 seconds.
+    await Future.delayed(const Duration(seconds: 1));
+    _navigationService.back();
   }
 }

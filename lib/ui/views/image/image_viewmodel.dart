@@ -40,19 +40,24 @@ class ImageViewModel extends BaseViewModel {
     // the ui will be rebuild in both situations
     switch (imageType) {
       case ImageType.frontNationalIdImage:
+        print(id);
+        print(imageType);
         String? frontNationalIdImagePath = await runBusyFuture(_toolUsersRepoImp.getToolUserFrontNationalIdImagePathByIdOrNull(id!));
+        print(frontNationalIdImagePath);
         imagePath = frontNationalIdImagePath;
         break;
       case ImageType.backNationalIdImage:
         String? backNationalIdImagePath = await runBusyFuture(_toolUsersRepoImp.getToolUserBackNationalIdImagePathByIdOrNull(id!));
         imagePath = backNationalIdImagePath;
+        break;
       case ImageType.toolImage:
         String? toolImagePath = await runBusyFuture(_toolsRepoImp.getToolImagePathByIdOrNull(id!));
         imagePath = toolImagePath;
-
+        break;
       case ImageType.toolUserImage:
         String? toolUserImagePath = await runBusyFuture(_toolUsersRepoImp.getToolUserAvatarImagePathByIdOrNull(id!));
         imagePath = toolUserImagePath;
+        break;
       case null:
         throw "can't fetch image since [imageType] is null";
     }
@@ -140,7 +145,7 @@ class ImageViewModel extends BaseViewModel {
       ImageType.frontNationalIdImage || ImageType.backNationalIdImage => 'National id image',
       ImageType.toolUserImage => 'Tool user image',
       ImageType.toolImage => 'Tool image',
-      null => throw "can't get the time for the imageCaptureSheet since imageType is null"
+      null => throw "can't get the title for the imageCaptureSheet since imageType is null"
     };
   }
 

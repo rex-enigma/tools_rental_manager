@@ -48,8 +48,8 @@ class ImageView extends StackedView<ImageViewModel> {
       body: Center(
         child: viewModel.imagePath == null
             ? Container(
-                height: 360,
-                width: 380,
+                height: 50,
+                width: 50,
                 decoration: BoxDecoration(
                   border: Border.all(
                     color: Colors.transparent,
@@ -57,10 +57,7 @@ class ImageView extends StackedView<ImageViewModel> {
                   borderRadius: BorderRadius.circular(6.0),
                   color: const Color.fromARGB(64, 158, 158, 158),
                 ),
-                child: FittedBox(
-                  fit: BoxFit.contain,
-                  child: CircularProgressIndicator(backgroundColor: Theme.of(context).colorScheme.secondary),
-                ),
+                child: CircularProgressIndicator(backgroundColor: Theme.of(context).colorScheme.secondary),
               )
             // if an image path is provided display that image in is original size, let it get constrain from the parent(the screen or any other parent that will constrain its size)
             : Image.file(

@@ -23,9 +23,10 @@ class ToolUsersViewModel extends BaseViewModel {
   void initState() async {
     List<ToolUser>? toolUsersOrNull = await _fetchAllToolUsers();
     // print(toolUsersOrNull);
-    addToolUser(toolUsersOrNull);
-    // ui used filteredToolUsers list to display the toolUser rather than toolUser
-    filteredToolUsers = [...toolUsers];
+    addToToolUser(toolUsersOrNull);
+    addToFilteredToolUsers();
+    // // ui used filteredToolUsers list to display the toolUser rather than toolUser
+    // filteredToolUsers = [...toolUsers];
   }
 
   bool get showAppBarSearchField => _showAppBarSearchField;
@@ -36,7 +37,7 @@ class ToolUsersViewModel extends BaseViewModel {
   }
 
   // add toolUser fetched from the database to this.toolUsers list
-  void addToolUser(List<ToolUser>? toolUsers) {
+  void addToToolUser(List<ToolUser>? toolUsers) {
     if (toolUsers != null) {
       // order the toolUsers in descending order
       // since the toolUserIds are sequentially incremented, its guaranteed that the newly added toolUser to the database will have a larger toolUserId value
@@ -45,7 +46,11 @@ class ToolUsersViewModel extends BaseViewModel {
     }
     this.toolUsers = toolUsers == null ? [] : [...toolUsers];
     // ui used filteredToolUsers list to display the toolUser rather than toolUser
-    filteredToolUsers = [...this.toolUsers];
+  }
+
+  void addToFilteredToolUsers() {
+    // ui used filteredToolUsers list to display the toolUser rather than toolUser
+    filteredToolUsers = [...toolUsers];
     rebuildUi();
   }
 
@@ -65,9 +70,11 @@ class ToolUsersViewModel extends BaseViewModel {
 
   void updateToolUsers() async {
     List<ToolUser>? toolUsersOrNull = await _fetchAllToolUsers();
-    addToolUser(toolUsersOrNull);
+    addToToolUser(toolUsersOrNull);
+    addToFilteredToolUsers();
     // ui used filteredToolUsers list to display the toolUser rather than toolUser
-    filteredToolUsers = [...toolUsers];
+    // filteredToolUsers = [...toolUsers];
+    // rebuildUi();
   }
 
   // we are using runBusyFuture function so that it can allow as to check if our viewModel is busy through the isBusy property handling a future function
@@ -123,8 +130,9 @@ class ToolUsersViewModel extends BaseViewModel {
       // print(value);
       List<ToolUser>? toolUsersOrNull = await _fetchAllToolUsers();
       // print(toolUsersOrNull);
-      // this will add the toolUsers? gotten from the database to the [toolUsers] property
-      addToolUser(toolUsersOrNull);
+      // this will add to the toolUsers? gotten from the database to the toolUsers property list
+      addToToolUser(toolUsersOrNull);
+      addToFilteredToolUsers();
     }
   }
 

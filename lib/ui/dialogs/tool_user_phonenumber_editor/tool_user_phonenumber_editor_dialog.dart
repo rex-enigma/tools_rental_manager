@@ -10,8 +10,7 @@ import 'tool_user_phonenumber_editor_dialog_model.dart';
 
 const double _graphicSize = 60;
 
-class ToolUserPhonenumberEditorDialog
-    extends StackedView<ToolUserPhonenumberEditorDialogModel> {
+class ToolUserPhonenumberEditorDialog extends StackedView<ToolUserPhonenumberEditorDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -36,27 +35,48 @@ class ToolUserPhonenumberEditorDialog
           _ => throw ' configure ThemeMode.system',
         },
       ),
-      input: TextFormField(
-        cursorColor: Theme.of(context).colorScheme.onPrimary,
-        cursorWidth: 1,
-        style: textFormFieldInputTextStyle(context),
-        keyboardType: TextInputType.number,
-        inputFormatters: [
-          FilteringTextInputFormatter.digitsOnly,
-        ],
-        // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
-        decoration: const InputDecoration(
-          labelText: 'Phone number*',
+      input: Form(
+        key: viewModel.formKey,
+        child: TextFormField(
+          controller: viewModel.phoneNumberEditingController,
+          cursorColor: Theme.of(context).colorScheme.onPrimary,
+          cursorWidth: 1,
+          style: textFormFieldInputTextStyle(context),
+          keyboardType: TextInputType.number,
+          inputFormatters: [
+            FilteringTextInputFormatter.digitsOnly,
+          ],
+          // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
+          decoration: const InputDecoration(
+            labelText: 'Phone number*',
+          ),
+          validator: (value) => viewModel.validateToolUserPhoneNumber(value),
         ),
       ),
-      onSaved: () {},
+      onSaved: () {
+        if (viewModel.formKey.currentState!.validate()) {
+          // make sure you return the phone number as integer
+          completer(DialogResponse(data: int.parse(viewModel.phoneNumberEditingController.text)));
+        }
+      },
       onCancelled: () {
-        Navigator.pop(context);
+        completer(DialogResponse(data: null));
       },
     );
   }
 
   @override
-  ToolUserPhonenumberEditorDialogModel viewModelBuilder(BuildContext context) =>
-      ToolUserPhonenumberEditorDialogModel();
+  ToolUserPhonenumberEditorDialogModel viewModelBuilder(BuildContext context) => ToolUserPhonenumberEditorDialogModel();
+
+  @override
+  void onViewModelReady(ToolUserPhonenumberEditorDialogModel viewModel) {
+    viewModel.phoneNumberEditingController.text = request.data;
+    super.onViewModelReady(viewModel);
+  }
+
+  @override
+  void onDispose(ToolUserPhonenumberEditorDialogModel viewModel) {
+    viewModel.phoneNumberEditingController.dispose();
+    super.onDispose(viewModel);
+  }
 }

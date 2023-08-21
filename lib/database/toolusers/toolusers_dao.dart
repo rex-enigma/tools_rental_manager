@@ -336,7 +336,7 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
     // since we selected the front_national_id_image_path, attribute then we expect the map returned will have [front_national_id_image_path,] as key, and will allow as to
     // get the corresponding value which will be the front_national_id_image_path, of the tool user for the given toolUserId.
-    return toolUserFrontNationalIdImagePathResult?.data['front_national_id_image_path,'];
+    return toolUserFrontNationalIdImagePathResult?.data['front_national_id_image_path'];
   }
 
   /// returns a future that completes with the tool user back_national_id_image_path for the given toolUserId.

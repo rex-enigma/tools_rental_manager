@@ -55,8 +55,7 @@ class ToolRateEditorDialog extends StackedView<ToolRateEditorDialogModel> {
       ),
       onSaved: () {
         // make sure you return rate as integer
-        completer(
-            DialogResponse(data: int.parse(viewModel.rateEditController.text)));
+        completer(DialogResponse(data: int.parse(viewModel.rateEditController.text)));
       },
       onCancelled: () {
         completer(DialogResponse(data: null));
@@ -65,8 +64,7 @@ class ToolRateEditorDialog extends StackedView<ToolRateEditorDialogModel> {
   }
 
   @override
-  ToolRateEditorDialogModel viewModelBuilder(BuildContext context) =>
-      ToolRateEditorDialogModel();
+  ToolRateEditorDialogModel viewModelBuilder(BuildContext context) => ToolRateEditorDialogModel();
 
   @override
   void onViewModelReady(ToolRateEditorDialogModel viewModel) {

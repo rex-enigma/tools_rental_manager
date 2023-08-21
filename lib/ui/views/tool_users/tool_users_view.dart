@@ -134,7 +134,7 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                                           style: subtitleFirstSubStringTextStyle(context),
                                         ),
                                         TextSpan(
-                                          text: ' +${toolUser.countryCallingCode} ${toolUser.phoneNumber.toString()}',
+                                          text: '+${toolUser.countryCallingCode} ${toolUser.phoneNumber.toString()}',
                                           style: subtitleLastSubStringTextStyle(context),
                                         ),
                                       ],

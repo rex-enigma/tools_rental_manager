@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
+import 'package:tools_rental_management/enums/image_type.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
@@ -27,7 +28,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
         leading: viewModel.selectedTools.isEmpty
             ? IconButton(
                 onPressed: () {
-                  Navigator.pop(context);
+                  viewModel.navigateBackToToolUsers();
                 },
                 icon: const Icon(Icons.arrow_back_ios),
                 color: Theme.of(context).colorScheme.onPrimary,
@@ -105,7 +106,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                             Positioned.fill(
                               child: ClipOval(
                                 child: GestureDetector(
-                                  onTap: () => viewModel.navigateToImageView(),
+                                  onTap: () => viewModel.navigateToImageView(imageType: ImageType.toolUserImage),
                                   child: viewModel.toolUser?.avatarImagePath == null
                                       ? const Icon(
                                           Icons.person,
@@ -171,7 +172,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                   color: Theme.of(context).colorScheme.secondary,
                                 ),
                                 onTap: () {
-                                  viewModel.showDialog(DialogType.toolUserNameEditor);
+                                  viewModel.showFirstNameEditorDialog();
                                 },
                               ),
                             ),
@@ -202,7 +203,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                   color: Theme.of(context).colorScheme.secondary,
                                 ),
                                 onTap: () {
-                                  viewModel.showDialog(DialogType.toolUserNameEditor);
+                                  viewModel.showLastNameEditorDialog();
                                 },
                               ),
                             ),
@@ -218,11 +219,12 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 ),
                               ),
                               subtitle: Text(
-                                viewModel.toolUser?.phoneNumber.toString() ?? '07xxxx',
+                                '+${viewModel.toolUser?.countryCallingCode} ${viewModel.toolUser?.phoneNumber.toString()}',
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontWeight: FontWeight.bold,
+                                  fontSize: 15,
                                   color: Theme.of(context).colorScheme.onPrimary,
                                 ),
                               ),
@@ -233,7 +235,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                   color: Theme.of(context).colorScheme.secondary,
                                 ),
                                 onTap: () {
-                                  viewModel.showDialog(DialogType.toolUserPhonenumberEditor);
+                                  viewModel.showPhoneNumberEditorDialog();
                                 },
                               ),
                             ),
@@ -314,14 +316,14 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                     ),
                                     child: viewModel.toolUser?.frontNationalIdImagePath == null
                                         ? GestureDetector(
-                                            onTap: () => viewModel.navigateToFrontNationalIdImageView(),
+                                            onTap: () => viewModel.navigateToImageView(imageType: ImageType.frontNationalIdImage),
                                             child: Image.asset(
                                               'lib/assets/images/front_national_id_placeholder.png',
                                               fit: BoxFit.cover,
                                             ),
                                           )
                                         : GestureDetector(
-                                            onTap: () => viewModel.navigateToFrontNationalIdImageView(),
+                                            onTap: () => viewModel.navigateToImageView(imageType: ImageType.frontNationalIdImage),
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.circular(6),
                                               child: Image.file(
@@ -362,14 +364,14 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                     ),
                                     child: viewModel.toolUser?.backNationalIdImagePath == null
                                         ? GestureDetector(
-                                            onTap: () => viewModel.navigateToBackNationalIdImageView(),
+                                            onTap: () => viewModel.navigateToImageView(imageType: ImageType.backNationalIdImage),
                                             child: Image.asset(
                                               'lib/assets/images/back_national_id_placeholder.png',
                                               fit: BoxFit.cover,
                                             ),
                                           )
                                         : GestureDetector(
-                                            onTap: () => viewModel.navigateToBackNationalIdImageView(),
+                                            onTap: () => viewModel.navigateToImageView(imageType: ImageType.backNationalIdImage),
                                             child: ClipRRect(
                                               borderRadius: BorderRadius.circular(6),
                                               child: Image.file(

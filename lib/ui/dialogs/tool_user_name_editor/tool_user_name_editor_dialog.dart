@@ -25,29 +25,52 @@ class ToolUserNameEditorDialog extends StackedView<ToolUserNameEditorDialogModel
   ) {
     return EditDialog(
       title: Text(
-        'Edit tool user name',
+        request.title ?? 'Edit',
         style: switch (getThemeManager(context).selectedThemeMode) {
           ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
           ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
           _ => throw ' configure ThemeMode.system',
         },
       ),
-      input: TextFormField(
-        cursorColor: Theme.of(context).colorScheme.onPrimary,
-        cursorWidth: 1,
-        style: textFormFieldInputTextStyle(context),
-        // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
-        decoration: InputDecoration(
-          labelText: request.title ?? 'tool user name*',
+      input: Form(
+        key: viewModel.formKey,
+        child: TextFormField(
+          controller: viewModel.nameEditingController,
+          cursorColor: Theme.of(context).colorScheme.onPrimary,
+          cursorWidth: 1,
+          style: textFormFieldInputTextStyle(context),
+          // other properties of the InputDecorator will be inherited from ThemeData.inputDecorationTheme
+          decoration: InputDecoration(
+            labelText: request.description ?? 'Edit',
+          ),
+          validator: (value) => viewModel.validateToolUserName(value),
         ),
       ),
-      onSaved: () {},
+      onSaved: () {
+        if (viewModel.formKey.currentState!.validate()) {
+          // return  the name that will be used to update the toolUser first or last name wrapped up by a DialogResponse
+          completer(DialogResponse(data: viewModel.nameEditingController.text));
+        }
+      },
       onCancelled: () {
-        Navigator.pop(context);
+        completer(DialogResponse(data: null));
       },
     );
   }
 
   @override
   ToolUserNameEditorDialogModel viewModelBuilder(BuildContext context) => ToolUserNameEditorDialogModel();
+
+  @override
+  void onViewModelReady(ToolUserNameEditorDialogModel viewModel) {
+    // initialize the textController with the data gotten from the toolUserViewModel's show...Dialog function
+    viewModel.nameEditingController.text = request.data;
+    super.onViewModelReady(viewModel);
+  }
+
+  @override
+  void onDispose(ToolUserNameEditorDialogModel viewModel) {
+    viewModel.nameEditingController.dispose();
+    super.onDispose(viewModel);
+  }
 }

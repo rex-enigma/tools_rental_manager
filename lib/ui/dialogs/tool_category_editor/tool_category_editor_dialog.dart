@@ -8,8 +8,7 @@ import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 
 import 'tool_category_editor_dialog_model.dart';
 
-class ToolCategoryEditorDialog
-    extends StackedView<ToolCategoryEditorDialogModel> {
+class ToolCategoryEditorDialog extends StackedView<ToolCategoryEditorDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -50,7 +49,7 @@ class ToolCategoryEditorDialog
             )
             .toList(),
         onChanged: (value) {
-          viewModel.setCategoryValue(value);
+          viewModel.setCategoryValue(value as Category);
         },
       ),
       onSaved: () {
@@ -63,6 +62,5 @@ class ToolCategoryEditorDialog
   }
 
   @override
-  ToolCategoryEditorDialogModel viewModelBuilder(BuildContext context) =>
-      ToolCategoryEditorDialogModel();
+  ToolCategoryEditorDialogModel viewModelBuilder(BuildContext context) => ToolCategoryEditorDialogModel();
 }
