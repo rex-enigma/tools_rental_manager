@@ -6,7 +6,8 @@ import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog_layou
 
 import 'tool_repossession_confirm_dialog_model.dart';
 
-class ToolRepossessionConfirmDialog extends StackedView<ToolDisassociateConfirmDialogModel> {
+class ToolRepossessionConfirmDialog
+    extends StackedView<ToolDisassociateConfirmDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -46,5 +47,6 @@ class ToolRepossessionConfirmDialog extends StackedView<ToolDisassociateConfirmD
   }
 
   @override
-  ToolDisassociateConfirmDialogModel viewModelBuilder(BuildContext context) => ToolDisassociateConfirmDialogModel();
+  ToolDisassociateConfirmDialogModel viewModelBuilder(BuildContext context) =>
+      ToolDisassociateConfirmDialogModel();
 }

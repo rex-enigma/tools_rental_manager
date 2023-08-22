@@ -48,9 +48,11 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
               onPressed: viewModel.toolUsers.isEmpty
                   ? null
                   : () {
-                      viewModel.showAppBarSearchField = !viewModel.showAppBarSearchField;
+                      viewModel.showAppBarSearchField =
+                          !viewModel.showAppBarSearchField;
                       // if viewModel.showAppBarSearchField = false, (the user cancelled search) we reset filtered tool users to default
-                      if (!viewModel.showAppBarSearchField) viewModel.resetFilteredToolUsersToDefault();
+                      if (!viewModel.showAppBarSearchField)
+                        viewModel.resetFilteredToolUsersToDefault();
                     },
               icon: viewModel.showAppBarSearchField
                   ? Icon(
@@ -60,7 +62,9 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                   : Icon(
                       Icons.search,
                       // use grey color to indicate that the button is disabled when viewMode.toolUsers is empty
-                      color: viewModel.toolUsers.isEmpty ? Theme.of(context).disabledColor : Theme.of(context).colorScheme.secondary,
+                      color: viewModel.toolUsers.isEmpty
+                          ? Theme.of(context).disabledColor
+                          : Theme.of(context).colorScheme.secondary,
                     ),
             ),
           ],
@@ -73,7 +77,9 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
           _ => throw ' configure ThemeMode.system',
         },
         child: viewModel.isBusy
-            ? Center(child: CircularProgressIndicator(backgroundColor: Theme.of(context).colorScheme.secondary))
+            ? Center(
+                child: CircularProgressIndicator(
+                    backgroundColor: Theme.of(context).colorScheme.secondary))
             : viewModel.toolUsers.isEmpty
                 ? const Center(
                     child: Text(
@@ -88,16 +94,22 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                             viewModel.navigateToToolUser(toolUser.toolUserId!);
                           },
                           child: Padding(
-                            padding: const EdgeInsets.only(left: 16.0, right: 5.0, top: 10.0, bottom: 10.0),
+                            padding: const EdgeInsets.only(
+                                left: 16.0,
+                                right: 5.0,
+                                top: 10.0,
+                                bottom: 10.0),
                             child: CustomListTile(
-                              contentVerticalAlignment: CrossAxisAlignment.center,
+                              contentVerticalAlignment:
+                                  CrossAxisAlignment.center,
                               leading: Container(
                                 width: 90,
                                 height: 90,
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: Theme.of(context).colorScheme.secondary,
+                                    color:
+                                        Theme.of(context).colorScheme.secondary,
                                   ),
                                   //color: const Color.fromARGB(64, 158, 158, 158),
                                 ),
@@ -116,9 +128,16 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                               ),
                               title: Text(
                                 '${toolUser.firstName} ${toolUser.lastName}',
-                                style: switch (getThemeManager(context).selectedThemeMode) {
-                                  ThemeMode.light => Theme.of(context).typography.white.titleMedium!,
-                                  ThemeMode.dark => Theme.of(context).typography.black.titleMedium!,
+                                style: switch (getThemeManager(context)
+                                    .selectedThemeMode) {
+                                  ThemeMode.light => Theme.of(context)
+                                      .typography
+                                      .white
+                                      .titleMedium!,
+                                  ThemeMode.dark => Theme.of(context)
+                                      .typography
+                                      .black
+                                      .titleMedium!,
                                   _ => throw ' configure ThemeMode.system',
                                 },
                               ),
@@ -131,11 +150,15 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                                       children: [
                                         TextSpan(
                                           text: 'Phone number : ',
-                                          style: subtitleFirstSubStringTextStyle(context),
+                                          style:
+                                              subtitleFirstSubStringTextStyle(
+                                                  context),
                                         ),
                                         TextSpan(
-                                          text: '+${toolUser.countryCallingCode} ${toolUser.phoneNumber.toString()}',
-                                          style: subtitleLastSubStringTextStyle(context),
+                                          text:
+                                              '+${toolUser.countryCallingCode} ${toolUser.phoneNumber.toString()}',
+                                          style: subtitleLastSubStringTextStyle(
+                                              context),
                                         ),
                                       ],
                                     ),
@@ -146,11 +169,16 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                                       children: [
                                         TextSpan(
                                           text: 'Tool count : ',
-                                          style: subtitleFirstSubStringTextStyle(context),
+                                          style:
+                                              subtitleFirstSubStringTextStyle(
+                                                  context),
                                         ),
                                         TextSpan(
-                                          text: toolUser.tools?.length.toString() ?? '0',
-                                          style: subtitleLastSubStringTextStyle(context),
+                                          text: toolUser.tools?.length
+                                                  .toString() ??
+                                              '0',
+                                          style: subtitleLastSubStringTextStyle(
+                                              context),
                                         ),
                                       ],
                                     ),
@@ -164,7 +192,8 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                                       iconSize: 26,
                                       icon: const Icon(Icons.delete),
                                       onPressed: () {
-                                        viewModel.showToolDeleteConfirmDialog(toolUser);
+                                        viewModel.showToolDeleteConfirmDialog(
+                                            toolUser);
                                       },
                                     )
                                   : null,

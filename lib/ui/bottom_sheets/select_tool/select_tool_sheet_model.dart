@@ -35,11 +35,13 @@ class SelectToolSheetModel extends BaseViewModel {
   }
 
   Future<void> fetchIdleTools() async {
-    List<Tool>? idleTools = await runBusyFuture(_toolsRepoImp.getToolsByStatusOrNull(Status.idle));
+    List<Tool>? idleTools =
+        await runBusyFuture(_toolsRepoImp.getToolsByStatusOrNull(Status.idle));
     // only add to the this.idleTools if the idleTools is not null
     if (idleTools != null) {
       // order the idleTools in descending order to display the newly add idle tool in the database at the top in th UI
-      idleTools.sort((idleToolA, idleToolB) => idleToolB.toolId!.compareTo(idleToolA.toolId!));
+      idleTools.sort((idleToolA, idleToolB) =>
+          idleToolB.toolId!.compareTo(idleToolA.toolId!));
       this.idleTools = [...idleTools];
     } else {
       this.idleTools = [];

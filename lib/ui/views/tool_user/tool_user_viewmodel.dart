@@ -59,11 +59,13 @@ class ToolUserViewModel extends BaseViewModel {
   Future fetchToolUser(int toolUserId) async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    ToolUser? toolUser = await runBusyFuture(_toolUsersRepoImp.getToolUserByOrNull(toolUserId));
+    ToolUser? toolUser =
+        await runBusyFuture(_toolUsersRepoImp.getToolUserByOrNull(toolUserId));
     // only order toolUser.tools if the toolUser.tools is not null
     if (toolUser?.tools != null) {
       //
-      toolUser!.tools!.sort((toolA, toolB) => toolB.toolId!.compareTo(toolA.toolId!));
+      toolUser!.tools!
+          .sort((toolA, toolB) => toolB.toolId!.compareTo(toolA.toolId!));
       this.toolUser = toolUser;
     } else {
       this.toolUser = toolUser;
@@ -117,7 +119,8 @@ class ToolUserViewModel extends BaseViewModel {
     int? phoneNumber = response?.data;
     // make sure the phone number is updated only when the integer returned isn't similar will toolUser.phoneNumber and null
     if (phoneNumber != null && phoneNumber != toolUser!.phoneNumber) {
-      await _toolUsersRepoImp.updateToolUserPhoneNUmber(phoneNumber, toolUserId);
+      await _toolUsersRepoImp.updateToolUserPhoneNUmber(
+          phoneNumber, toolUserId);
       await fetchToolUser(toolUserId);
     }
   }
@@ -133,7 +136,8 @@ class ToolUserViewModel extends BaseViewModel {
     print(response?.data);
 
     if (response?.data != null) {
-      await _toolUsersRepoImp.updateToolUserAvatarImagePath(response!.data, toolUserId);
+      await _toolUsersRepoImp.updateToolUserAvatarImagePath(
+          response!.data, toolUserId);
       await fetchToolUser(toolUserId);
     }
   }
@@ -155,15 +159,24 @@ class ToolUserViewModel extends BaseViewModel {
     switch (imageType) {
       case ImageType.toolUserImage:
         // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.toolUserImage));
+        await _navigationService.navigateToImageView(idImageTypeGroup: (
+          id: toolUserId,
+          imageType: ImageType.toolUserImage
+        ));
         break;
       case ImageType.frontNationalIdImage:
         // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.frontNationalIdImage));
+        await _navigationService.navigateToImageView(idImageTypeGroup: (
+          id: toolUserId,
+          imageType: ImageType.frontNationalIdImage
+        ));
         break;
       case ImageType.backNationalIdImage:
         // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.backNationalIdImage));
+        await _navigationService.navigateToImageView(idImageTypeGroup: (
+          id: toolUserId,
+          imageType: ImageType.backNationalIdImage
+        ));
         break;
       default:
         throw 'The imageType should be either: ImageType.toolUserImage or  ImageType.frontNationalIdImage or  ImageType.frontNationalIdImage but $imageType was received';
@@ -174,27 +187,39 @@ class ToolUserViewModel extends BaseViewModel {
 
   // rent out tool(s) selected from the selectToolSheet bottom sheet to this toolUser
   void rentTools(List<Tool> idleTools) async {
-    await runBusyFuture(_toolsRepoImp.rentToolsToToolUser(idleTools, toolUserId));
+    await runBusyFuture(
+        _toolsRepoImp.rentToolsToToolUser(idleTools, toolUserId));
     await fetchToolUser(toolUserId);
     if (idleTools.length == 1) {
-      _snackbarService.showSnackbar(message: '${idleTools[0].name} tool has been rented out to ${toolUser!.firstName} successfully');
+      _snackbarService.showSnackbar(
+          message:
+              '${idleTools[0].name} tool has been rented out to ${toolUser!.firstName} successfully');
     } else if (idleTools.length == 2) {
-      _snackbarService.showSnackbar(message: '${idleTools[0].name} and ${idleTools[1].name} have been rented out to ${toolUser!.firstName} successfully');
+      _snackbarService.showSnackbar(
+          message:
+              '${idleTools[0].name} and ${idleTools[1].name} have been rented out to ${toolUser!.firstName} successfully');
     } else if (idleTools.length >= 3) {
-      _snackbarService.showSnackbar(message: '${idleTools.length} tools have been rented out to ${toolUser!.firstName} successfully');
+      _snackbarService.showSnackbar(
+          message:
+              '${idleTools.length} tools have been rented out to ${toolUser!.firstName} successfully');
     }
   }
 
   // repossess back the tools this toolUser was using
   // this function works with the selectedTools list
   void repossessToolsFromToolUser() async {
-    await runBusyFuture(_toolsRepoImp.repossessToolsFromToolUser(selectedTools));
+    await runBusyFuture(
+        _toolsRepoImp.repossessToolsFromToolUser(selectedTools));
     await fetchToolUser(toolUserId);
     // show the names of the tools in a snackbar if the rented out tool is exactly one
     if (selectedTools.length == 1) {
-      _snackbarService.showSnackbar(message: '${selectedTools[0].name} has been repossessed back from ${toolUser!.firstName} successfully');
+      _snackbarService.showSnackbar(
+          message:
+              '${selectedTools[0].name} has been repossessed back from ${toolUser!.firstName} successfully');
     } else {
-      _snackbarService.showSnackbar(message: '${selectedTools.length} tools have been repossessed back from ${toolUser!.firstName}  successfully');
+      _snackbarService.showSnackbar(
+          message:
+              '${selectedTools.length} tools have been repossessed back from ${toolUser!.firstName}  successfully');
     }
     // clear the selectedTools after repossession completes
     clearSelectedTools();
@@ -220,7 +245,9 @@ class ToolUserViewModel extends BaseViewModel {
     // since we have only one tool to get repossessed, we create a list with only that one tool
     await runBusyFuture(_toolsRepoImp.repossessToolsFromToolUser([tool]));
     await fetchToolUser(toolUserId);
-    _snackbarService.showSnackbar(message: '${tool.name} has been repossessed back from ${toolUser!.firstName} successfully');
+    _snackbarService.showSnackbar(
+        message:
+            '${tool.name} has been repossessed back from ${toolUser!.firstName} successfully');
   }
 
   void navigateToToolView(int toolId) async {

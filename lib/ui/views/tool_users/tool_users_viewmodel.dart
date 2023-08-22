@@ -124,7 +124,7 @@ class ToolUsersViewModel extends BaseViewModel {
     if (response?.data != null) {
       ToolUser newToolUser = response!.data;
       await _insertNewToolUser(newToolUser);
-      // print(value);
+      _snackbarService.showSnackbar(message: '${newToolUser.firstName} created successfully');
       List<ToolUser>? toolUsersOrNull = await _fetchAllToolUsers();
       // print(toolUsersOrNull);
       // this will add to the toolUsers? gotten from the database to the toolUsers property list

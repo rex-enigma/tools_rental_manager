@@ -10,7 +10,8 @@ import 'tool_user_phonenumber_editor_dialog_model.dart';
 
 const double _graphicSize = 60;
 
-class ToolUserPhonenumberEditorDialog extends StackedView<ToolUserPhonenumberEditorDialogModel> {
+class ToolUserPhonenumberEditorDialog
+    extends StackedView<ToolUserPhonenumberEditorDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -56,7 +57,8 @@ class ToolUserPhonenumberEditorDialog extends StackedView<ToolUserPhonenumberEdi
       onSaved: () {
         if (viewModel.formKey.currentState!.validate()) {
           // make sure you return the phone number as integer
-          completer(DialogResponse(data: int.parse(viewModel.phoneNumberEditingController.text)));
+          completer(DialogResponse(
+              data: int.parse(viewModel.phoneNumberEditingController.text)));
         }
       },
       onCancelled: () {
@@ -66,7 +68,8 @@ class ToolUserPhonenumberEditorDialog extends StackedView<ToolUserPhonenumberEdi
   }
 
   @override
-  ToolUserPhonenumberEditorDialogModel viewModelBuilder(BuildContext context) => ToolUserPhonenumberEditorDialogModel();
+  ToolUserPhonenumberEditorDialogModel viewModelBuilder(BuildContext context) =>
+      ToolUserPhonenumberEditorDialogModel();
 
   @override
   void onViewModelReady(ToolUserPhonenumberEditorDialogModel viewModel) {

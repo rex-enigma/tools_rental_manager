@@ -37,6 +37,7 @@ import 'package:tools_rental_management/ui/bottom_sheets/image_capture/image_cap
 import 'package:tools_rental_management/ui/views/image/image_view.dart';
 import 'package:tools_rental_management/ui/dialogs/delete_confirm/delete_confirm_dialog.dart';
 import 'package:tools_rental_management/ui/dialogs/tool_user_name_editor/tool_user_name_editor_dialog.dart';
+import 'package:tools_rental_management/ui/views/remote_image/remote_image_view.dart';
 // @stacked-import
 
 @StackedApp(
@@ -50,6 +51,7 @@ import 'package:tools_rental_management/ui/dialogs/tool_user_name_editor/tool_us
     MaterialRoute(page: ToolNamesView),
     MaterialRoute(page: ToolUserView),
     MaterialRoute(page: ImageView),
+    MaterialRoute(page: RemoteImageView),
 // @stacked-route
   ],
   dependencies: [

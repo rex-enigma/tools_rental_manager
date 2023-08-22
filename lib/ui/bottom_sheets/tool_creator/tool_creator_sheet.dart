@@ -53,8 +53,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
               child: Text(
                 'Create a tool',
                 style: switch (getThemeManager(context).selectedThemeMode) {
-                  ThemeMode.light => Theme.of(context).typography.white.bodyMedium!,
-                  ThemeMode.dark => Theme.of(context).typography.black.bodyMedium!,
+                  ThemeMode.light =>
+                    Theme.of(context).typography.white.bodyMedium!,
+                  ThemeMode.dark =>
+                    Theme.of(context).typography.black.bodyMedium!,
                   _ => throw ' configure ThemeMode.system',
                 },
               ),
@@ -87,7 +89,9 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                             hintText: 'Name of a tool',
                             labelText: 'Tool name *',
                           ),
-                          validator: (value) => ToolCreatorSheetValidators.validateToolName(value),
+                          validator: (value) =>
+                              ToolCreatorSheetValidators.validateToolName(
+                                  value),
                         ),
                         verticalSpaceMedium,
                         TextFormField(
@@ -107,7 +111,9 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                               color: Theme.of(context).colorScheme.onPrimary,
                             ),
                           ),
-                          validator: (value) => ToolCreatorSheetValidators.validatePurchaseDate(value),
+                          validator: (value) =>
+                              ToolCreatorSheetValidators.validatePurchaseDate(
+                                  value),
                         ),
                         verticalSpaceMedium,
                         DropdownButtonFormField<Currency>(
@@ -126,14 +132,17 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                 ),
                               )
                               .toList(),
-                          validator: (value) => ToolCreatorSheetValidators.validateCurrency(value),
+                          validator: (value) =>
+                              ToolCreatorSheetValidators.validateCurrency(
+                                  value),
                           onChanged: (value) {
                             viewModel.setCurrency(value);
                           },
                         ),
                         verticalSpaceMedium,
                         TextFormField(
-                          controller: viewModel.purchasedPriceTextEditingController,
+                          controller:
+                              viewModel.purchasedPriceTextEditingController,
                           cursorColor: Theme.of(context).colorScheme.secondary,
                           cursorWidth: 1,
                           keyboardType: TextInputType.number,
@@ -142,7 +151,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                             hintText: "How much the tool was purchased for",
                             labelText: 'Purchased price *',
                           ),
-                          validator: (value) => ToolCreatorSheetValidators.validatePurchasePriceInput(value),
+                          validator: (value) => ToolCreatorSheetValidators
+                              .validatePurchasePriceInput(value),
                         ),
                         verticalSpaceMedium,
                         TextFormField(
@@ -155,7 +165,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                             hintText: 'Cost of renting a tool per hour',
                             labelText: 'Rate (KES) *',
                           ),
-                          validator: (value) => ToolCreatorSheetValidators.validateRate(value),
+                          validator: (value) =>
+                              ToolCreatorSheetValidators.validateRate(value),
                         ),
                         verticalSpaceMedium,
                         DropdownButtonFormField<Category>(
@@ -173,7 +184,9 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                 ),
                               )
                               .toList(),
-                          validator: (value) => ToolCreatorSheetValidators.validateCategory(value),
+                          validator: (value) =>
+                              ToolCreatorSheetValidators.validateCategory(
+                                  value),
                           onChanged: (value) {
                             viewModel.setCategory(value);
                           },
@@ -184,14 +197,17 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                           children: [
                             Expanded(
                               child: TextFormField(
-                                controller: viewModel.toolUniqueIdTextEditingController,
+                                controller:
+                                    viewModel.toolUniqueIdTextEditingController,
                                 readOnly: true,
                                 style: textFormFieldInputTextStyle(context),
                                 decoration: const InputDecoration(
-                                  hintText: "tap 'Gen id' to generate a tool id ",
+                                  hintText:
+                                      "tap 'Gen id' to generate a tool id ",
                                   labelText: 'Tool unique id  *',
                                 ),
-                                validator: (value) => ToolCreatorSheetValidators.validateToolUniqueId(value),
+                                validator: (value) => ToolCreatorSheetValidators
+                                    .validateToolUniqueId(value),
                               ),
                             ),
                             Container(
@@ -199,13 +215,17 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                               width: 120.0,
                               padding: const EdgeInsets.only(left: 6.0),
                               child: FilledButton(
-                                style: Theme.of(context).filledButtonTheme.style?.copyWith(
+                                style: Theme.of(context)
+                                    .filledButtonTheme
+                                    .style
+                                    ?.copyWith(
                                       fixedSize: const MaterialStatePropertyAll(
                                         Size(120.0, 50.0),
                                       ),
                                       shape: MaterialStatePropertyAll(
                                         RoundedRectangleBorder(
-                                          borderRadius: BorderRadius.circular(10),
+                                          borderRadius:
+                                              BorderRadius.circular(10),
                                         ),
                                       ),
                                     ),
@@ -223,7 +243,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                             return DashedCircularBorderButtonWithIcons(
                               bottomSheetType: BottomSheetType.toolCreator,
                               imagePath: viewModel.toolImagePath,
-                              onPressed: () => viewModel.showToolImageCaptureSheet(),
+                              onPressed: () =>
+                                  viewModel.showToolImageCaptureSheet(),
                               // will be true if this form has any error(when the validator returns a string value)
                               hasError: formFieldState.hasError,
                               errorMessage: formFieldState.errorText,
@@ -259,7 +280,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                               ),
                               onPressed: () {
                                 // the condition will be true if all the form validators pass
-                                if (viewModel.formKey.currentState!.validate()) {
+                                if (viewModel.formKey.currentState!
+                                    .validate()) {
                                   viewModel.submitForm();
                                 }
                               },
@@ -291,7 +313,8 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
   }
 
   @override
-  ToolCreatorSheetModel viewModelBuilder(BuildContext context) => ToolCreatorSheetModel();
+  ToolCreatorSheetModel viewModelBuilder(BuildContext context) =>
+      ToolCreatorSheetModel();
 
   @override
   void onViewModelReady(ToolCreatorSheetModel viewModel) {

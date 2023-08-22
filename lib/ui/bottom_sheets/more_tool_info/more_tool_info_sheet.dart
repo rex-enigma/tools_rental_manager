@@ -51,7 +51,7 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
               Expanded(
                 child: SingleChildScrollView(
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
                       verticalSpaceSmall,
                       Container(
@@ -64,7 +64,7 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
                           borderRadius: BorderRadius.circular(6.0),
                           color: const Color.fromARGB(64, 158, 158, 158),
                         ),
-                        child: viewModel.toolUrlImagePath == null
+                        child: viewModel.isBusy || viewModel.toolArticle == null
                             ? const FittedBox(
                                 fit: BoxFit.contain,
                                 child: Icon(
@@ -72,11 +72,16 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
                                   color: Colors.grey,
                                 ),
                               )
-                            : ClipRRect(
-                                borderRadius: BorderRadius.circular(6),
-                                child: Image.network(
-                                  viewModel.toolUrlImagePath!,
-                                  fit: BoxFit.cover,
+                            : GestureDetector(
+                                onTap: () {
+                                  viewModel.navigateToRemoteImageView(context);
+                                },
+                                child: ClipRRect(
+                                  borderRadius: BorderRadius.circular(6),
+                                  child: Image.network(
+                                    viewModel.toolArticle!.urlImagePath!,
+                                    fit: BoxFit.cover,
+                                  ),
                                 ),
                               ),
                       ),
@@ -86,17 +91,19 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
                         child: Text('source: wikipedia'),
                       ),
                       verticalSpaceSmall,
-                      Text(
-                        viewModel.toolName ?? 'Tool Name',
-                        style: switch (getThemeManager(context).selectedThemeMode) {
-                          ThemeMode.light => Theme.of(context).typography.white.bodyLarge!,
-                          ThemeMode.dark => Theme.of(context).typography.black.bodyLarge!,
-                          _ => throw ' configure ThemeMode.system',
-                        },
+                      Align(
+                        alignment: Alignment.centerLeft,
+                        child: Text(
+                          viewModel.isBusy || viewModel.toolArticle == null ? 'Tool Name' : viewModel.toolArticle!.title,
+                          style: TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.secondary),
+                        ),
                       ),
-                      Text(viewModel.toolCategory ?? 'Tool category'),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Text(viewModel.toolArticle?.description ?? 'description'),
+                      ),
                       verticalSpaceSmall,
-                      viewModel.toolContent == null
+                      viewModel.isBusy || viewModel.toolArticle == null
                           ? SkeletonLoader(
                               loading: true,
                               child: SizedBox(
@@ -104,7 +111,13 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
                                 height: 200,
                               ),
                             )
-                          : Text(viewModel.toolContent!)
+                          : Text(
+                              viewModel.toolArticle!.excerpt,
+                              style: const TextStyle(
+                                fontWeight: FontWeight.w400,
+                                fontStyle: FontStyle.italic,
+                              ),
+                            )
                     ],
                   ),
                 ),
@@ -118,4 +131,10 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
 
   @override
   MoreToolInfoSheetModel viewModelBuilder(BuildContext context) => MoreToolInfoSheetModel();
+
+  @override
+  void onViewModelReady(MoreToolInfoSheetModel viewModel) {
+    viewModel.initState(request.data);
+    super.onViewModelReady(viewModel);
+  }
 }

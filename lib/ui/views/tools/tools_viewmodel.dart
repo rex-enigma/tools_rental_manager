@@ -229,6 +229,7 @@ class ToolsViewModel extends BaseViewModel {
     if (response?.data != null) {
       Tool newTool = response!.data;
       await _insertNewTool(newTool);
+      _snackbarService.showSnackbar(message: '${newTool.name} created successfully');
       List<Tool>? toolsOrNull = await _fetchAllTools();
       // this will add the tools? gotten from the database to the [tools] property
       addTools(toolsOrNull);

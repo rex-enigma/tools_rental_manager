@@ -7,7 +7,8 @@ import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
 
 import 'tool_user_name_editor_dialog_model.dart';
 
-class ToolUserNameEditorDialog extends StackedView<ToolUserNameEditorDialogModel> {
+class ToolUserNameEditorDialog
+    extends StackedView<ToolUserNameEditorDialogModel> {
   final DialogRequest request;
   final Function(DialogResponse) completer;
 
@@ -59,7 +60,8 @@ class ToolUserNameEditorDialog extends StackedView<ToolUserNameEditorDialogModel
   }
 
   @override
-  ToolUserNameEditorDialogModel viewModelBuilder(BuildContext context) => ToolUserNameEditorDialogModel();
+  ToolUserNameEditorDialogModel viewModelBuilder(BuildContext context) =>
+      ToolUserNameEditorDialogModel();
 
   @override
   void onViewModelReady(ToolUserNameEditorDialogModel viewModel) {

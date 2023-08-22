@@ -9,7 +9,8 @@ import 'package:tools_rental_management/enums/status.dart';
 
 /// text style for a customListTile's subtitle last substring
 /// the second argument will be used to decide the color codes of the substring
-TextStyle subtitleLastSubStringTextStyle(BuildContext context, {Status? status}) {
+TextStyle subtitleLastSubStringTextStyle(BuildContext context,
+    {Status? status}) {
   // decide the color code for a single substring text when toolStatus is not null
   Color? color = switch (status) {
     Status.beingUsed => Color.fromARGB(255, 212, 193, 122),
@@ -20,8 +21,16 @@ TextStyle subtitleLastSubStringTextStyle(BuildContext context, {Status? status})
   };
 
   return switch (getThemeManager(context).selectedThemeMode) {
-    ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontWeight: FontWeight.bold, color: color),
-    ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontWeight: FontWeight.bold, color: color),
+    ThemeMode.light => Theme.of(context)
+        .typography
+        .white
+        .bodySmall!
+        .copyWith(fontWeight: FontWeight.bold, color: color),
+    ThemeMode.dark => Theme.of(context)
+        .typography
+        .black
+        .bodySmall!
+        .copyWith(fontWeight: FontWeight.bold, color: color),
     _ => throw ' configure ThemeMode.system',
   };
 }

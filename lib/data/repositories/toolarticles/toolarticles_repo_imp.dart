@@ -12,23 +12,27 @@ class ToolArticlesRepoImp implements ToolArticleRepo {
   // will be used to cache tool article data to local data source.
   late ToolArticlesLocalDataSource _toolArticlesLocalDataSource;
 
-  ToolArticleImp({ToolArticlesRemoteDataSource? toolArticlesRemoteDataSource, ToolArticlesLocalDataSource? toolArticlesLocalDataSource}) {
+  ToolArticlesRepoImp({ToolArticlesRemoteDataSource? toolArticlesRemoteDataSource, ToolArticlesLocalDataSource? toolArticlesLocalDataSource}) {
     _toolArticlesRemoteDataSource = toolArticlesRemoteDataSource ?? locator<ToolArticlesRemoteWikipediaDataSource>();
     _toolArticlesLocalDataSource = toolArticlesLocalDataSource ?? locator<ToolArticleLocalSharedPreferencesDataSource>();
   }
 
   @override
-  Future<ToolArticle> fetchToolArticle(String title) async {
+  Future<ToolArticle?> fetchToolArticle(String title) async {
     // first check if we have [ToolArticle] for the given title cached locally.
     ToolArticle? toolArticle = await _toolArticlesLocalDataSource.getToolArticle(key: title);
 
     try {
       if (toolArticle == null) {
         // we fetch tool article data remotely.
-        ToolArticle remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
-        // then we cache it.
-        await _toolArticlesLocalDataSource.setToolArticle(key: remoteToolArticle.title, toolArticle: remoteToolArticle);
-        return remoteToolArticle;
+        ToolArticle? remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
+        if (remoteToolArticle != null) {
+          // then we cache it.
+          await _toolArticlesLocalDataSource.setToolArticle(key: remoteToolArticle.title, toolArticle: remoteToolArticle);
+          return remoteToolArticle;
+        } else {
+          return null;
+        }
       } else {
         const int cacheExpirationTimeMilli = 300000; // 5 minutes
         // how long(in millisecond) a tool article for the given title has been cached.
@@ -39,9 +43,13 @@ class ToolArticlesRepoImp implements ToolArticleRepo {
         if (toolArticleCachedDuration <= cacheExpirationTimeMilli) {
           return toolArticle;
         } else {
-          ToolArticle remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
-          await _toolArticlesLocalDataSource.setToolArticle(key: remoteToolArticle.title, toolArticle: remoteToolArticle);
-          return remoteToolArticle;
+          ToolArticle? remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
+          if (remoteToolArticle != null) {
+            await _toolArticlesLocalDataSource.setToolArticle(key: remoteToolArticle.title, toolArticle: remoteToolArticle);
+            return remoteToolArticle;
+          } else {
+            return null;
+          }
         }
       }
     } catch (e) {

@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/data/data_models/toolarticle.dart';
 import 'package:tools_rental_management/data/data_sources/remote/toolarticles/toolarticles_remote_datasource_interface.dart';
 import 'package:tools_rental_management/errors/exceptions.dart';
@@ -7,9 +8,12 @@ import 'package:http/http.dart' as http;
 
 // this class will fetch data about a workshop tool from wikipedia.
 class Wikipedia {
+  // we are directly instantiating snackbarService since its not part of dependencies managed by Locator
+  final _snackBarService = SnackbarService();
+
   /// might throw [ArticleNotFoundException] if the article is not found with the given [title],
   /// might throw other exceptions like: [FailedToFetchToolArticleData] exception when the status code is not 200
-  Future<ToolArticle> fetchToolArticle(String title) async {
+  Future<ToolArticle?> fetchToolArticle(String title) async {
     final String url =
         "https://en.wikipedia.org/w/api.php?action=query&titles=$title&prop=pageimages|description|extracts&explaintext&exsectionformat=plain&exintro=1&pithumbsize=300&format=json";
 
@@ -38,7 +42,14 @@ class Wikipedia {
           fetchedAt: DateTime.now(),
         );
       }
+
       throw FailedToFetchToolArticleData(message: 'Failed to fetch article data, http statusCode: ${response.statusCode}');
+    } on ArticleNotFoundException catch (e) {
+      _snackBarService.showSnackbar(message: e.message);
+      return null;
+    } on FailedToFetchToolArticleData catch (e) {
+      _snackBarService.showSnackbar(message: e.message);
+      return null;
     } catch (e) {
       rethrow;
     }
@@ -51,7 +62,7 @@ class ToolArticlesRemoteWikipediaDataSource implements ToolArticlesRemoteDataSou
   final Wikipedia _wikipedia = Wikipedia();
 
   @override
-  Future<ToolArticle> fetchToolArticle(String title) {
+  Future<ToolArticle?> fetchToolArticle(String title) {
     try {
       return _wikipedia.fetchToolArticle(title);
     } catch (e) {

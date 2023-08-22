@@ -59,7 +59,7 @@ class ImageView extends StackedView<ImageViewModel> {
                 ),
                 child: CircularProgressIndicator(backgroundColor: Theme.of(context).colorScheme.secondary),
               )
-            // if an image path is provided display that image in is original size, let it get constrain from the parent(the screen or any other parent that will constrain its size)
+            // if an image path is provided display that image in is original size, let it get its constraint from its parent(the screen or any other parent that will constrain its size)
             : Image.file(
                 File(viewModel.imagePath!),
                 fit: BoxFit.cover,

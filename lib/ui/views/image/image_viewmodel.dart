@@ -42,20 +42,24 @@ class ImageViewModel extends BaseViewModel {
     // the ui will be rebuild in both situations
     switch (imageType) {
       case ImageType.frontNationalIdImage:
-        String? frontNationalIdImagePath = await runBusyFuture(_toolUsersRepoImp.getToolUserFrontNationalIdImagePathByIdOrNull(id!));
+        String? frontNationalIdImagePath = await runBusyFuture(_toolUsersRepoImp
+            .getToolUserFrontNationalIdImagePathByIdOrNull(id!));
         imagePath = frontNationalIdImagePath;
         break;
       case ImageType.backNationalIdImage:
-        String? backNationalIdImagePath = await runBusyFuture(_toolUsersRepoImp.getToolUserBackNationalIdImagePathByIdOrNull(id!));
+        String? backNationalIdImagePath = await runBusyFuture(_toolUsersRepoImp
+            .getToolUserBackNationalIdImagePathByIdOrNull(id!));
         imagePath = backNationalIdImagePath;
         break;
       case ImageType.toolImage:
-        String? toolImagePath = await runBusyFuture(_toolsRepoImp.getToolImagePathByIdOrNull(id!));
+        String? toolImagePath =
+            await runBusyFuture(_toolsRepoImp.getToolImagePathByIdOrNull(id!));
         imagePath = toolImagePath;
 
         break;
       case ImageType.toolUserImage:
-        String? toolUserImagePath = await runBusyFuture(_toolUsersRepoImp.getToolUserAvatarImagePathByIdOrNull(id!));
+        String? toolUserImagePath = await runBusyFuture(
+            _toolUsersRepoImp.getToolUserAvatarImagePathByIdOrNull(id!));
         imagePath = toolUserImagePath;
         break;
       case null:
@@ -70,21 +74,27 @@ class ImageViewModel extends BaseViewModel {
     // the ui will be rebuild in both situations
     switch (imageType) {
       case ImageType.frontNationalIdImage:
-        String? newFrontNationalIdImagePath = await runBusyFuture(_toolUsersRepoImp.updateToolUserFrontNationalIdImagePath(newImagePath, id));
+        String? newFrontNationalIdImagePath = await runBusyFuture(
+            _toolUsersRepoImp.updateToolUserFrontNationalIdImagePath(
+                newImagePath, id));
         await Future.delayed(const Duration(seconds: 2));
         imagePath = newFrontNationalIdImagePath;
         break;
       case ImageType.backNationalIdImage:
-        String? newBackNationalIdImagePath = await runBusyFuture(_toolUsersRepoImp.updateToolUserBackNationalIdImagePath(newImagePath, id));
+        String? newBackNationalIdImagePath = await runBusyFuture(
+            _toolUsersRepoImp.updateToolUserBackNationalIdImagePath(
+                newImagePath, id));
         await Future.delayed(const Duration(seconds: 2));
         imagePath = newBackNationalIdImagePath;
         break;
       case ImageType.toolImage:
-        String? newToolImagePath = await runBusyFuture(_toolsRepoImp.updateToolImagePath(newImagePath, id));
+        String? newToolImagePath = await runBusyFuture(
+            _toolsRepoImp.updateToolImagePath(newImagePath, id));
         imagePath = newToolImagePath;
         break;
       case ImageType.toolUserImage:
-        String? newToolUserImagePath = await runBusyFuture(_toolUsersRepoImp.updateToolUserAvatarImagePath(newImagePath, id));
+        String? newToolUserImagePath = await runBusyFuture(
+            _toolUsersRepoImp.updateToolUserAvatarImagePath(newImagePath, id));
         imagePath = newToolUserImagePath;
         break;
       case null:
@@ -106,11 +116,13 @@ class ImageViewModel extends BaseViewModel {
         name = 'Back id';
         break;
       case ImageType.toolImage:
-        String? toolImageName = await runBusyFuture(_toolsRepoImp.getToolNameByIdOrNull(id!));
+        String? toolImageName =
+            await runBusyFuture(_toolsRepoImp.getToolNameByIdOrNull(id!));
         name = toolImageName;
         break;
       case ImageType.toolUserImage:
-        String? toolUserFirstName = await runBusyFuture(_toolUsersRepoImp.getToolUserFirstNameByIdOrNull(id!));
+        String? toolUserFirstName = await runBusyFuture(
+            _toolUsersRepoImp.getToolUserFirstNameByIdOrNull(id!));
         name = toolUserFirstName;
         break;
       case null:
@@ -135,10 +147,13 @@ class ImageViewModel extends BaseViewModel {
 
   String getImageCaptureSheetTitle() {
     return switch (imageType) {
-      ImageType.frontNationalIdImage || ImageType.backNationalIdImage => 'National id image',
+      ImageType.frontNationalIdImage ||
+      ImageType.backNationalIdImage =>
+        'National id image',
       ImageType.toolUserImage => 'Tool user image',
       ImageType.toolImage => 'Tool image',
-      null => throw "can't get the title for the imageCaptureSheet since imageType is null"
+      null =>
+        throw "can't get the title for the imageCaptureSheet since imageType is null"
     };
   }
 
