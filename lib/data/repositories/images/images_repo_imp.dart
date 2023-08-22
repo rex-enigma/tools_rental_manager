@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tools_rental_management/data/data_sources/local/cameraphotos/cameraphotos_local_datasource_interface.dart';
 import 'package:tools_rental_management/data/data_sources/local/cameraphotos/cameraphotos_localcamera_datasource_imp.dart';
@@ -82,8 +83,9 @@ class ImagesRepoImp implements ImagesRepo {
               if (imagePathCache == null) {
                 return previousImagePath;
               }
+              // if the image is deleted there is an error: Cannot retrieve length of file, path = '/data/user/0/com.example.tools_rental_management/app_flutter/image.jpg, which i haven't yet figure out how to resolve
               // if the user has captured a different new image, delete the old one first (previousImagePath)
-              oldImageFile.deleteSync();
+              // oldImageFile.deleteSync();
 
               final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
               return imagePath;
@@ -95,8 +97,9 @@ class ImagesRepoImp implements ImagesRepo {
                 return previousImagePath;
               }
 
+              // if the image is deleted there is an error: Cannot retrieve length of file, path = '/data/user/0/com.example.tools_rental_management/app_flutter/image.jpg, which i haven't yet figure out how to resolve
               // delete the image of the given previousImagePath.
-              oldImageFile.deleteSync();
+              // oldImageFile.deleteSync();
 
               final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
               return imagePath;

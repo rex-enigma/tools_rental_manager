@@ -18,7 +18,10 @@ class ImageCaptureSheetModel extends BaseViewModel {
       previousImagePath: imagePath,
     );
 
-    navigateBack(cameraImagePath);
+    // execute only if the image returned is not the same as the one provided as previousImagePath
+    if (cameraImagePath != imagePath) {
+      navigateBack(cameraImagePath);
+    }
   }
 
   void fetchImageFromGallery() async {
@@ -27,7 +30,10 @@ class ImageCaptureSheetModel extends BaseViewModel {
       previousImagePath: imagePath,
     );
 
-    navigateBack(galleryImagePath);
+    // execute only if the image returned is not the same as the one provided as previousImagePath
+    if (galleryImagePath != imagePath) {
+      navigateBack(galleryImagePath);
+    }
   }
 
 // the parameter result, is used to provide a return value to the calling function that pushed ToolImageCaptureSheet.

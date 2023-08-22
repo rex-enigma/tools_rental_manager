@@ -151,6 +151,7 @@ class ToolView extends StackedView<ToolViewModel> {
                         ),
                         trailing: IconButton(
                           icon: const Icon(Icons.edit),
+                          disabledColor: Theme.of(context).disabledColor,
                           color: Theme.of(context).colorScheme.secondary,
                           iconSize: 26.0,
                           onPressed: switch (viewModel.tool?.status) {

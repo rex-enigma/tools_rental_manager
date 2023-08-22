@@ -136,6 +136,7 @@ class ToolUser {
       phoneNumber: $phoneNumber 
       countryCallingCode: $countryCallingCode
       tool count : ${tools == null ? '0' : tools!.length}
+      tools : $tools
     }""";
   }
 }

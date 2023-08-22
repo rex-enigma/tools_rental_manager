@@ -191,14 +191,23 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
                 isScrollable: true,
                 dividerColor: Colors.transparent,
                 tabs: const <Widget>[
-                  Tab(
-                    text: 'All',
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Tab(
+                      text: 'All',
+                    ),
                   ),
-                  Tab(
-                    text: 'Powered tools',
+                  Align(
+                    alignment: Alignment.center,
+                    child: Tab(
+                      text: 'Powered tools',
+                    ),
                   ),
-                  Tab(
-                    text: 'Unpowered tools',
+                  Align(
+                    alignment: Alignment.centerRight,
+                    child: Tab(
+                      text: 'Unpowered tools',
+                    ),
                   )
                 ],
               ),
@@ -365,110 +374,3 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
               ));
   }
 }
-
-// List createL
-
-// Center(
-//                 child: Text('click + button to add a tool'),
-//               )
-
-// toolsViewModel.allToolsTabView.map(
-//                   (testTool) {
-//                     return ListTile(
-//                       leading: Container(
-//                         width: 90,
-//                         height: 90,
-//                         color: Colors.grey,
-//                       ),
-//                       title: Text(testTool.testToolName),
-//                       subtitle: Column(
-//                         children: [
-//                           Text('status: ${testTool.status.name}'),
-//                           Text('category: ${testTool.category.name}'),
-//                         ],
-//                       ),
-//                     );
-//                   },
-//                 ).toList(),
-
-// TabBarView(
-//             controller: tabController,
-//             children: <Widget>[
-//               // if (toolsViewModel.tools is empty && toolsViewModel.showAppBarSearchField is false) we know that there is no tools in the database so we request the user to add a tool
-//               // otherwise display a list of tools from toolsViewModel.allToolsTabView
-//               toolsViewModel.tools.isEmpty && toolsViewModel.showAppBarSearchField == false
-//                   ? const Center(
-//                       child: Text('click + button to add a tool'),
-//                     )
-//                   :
-//                   // display tools in All tabBarView or centred text saying 'No tool found the given search name' if the user has initiated search and searched for a tool that doesn't exist
-//                   toolsViewModel.allToolsTabView.isEmpty && toolsViewModel.showAppBarSearchField
-//                       ? const Center(
-//                           child: Text('No tool found for the given search name'),
-//                         )
-//                       : ListView(
-//                           children: toolsViewModel.allToolsTabView.map(
-//                             (testTool) {
-//                               return ListTile(
-//                                 leading: Container(
-//                                   width: 90,
-//                                   height: 90,
-//                                   color: Colors.grey,
-//                                 ),
-//                                 title: Text(testTool.testToolName),
-//                                 subtitle: Column(
-//                                   children: [
-//                                     Text('status: ${testTool.status.name}'),
-//                                     Text('category: ${testTool.category.name}'),
-//                                   ],
-//                                 ),
-//                               );
-//                             },
-//                           ).toList(),
-//                         ),
-//               // display tools in Powered tools tabBarView, toolViewModel.currentSelectedTab = 1
-//               ListView(
-//                 // if  toolsViewModel.poweredToolsTabView is empty display some text explaining why
-//                 children: toolsViewModel.poweredToolsTabView.map(
-//                   (testTool) {
-//                     return ListTile(
-//                       leading: Container(
-//                         width: 90,
-//                         height: 90,
-//                         color: Colors.grey,
-//                       ),
-//                       title: Text(testTool.testToolName),
-//                       subtitle: Column(
-//                         children: [
-//                           Text('status: ${testTool.status.name}'),
-//                           Text('category: ${testTool.category.name}'),
-//                         ],
-//                       ),
-//                     );
-//                   },
-//                 ).toList(),
-//               ),
-//               // display tools in Unpowered tools tabBarView, toolViewModel.currentSelectedTab = 2
-//               ListView(
-//                 // if  toolsViewModel.unPoweredToolsTabView is empty display some text explaining why
-//                 children: toolsViewModel.unPoweredToolsTabView.map(
-//                   (testTool) {
-//                     return ListTile(
-//                       leading: Container(
-//                         width: 90,
-//                         height: 90,
-//                         color: Colors.grey,
-//                       ),
-//                       title: Text(testTool.testToolName),
-//                       subtitle: Column(
-//                         children: [
-//                           Text('status: ${testTool.status.name}'),
-//                           Text('category: ${testTool.category.name}'),
-//                         ],
-//                       ),
-//                     );
-//                   },
-//                 ).toList(),
-//               )
-//             ],
-//           ),

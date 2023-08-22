@@ -130,6 +130,12 @@ class ToolUserViewModel extends BaseViewModel {
       // send the avatarImagePath to the ImageCaptureSheet for it to be removed if the user has selected one and what to update with a new one
       data: toolUser?.avatarImagePath,
     );
+    print(response?.data);
+
+    if (response?.data != null) {
+      await _toolUsersRepoImp.updateToolUserAvatarImagePath(response!.data, toolUserId);
+      await fetchToolUser(toolUserId);
+    }
   }
 
   void showSelectedToolSheet() async {
@@ -217,12 +223,13 @@ class ToolUserViewModel extends BaseViewModel {
     _snackbarService.showSnackbar(message: '${tool.name} has been repossessed back from ${toolUser!.firstName} successfully');
   }
 
+  void navigateToToolView(int toolId) async {
+    var response = await _navigationService.navigateToToolView(toolId: toolId);
+    // update this tool user, maybe in ToolView the corresponding tool of the given toolId was updated.
+    await fetchToolUser(toolUserId);
+  }
+
   void navigateBackToToolUsers() async {
-    // the future delay code is quick fix if its not here for some reason an error get thrown when i update an image and quickly navigate back to the previous screen.
-    // Error: Cannot retrieve length of file, path = <image path> (OS Error: No such file or directory, errno = 2).
-    // Where the <image path> is the path of the a new image.
-    // The duration cant be less than 1 seconds.
-    await Future.delayed(const Duration(seconds: 1));
     _navigationService.back();
   }
 }

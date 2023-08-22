@@ -41,6 +41,7 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
           ),
           padding: const EdgeInsets.only(left: 16.0, right: 16.0, top: 10.0),
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               const Align(
                 alignment: Alignment.center,
@@ -71,9 +72,12 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
                                   color: Colors.grey,
                                 ),
                               )
-                            : Image.network(
-                                viewModel.toolUrlImagePath!,
-                                fit: BoxFit.cover,
+                            : ClipRRect(
+                                borderRadius: BorderRadius.circular(6),
+                                child: Image.network(
+                                  viewModel.toolUrlImagePath!,
+                                  fit: BoxFit.cover,
+                                ),
                               ),
                       ),
                       verticalSpaceMedium,
@@ -84,12 +88,9 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
                       verticalSpaceSmall,
                       Text(
                         viewModel.toolName ?? 'Tool Name',
-                        style: switch (
-                            getThemeManager(context).selectedThemeMode) {
-                          ThemeMode.light =>
-                            Theme.of(context).typography.white.bodyLarge!,
-                          ThemeMode.dark =>
-                            Theme.of(context).typography.black.bodyLarge!,
+                        style: switch (getThemeManager(context).selectedThemeMode) {
+                          ThemeMode.light => Theme.of(context).typography.white.bodyLarge!,
+                          ThemeMode.dark => Theme.of(context).typography.black.bodyLarge!,
                           _ => throw ' configure ThemeMode.system',
                         },
                       ),
@@ -116,6 +117,5 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
   }
 
   @override
-  MoreToolInfoSheetModel viewModelBuilder(BuildContext context) =>
-      MoreToolInfoSheetModel();
+  MoreToolInfoSheetModel viewModelBuilder(BuildContext context) => MoreToolInfoSheetModel();
 }

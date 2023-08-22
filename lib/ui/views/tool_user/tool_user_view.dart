@@ -435,6 +435,8 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                 viewModel.selectTool(tool);
                                 return;
                               }
+
+                              viewModel.navigateToToolView(tool.toolId!);
                             },
                             onLongPress: () {
                               // do nothing if the tool that is being longPressed has already been selected

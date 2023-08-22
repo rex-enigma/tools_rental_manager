@@ -9,6 +9,8 @@ import 'package:tools_rental_management/data/repositories/toolusers/toolusers_re
 import 'package:tools_rental_management/enums/image_type.dart';
 import 'package:tools_rental_management/ui/views/image/image_view.dart';
 
+import '../../../data/data_models/tool.dart';
+
 class ImageViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   final _bottomSheetService = locator<BottomSheetService>();
@@ -31,7 +33,7 @@ class ImageViewModel extends BaseViewModel {
     id = idImageTypeGroup.id;
     imageType = idImageTypeGroup.imageType;
     await fetchImage();
-    await fetchName();
+    await fetchImageName();
   }
 
 // fetched the image to be displayed based on the ImageType
@@ -40,10 +42,7 @@ class ImageViewModel extends BaseViewModel {
     // the ui will be rebuild in both situations
     switch (imageType) {
       case ImageType.frontNationalIdImage:
-        print(id);
-        print(imageType);
         String? frontNationalIdImagePath = await runBusyFuture(_toolUsersRepoImp.getToolUserFrontNationalIdImagePathByIdOrNull(id!));
-        print(frontNationalIdImagePath);
         imagePath = frontNationalIdImagePath;
         break;
       case ImageType.backNationalIdImage:
@@ -53,6 +52,7 @@ class ImageViewModel extends BaseViewModel {
       case ImageType.toolImage:
         String? toolImagePath = await runBusyFuture(_toolsRepoImp.getToolImagePathByIdOrNull(id!));
         imagePath = toolImagePath;
+
         break;
       case ImageType.toolUserImage:
         String? toolUserImagePath = await runBusyFuture(_toolUsersRepoImp.getToolUserAvatarImagePathByIdOrNull(id!));
@@ -66,12 +66,6 @@ class ImageViewModel extends BaseViewModel {
   // should only be called when the user has actually captured an image using camera or selected an image using gallery
   // which will be used to replace the previous one in the database.
   Future updateImagePath(String newImagePath, int id) async {
-    // print('oldImagePath $imagePath');
-    // print('newImagePath $newImagePath');
-    print(await File(newImagePath).exists());
-    // print(await File(newImagePath).length());
-    // updateImagePath will update and return the updated tool image path which we will use it to set imagePath
-
     // runBusyFuture will Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     switch (imageType) {
@@ -88,7 +82,6 @@ class ImageViewModel extends BaseViewModel {
       case ImageType.toolImage:
         String? newToolImagePath = await runBusyFuture(_toolsRepoImp.updateToolImagePath(newImagePath, id));
         imagePath = newToolImagePath;
-
         break;
       case ImageType.toolUserImage:
         String? newToolUserImagePath = await runBusyFuture(_toolUsersRepoImp.updateToolUserAvatarImagePath(newImagePath, id));
@@ -102,7 +95,7 @@ class ImageViewModel extends BaseViewModel {
   }
 
   // fetched the name of the image
-  Future fetchName() async {
+  Future fetchImageName() async {
     // runBusyFuture Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     switch (imageType) {
@@ -150,12 +143,6 @@ class ImageViewModel extends BaseViewModel {
   }
 
   void navigateBack() async {
-    // the future delay code is quick fix if its not here for some reason an error get thrown when i update an image and quickly navigate back to the previous screen.
-    // Error: Cannot retrieve length of file, path = <image path> (OS Error: No such file or directory, errno = 2).
-    // Where the <image path> is the path of the a new image.
-    // The duration cant be less than 1 seconds.
-    await Future.delayed(const Duration(seconds: 1));
-
     _navigationService.back();
   }
 }
