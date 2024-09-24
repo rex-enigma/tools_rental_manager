@@ -95,7 +95,7 @@ class _MyTabBarViewState extends State<MyTabBarView>
   Widget build(BuildContext context) {
     ToolsViewModel toolsViewModel = widget.toolsViewModel;
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: PreferredSize(
         preferredSize: Size(screenWidth(context), 100),
         child: AppBarWithSearchField(
@@ -111,8 +111,9 @@ class _MyTabBarViewState extends State<MyTabBarView>
                     toolsViewModel.showAppBarSearchField =
                         !toolsViewModel.showAppBarSearchField;
                     // if toolsViewModel.showAppBarSearchField = false, (the user cancelled search) we rest the corresponding TabView tools to default
-                    if (!toolsViewModel.showAppBarSearchField)
+                    if (!toolsViewModel.showAppBarSearchField) {
                       toolsViewModel.resetTabViewToolsToDefault();
+                    }
                   },
             icon: toolsViewModel.showAppBarSearchField
                 ? Icon(
@@ -154,7 +155,7 @@ class _MyTabBarViewState extends State<MyTabBarView>
                               .toLowerCase(),
                         ),
                       ),
-                      labelTextStyle: MaterialStatePropertyAll(
+                      labelTextStyle: WidgetStatePropertyAll(
                         TextStyle(
                             color: Theme.of(context).colorScheme.onPrimary),
                       ),

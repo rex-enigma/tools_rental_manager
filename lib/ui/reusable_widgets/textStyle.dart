@@ -13,10 +13,10 @@ TextStyle subtitleLastSubStringTextStyle(BuildContext context,
     {Status? status}) {
   // decide the color code for a single substring text when toolStatus is not null
   Color? color = switch (status) {
-    Status.beingUsed => Color.fromARGB(255, 212, 193, 122),
-    Status.idle => Color.fromARGB(255, 158, 201, 132),
-    Status.retired => Color.fromARGB(255, 219, 122, 122),
-    Status.underMaintenance => Color.fromARGB(255, 120, 156, 209),
+    Status.beingUsed => const Color.fromARGB(255, 212, 193, 122),
+    Status.idle => const Color.fromARGB(255, 158, 201, 132),
+    Status.retired => const Color.fromARGB(255, 219, 122, 122),
+    Status.underMaintenance => const Color.fromARGB(255, 120, 156, 209),
     null => null,
   };
 

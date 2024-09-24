@@ -47,8 +47,9 @@ dependencies:
   dotted_border: ^2.0.0+3
   phone_form_field: ^8.1.0
   stacked_themes: ^0.3.12
-  intl: ^0.18.0
+  intl: ^0.19.0
 
+  stacked_shared: any
 dev_dependencies:
   flutter_test:
     sdk: flutter

@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:tools_rental_management/data/data_sources/local/cameraphotos/cameraphotos_local_datasource_interface.dart';
 import 'package:tools_rental_management/data/data_sources/local/cameraphotos/cameraphotos_localcamera_datasource_imp.dart';
@@ -34,18 +33,15 @@ class ImagesRepoImp implements ImagesRepo {
     // instead of initializing the field members in the declaration using service locator directly, we use the
     // dependency injection pattern which will assist us when performing unit testing since we can pass a test
     // dependency instance instead of using the real dependency instance (eg the ones gotten from the locator.get<Type>() function).
-    _cameraPhotosLocalDataSource = cameraPhotosLocalDataSource ??
-        locator<CameraPhotosLocalCameraDataSource>();
-    _galleryImagesLocalDataSource = galleryImagesLocalDataSource ??
-        locator<GalleryImagesLocalGalleryDataSource>();
-    _directoryImagesLocalDataSource = directoryImagesLocalDataSource ??
-        locator<ImagesLocalDirectoryDataSource>();
+    _cameraPhotosLocalDataSource = cameraPhotosLocalDataSource ?? locator<CameraPhotosLocalCameraDataSource>();
+    _galleryImagesLocalDataSource = galleryImagesLocalDataSource ?? locator<GalleryImagesLocalGalleryDataSource>();
+    _directoryImagesLocalDataSource = directoryImagesLocalDataSource ?? locator<ImagesLocalDirectoryDataSource>();
   }
 
-  /// if the previousImagePath arg is provided, it will be used to remove that previous image and return a replacement. Its used when the user wants to change the current image to a diff one.
+  // the below comment does not apply because i have disabled the functionality for deleting that previous image path (check it later)
+  // if the previousImagePath arg is provided, it will be used to remove that previous image and return a replacement. Its used when the user wants to change the current image to a diff one.
   @override
-  Future<String?> fetchImagePath(
-      {required ImageSource source, String? previousImagePath}) async {
+  Future<String?> fetchImagePath({required ImageSource source, String? previousImagePath}) async {
     try {
       // if previousImagePath is null then it means its the first time trying to fetch a image.
       if (previousImagePath == null) {
@@ -53,26 +49,22 @@ class ImagesRepoImp implements ImagesRepo {
           case ImageSource.camera:
             // the image path returned is a path that points to an image that is stored in a temporally location.
             // or null if the user cancels the image capture.
-            final String? imagePathCache =
-                await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
+            final String? imagePathCache = await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
             // imagePathCache is null if the user cancelled the image capture.
             if (imagePathCache == null) {
               return null;
             }
             // we store the image in a permanent dir where platform won't delete it.
-            final String imagePath = await _directoryImagesLocalDataSource
-                .storeImage(File(imagePathCache));
+            final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
             return imagePath;
 
           case ImageSource.gallery:
-            final String? imagePathCache =
-                await _galleryImagesLocalDataSource.selectImageFromGallery();
+            final String? imagePathCache = await _galleryImagesLocalDataSource.selectImageFromGallery();
             if (imagePathCache == null) {
               return null;
             }
             // we store the image in a permanent dir where platform won't delete it.
-            final String imagePath = await _directoryImagesLocalDataSource
-                .storeImage(File(imagePathCache));
+            final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
             return imagePath;
         }
         // if PreviousImagePath isn't null then it means isn't the first time trying to fetch a image.
@@ -82,13 +74,11 @@ class ImagesRepoImp implements ImagesRepo {
 
         // check if the previousImagePath points to an image that exists.
         if (!oldImageFile.existsSync()) {
-          throw ImageNotFoundInDir(
-              message: "No image exist of path: $previousImagePath");
+          throw ImageNotFoundInDir(message: "No image exist of path: $previousImagePath");
         } else {
           switch (source) {
             case ImageSource.camera:
-              final String? imagePathCache =
-                  await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
+              final String? imagePathCache = await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
               // just return the the previous image path if the user canceled imageCamera capture
               if (imagePathCache == null) {
                 return previousImagePath;
@@ -97,13 +87,11 @@ class ImagesRepoImp implements ImagesRepo {
               // if the user has captured a different new image, delete the old one first (previousImagePath)
               // oldImageFile.deleteSync();
 
-              final String imagePath = await _directoryImagesLocalDataSource
-                  .storeImage(File(imagePathCache));
+              final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
               return imagePath;
 
             case ImageSource.gallery:
-              final String? imagePathCache =
-                  await _galleryImagesLocalDataSource.selectImageFromGallery();
+              final String? imagePathCache = await _galleryImagesLocalDataSource.selectImageFromGallery();
               // just return the previous image path if the user canceled imageGallery selection
               if (imagePathCache == null) {
                 return previousImagePath;
@@ -113,8 +101,7 @@ class ImagesRepoImp implements ImagesRepo {
               // delete the image of the given previousImagePath.
               // oldImageFile.deleteSync();
 
-              final String imagePath = await _directoryImagesLocalDataSource
-                  .storeImage(File(imagePathCache));
+              final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
               return imagePath;
           }
         }

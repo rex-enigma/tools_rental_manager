@@ -12,5 +12,6 @@ class ToolUserNameEditorDialogModel extends BaseViewModel {
     } else if (text.isEmpty) {
       return 'please input name';
     }
+    return null;
   }
 }

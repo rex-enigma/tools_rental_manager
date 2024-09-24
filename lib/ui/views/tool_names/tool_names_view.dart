@@ -17,7 +17,7 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
     Widget? child,
   ) {
     return Scaffold(
-      backgroundColor: Theme.of(context).colorScheme.background,
+      backgroundColor: Theme.of(context).colorScheme.surface,
       appBar: PreferredSize(
         preferredSize: Size(screenWidth(context), 60),
         child: AppBarWithSearchField(
@@ -43,8 +43,9 @@ class ToolNamesView extends StackedView<ToolNamesViewModel> {
                 viewModel.showAppBarSearchField =
                     !viewModel.showAppBarSearchField;
                 // if viewModel.showAppBarSearchField = false, (the user cancelled search) we reset filtered tool name to default
-                if (!viewModel.showAppBarSearchField)
+                if (!viewModel.showAppBarSearchField) {
                   viewModel.resetFilteredToolNameToDefault();
+                }
               },
               icon: viewModel.showAppBarSearchField
                   ? Icon(

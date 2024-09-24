@@ -16,5 +16,6 @@ class ToolUserPhonenumberEditorDialogModel extends BaseViewModel {
     } else if (!text.contains(RegExp(r'^(07|011)'))) {
       return "start with: '07' or '011'";
     }
+    return null;
   }
 }

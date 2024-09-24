@@ -91,6 +91,7 @@ class ToolUserCreatorSheetValidators {
     } else if (text.isEmpty) {
       return "please enter the tool user's first name ";
     }
+    return null;
   }
 
   static String? validateToolUserLastName(String? text) {
@@ -99,6 +100,7 @@ class ToolUserCreatorSheetValidators {
     } else if (text.isEmpty) {
       return "please enter the tool user's last name ";
     }
+    return null;
   }
 
   static String? validateToolUserPhoneNumber(String? text) {
@@ -108,5 +110,6 @@ class ToolUserCreatorSheetValidators {
     } else if (text.isEmpty) {
       return "please enter the tool user's phone number ";
     }
+    return null;
   }
 }

@@ -26,7 +26,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
   ) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         centerTitle: true,
         title: Text(
           'Settings',
@@ -109,7 +109,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                               visualDensity: VisualDensity.compact,
                               activeColor:
                                   Theme.of(context).colorScheme.secondary,
-                              fillColor: MaterialStatePropertyAll(
+                              fillColor: WidgetStatePropertyAll(
                                   Theme.of(context).colorScheme.secondary),
                               value: ThemeMode.light,
                               groupValue:
@@ -143,7 +143,7 @@ class SettingsView extends StackedView<SettingsViewModel> {
                         trailing: Radio<ThemeMode>(
                           visualDensity: VisualDensity.compact,
                           activeColor: Theme.of(context).colorScheme.secondary,
-                          fillColor: MaterialStatePropertyAll(
+                          fillColor: WidgetStatePropertyAll(
                               Theme.of(context).colorScheme.secondary),
                           value: ThemeMode.dark,
                           groupValue:

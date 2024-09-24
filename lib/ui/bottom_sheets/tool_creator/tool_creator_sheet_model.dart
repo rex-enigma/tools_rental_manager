@@ -5,7 +5,6 @@ import 'package:intl/intl.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
-import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
 import 'package:tools_rental_management/data/data_models/tool.dart';
@@ -62,9 +61,10 @@ class ToolCreatorSheetModel extends BaseViewModel {
       initialEntryMode: DatePickerEntryMode.calendarOnly,
     );
 
-    if (dateTime != null)
+    if (dateTime != null) {
       purchaseDateTextEditController.text =
           DateFormat('dd/MM/yyyy').format(dateTime);
+    }
     // no need to call rebuildUi() because text is a setter which when set/called will notify the listeners which will be our inputField in TextFormField for the purchase date, hence it will rebuild showing the value which was set
   }
 
@@ -121,6 +121,7 @@ class ToolCreatorSheetValidators {
     } else if (text.isEmpty) {
       return 'tap and pick a tool name';
     }
+    return null;
   }
 
   static String? validatePurchaseDate(String? text) {
@@ -129,12 +130,14 @@ class ToolCreatorSheetValidators {
     } else if (text.isEmpty) {
       return 'tap and pick a purchase date';
     }
+    return null;
   }
 
   static String? validateCurrency(Currency? currency) {
     if (currency == null) {
       return 'choose the currency used to purchase the tool';
     }
+    return null;
   }
 
   static String? validatePurchasePriceInput(String? text) {
@@ -145,6 +148,7 @@ class ToolCreatorSheetValidators {
     } else if (text.isEmpty) {
       return 'please input a purchase value';
     }
+    return null;
   }
 
   static String? validateRate(String? text) {
@@ -155,12 +159,14 @@ class ToolCreatorSheetValidators {
     } else if (text.isEmpty) {
       return 'please input a rate value';
     }
+    return null;
   }
 
   static String? validateCategory(Category? category) {
     if (category == null) {
       return 'choose in which category a tool is in';
     }
+    return null;
   }
 
   static String? validateToolUniqueId(String? text) {
@@ -169,5 +175,6 @@ class ToolCreatorSheetValidators {
     } else if (text.isEmpty) {
       return "tap 'Gen id' to generate a tool id";
     }
+    return null;
   }
 }

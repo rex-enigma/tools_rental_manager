@@ -116,7 +116,7 @@ class ToolUsersViewModel extends BaseViewModel {
     var response = await _bottomSheetService.showCustomSheet(
       variant: BottomSheetType.toolUserCreator,
       isScrollControlled: true,
-      // setting it to false will make sure if you use [SafeArea] when constructing bottomSheet, it won't be ignored.
+      // setting it to false will make sure  [SafeArea] won't be ignored when constructing bottomSheet, .
       ignoreSafeArea: false,
     );
 

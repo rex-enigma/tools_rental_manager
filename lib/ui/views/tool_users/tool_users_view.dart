@@ -8,7 +8,6 @@ import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/appBar_with_search_field.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
-import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart';
 
 import 'tool_users_viewmodel.dart';
 
@@ -51,8 +50,9 @@ class ToolUsersView extends StackedView<ToolUsersViewModel> {
                       viewModel.showAppBarSearchField =
                           !viewModel.showAppBarSearchField;
                       // if viewModel.showAppBarSearchField = false, (the user cancelled search) we reset filtered tool users to default
-                      if (!viewModel.showAppBarSearchField)
+                      if (!viewModel.showAppBarSearchField) {
                         viewModel.resetFilteredToolUsersToDefault();
+                      }
                     },
               icon: viewModel.showAppBarSearchField
                   ? Icon(

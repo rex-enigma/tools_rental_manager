@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
-import 'package:tools_rental_management/enums/image_type.dart';
 import 'image_viewmodel.dart';
 
 /// This record type groups an id  and an ImageType.

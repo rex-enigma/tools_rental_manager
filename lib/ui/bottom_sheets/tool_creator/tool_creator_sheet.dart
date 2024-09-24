@@ -9,7 +9,6 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/dashed_circular_border_btn_with_icons.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/drag_handle.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
-import 'package:tools_rental_management/ui/views/tool_names/tool_names_view.dart';
 
 import 'tool_creator_sheet_model.dart';
 
@@ -219,10 +218,10 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
                                     .filledButtonTheme
                                     .style
                                     ?.copyWith(
-                                      fixedSize: const MaterialStatePropertyAll(
+                                      fixedSize: const WidgetStatePropertyAll(
                                         Size(120.0, 50.0),
                                       ),
-                                      shape: MaterialStatePropertyAll(
+                                      shape: WidgetStatePropertyAll(
                                         RoundedRectangleBorder(
                                           borderRadius:
                                               BorderRadius.circular(10),
@@ -316,10 +315,6 @@ class ToolCreatorSheet extends StackedView<ToolCreatorSheetModel> {
   ToolCreatorSheetModel viewModelBuilder(BuildContext context) =>
       ToolCreatorSheetModel();
 
-  @override
-  void onViewModelReady(ToolCreatorSheetModel viewModel) {
-    super.onViewModelReady(viewModel);
-  }
 }
 
 //  TextFormField(

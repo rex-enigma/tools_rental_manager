@@ -8,7 +8,6 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/drag_handle.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/textStyle.dart';
-import 'package:tools_rental_management/ui/views/tool_user/tool_user_view.dart';
 
 import 'select_tool_sheet_model.dart';
 
@@ -52,7 +51,7 @@ class SelectToolSheet extends StackedView<SelectToolSheetModel> {
               ),
               child: Scaffold(
                 appBar: AppBar(
-                  backgroundColor: Theme.of(context).colorScheme.background,
+                  backgroundColor: Theme.of(context).colorScheme.surface,
                   leading: viewModel.selectedIdleTools
                           .isNotEmpty // remove the X close button if viewMode.selectedTools is empty
                       ? IconButton(

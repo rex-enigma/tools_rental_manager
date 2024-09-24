@@ -3,7 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/enums/image_type.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/custom_listtile.dart';
@@ -23,7 +22,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
   ) {
     return Scaffold(
       appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.background,
+        backgroundColor: Theme.of(context).colorScheme.surface,
         // if the selectedTools is empty, we display a back button else we display a cancel button to des-select all selected tools to be disassociated.
         leading: viewModel.selectedTools.isEmpty
             ? IconButton(
@@ -135,7 +134,7 @@ class ToolUserView extends StackedView<ToolUserViewModel> {
                                       Theme.of(context).colorScheme.onSecondary,
                                 ),
                                 style: ButtonStyle(
-                                  backgroundColor: MaterialStatePropertyAll(
+                                  backgroundColor: WidgetStatePropertyAll(
                                     Theme.of(context).colorScheme.secondary,
                                   ),
                                 ),

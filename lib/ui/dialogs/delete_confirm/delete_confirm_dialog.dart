@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:stacked_themes/stacked_themes.dart';
-import 'package:tools_rental_management/ui/common/app_colors.dart';
-import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/confirm_dialog_layout.dart';

@@ -8,8 +8,6 @@ ThemeData lightTheme = ThemeData(
     onPrimary: Colors.black,
     secondary: Color.fromRGBO(57, 190, 219, 1.0),
     onSecondary: Colors.white,
-    background: Colors.white,
-    onBackground: Colors.black,
     error: Colors.red,
     onError: Colors.white,
     surface: Colors.white,
@@ -24,13 +22,13 @@ ThemeData lightTheme = ThemeData(
   ),
   filledButtonTheme: const FilledButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(
+      backgroundColor: WidgetStatePropertyAll(
         Color.fromRGBO(57, 190, 219, 1.0),
       ),
-      foregroundColor: MaterialStatePropertyAll(
+      foregroundColor: WidgetStatePropertyAll(
         Colors.white,
       ),
-      fixedSize: MaterialStatePropertyAll(
+      fixedSize: WidgetStatePropertyAll(
         Size(140.0, 50.0),
       ),
     ),
@@ -53,12 +51,10 @@ ThemeData darkTheme = ThemeData(
     onPrimary: Color.fromRGBO(228, 228, 228, 1.0),
     secondary: Color.fromRGBO(57, 190, 219, 1.0),
     onSecondary: Color.fromRGBO(228, 228, 228, 1.0),
-    background: Color.fromRGBO(21, 21, 21, 1.0),
-    onBackground: Color.fromRGBO(228, 228, 228, 1.0),
     error: Colors.red,
     onError: Color.fromRGBO(228, 228, 228, 1.0),
-    surface: Color.fromRGBO(228, 228, 228, 1.0),
-    onSurface: Color.fromRGBO(21, 21, 21, 1.0),
+    surface: Color.fromRGBO(21, 21, 21, 1.0),
+    onSurface: Color.fromRGBO(228, 228, 228, 1.0),
     scrim: Color.fromRGBO(36, 36, 36, 63.0),
   ),
   disabledColor: const Color.fromRGBO(228, 228, 228, 0.5),
@@ -69,13 +65,13 @@ ThemeData darkTheme = ThemeData(
   ),
   filledButtonTheme: const FilledButtonThemeData(
     style: ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll(
+      backgroundColor: WidgetStatePropertyAll(
         Color.fromRGBO(57, 190, 219, 1.0),
       ),
-      foregroundColor: MaterialStatePropertyAll(
+      foregroundColor: WidgetStatePropertyAll(
         Colors.black,
       ),
-      fixedSize: MaterialStatePropertyAll(
+      fixedSize: WidgetStatePropertyAll(
         Size(140.0, 50.0),
       ),
     ),
@@ -166,15 +162,11 @@ OutlinedButtonThemeData _outlinedButtonTheme = OutlinedButtonThemeData(
 
 InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
   isDense: true,
-  focusedBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-  enabledBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-  disabledBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+  disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
   errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-  focusedErrorBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+  focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
   errorStyle: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
   hintStyle: TextStyle(
     fontSize: 14,
@@ -194,15 +186,11 @@ InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
 
 InputDecorationTheme _inputDecorationThemeDark = const InputDecorationTheme(
   isDense: true,
-  focusedBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-  enabledBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-  disabledBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+  disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
   errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-  focusedErrorBorder:
-      OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+  focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
   errorStyle: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
   hintStyle: TextStyle(
     fontSize: 14,
