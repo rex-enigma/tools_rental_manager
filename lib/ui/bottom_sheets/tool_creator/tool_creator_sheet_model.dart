@@ -18,16 +18,13 @@ class ToolCreatorSheetModel extends BaseViewModel {
 
   TextEditingController toolNameTextEditingController = TextEditingController();
   // the date in held by text is formatted using intl package, don't forget to convert convert it back to DateTime when preparing it for storage
-  TextEditingController purchaseDateTextEditController =
-      TextEditingController();
+  TextEditingController purchaseDateTextEditController = TextEditingController();
   Currency? currency;
-  TextEditingController purchasedPriceTextEditingController =
-      TextEditingController();
+  TextEditingController purchasedPriceTextEditingController = TextEditingController();
   TextEditingController rateTextEditingController = TextEditingController();
   Category? category;
   // the id held by text is of type string, don't forget to convert it back to int type when preparing it for storage
-  TextEditingController toolUniqueIdTextEditingController =
-      TextEditingController();
+  TextEditingController toolUniqueIdTextEditingController = TextEditingController();
   String? toolImagePath;
 
   void showToolImageCaptureSheet() async {
@@ -45,8 +42,7 @@ class ToolCreatorSheetModel extends BaseViewModel {
   }
 
   void navigateToToolNamesView() async {
-    String? response =
-        await _navigationService.navigateToToolNamesView(null, false);
+    String? response = await _navigationService.navigateToToolNamesView(null, false);
     if (response != null) toolNameTextEditingController.text = response;
     // no need to call rebuildUi() because text is a setter which when set/called will notify the listeners which will be our inputField in TextFormField for the tool name, hence it will rebuild showing the value which was set
   }
@@ -62,8 +58,7 @@ class ToolCreatorSheetModel extends BaseViewModel {
     );
 
     if (dateTime != null) {
-      purchaseDateTextEditController.text =
-          DateFormat('dd/MM/yyyy').format(dateTime);
+      purchaseDateTextEditController.text = DateFormat('dd/MM/yyyy').format(dateTime);
     }
     // no need to call rebuildUi() because text is a setter which when set/called will notify the listeners which will be our inputField in TextFormField for the purchase date, hence it will rebuild showing the value which was set
   }
@@ -88,14 +83,11 @@ class ToolCreatorSheetModel extends BaseViewModel {
   void submitForm() {
     Tool newTool = Tool.insert(
       name: toolNameTextEditingController.text,
-      boughtAt:
-          DateFormat('dd/MM/yyyy').parse(purchaseDateTextEditController.text),
+      boughtAt: DateFormat('dd/MM/yyyy').parse(purchaseDateTextEditController.text),
       purchasedPrice: int.parse(purchasedPriceTextEditingController.text),
       rate: int.parse(rateTextEditingController.text),
-      currency:
-          currency!, // we guaranty the currency cant be null because it has already been validate not to be null
-      category:
-          category!, // we guaranty the category cant be null because it has already been validated not to be null
+      currency: currency!, // we guaranty the currency cant be null because it has already been validate not to be null
+      category: category!, // we guaranty the category cant be null because it has already been validated not to be null
       toolImagePath: toolImagePath!,
       toolUniqueId: int.parse(toolUniqueIdTextEditingController.text),
     );

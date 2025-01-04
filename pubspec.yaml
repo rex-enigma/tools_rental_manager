@@ -41,8 +41,8 @@ dependencies:
   path_provider: ^2.0.14
   sqlite3_flutter_libs: ^0.5.13
   image_picker: ^1.0.2
-  image_cropper: ^3.0.2
-  http: ^0.13.5
+  image_cropper: ^8.1.0
+  http: ^1.2.2
   shared_preferences: ^2.1.0
   dotted_border: ^2.0.0+3
   phone_form_field: ^8.1.0
