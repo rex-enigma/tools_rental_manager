@@ -12,7 +12,7 @@ import 'package:tools_rental_management/enums/status.dart';
 // we also need to use dateTime()() for boughtAt when declaring the corresponding column in the Tools table so that drift can
 // implicitly convert the DateTime field(boughtAt) value in our Tool data class to integer for storage.
 
-// We do all this to satisfy drift but we are not going to us drift fluent api for database manipulation, instead we are going to
+// We do all this to satisfy drift but we are not going to use drift fluent api for database manipulation, instead we are going to
 // us custom sql queries where the implicit conversions 'wont matter for now'.
 class Tools extends Table {
   IntColumn get toolId => integer().autoIncrement()();
