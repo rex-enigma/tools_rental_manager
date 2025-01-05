@@ -1,4 +1,3 @@
-
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
@@ -52,10 +51,8 @@ class ToolViewModel extends BaseViewModel {
 
   Future fetchToolUserFullName(int? toolUserId) async {
     if (toolUserId != null) {
-      String? firstName = await runBusyFuture(
-          _toolUsersRepoImp.getToolUserFirstNameByIdOrNull(tool!.toolUserId!));
-      String? lastName = await runBusyFuture(
-          _toolUsersRepoImp.getToolUserLastNameByIdOrNull(tool!.toolUserId!));
+      String? firstName = await runBusyFuture(_toolUsersRepoImp.getToolUserFirstNameByIdOrNull(tool!.toolUserId!));
+      String? lastName = await runBusyFuture(_toolUsersRepoImp.getToolUserLastNameByIdOrNull(tool!.toolUserId!));
       String fullName = '$firstName $lastName';
       toolUserName = fullName;
     }
@@ -108,8 +105,7 @@ class ToolViewModel extends BaseViewModel {
 
   void navigateToImageView() async {
     // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-    var response = await _navigationService.navigateToImageView(
-        idImageTypeGroup: (id: toolId, imageType: ImageType.toolImage));
+    var response = await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolId, imageType: ImageType.toolImage));
 
     // the user might update the tool image, we refetch the tool image to display the new image if it was changed
     // the [toolId] am guaranteeing its not null since this viewModel wont be disposed when we navigate to ToolImageView
@@ -134,15 +130,13 @@ class ToolViewModel extends BaseViewModel {
         tool = tool!.copyWith(name: updatedName);
         break;
       case ToolProperty.toolStatus:
-        Status? updatedStatus =
-            await _toolsRepoImp.updateToolStatus(value, toolId);
+        Status? updatedStatus = await _toolsRepoImp.updateToolStatus(value, toolId);
         tool = tool!.copyWith(status: updatedStatus);
       case ToolProperty.toolRate:
         int? updatedRate = await _toolsRepoImp.updateToolRate(value, toolId);
         tool = tool!.copyWith(rate: updatedRate);
       case ToolProperty.toolCategory:
-        Category? updatedCategory =
-            await _toolsRepoImp.updateToolCategory(value, toolId);
+        Category? updatedCategory = await _toolsRepoImp.updateToolCategory(value, toolId);
         tool = tool!.copyWith(category: updatedCategory);
     }
 

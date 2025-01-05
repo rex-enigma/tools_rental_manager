@@ -34,8 +34,7 @@ Future<void> setupLocator({
   EnvironmentFilter? environmentFilter,
 }) async {
 // Register environments
-  locator.registerEnvironment(
-      environment: environment, environmentFilter: environmentFilter);
+  locator.registerEnvironment(environment: environment, environmentFilter: environmentFilter);
 
 // Register dependencies
   locator.registerLazySingleton(() => BottomSheetService());
@@ -47,8 +46,7 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => ToolUsersLocalSqliteDbDataSource());
   locator.registerLazySingleton(() => ToolsLocalSqliteDbDataSource());
   locator.registerLazySingleton(() => ToolArticlesRemoteWikipediaDataSource());
-  locator.registerLazySingleton(
-      () => ToolArticleLocalSharedPreferencesDataSource());
+  locator.registerLazySingleton(() => ToolArticleLocalSharedPreferencesDataSource());
   locator.registerLazySingleton(() => ToolArticlesRepoImp());
   locator.registerLazySingleton(() => ToolsRepoImp());
   locator.registerLazySingleton(() => ToolUsersRepoImp());
