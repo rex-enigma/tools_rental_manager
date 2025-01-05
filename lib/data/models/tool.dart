@@ -20,7 +20,7 @@ class Tool {
   /// how much this tool will cost to rent out per hour.
   final int rate;
 
-  /// how many times this tool it has been rented.
+  /// how many times this tool has been rented.
   final int rentCount;
   final Currency currency;
   final Category category;
