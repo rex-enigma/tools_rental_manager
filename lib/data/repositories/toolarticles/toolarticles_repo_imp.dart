@@ -18,14 +18,14 @@ class ToolArticlesRepoImp implements ToolArticleRepo {
   }
 
   @override
-  Future<ToolArticle?> fetchToolArticle(String title) async {
+  Future<ToolArticleModel?> fetchToolArticle(String title) async {
     // first check if we have [ToolArticle] for the given title cached locally.
-    ToolArticle? toolArticle = await _toolArticlesLocalDataSource.getToolArticle(key: title);
+    ToolArticleModel? toolArticle = await _toolArticlesLocalDataSource.getToolArticle(key: title);
 
     try {
       if (toolArticle == null) {
         // we fetch tool article data remotely.
-        ToolArticle? remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
+        ToolArticleModel? remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
         if (remoteToolArticle != null) {
           // then we cache it.
           await _toolArticlesLocalDataSource.setToolArticle(key: remoteToolArticle.title, toolArticle: remoteToolArticle);
@@ -43,7 +43,7 @@ class ToolArticlesRepoImp implements ToolArticleRepo {
         if (toolArticleCachedDuration <= cacheExpirationTimeMilli) {
           return toolArticle;
         } else {
-          ToolArticle? remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
+          ToolArticleModel? remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
           if (remoteToolArticle != null) {
             await _toolArticlesLocalDataSource.setToolArticle(key: remoteToolArticle.title, toolArticle: remoteToolArticle);
             return remoteToolArticle;

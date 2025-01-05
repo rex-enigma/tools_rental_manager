@@ -10,7 +10,7 @@ part 'toolusers_dao.g.dart';
 class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixin {
   ToolUsersDao(AppDatabase db) : super(db);
 
-  Future<int> insertToolUser(ToolUser toolUser) {
+  Future<int> insertToolUser(ToolUserModel toolUser) {
     print(toolUser);
     return customInsert(
       """INSERT INTO tool_users (
@@ -47,7 +47,7 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
   }
 
   // this kind of update is not optimized because it end up updating columns of a particular row that don't need updating.
-  Future<int> updateToolUser(ToolUser toolUser) {
+  Future<int> updateToolUser(ToolUserModel toolUser) {
     return customUpdate(
       """UPDATE tool_users 
       SET
@@ -202,7 +202,7 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     });
   }
 
-  Future<ToolUser?> getToolUserByIdOrNull(int toolUserId) async {
+  Future<ToolUserModel?> getToolUserByIdOrNull(int toolUserId) async {
     final toolUserResult = await customSelect(
       'SELECT * FROM tool_users WHERE tool_user_id = :toolUserId',
       variables: [Variable.withInt(toolUserId)],
@@ -241,12 +241,12 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
       toolUserMap['tools'] = null;
 
       // a [ToolUser] without [Tool(s)]
-      return ToolUser.fromMap(toolUserMap: toolUserMap);
+      return ToolUserModel.fromMap(toolUserMap: toolUserMap);
     } else {
       // transform a list of 'tools queryRow' into a list of tools [Tool].
-      List<Tool> toolList = toolResults.map((queryRow) {
+      List<ToolModel> toolList = toolResults.map((queryRow) {
         final toolMap = queryRow.data;
-        Tool tool = Tool.fromMap(toolMap: toolMap);
+        ToolModel tool = ToolModel.fromMap(toolMap: toolMap);
         return tool;
       }).toList();
 
@@ -255,7 +255,7 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
       toolUserMap['tools'] = toolList;
 
       // a [ToolUser] with [Tool](s)
-      return ToolUser.fromMap(toolUserMap: toolUserMap);
+      return ToolUserModel.fromMap(toolUserMap: toolUserMap);
     }
   }
 
@@ -371,7 +371,7 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
     return toolUserAvatarImagePath?.data['avatar_image_path'];
   }
 
-  Future<List<ToolUser>?> getAllToolUsersOrNull() async {
+  Future<List<ToolUserModel>?> getAllToolUsersOrNull() async {
     final toolUserResults = await customSelect(
       'SELECT * FROM tool_users',
     ).get().catchError((Object e, StackTrace stacktrace) {
@@ -402,9 +402,9 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
         // add a 'tools' key with [null] value in each toolUserMap in toolUserListMaps to indicate that no
         // [ToolUser] has any [Tool](s) yet.
         // then construct a list of [ToolUser](s) with null tools.
-        List<ToolUser> toolUserList = toolUserListMaps.map((toolUserMap) {
+        List<ToolUserModel> toolUserList = toolUserListMaps.map((toolUserMap) {
           toolUserMap['tools'] = null;
-          return ToolUser.fromMap(toolUserMap: toolUserMap);
+          return ToolUserModel.fromMap(toolUserMap: toolUserMap);
         }).toList();
 
         return toolUserList;
@@ -414,7 +414,7 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
         // transform list of queryRows to a list of toolMaps
         List<Map<String, dynamic>> toolMaps = toolResults.map((queryRow) => queryRow.data).toList();
 
-        List<ToolUser> toolUserList = toolUserListMaps.map((toolUserMap) {
+        List<ToolUserModel> toolUserList = toolUserListMaps.map((toolUserMap) {
           // filter and return a list of toolMap for the specified toolUserMap.
           // an empty list might be returned if the specified toolUser don't have corresponding tool(s) yet.
           List<Map<String, dynamic>> toolMapsForTheSpecifiedToolUserMap = toolMaps
@@ -430,14 +430,14 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
             // add a 'tools' key with [null] value in [toolUserMap] to indicate that the
             // toolUserMap has no any corresponding toolMap yet.
             toolUserMap['tools'] = null;
-            return ToolUser.fromMap(toolUserMap: toolUserMap);
+            return ToolUserModel.fromMap(toolUserMap: toolUserMap);
           }
 
           // if the above condition is false, then the specified toolUserMap has corresponding toolMap(s),
           // build the [Tool]s first
-          List<Tool> toolsForASpecifiedToolUser = toolMapsForTheSpecifiedToolUserMap
+          List<ToolModel> toolsForASpecifiedToolUser = toolMapsForTheSpecifiedToolUserMap
               .map(
-                (toolMap) => Tool.fromMap(toolMap: toolMap),
+                (toolMap) => ToolModel.fromMap(toolMap: toolMap),
               )
               .toList();
 
@@ -445,7 +445,7 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
           // add a 'tools' key with a [toolMapsForTheSpecifiedToolUserMap] value to [toolUserMap] to indicate that.
           toolUserMap['tools'] = toolsForASpecifiedToolUser;
 
-          return ToolUser.fromMap(toolUserMap: toolUserMap);
+          return ToolUserModel.fromMap(toolUserMap: toolUserMap);
         }).toList();
 
         return toolUserList;

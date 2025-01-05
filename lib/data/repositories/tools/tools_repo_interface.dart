@@ -3,10 +3,10 @@ import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
 abstract class ToolsRepo {
-  Future<int> insertTool(Tool tool);
+  Future<int> insertTool(ToolModel tool);
 
   // update and returns the updated value
-  Future<Tool> updateTool(Tool tool);
+  Future<ToolModel> updateTool(ToolModel tool);
   // update and returns the updated value
   Future<String?> updateToolName(String toolName, int toolId);
   // update and returns the updated value
@@ -18,17 +18,17 @@ abstract class ToolsRepo {
   // update and returns the updated value
   Future<String?> updateToolImagePath(String toolImagePath, int toolId);
 
-  Future<List<Tool>> rentToolsToToolUser(List<Tool> tools, int toolUserId);
-  Future<int> repossessToolsFromToolUser(List<Tool> tools);
+  Future<List<ToolModel>> rentToolsToToolUser(List<ToolModel> tools, int toolUserId);
+  Future<int> repossessToolsFromToolUser(List<ToolModel> tools);
 
-  Future<Tool?> getToolByIdOrNull(int toolId);
+  Future<ToolModel?> getToolByIdOrNull(int toolId);
   Future<String?> getToolNameByIdOrNull(int toolId);
   Future<Status?> getToolStatusByIdOrNull(int toolId);
   Future<int?> getToolRateByIdOrNull(int toolId);
   Future<Category?> getToolCategoryByIdOrNull(int toolId);
   Future<String?> getToolImagePathByIdOrNull(int toolId);
-  Future<List<Tool>?> getToolsByStatusOrNull(Status status);
-  Future<List<Tool>?> getAllToolsOrNull();
+  Future<List<ToolModel>?> getToolsByStatusOrNull(Status status);
+  Future<List<ToolModel>?> getAllToolsOrNull();
 
   Future<int> deleteToolById(int toolId);
   Future<int> deleteAllTools();

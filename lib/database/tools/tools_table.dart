@@ -5,7 +5,7 @@ import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
-@UseRowClass(Tool)
+@UseRowClass(ToolModel)
 // we need to use textEnum<Type>()() for currency,category and status when declaring the corresponding columns in the Tools table so that drift can
 // implicitly convert the enum field values in our Tool data class to string for storage.
 

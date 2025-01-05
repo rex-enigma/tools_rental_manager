@@ -2,7 +2,7 @@ import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
-class Tool {
+class ToolModel {
   /// its only null when creating a new tool that need to be inserted to the database.
   /// But when constructing this tool from a database record, [toolId] should have a non-null value
   /// uniquely identifies a tool in the database (primary key)
@@ -36,7 +36,7 @@ class Tool {
   final Status status;
 
   /// should be called when when constructing a new tool from the old one by calling [copyWith] method.
-  Tool({
+  ToolModel({
     required this.toolId,
     required this.name,
     required this.boughtAt,
@@ -52,7 +52,7 @@ class Tool {
   });
 
   /// should be called when this tool wants to be inserted to the database.
-  Tool.insert({
+  ToolModel.insert({
     this.toolId,
     required this.name,
     required this.boughtAt,
@@ -68,7 +68,7 @@ class Tool {
   });
 
   /// should be called when this tool is constructed from a database record.
-  Tool.fromMap({required Map<String, dynamic> toolMap})
+  ToolModel.fromMap({required Map<String, dynamic> toolMap})
       : toolId = toolMap['tool_id'],
         name = toolMap['name'],
         boughtAt = DateTime.fromMillisecondsSinceEpoch(toolMap['bought_at']),
@@ -84,7 +84,7 @@ class Tool {
 
   // excluded toolId because we don't what [copyWith] to accidentally be called with toolId
   // that might later conflict with another tool that might end up having the same toolId.
-  Tool copyWith({
+  ToolModel copyWith({
     String? name,
     DateTime? boughtAt,
     int? purchasedPrice,
@@ -97,7 +97,7 @@ class Tool {
     int? toolUserId,
     Status? status,
   }) {
-    return Tool(
+    return ToolModel(
       toolId: toolId,
       name: name ?? this.name,
       boughtAt: boughtAt ?? this.boughtAt,
@@ -115,7 +115,7 @@ class Tool {
 
   @override
   bool operator ==(Object other) {
-    return (other is Tool &&
+    return (other is ToolModel &&
         toolId == other.toolId &&
         name == other.name &&
         boughtAt == other.boughtAt &&

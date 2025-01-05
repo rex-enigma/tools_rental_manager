@@ -251,7 +251,7 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
     );
   }
 
-  Widget createTabBarViewChild(List<Tool> tabBarViewChild) {
+  Widget createTabBarViewChild(List<ToolModel> tabBarViewChild) {
     ToolsViewModel toolsViewModel = widget.toolsViewModel;
     // if (toolsViewModel.tools is empty && toolsViewModel.showAppBarSearchField is false) we know that there is no tools in the database so we return a centred text that request the user to add a tool
     // otherwise return a list of tools from toolsViewModel.allToolsTabView/poweredToolsTabView/unPoweredToolsTabView

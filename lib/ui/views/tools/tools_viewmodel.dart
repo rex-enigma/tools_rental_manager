@@ -34,13 +34,13 @@ class ToolsViewModel extends BaseViewModel {
   MenuStatusFilter currentSelectedStatusFilter = MenuStatusFilter.viewAllTools;
 
   // hold all tools from database
-  List<Tool> tools = [];
+  List<ToolModel> tools = [];
   // filtered tools based on their status
-  List<Tool> _menuStatusFilteredTools = [];
+  List<ToolModel> _menuStatusFilteredTools = [];
   // contains all powered tools and un-powered tools
-  List<Tool> allToolsTabView = []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
-  List<Tool> poweredToolsTabView = []; // currentSelectedTab = 1;
-  List<Tool> unPoweredToolsTabView = []; // currentSelectedTab = 2;
+  List<ToolModel> allToolsTabView = []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
+  List<ToolModel> poweredToolsTabView = []; // currentSelectedTab = 1;
+  List<ToolModel> unPoweredToolsTabView = []; // currentSelectedTab = 2;
 
   /// a map containing toolUser ids as key and toolUser fullname as values;
   /// These names contained here represents toolUsers currently using a specific tool that is being displayed
@@ -50,12 +50,12 @@ class ToolsViewModel extends BaseViewModel {
 
 // dont forget to initialize tools, currently  it is initialized  by a test list of testTools.
   void initState() async {
-    List<Tool>? toolsOrNull = await _fetchAllTools();
+    List<ToolModel>? toolsOrNull = await _fetchAllTools();
     await setToolUserNames(toolsOrNull);
     addTools(toolsOrNull);
   }
 
-  Future setToolUserNames(List<Tool>? tools) async {
+  Future setToolUserNames(List<ToolModel>? tools) async {
     if (tools == null) return;
     for (var tool in tools) {
       int? toolUserId = tool.toolUserId;
@@ -187,7 +187,7 @@ class ToolsViewModel extends BaseViewModel {
   }
 
 // add tools fetched from the database to this.tools list
-  void addTools(List<Tool>? tools) {
+  void addTools(List<ToolModel>? tools) {
     if (tools != null) {
       // order the tools in descending order
       // since the toolIds are sequentially incremented, its guaranteed that the newly added tool to the database will have a larger toolId value
@@ -201,7 +201,7 @@ class ToolsViewModel extends BaseViewModel {
   // // we are using runBusyFuture function so that it can allow as to check if our viewModel is busy through the isBusy property handling a future function
   // Future _insertTool(Tool newTool) async {}
 
-  Future<List<Tool>?> _fetchAllTools() async {
+  Future<List<ToolModel>?> _fetchAllTools() async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     return runBusyFuture(_toolsRepoImp.getAllToolsOrNull());
@@ -211,7 +211,7 @@ class ToolsViewModel extends BaseViewModel {
   //   return _toolsRepoImp.getAllToolsOrNull();
   // }
 
-  Future<int> _insertNewTool(Tool newTool) {
+  Future<int> _insertNewTool(ToolModel newTool) {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     return runBusyFuture(_toolsRepoImp.insertTool(newTool));
@@ -227,10 +227,10 @@ class ToolsViewModel extends BaseViewModel {
     );
     // response.data is not null when a user has constructed a new tool
     if (response?.data != null) {
-      Tool newTool = response!.data;
+      ToolModel newTool = response!.data;
       await _insertNewTool(newTool);
       _snackbarService.showSnackbar(message: '${newTool.name} created successfully');
-      List<Tool>? toolsOrNull = await _fetchAllTools();
+      List<ToolModel>? toolsOrNull = await _fetchAllTools();
       // this will add the tools? gotten from the database to the [tools] property
       addTools(toolsOrNull);
     }
@@ -239,11 +239,11 @@ class ToolsViewModel extends BaseViewModel {
 // will be called when the user navigate to toolView then back or when a tool is deleted
 // the user might update the tool in toolView therefore we refetch 'all the tools' and update toolsView [yea i know i should only fetch that updated tool but its just a prototype]
   void updateTools() async {
-    List<Tool>? toolsOrNull = await _fetchAllTools();
+    List<ToolModel>? toolsOrNull = await _fetchAllTools();
     addTools(toolsOrNull);
   }
 
-  void deleteRetiredTool(Tool tool) async {
+  void deleteRetiredTool(ToolModel tool) async {
     // status of the tool to be used to validate the tool to be deleted is actually retired
     if (tool.status != Status.retired) throw FailedToDeleteATool(message: '$tool is not retired yet');
     // a value on 1 will be will be extracted from awaited future if the deletion was successful
@@ -262,7 +262,7 @@ class ToolsViewModel extends BaseViewModel {
     updateTools();
   }
 
-  void showToolDeleteConfirmDialog(Tool tool) async {
+  void showToolDeleteConfirmDialog(ToolModel tool) async {
     var response = await _dialogService.showCustomDialog(
       variant: DialogType.deleteConfirm,
       // pass the name of the tool to be displayed on the DeleteConfirmDialog
@@ -276,8 +276,8 @@ class ToolsViewModel extends BaseViewModel {
   }
 }
 
-List<Tool> testTools = [
-  Tool(
+List<ToolModel> testTools = [
+  ToolModel(
       status: Status.beingUsed,
       category: Category.poweredTool,
       name: 'Tool1',
@@ -290,7 +290,7 @@ List<Tool> testTools = [
       toolImagePath: '',
       toolUniqueId: 00,
       toolUserId: 100),
-  Tool(
+  ToolModel(
       status: Status.idle,
       category: Category.unPoweredTool,
       name: 'Tool2',
@@ -303,7 +303,7 @@ List<Tool> testTools = [
       toolImagePath: '',
       toolUniqueId: 01,
       toolUserId: null),
-  Tool(
+  ToolModel(
       status: Status.beingUsed,
       category: Category.poweredTool,
       name: 'Tool3',
@@ -316,7 +316,7 @@ List<Tool> testTools = [
       toolImagePath: '',
       toolUniqueId: 02,
       toolUserId: 101),
-  Tool(
+  ToolModel(
       status: Status.retired,
       category: Category.unPoweredTool,
       name: 'Tool4',
@@ -329,7 +329,7 @@ List<Tool> testTools = [
       toolImagePath: '',
       toolUniqueId: 03,
       toolUserId: null),
-  Tool(
+  ToolModel(
       status: Status.underMaintenance,
       category: Category.unPoweredTool,
       name: 'Tool5',
@@ -342,7 +342,7 @@ List<Tool> testTools = [
       toolImagePath: '',
       toolUniqueId: 04,
       toolUserId: null),
-  Tool(
+  ToolModel(
       status: Status.idle,
       category: Category.poweredTool,
       name: 'Tool6',
@@ -355,7 +355,7 @@ List<Tool> testTools = [
       toolImagePath: '',
       toolUniqueId: 05,
       toolUserId: null),
-  Tool(
+  ToolModel(
       status: Status.beingUsed,
       category: Category.unPoweredTool,
       name: 'Tool7',
@@ -368,7 +368,7 @@ List<Tool> testTools = [
       toolImagePath: '',
       toolUniqueId: 06,
       toolUserId: 102),
-  Tool(
+  ToolModel(
       status: Status.underMaintenance,
       category: Category.poweredTool,
       name: 'Tool8',
@@ -381,7 +381,7 @@ List<Tool> testTools = [
       toolImagePath: '',
       toolUniqueId: 07,
       toolUserId: null),
-  Tool(
+  ToolModel(
       status: Status.beingUsed,
       category: Category.poweredTool,
       name: 'Tool9',
@@ -394,7 +394,7 @@ List<Tool> testTools = [
       toolImagePath: '',
       toolUniqueId: 08,
       toolUserId: 103),
-  Tool(
+  ToolModel(
       status: Status.retired,
       category: Category.poweredTool,
       name: 'Tool10',
@@ -407,7 +407,7 @@ List<Tool> testTools = [
       toolImagePath: '',
       toolUniqueId: 09,
       toolUserId: null),
-  Tool(
+  ToolModel(
       status: Status.underMaintenance,
       category: Category.poweredTool,
       name: 'Tool11',

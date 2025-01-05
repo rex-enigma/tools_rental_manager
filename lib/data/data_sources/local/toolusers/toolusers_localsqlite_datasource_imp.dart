@@ -9,12 +9,12 @@ class ToolUsersLocalSqliteDbDataSource implements ToolUsersLocalDataSource {
   final AppDatabase _db = locator<AppDatabase>();
 
   @override
-  Future<int> insertToolUser(ToolUser toolUser) {
+  Future<int> insertToolUser(ToolUserModel toolUser) {
     return _db.toolUsersDao.insertToolUser(toolUser);
   }
 
   @override
-  Future<int> updateToolUser(ToolUser toolUser) {
+  Future<int> updateToolUser(ToolUserModel toolUser) {
     return _db.toolUsersDao.updateToolUser(toolUser);
   }
 
@@ -49,12 +49,12 @@ class ToolUsersLocalSqliteDbDataSource implements ToolUsersLocalDataSource {
   }
 
   @override
-  Future<ToolUser?> getToolUserByIdOrNull(int toolUserId) {
+  Future<ToolUserModel?> getToolUserByIdOrNull(int toolUserId) {
     return _db.toolUsersDao.getToolUserByIdOrNull(toolUserId);
   }
 
   @override
-  Future<List<ToolUser>?> getAllToolUsersOrNull() {
+  Future<List<ToolUserModel>?> getAllToolUsersOrNull() {
     return _db.toolUsersDao.getAllToolUsersOrNull();
   }
 

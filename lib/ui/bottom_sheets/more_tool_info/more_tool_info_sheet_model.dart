@@ -11,7 +11,7 @@ class MoreToolInfoSheetModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
   // this name will be used search for a specific tool in wikipedia
   late String toolName;
-  ToolArticle? toolArticle;
+  ToolArticleModel? toolArticle;
   // String? toolName;
   // String? toolCategory;
   // String? toolInfoSource;
@@ -27,7 +27,7 @@ class MoreToolInfoSheetModel extends BaseViewModel {
     // runBusyFuture  Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     //if unable to fetch tool article for various reasons(eg no internet access) null will be returned (check this later )
-    ToolArticle? toolArticle = await runBusyFuture(_toolArticlesRepoImp.fetchToolArticle(toolName));
+    ToolArticleModel? toolArticle = await runBusyFuture(_toolArticlesRepoImp.fetchToolArticle(toolName));
     if (toolArticle != null) {
       this.toolArticle = toolArticle;
     }

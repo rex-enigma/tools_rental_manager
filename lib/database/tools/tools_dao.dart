@@ -11,7 +11,7 @@ part 'tools_dao.g.dart';
 class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
   ToolsDao(AppDatabase db) : super(db);
 
-  Future<int> insertTool(Tool tool) {
+  Future<int> insertTool(ToolModel tool) {
     return customInsert(
       """INSERT INTO tools (
          name,
@@ -61,7 +61,7 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
 
   // this kind of update is not optimized because it end up updating columns of a particular row that don't need updating.
   // but is useful if you will end up updating more than one value.
-  Future<int> updateTool(Tool tool) {
+  Future<int> updateTool(ToolModel tool) {
     return customUpdate(
       """UPDATE tools 
       SET 
@@ -208,7 +208,7 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     });
   }
 
-  Future<Tool?> getToolByIdOrNull(int toolId) async {
+  Future<ToolModel?> getToolByIdOrNull(int toolId) async {
     final toolResult = await customSelect(
       'SELECT * FROM tools WHERE tool_id = :toolId',
       variables: [Variable.withInt(toolId)],
@@ -224,7 +224,7 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     if (toolResult == null) {
       return null;
     } else {
-      return Tool.fromMap(toolMap: toolResult.data);
+      return ToolModel.fromMap(toolMap: toolResult.data);
     }
   }
 
@@ -311,7 +311,7 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
   }
 
   // return a future that completes with a list of tools or null for the given status .
-  Future<List<Tool>?> getToolsByStatusOrNull(Status status) async {
+  Future<List<ToolModel>?> getToolsByStatusOrNull(Status status) async {
     final toolByStatusResults = await customSelect(
       'SELECT * FROM tools WHERE status = :status',
       variables: [Variable.withString(status.name)],
@@ -324,12 +324,12 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     if (toolByStatusResults.isEmpty) {
       return null;
     } else {
-      List<Tool> tools = toolByStatusResults.map((queryRow) => Tool.fromMap(toolMap: queryRow.data)).toList();
+      List<ToolModel> tools = toolByStatusResults.map((queryRow) => ToolModel.fromMap(toolMap: queryRow.data)).toList();
       return tools;
     }
   }
 
-  Future<List<Tool>?> getAllToolsOrNull() async {
+  Future<List<ToolModel>?> getAllToolsOrNull() async {
     final toolResults = await customSelect(
       'SELECT * FROM tools',
     ).get().catchError((Object e, StackTrace stacktrace) {
@@ -342,8 +342,8 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     if (toolResults.isEmpty) {
       return null;
     } else {
-      List<Tool> tools = toolResults.map((queryRow) {
-        return Tool.fromMap(toolMap: queryRow.data);
+      List<ToolModel> tools = toolResults.map((queryRow) {
+        return ToolModel.fromMap(toolMap: queryRow.data);
       }).toList();
 
       return tools;

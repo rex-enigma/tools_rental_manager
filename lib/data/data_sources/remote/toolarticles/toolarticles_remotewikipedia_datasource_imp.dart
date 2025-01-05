@@ -13,7 +13,7 @@ class Wikipedia {
 
   /// might throw [ArticleNotFoundException] if the article is not found with the given [title],
   /// might throw other exceptions like: [FailedToFetchToolArticleData] exception when the status code is not 200
-  Future<ToolArticle?> fetchToolArticle(String title) async {
+  Future<ToolArticleModel?> fetchToolArticle(String title) async {
     final String url =
         "https://en.wikipedia.org/w/api.php?action=query&titles=$title&prop=pageimages|description|extracts&explaintext&exsectionformat=plain&exintro=1&pithumbsize=300&format=json";
 
@@ -33,7 +33,7 @@ class Wikipedia {
         // get the article data.
         final articleData = mapPages.entries.first.value;
 
-        return ToolArticle(
+        return ToolArticleModel(
           title: articleData['title'],
           source: 'wikipedia',
           description: (articleData['description'] as String).isEmpty ? 'tool' : articleData['description'],
@@ -62,7 +62,7 @@ class ToolArticlesRemoteWikipediaDataSource implements ToolArticlesRemoteDataSou
   final Wikipedia _wikipedia = Wikipedia();
 
   @override
-  Future<ToolArticle?> fetchToolArticle(String title) {
+  Future<ToolArticleModel?> fetchToolArticle(String title) {
     try {
       return _wikipedia.fetchToolArticle(title);
     } catch (e) {

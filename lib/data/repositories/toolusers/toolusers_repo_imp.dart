@@ -11,7 +11,7 @@ class ToolUsersRepoImp implements ToolUsersRepo {
     _toolUsersLocalDataSource = toolUsersLocalDataSource ?? locator<ToolUsersLocalSqliteDbDataSource>();
   }
   @override
-  Future<int> insertToolUser(ToolUser toolUser) {
+  Future<int> insertToolUser(ToolUserModel toolUser) {
     return _toolUsersLocalDataSource.insertToolUser(toolUser);
   }
 
@@ -19,12 +19,12 @@ class ToolUsersRepoImp implements ToolUsersRepo {
   /// The tool user passed as argument cant contain null value for ToolUser.tooUserId property because
   ///  for it to be updated it must exist in the database
   @override
-  Future<ToolUser> updateToolUser(ToolUser toolUser) async {
+  Future<ToolUserModel> updateToolUser(ToolUserModel toolUser) async {
     if (toolUser.toolUserId == null) {
       throw 'the [ToolUser] is missing a toolUserId, hence unable to update the given toolUser: $toolUser';
     }
     await _toolUsersLocalDataSource.updateToolUser(toolUser);
-    ToolUser? userOfTool = await getToolUserByOrNull(toolUser.toolUserId!);
+    ToolUserModel? userOfTool = await getToolUserByOrNull(toolUser.toolUserId!);
     return userOfTool!;
   }
 
@@ -71,7 +71,7 @@ class ToolUsersRepoImp implements ToolUsersRepo {
   }
 
   @override
-  Future<ToolUser?> getToolUserByOrNull(int toolUserId) {
+  Future<ToolUserModel?> getToolUserByOrNull(int toolUserId) {
     return _toolUsersLocalDataSource.getToolUserByIdOrNull(toolUserId);
   }
 
@@ -111,7 +111,7 @@ class ToolUsersRepoImp implements ToolUsersRepo {
   }
 
   @override
-  Future<List<ToolUser>?> getAllToolUsersOrNull() {
+  Future<List<ToolUserModel>?> getAllToolUsersOrNull() {
     return _toolUsersLocalDataSource.getAllToolUsersOrNull();
   }
 

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:tools_rental_management/data/models/tool_model.dart';
 
-class ToolUser {
+class ToolUserModel {
   /// its only null when creating a new toolUser that need to be inserted to the database.
   /// But when constructing this toolUser from a database record, [toolId] should have a non-nullable value.
   /// uniquely identifies a tool in the database (primary key)
@@ -18,10 +18,10 @@ class ToolUser {
   final int countryCallingCode;
   // list of tools which is currently being used by this toolUser
   // can be null if this tool user is not using any tool(s)
-  final List<Tool>? tools;
+  final List<ToolModel>? tools;
 
   /// should be called when constructing a new tool from the old one by calling [copyWith] method.
-  ToolUser({
+  ToolUserModel({
     required this.toolUserId,
     required this.firstName,
     required this.lastName,
@@ -34,7 +34,7 @@ class ToolUser {
   });
 
   /// should be called when this toolUser wants to be inserted to the database.
-  ToolUser.insert({
+  ToolUserModel.insert({
     this.toolUserId,
     required this.firstName,
     required this.lastName,
@@ -47,7 +47,7 @@ class ToolUser {
   });
 
   /// should be called when this toolUser is constructed from a database record.
-  ToolUser.fromMap({required Map<String, dynamic> toolUserMap})
+  ToolUserModel.fromMap({required Map<String, dynamic> toolUserMap})
       : toolUserId = toolUserMap['tool_user_id'],
         firstName = toolUserMap['first_name'],
         lastName = toolUserMap['last_name'],
@@ -61,7 +61,7 @@ class ToolUser {
   // excluded toolUserId because we don't what [copyWith] to accidentally be called with toolUserId that might later conflict with another
   // toolUser that might end up having the same toolUserId.
   // also excluded tools because it doesn't play any part when it comes to updating the toolUser.
-  ToolUser copyWith({
+  ToolUserModel copyWith({
     String? firstName,
     String? lastName,
     String? frontNationalIdImagePath,
@@ -70,7 +70,7 @@ class ToolUser {
     int? phoneNumber,
     int? countryCallingCode,
   }) {
-    return ToolUser(
+    return ToolUserModel(
       toolUserId: toolUserId,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
@@ -85,7 +85,7 @@ class ToolUser {
 
   @override
   bool operator ==(Object other) {
-    return (other is ToolUser &&
+    return (other is ToolUserModel &&
         toolUserId == other.toolUserId &&
         firstName == other.firstName &&
         lastName == other.lastName &&

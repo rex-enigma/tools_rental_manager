@@ -2,7 +2,7 @@
 
 import 'dart:convert';
 
-class ToolArticle {
+class ToolArticleModel {
   final String title;
   // where the data is coming from about this tool.
   final String source;
@@ -15,7 +15,7 @@ class ToolArticle {
   // time this [ToolInfo] was fetched from remote source.
   final DateTime fetchedAt;
 
-  ToolArticle({
+  ToolArticleModel({
     required this.title,
     required this.source,
     required this.description,
@@ -24,13 +24,13 @@ class ToolArticle {
     required this.fetchedAt,
   });
 
-  factory ToolArticle.fromJson({required String jsonString}) {
+  factory ToolArticleModel.fromJson({required String jsonString}) {
     Map<String, dynamic> toolInfoMap = json.decode(jsonString);
-    return ToolArticle.fromMap(toolInfoMap: toolInfoMap);
+    return ToolArticleModel.fromMap(toolInfoMap: toolInfoMap);
   }
 
-  factory ToolArticle.fromMap({required Map<String, dynamic> toolInfoMap}) {
-    return ToolArticle(
+  factory ToolArticleModel.fromMap({required Map<String, dynamic> toolInfoMap}) {
+    return ToolArticleModel(
       title: toolInfoMap['title'],
       source: toolInfoMap['source'],
       description: toolInfoMap['description'],
@@ -58,7 +58,7 @@ class ToolArticle {
 
   @override
   bool operator ==(Object other) {
-    return (other is ToolArticle &&
+    return (other is ToolArticleModel &&
         title == other.title &&
         source == other.source &&
         description == other.description &&
@@ -68,12 +68,7 @@ class ToolArticle {
   }
 
   @override
-  int get hashCode => (title.hashCode ^
-      source.hashCode ^
-      description.hashCode ^
-      excerpt.hashCode ^
-      urlImagePath.hashCode ^
-      fetchedAt.hashCode);
+  int get hashCode => (title.hashCode ^ source.hashCode ^ description.hashCode ^ excerpt.hashCode ^ urlImagePath.hashCode ^ fetchedAt.hashCode);
 
   @override
   String toString() {

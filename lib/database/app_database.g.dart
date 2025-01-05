@@ -3,148 +3,85 @@
 part of 'app_database.dart';
 
 // ignore_for_file: type=lint
-class $ToolUsersTable extends ToolUsers
-    with TableInfo<$ToolUsersTable, ToolUser> {
+class $ToolUsersTable extends ToolUsers with TableInfo<$ToolUsersTable, ToolUserModel> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $ToolUsersTable(this.attachedDatabase, [this._alias]);
-  static const VerificationMeta _toolUserIdMeta =
-      const VerificationMeta('toolUserId');
+  static const VerificationMeta _toolUserIdMeta = const VerificationMeta('toolUserId');
   @override
-  late final GeneratedColumn<int> toolUserId = GeneratedColumn<int>(
-      'tool_user_id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
-  static const VerificationMeta _firstNameMeta =
-      const VerificationMeta('firstName');
+  late final GeneratedColumn<int> toolUserId = GeneratedColumn<int>('tool_user_id', aliasedName, false,
+      hasAutoIncrement: true, type: DriftSqlType.int, requiredDuringInsert: false, defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _firstNameMeta = const VerificationMeta('firstName');
   @override
-  late final GeneratedColumn<String> firstName = GeneratedColumn<String>(
-      'first_name', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 16),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _lastNameMeta =
-      const VerificationMeta('lastName');
+  late final GeneratedColumn<String> firstName = GeneratedColumn<String>('first_name', aliasedName, false,
+      additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 16), type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _lastNameMeta = const VerificationMeta('lastName');
   @override
-  late final GeneratedColumn<String> lastName = GeneratedColumn<String>(
-      'last_name', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 16),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _frontNationalIdImagePathMeta =
-      const VerificationMeta('frontNationalIdImagePath');
+  late final GeneratedColumn<String> lastName = GeneratedColumn<String>('last_name', aliasedName, false,
+      additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 16), type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _frontNationalIdImagePathMeta = const VerificationMeta('frontNationalIdImagePath');
   @override
   late final GeneratedColumn<String> frontNationalIdImagePath =
-      GeneratedColumn<String>(
-          'front_national_id_image_path', aliasedName, false,
-          type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _backNationalIdImagePathMeta =
-      const VerificationMeta('backNationalIdImagePath');
+      GeneratedColumn<String>('front_national_id_image_path', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _backNationalIdImagePathMeta = const VerificationMeta('backNationalIdImagePath');
   @override
   late final GeneratedColumn<String> backNationalIdImagePath =
-      GeneratedColumn<String>('back_national_id_image_path', aliasedName, false,
-          type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _avatarImagePathMeta =
-      const VerificationMeta('avatarImagePath');
+      GeneratedColumn<String>('back_national_id_image_path', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _avatarImagePathMeta = const VerificationMeta('avatarImagePath');
   @override
-  late final GeneratedColumn<String> avatarImagePath = GeneratedColumn<String>(
-      'avatar_image_path', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _phoneNumberMeta =
-      const VerificationMeta('phoneNumber');
+  late final GeneratedColumn<String> avatarImagePath = GeneratedColumn<String>('avatar_image_path', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _phoneNumberMeta = const VerificationMeta('phoneNumber');
   @override
-  late final GeneratedColumn<int> phoneNumber = GeneratedColumn<int>(
-      'phone_number', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _countryCallingCodeMeta =
-      const VerificationMeta('countryCallingCode');
+  late final GeneratedColumn<int> phoneNumber = GeneratedColumn<int>('phone_number', aliasedName, false, type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _countryCallingCodeMeta = const VerificationMeta('countryCallingCode');
   @override
-  late final GeneratedColumn<int> countryCallingCode = GeneratedColumn<int>(
-      'country_calling_code', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+  late final GeneratedColumn<int> countryCallingCode = GeneratedColumn<int>('country_calling_code', aliasedName, false, type: DriftSqlType.int, requiredDuringInsert: true);
   @override
-  List<GeneratedColumn> get $columns => [
-        toolUserId,
-        firstName,
-        lastName,
-        frontNationalIdImagePath,
-        backNationalIdImagePath,
-        avatarImagePath,
-        phoneNumber,
-        countryCallingCode
-      ];
+  List<GeneratedColumn> get $columns => [toolUserId, firstName, lastName, frontNationalIdImagePath, backNationalIdImagePath, avatarImagePath, phoneNumber, countryCallingCode];
   @override
   String get aliasedName => _alias ?? 'tool_users';
   @override
   String get actualTableName => 'tool_users';
   @override
-  VerificationContext validateIntegrity(Insertable<ToolUser> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<ToolUserModel> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('tool_user_id')) {
-      context.handle(
-          _toolUserIdMeta,
-          toolUserId.isAcceptableOrUnknown(
-              data['tool_user_id']!, _toolUserIdMeta));
+      context.handle(_toolUserIdMeta, toolUserId.isAcceptableOrUnknown(data['tool_user_id']!, _toolUserIdMeta));
     }
     if (data.containsKey('first_name')) {
-      context.handle(_firstNameMeta,
-          firstName.isAcceptableOrUnknown(data['first_name']!, _firstNameMeta));
+      context.handle(_firstNameMeta, firstName.isAcceptableOrUnknown(data['first_name']!, _firstNameMeta));
     } else if (isInserting) {
       context.missing(_firstNameMeta);
     }
     if (data.containsKey('last_name')) {
-      context.handle(_lastNameMeta,
-          lastName.isAcceptableOrUnknown(data['last_name']!, _lastNameMeta));
+      context.handle(_lastNameMeta, lastName.isAcceptableOrUnknown(data['last_name']!, _lastNameMeta));
     } else if (isInserting) {
       context.missing(_lastNameMeta);
     }
     if (data.containsKey('front_national_id_image_path')) {
-      context.handle(
-          _frontNationalIdImagePathMeta,
-          frontNationalIdImagePath.isAcceptableOrUnknown(
-              data['front_national_id_image_path']!,
-              _frontNationalIdImagePathMeta));
+      context.handle(_frontNationalIdImagePathMeta, frontNationalIdImagePath.isAcceptableOrUnknown(data['front_national_id_image_path']!, _frontNationalIdImagePathMeta));
     } else if (isInserting) {
       context.missing(_frontNationalIdImagePathMeta);
     }
     if (data.containsKey('back_national_id_image_path')) {
-      context.handle(
-          _backNationalIdImagePathMeta,
-          backNationalIdImagePath.isAcceptableOrUnknown(
-              data['back_national_id_image_path']!,
-              _backNationalIdImagePathMeta));
+      context.handle(_backNationalIdImagePathMeta, backNationalIdImagePath.isAcceptableOrUnknown(data['back_national_id_image_path']!, _backNationalIdImagePathMeta));
     } else if (isInserting) {
       context.missing(_backNationalIdImagePathMeta);
     }
     if (data.containsKey('avatar_image_path')) {
-      context.handle(
-          _avatarImagePathMeta,
-          avatarImagePath.isAcceptableOrUnknown(
-              data['avatar_image_path']!, _avatarImagePathMeta));
+      context.handle(_avatarImagePathMeta, avatarImagePath.isAcceptableOrUnknown(data['avatar_image_path']!, _avatarImagePathMeta));
     } else if (isInserting) {
       context.missing(_avatarImagePathMeta);
     }
     if (data.containsKey('phone_number')) {
-      context.handle(
-          _phoneNumberMeta,
-          phoneNumber.isAcceptableOrUnknown(
-              data['phone_number']!, _phoneNumberMeta));
+      context.handle(_phoneNumberMeta, phoneNumber.isAcceptableOrUnknown(data['phone_number']!, _phoneNumberMeta));
     } else if (isInserting) {
       context.missing(_phoneNumberMeta);
     }
     if (data.containsKey('country_calling_code')) {
-      context.handle(
-          _countryCallingCodeMeta,
-          countryCallingCode.isAcceptableOrUnknown(
-              data['country_calling_code']!, _countryCallingCodeMeta));
+      context.handle(_countryCallingCodeMeta, countryCallingCode.isAcceptableOrUnknown(data['country_calling_code']!, _countryCallingCodeMeta));
     } else if (isInserting) {
       context.missing(_countryCallingCodeMeta);
     }
@@ -154,27 +91,17 @@ class $ToolUsersTable extends ToolUsers
   @override
   Set<GeneratedColumn> get $primaryKey => {toolUserId};
   @override
-  ToolUser map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ToolUserModel map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ToolUser(
-      toolUserId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tool_user_id'])!,
-      firstName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}first_name'])!,
-      lastName: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}last_name'])!,
-      frontNationalIdImagePath: attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}front_national_id_image_path'])!,
-      backNationalIdImagePath: attachedDatabase.typeMapping.read(
-          DriftSqlType.string,
-          data['${effectivePrefix}back_national_id_image_path'])!,
-      avatarImagePath: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}avatar_image_path'])!,
-      phoneNumber: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}phone_number'])!,
-      countryCallingCode: attachedDatabase.typeMapping.read(
-          DriftSqlType.int, data['${effectivePrefix}country_calling_code'])!,
+    return ToolUserModel(
+      toolUserId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}tool_user_id'])!,
+      firstName: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}first_name'])!,
+      lastName: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}last_name'])!,
+      frontNationalIdImagePath: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}front_national_id_image_path'])!,
+      backNationalIdImagePath: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}back_national_id_image_path'])!,
+      avatarImagePath: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}avatar_image_path'])!,
+      phoneNumber: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}phone_number'])!,
+      countryCallingCode: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}country_calling_code'])!,
     );
   }
 
@@ -184,7 +111,7 @@ class $ToolUsersTable extends ToolUsers
   }
 }
 
-class ToolUsersCompanion extends UpdateCompanion<ToolUser> {
+class ToolUsersCompanion extends UpdateCompanion<ToolUserModel> {
   final Value<int> toolUserId;
   final Value<String> firstName;
   final Value<String> lastName;
@@ -219,7 +146,7 @@ class ToolUsersCompanion extends UpdateCompanion<ToolUser> {
         avatarImagePath = Value(avatarImagePath),
         phoneNumber = Value(phoneNumber),
         countryCallingCode = Value(countryCallingCode);
-  static Insertable<ToolUser> custom({
+  static Insertable<ToolUserModel> custom({
     Expression<int>? toolUserId,
     Expression<String>? firstName,
     Expression<String>? lastName,
@@ -233,14 +160,11 @@ class ToolUsersCompanion extends UpdateCompanion<ToolUser> {
       if (toolUserId != null) 'tool_user_id': toolUserId,
       if (firstName != null) 'first_name': firstName,
       if (lastName != null) 'last_name': lastName,
-      if (frontNationalIdImagePath != null)
-        'front_national_id_image_path': frontNationalIdImagePath,
-      if (backNationalIdImagePath != null)
-        'back_national_id_image_path': backNationalIdImagePath,
+      if (frontNationalIdImagePath != null) 'front_national_id_image_path': frontNationalIdImagePath,
+      if (backNationalIdImagePath != null) 'back_national_id_image_path': backNationalIdImagePath,
       if (avatarImagePath != null) 'avatar_image_path': avatarImagePath,
       if (phoneNumber != null) 'phone_number': phoneNumber,
-      if (countryCallingCode != null)
-        'country_calling_code': countryCallingCode,
+      if (countryCallingCode != null) 'country_calling_code': countryCallingCode,
     });
   }
 
@@ -257,10 +181,8 @@ class ToolUsersCompanion extends UpdateCompanion<ToolUser> {
       toolUserId: toolUserId ?? this.toolUserId,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
-      frontNationalIdImagePath:
-          frontNationalIdImagePath ?? this.frontNationalIdImagePath,
-      backNationalIdImagePath:
-          backNationalIdImagePath ?? this.backNationalIdImagePath,
+      frontNationalIdImagePath: frontNationalIdImagePath ?? this.frontNationalIdImagePath,
+      backNationalIdImagePath: backNationalIdImagePath ?? this.backNationalIdImagePath,
       avatarImagePath: avatarImagePath ?? this.avatarImagePath,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       countryCallingCode: countryCallingCode ?? this.countryCallingCode,
@@ -280,12 +202,10 @@ class ToolUsersCompanion extends UpdateCompanion<ToolUser> {
       map['last_name'] = Variable<String>(lastName.value);
     }
     if (frontNationalIdImagePath.present) {
-      map['front_national_id_image_path'] =
-          Variable<String>(frontNationalIdImagePath.value);
+      map['front_national_id_image_path'] = Variable<String>(frontNationalIdImagePath.value);
     }
     if (backNationalIdImagePath.present) {
-      map['back_national_id_image_path'] =
-          Variable<String>(backNationalIdImagePath.value);
+      map['back_national_id_image_path'] = Variable<String>(backNationalIdImagePath.value);
     }
     if (avatarImagePath.present) {
       map['avatar_image_path'] = Variable<String>(avatarImagePath.value);
@@ -315,177 +235,106 @@ class ToolUsersCompanion extends UpdateCompanion<ToolUser> {
   }
 }
 
-class $ToolsTable extends Tools with TableInfo<$ToolsTable, Tool> {
+class $ToolsTable extends Tools with TableInfo<$ToolsTable, ToolModel> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
   $ToolsTable(this.attachedDatabase, [this._alias]);
   static const VerificationMeta _toolIdMeta = const VerificationMeta('toolId');
   @override
-  late final GeneratedColumn<int> toolId = GeneratedColumn<int>(
-      'tool_id', aliasedName, false,
-      hasAutoIncrement: true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints:
-          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  late final GeneratedColumn<int> toolId = GeneratedColumn<int>('tool_id', aliasedName, false,
+      hasAutoIncrement: true, type: DriftSqlType.int, requiredDuringInsert: false, defaultConstraints: GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
   static const VerificationMeta _nameMeta = const VerificationMeta('name');
   @override
-  late final GeneratedColumn<String> name = GeneratedColumn<String>(
-      'name', aliasedName, false,
-      additionalChecks:
-          GeneratedColumn.checkTextLength(minTextLength: 4, maxTextLength: 18),
-      type: DriftSqlType.string,
-      requiredDuringInsert: true);
-  static const VerificationMeta _boughtAtMeta =
-      const VerificationMeta('boughtAt');
+  late final GeneratedColumn<String> name = GeneratedColumn<String>('name', aliasedName, false,
+      additionalChecks: GeneratedColumn.checkTextLength(minTextLength: 4, maxTextLength: 18), type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _boughtAtMeta = const VerificationMeta('boughtAt');
   @override
-  late final GeneratedColumn<DateTime> boughtAt = GeneratedColumn<DateTime>(
-      'bought_at', aliasedName, false,
-      type: DriftSqlType.dateTime, requiredDuringInsert: true);
-  static const VerificationMeta _purchasedPriceMeta =
-      const VerificationMeta('purchasedPrice');
+  late final GeneratedColumn<DateTime> boughtAt = GeneratedColumn<DateTime>('bought_at', aliasedName, false, type: DriftSqlType.dateTime, requiredDuringInsert: true);
+  static const VerificationMeta _purchasedPriceMeta = const VerificationMeta('purchasedPrice');
   @override
-  late final GeneratedColumn<int> purchasedPrice = GeneratedColumn<int>(
-      'purchased_price', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
+  late final GeneratedColumn<int> purchasedPrice = GeneratedColumn<int>('purchased_price', aliasedName, false, type: DriftSqlType.int, requiredDuringInsert: true);
   static const VerificationMeta _rateMeta = const VerificationMeta('rate');
   @override
-  late final GeneratedColumn<int> rate = GeneratedColumn<int>(
-      'rate', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _rentCountMeta =
-      const VerificationMeta('rentCount');
+  late final GeneratedColumn<int> rate = GeneratedColumn<int>('rate', aliasedName, false, type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _rentCountMeta = const VerificationMeta('rentCount');
   @override
-  late final GeneratedColumn<int> rentCount = GeneratedColumn<int>(
-      'rent_count', aliasedName, false,
-      type: DriftSqlType.int, requiredDuringInsert: true);
-  static const VerificationMeta _currencyMeta =
-      const VerificationMeta('currency');
+  late final GeneratedColumn<int> rentCount = GeneratedColumn<int>('rent_count', aliasedName, false, type: DriftSqlType.int, requiredDuringInsert: true);
+  static const VerificationMeta _currencyMeta = const VerificationMeta('currency');
   @override
   late final GeneratedColumnWithTypeConverter<Currency, String> currency =
-      GeneratedColumn<String>('currency', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<Currency>($ToolsTable.$convertercurrency);
-  static const VerificationMeta _categoryMeta =
-      const VerificationMeta('category');
+      GeneratedColumn<String>('currency', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true).withConverter<Currency>($ToolsTable.$convertercurrency);
+  static const VerificationMeta _categoryMeta = const VerificationMeta('category');
   @override
   late final GeneratedColumnWithTypeConverter<Category, String> category =
-      GeneratedColumn<String>('category', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<Category>($ToolsTable.$convertercategory);
-  static const VerificationMeta _toolImagePathMeta =
-      const VerificationMeta('toolImagePath');
+      GeneratedColumn<String>('category', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true).withConverter<Category>($ToolsTable.$convertercategory);
+  static const VerificationMeta _toolImagePathMeta = const VerificationMeta('toolImagePath');
   @override
-  late final GeneratedColumn<String> toolImagePath = GeneratedColumn<String>(
-      'tool_image_path', aliasedName, false,
-      type: DriftSqlType.string, requiredDuringInsert: true);
-  static const VerificationMeta _toolUniqueIdMeta =
-      const VerificationMeta('toolUniqueId');
+  late final GeneratedColumn<String> toolImagePath = GeneratedColumn<String>('tool_image_path', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true);
+  static const VerificationMeta _toolUniqueIdMeta = const VerificationMeta('toolUniqueId');
   @override
-  late final GeneratedColumn<int> toolUniqueId = GeneratedColumn<int>(
-      'tool_unique_id', aliasedName, false,
-      type: DriftSqlType.int,
-      requiredDuringInsert: true,
-      defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
-  static const VerificationMeta _toolUserIdMeta =
-      const VerificationMeta('toolUserId');
+  late final GeneratedColumn<int> toolUniqueId = GeneratedColumn<int>('tool_unique_id', aliasedName, false,
+      type: DriftSqlType.int, requiredDuringInsert: true, defaultConstraints: GeneratedColumn.constraintIsAlways('UNIQUE'));
+  static const VerificationMeta _toolUserIdMeta = const VerificationMeta('toolUserId');
   @override
-  late final GeneratedColumn<int> toolUserId = GeneratedColumn<int>(
-      'tool_user_id', aliasedName, true,
-      type: DriftSqlType.int,
-      requiredDuringInsert: false,
-      defaultConstraints: GeneratedColumn.constraintIsAlways(
-          'REFERENCES tool_users (tool_user_id) ON DELETE SET NULL'));
+  late final GeneratedColumn<int> toolUserId = GeneratedColumn<int>('tool_user_id', aliasedName, true,
+      type: DriftSqlType.int, requiredDuringInsert: false, defaultConstraints: GeneratedColumn.constraintIsAlways('REFERENCES tool_users (tool_user_id) ON DELETE SET NULL'));
   static const VerificationMeta _statusMeta = const VerificationMeta('status');
   @override
   late final GeneratedColumnWithTypeConverter<Status, String> status =
-      GeneratedColumn<String>('status', aliasedName, false,
-              type: DriftSqlType.string, requiredDuringInsert: true)
-          .withConverter<Status>($ToolsTable.$converterstatus);
+      GeneratedColumn<String>('status', aliasedName, false, type: DriftSqlType.string, requiredDuringInsert: true).withConverter<Status>($ToolsTable.$converterstatus);
   @override
-  List<GeneratedColumn> get $columns => [
-        toolId,
-        name,
-        boughtAt,
-        purchasedPrice,
-        rate,
-        rentCount,
-        currency,
-        category,
-        toolImagePath,
-        toolUniqueId,
-        toolUserId,
-        status
-      ];
+  List<GeneratedColumn> get $columns => [toolId, name, boughtAt, purchasedPrice, rate, rentCount, currency, category, toolImagePath, toolUniqueId, toolUserId, status];
   @override
   String get aliasedName => _alias ?? 'tools';
   @override
   String get actualTableName => 'tools';
   @override
-  VerificationContext validateIntegrity(Insertable<Tool> instance,
-      {bool isInserting = false}) {
+  VerificationContext validateIntegrity(Insertable<ToolModel> instance, {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
     if (data.containsKey('tool_id')) {
-      context.handle(_toolIdMeta,
-          toolId.isAcceptableOrUnknown(data['tool_id']!, _toolIdMeta));
+      context.handle(_toolIdMeta, toolId.isAcceptableOrUnknown(data['tool_id']!, _toolIdMeta));
     }
     if (data.containsKey('name')) {
-      context.handle(
-          _nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
+      context.handle(_nameMeta, name.isAcceptableOrUnknown(data['name']!, _nameMeta));
     } else if (isInserting) {
       context.missing(_nameMeta);
     }
     if (data.containsKey('bought_at')) {
-      context.handle(_boughtAtMeta,
-          boughtAt.isAcceptableOrUnknown(data['bought_at']!, _boughtAtMeta));
+      context.handle(_boughtAtMeta, boughtAt.isAcceptableOrUnknown(data['bought_at']!, _boughtAtMeta));
     } else if (isInserting) {
       context.missing(_boughtAtMeta);
     }
     if (data.containsKey('purchased_price')) {
-      context.handle(
-          _purchasedPriceMeta,
-          purchasedPrice.isAcceptableOrUnknown(
-              data['purchased_price']!, _purchasedPriceMeta));
+      context.handle(_purchasedPriceMeta, purchasedPrice.isAcceptableOrUnknown(data['purchased_price']!, _purchasedPriceMeta));
     } else if (isInserting) {
       context.missing(_purchasedPriceMeta);
     }
     if (data.containsKey('rate')) {
-      context.handle(
-          _rateMeta, rate.isAcceptableOrUnknown(data['rate']!, _rateMeta));
+      context.handle(_rateMeta, rate.isAcceptableOrUnknown(data['rate']!, _rateMeta));
     } else if (isInserting) {
       context.missing(_rateMeta);
     }
     if (data.containsKey('rent_count')) {
-      context.handle(_rentCountMeta,
-          rentCount.isAcceptableOrUnknown(data['rent_count']!, _rentCountMeta));
+      context.handle(_rentCountMeta, rentCount.isAcceptableOrUnknown(data['rent_count']!, _rentCountMeta));
     } else if (isInserting) {
       context.missing(_rentCountMeta);
     }
     context.handle(_currencyMeta, const VerificationResult.success());
     context.handle(_categoryMeta, const VerificationResult.success());
     if (data.containsKey('tool_image_path')) {
-      context.handle(
-          _toolImagePathMeta,
-          toolImagePath.isAcceptableOrUnknown(
-              data['tool_image_path']!, _toolImagePathMeta));
+      context.handle(_toolImagePathMeta, toolImagePath.isAcceptableOrUnknown(data['tool_image_path']!, _toolImagePathMeta));
     } else if (isInserting) {
       context.missing(_toolImagePathMeta);
     }
     if (data.containsKey('tool_unique_id')) {
-      context.handle(
-          _toolUniqueIdMeta,
-          toolUniqueId.isAcceptableOrUnknown(
-              data['tool_unique_id']!, _toolUniqueIdMeta));
+      context.handle(_toolUniqueIdMeta, toolUniqueId.isAcceptableOrUnknown(data['tool_unique_id']!, _toolUniqueIdMeta));
     } else if (isInserting) {
       context.missing(_toolUniqueIdMeta);
     }
     if (data.containsKey('tool_user_id')) {
-      context.handle(
-          _toolUserIdMeta,
-          toolUserId.isAcceptableOrUnknown(
-              data['tool_user_id']!, _toolUserIdMeta));
+      context.handle(_toolUserIdMeta, toolUserId.isAcceptableOrUnknown(data['tool_user_id']!, _toolUserIdMeta));
     }
     context.handle(_statusMeta, const VerificationResult.success());
     return context;
@@ -494,35 +343,21 @@ class $ToolsTable extends Tools with TableInfo<$ToolsTable, Tool> {
   @override
   Set<GeneratedColumn> get $primaryKey => {toolId};
   @override
-  Tool map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ToolModel map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return Tool(
-      toolId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tool_id'])!,
-      name: attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}name'])!,
-      boughtAt: attachedDatabase.typeMapping
-          .read(DriftSqlType.dateTime, data['${effectivePrefix}bought_at'])!,
-      purchasedPrice: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}purchased_price'])!,
-      rate: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}rate'])!,
-      rentCount: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}rent_count'])!,
-      currency: $ToolsTable.$convertercurrency.fromSql(attachedDatabase
-          .typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}currency'])!),
-      category: $ToolsTable.$convertercategory.fromSql(attachedDatabase
-          .typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}category'])!),
-      toolImagePath: attachedDatabase.typeMapping.read(
-          DriftSqlType.string, data['${effectivePrefix}tool_image_path'])!,
-      toolUniqueId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tool_unique_id'])!,
-      toolUserId: attachedDatabase.typeMapping
-          .read(DriftSqlType.int, data['${effectivePrefix}tool_user_id']),
-      status: $ToolsTable.$converterstatus.fromSql(attachedDatabase.typeMapping
-          .read(DriftSqlType.string, data['${effectivePrefix}status'])!),
+    return ToolModel(
+      toolId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}tool_id'])!,
+      name: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}name'])!,
+      boughtAt: attachedDatabase.typeMapping.read(DriftSqlType.dateTime, data['${effectivePrefix}bought_at'])!,
+      purchasedPrice: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}purchased_price'])!,
+      rate: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}rate'])!,
+      rentCount: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}rent_count'])!,
+      currency: $ToolsTable.$convertercurrency.fromSql(attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}currency'])!),
+      category: $ToolsTable.$convertercategory.fromSql(attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}category'])!),
+      toolImagePath: attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}tool_image_path'])!,
+      toolUniqueId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}tool_unique_id'])!,
+      toolUserId: attachedDatabase.typeMapping.read(DriftSqlType.int, data['${effectivePrefix}tool_user_id']),
+      status: $ToolsTable.$converterstatus.fromSql(attachedDatabase.typeMapping.read(DriftSqlType.string, data['${effectivePrefix}status'])!),
     );
   }
 
@@ -531,15 +366,12 @@ class $ToolsTable extends Tools with TableInfo<$ToolsTable, Tool> {
     return $ToolsTable(attachedDatabase, alias);
   }
 
-  static JsonTypeConverter2<Currency, String, String> $convertercurrency =
-      const EnumNameConverter<Currency>(Currency.values);
-  static JsonTypeConverter2<Category, String, String> $convertercategory =
-      const EnumNameConverter<Category>(Category.values);
-  static JsonTypeConverter2<Status, String, String> $converterstatus =
-      const EnumNameConverter<Status>(Status.values);
+  static JsonTypeConverter2<Currency, String, String> $convertercurrency = const EnumNameConverter<Currency>(Currency.values);
+  static JsonTypeConverter2<Category, String, String> $convertercategory = const EnumNameConverter<Category>(Category.values);
+  static JsonTypeConverter2<Status, String, String> $converterstatus = const EnumNameConverter<Status>(Status.values);
 }
 
-class ToolsCompanion extends UpdateCompanion<Tool> {
+class ToolsCompanion extends UpdateCompanion<ToolModel> {
   final Value<int> toolId;
   final Value<String> name;
   final Value<DateTime> boughtAt;
@@ -589,7 +421,7 @@ class ToolsCompanion extends UpdateCompanion<Tool> {
         toolImagePath = Value(toolImagePath),
         toolUniqueId = Value(toolUniqueId),
         status = Value(status);
-  static Insertable<Tool> custom({
+  static Insertable<ToolModel> custom({
     Expression<int>? toolId,
     Expression<String>? name,
     Expression<DateTime>? boughtAt,
@@ -720,16 +552,14 @@ abstract class _$AppDatabase extends GeneratedDatabase {
   late final ToolUsersDao toolUsersDao = ToolUsersDao(this as AppDatabase);
   late final ToolsDao toolsDao = ToolsDao(this as AppDatabase);
   @override
-  Iterable<TableInfo<Table, Object?>> get allTables =>
-      allSchemaEntities.whereType<TableInfo<Table, Object?>>();
+  Iterable<TableInfo<Table, Object?>> get allTables => allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
   List<DatabaseSchemaEntity> get allSchemaEntities => [toolUsers, tools];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
         [
           WritePropagation(
-            on: TableUpdateQuery.onTableName('tool_users',
-                limitUpdateKind: UpdateKind.delete),
+            on: TableUpdateQuery.onTableName('tool_users', limitUpdateKind: UpdateKind.delete),
             result: [
               TableUpdate('tools', kind: UpdateKind.update),
             ],

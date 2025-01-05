@@ -18,10 +18,10 @@ class ToolUsersViewModel extends BaseViewModel {
 
   /// toolUser search text form field toggle
   bool _showAppBarSearchField = false;
-  List<ToolUser> toolUsers = []; // create an empty list if there aren't any tool users in the database
-  List<ToolUser> filteredToolUsers = [];
+  List<ToolUserModel> toolUsers = []; // create an empty list if there aren't any tool users in the database
+  List<ToolUserModel> filteredToolUsers = [];
   void initState() async {
-    List<ToolUser>? toolUsersOrNull = await _fetchAllToolUsers();
+    List<ToolUserModel>? toolUsersOrNull = await _fetchAllToolUsers();
     // print(toolUsersOrNull);
     addToToolUser(toolUsersOrNull);
     addToFilteredToolUsers();
@@ -35,7 +35,7 @@ class ToolUsersViewModel extends BaseViewModel {
   }
 
   // add toolUser fetched from the database to this.toolUsers list
-  void addToToolUser(List<ToolUser>? toolUsers) {
+  void addToToolUser(List<ToolUserModel>? toolUsers) {
     if (toolUsers != null) {
       // order the toolUsers in descending order
       // since the toolUserIds are sequentially incremented, its guaranteed that the newly added toolUser to the database will have a larger toolUserId value
@@ -69,25 +69,25 @@ class ToolUsersViewModel extends BaseViewModel {
   }
 
   void updateToolUsers() async {
-    List<ToolUser>? toolUsersOrNull = await _fetchAllToolUsers();
+    List<ToolUserModel>? toolUsersOrNull = await _fetchAllToolUsers();
     addToToolUser(toolUsersOrNull);
     addToFilteredToolUsers();
   }
 
   // we are using runBusyFuture function so that it can allow as to check if our viewModel is busy through the isBusy property handling a future function
-  Future<int> _insertNewToolUser(ToolUser newToolUser) async {
+  Future<int> _insertNewToolUser(ToolUserModel newToolUser) async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     return runBusyFuture(_toolUsersRepoImp.insertToolUser(newToolUser));
   }
 
-  Future<List<ToolUser>?> _fetchAllToolUsers() async {
+  Future<List<ToolUserModel>?> _fetchAllToolUsers() async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     return runBusyFuture(_toolUsersRepoImp.getAllToolUsersOrNull());
   }
 
-  void deleteToolUser(ToolUser toolUser) async {
+  void deleteToolUser(ToolUserModel toolUser) async {
     // check if the toolUser is using any tool, if the toolUser.tools is null it means the toolUser is not using any tools so delete him from database
     if (toolUser.tools == null) {
       // Sets busy to true before starting future and sets it to false after executing
@@ -99,7 +99,7 @@ class ToolUsersViewModel extends BaseViewModel {
     }
   }
 
-  void showToolDeleteConfirmDialog(ToolUser toolUser) async {
+  void showToolDeleteConfirmDialog(ToolUserModel toolUser) async {
     var response = await _dialogService.showCustomDialog(
       variant: DialogType.deleteConfirm,
       // pass the first and last name of the tool user to be displayed on the DeleteConfirmDialog
@@ -122,10 +122,10 @@ class ToolUsersViewModel extends BaseViewModel {
 
     // response.data is not null when a user has constructed a new tool user
     if (response?.data != null) {
-      ToolUser newToolUser = response!.data;
+      ToolUserModel newToolUser = response!.data;
       await _insertNewToolUser(newToolUser);
       _snackbarService.showSnackbar(message: '${newToolUser.firstName} created successfully');
-      List<ToolUser>? toolUsersOrNull = await _fetchAllToolUsers();
+      List<ToolUserModel>? toolUsersOrNull = await _fetchAllToolUsers();
       // print(toolUsersOrNull);
       // this will add to the toolUsers? gotten from the database to the toolUsers property list
       addToToolUser(toolUsersOrNull);
@@ -141,8 +141,8 @@ class ToolUsersViewModel extends BaseViewModel {
   }
 }
 
-List<ToolUser> testToolUsers = [
-  ToolUser(
+List<ToolUserModel> testToolUsers = [
+  ToolUserModel(
     toolUserId: 1,
     firstName: 'john',
     lastName: 'doe',
@@ -152,7 +152,7 @@ List<ToolUser> testToolUsers = [
     phoneNumber: 0110000000,
     countryCallingCode: 254,
   ),
-  ToolUser(
+  ToolUserModel(
     toolUserId: 2,
     firstName: 'mark',
     lastName: 'dew',
@@ -163,7 +163,7 @@ List<ToolUser> testToolUsers = [
     countryCallingCode: 254,
     tools: [testTools[0], testTools[1], testTools[2], testTools[3]], // just for testing
   ),
-  ToolUser(
+  ToolUserModel(
     toolUserId: 3,
     firstName: 'john',
     lastName: 'doe',
@@ -174,7 +174,7 @@ List<ToolUser> testToolUsers = [
     countryCallingCode: 254,
     tools: [testTools[4]],
   ),
-  ToolUser(
+  ToolUserModel(
     toolUserId: 4,
     firstName: 'john',
     lastName: 'doe',
@@ -185,7 +185,7 @@ List<ToolUser> testToolUsers = [
     countryCallingCode: 254,
     tools: [testTools[5], testTools[6]],
   ),
-  ToolUser(
+  ToolUserModel(
     toolUserId: 5,
     firstName: 'john',
     lastName: 'doe',
@@ -196,7 +196,7 @@ List<ToolUser> testToolUsers = [
     countryCallingCode: 254,
     tools: [testTools[7]],
   ),
-  ToolUser(
+  ToolUserModel(
     toolUserId: 6,
     firstName: 'andrew',
     lastName: 'saf',
@@ -207,7 +207,7 @@ List<ToolUser> testToolUsers = [
     countryCallingCode: 254,
     tools: [testTools[8]],
   ),
-  ToolUser(
+  ToolUserModel(
     toolUserId: 7,
     firstName: 'john',
     lastName: 'doe',
@@ -218,7 +218,7 @@ List<ToolUser> testToolUsers = [
     countryCallingCode: 254,
     tools: [testTools[9]],
   ),
-  ToolUser(
+  ToolUserModel(
     toolUserId: 8,
     firstName: 'antony',
     lastName: 'doe',
@@ -229,7 +229,7 @@ List<ToolUser> testToolUsers = [
     countryCallingCode: 254,
     tools: [testTools[10]],
   ),
-  ToolUser(
+  ToolUserModel(
     toolUserId: 9,
     firstName: 'jasper',
     lastName: 'ray',
@@ -239,7 +239,7 @@ List<ToolUser> testToolUsers = [
     phoneNumber: 0110000000,
     countryCallingCode: 254,
   ),
-  ToolUser(
+  ToolUserModel(
     toolUserId: 10,
     firstName: 'john',
     lastName: 'doe',
@@ -249,7 +249,7 @@ List<ToolUser> testToolUsers = [
     phoneNumber: 0110000000,
     countryCallingCode: 254,
   ),
-  ToolUser(
+  ToolUserModel(
     toolUserId: 11,
     firstName: 'jane',
     lastName: 'may',

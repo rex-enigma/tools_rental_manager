@@ -81,7 +81,7 @@ class ToolCreatorSheetModel extends BaseViewModel {
 
   /// its called when all forms validation pass
   void submitForm() {
-    Tool newTool = Tool.insert(
+    ToolModel newTool = ToolModel.insert(
       name: toolNameTextEditingController.text,
       boughtAt: DateFormat('dd/MM/yyyy').parse(purchaseDateTextEditController.text),
       purchasedPrice: int.parse(purchasedPriceTextEditingController.text),

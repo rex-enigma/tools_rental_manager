@@ -65,7 +65,7 @@ class ToolUserCreatorSheetModel extends BaseViewModel {
 
   // will be called when all the forms are valid
   void submitForm() {
-    ToolUser newToolUser = ToolUser.insert(
+    ToolUserModel newToolUser = ToolUserModel.insert(
       firstName: firstNameTextEditingController.text,
       lastName: lastNameTextEditingController.text,
       frontNationalIdImagePath: frontNationalIdImagePath!,

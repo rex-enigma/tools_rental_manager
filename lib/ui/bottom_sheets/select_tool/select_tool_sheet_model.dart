@@ -8,21 +8,21 @@ import 'package:tools_rental_management/ui/views/tools/tools_viewmodel.dart';
 class SelectToolSheetModel extends BaseViewModel {
   final _toolsRepoImp = locator<ToolsRepoImp>();
   // these are tools whose status is idle
-  List<Tool> idleTools = [];
-  List<Tool> selectedIdleTools = [];
+  List<ToolModel> idleTools = [];
+  List<ToolModel> selectedIdleTools = [];
   bool isAnyToolSelected = false;
 
   void initState() async {
     await fetchIdleTools();
   }
 
-  void selectTool(Tool tool) {
+  void selectTool(ToolModel tool) {
     isAnyToolSelected = true;
     selectedIdleTools.add(tool);
     rebuildUi();
   }
 
-  void deselectIdleTool(Tool toolIdle) {
+  void deselectIdleTool(ToolModel toolIdle) {
     selectedIdleTools.remove(toolIdle);
     if (selectedIdleTools.isEmpty) isAnyToolSelected = false;
     rebuildUi();
@@ -35,7 +35,7 @@ class SelectToolSheetModel extends BaseViewModel {
   }
 
   Future<void> fetchIdleTools() async {
-    List<Tool>? idleTools = await runBusyFuture(_toolsRepoImp.getToolsByStatusOrNull(Status.idle));
+    List<ToolModel>? idleTools = await runBusyFuture(_toolsRepoImp.getToolsByStatusOrNull(Status.idle));
     // only add to the this.idleTools if the idleTools is not null
     if (idleTools != null) {
       // order the idleTools in descending order to display the newly add idle tool in the database at the top in th UI
@@ -48,7 +48,7 @@ class SelectToolSheetModel extends BaseViewModel {
 }
 
 // for testing purposes
-List<Tool> testIdleTools = [
+List<ToolModel> testIdleTools = [
   testTools[1],
   testTools[5],
 ];

@@ -14,7 +14,7 @@ class ToolsRepoImp implements ToolsRepo {
   }
 
   @override
-  Future<int> insertTool(Tool tool) {
+  Future<int> insertTool(ToolModel tool) {
     return _toolsLocalDataSource.insertTool(tool);
   }
 
@@ -22,12 +22,12 @@ class ToolsRepoImp implements ToolsRepo {
   /// The tool passed as argument cant contain null value for Tool.toolId property
   ///  for it to be updated it must exist in the database
   @override
-  Future<Tool> updateTool(Tool tool) async {
+  Future<ToolModel> updateTool(ToolModel tool) async {
     if (tool.toolId == null) {
       throw 'the [Tool] is missing a toolId, hence unable to update the given tool: $tool';
     }
     await _toolsLocalDataSource.updateTool(tool);
-    final Tool? workShopTool = await getToolByIdOrNull(tool.toolId!);
+    final ToolModel? workShopTool = await getToolByIdOrNull(tool.toolId!);
     return workShopTool!;
   }
 
@@ -68,8 +68,8 @@ class ToolsRepoImp implements ToolsRepo {
 
   /// will return the updated tools that are rented by [ToolUser] of the given toolUserId.
   @override
-  Future<List<Tool>> rentToolsToToolUser(List<Tool> idleTools, int toolUserId) async {
-    final List<Tool> associatedTools = idleTools.map((idleTool) {
+  Future<List<ToolModel>> rentToolsToToolUser(List<ToolModel> idleTools, int toolUserId) async {
+    final List<ToolModel> associatedTools = idleTools.map((idleTool) {
       return idleTool.copyWith(
         toolUserId: toolUserId,
         // every time we associate a tool with a [ToolUser], we increment the rent count of the tool, which
@@ -81,11 +81,11 @@ class ToolsRepoImp implements ToolsRepo {
       );
     }).toList();
 
-    List<Tool> updatedTools = [];
+    List<ToolModel> updatedTools = [];
 
     // update individual tools in the database one by one
     for (var associatedTool in associatedTools) {
-      Tool updatedTool = await updateTool(associatedTool);
+      ToolModel updatedTool = await updateTool(associatedTool);
       updatedTools.add(updatedTool);
     }
 
@@ -94,8 +94,8 @@ class ToolsRepoImp implements ToolsRepo {
 
   /// return a future that complete with the amount of tools that have been returned by a toolUser.
   @override
-  Future<int> repossessToolsFromToolUser(List<Tool> tools) async {
-    final List<Tool> repossessedTools = tools.map((tool) {
+  Future<int> repossessToolsFromToolUser(List<ToolModel> tools) async {
+    final List<ToolModel> repossessedTools = tools.map((tool) {
       return tool.copyWith(
         toolUserId: null,
         status: Status.idle,
@@ -111,7 +111,7 @@ class ToolsRepoImp implements ToolsRepo {
   }
 
   @override
-  Future<Tool?> getToolByIdOrNull(int toolId) {
+  Future<ToolModel?> getToolByIdOrNull(int toolId) {
     return _toolsLocalDataSource.getToolByIdOrNull(toolId);
   }
 
@@ -142,12 +142,12 @@ class ToolsRepoImp implements ToolsRepo {
 
   /// return a future that completes with a list of tools of the given status value or null.
   @override
-  Future<List<Tool>?> getToolsByStatusOrNull(Status status) {
+  Future<List<ToolModel>?> getToolsByStatusOrNull(Status status) {
     return _toolsLocalDataSource.getToolsByStatusOrNull(status);
   }
 
   @override
-  Future<List<Tool>?> getAllToolsOrNull() {
+  Future<List<ToolModel>?> getAllToolsOrNull() {
     return _toolsLocalDataSource.getAllToolsOrNull();
   }
 

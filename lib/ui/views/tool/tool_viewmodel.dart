@@ -20,7 +20,7 @@ class ToolViewModel extends BaseViewModel {
 
   /// uniquely identifies a tool in the database (primary key)
   late int toolId;
-  Tool? tool;
+  ToolModel? tool;
   // String? toolImagePath;
   // String? toolName;
   // Status? toolStatus;
@@ -45,7 +45,7 @@ class ToolViewModel extends BaseViewModel {
   Future fetchTool(int toolId) async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    Tool? tool = await runBusyFuture(_toolsRepoImp.getToolByIdOrNull(toolId));
+    ToolModel? tool = await runBusyFuture(_toolsRepoImp.getToolByIdOrNull(toolId));
     this.tool = tool;
   }
 
