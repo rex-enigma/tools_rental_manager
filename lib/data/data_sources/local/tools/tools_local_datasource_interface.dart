@@ -1,4 +1,4 @@
-import 'package:tools_rental_management/data/data_models/tool.dart';
+import 'package:tools_rental_management/data/models/tool.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/status.dart';
 

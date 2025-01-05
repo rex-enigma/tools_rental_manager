@@ -1,5 +1,5 @@
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/data/data_models/tooluser.dart';
+import 'package:tools_rental_management/data/models/tooluser.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolusers/toolusers_local_datasource_interface.dart';
 import 'package:tools_rental_management/database/app_database.dart';
 
@@ -19,44 +19,33 @@ class ToolUsersLocalSqliteDbDataSource implements ToolUsersLocalDataSource {
   }
 
   @override
-  Future<int> updateToolUserAvatarImagePath(
-      String toolUserAvatarImagePath, int toolUserId) {
-    return _db.toolUsersDao
-        .updateToolUserAvatarImagePath(toolUserAvatarImagePath, toolUserId);
+  Future<int> updateToolUserAvatarImagePath(String toolUserAvatarImagePath, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserAvatarImagePath(toolUserAvatarImagePath, toolUserId);
   }
 
   @override
-  Future<int> updateToolUserFirstName(
-      String toolUserFirstName, int toolUserId) {
-    return _db.toolUsersDao
-        .updateToolUserFirstName(toolUserFirstName, toolUserId);
+  Future<int> updateToolUserFirstName(String toolUserFirstName, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserFirstName(toolUserFirstName, toolUserId);
   }
 
   @override
-  Future<int> updateToolUserFrontNationalIdImagePath(
-      String toolUserFrontNationalIdImagePath, int toolUserId) {
-    return _db.toolUsersDao.updateToolUserFrontNationalIdImagePath(
-        toolUserFrontNationalIdImagePath, toolUserId);
+  Future<int> updateToolUserFrontNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserFrontNationalIdImagePath(toolUserFrontNationalIdImagePath, toolUserId);
   }
 
   @override
-  Future<int> updateToolUserBackNationalIdImagePath(
-      String toolUserFrontNationalIdImagePath, int toolUserId) {
-    return _db.toolUsersDao.updateToolUserBackNationalIdImagePath(
-        toolUserFrontNationalIdImagePath, toolUserId);
+  Future<int> updateToolUserBackNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserBackNationalIdImagePath(toolUserFrontNationalIdImagePath, toolUserId);
   }
 
   @override
   Future<int> updateToolUserLastName(String toolUserLastName, int toolUserId) {
-    return _db.toolUsersDao
-        .updateToolUserLastName(toolUserLastName, toolUserId);
+    return _db.toolUsersDao.updateToolUserLastName(toolUserLastName, toolUserId);
   }
 
   @override
-  Future<int> updateToolUserPhoneNUmber(
-      int toolUserPhoneNumber, int toolUserId) {
-    return _db.toolUsersDao
-        .updateToolUserPhoneNUmber(toolUserPhoneNumber, toolUserId);
+  Future<int> updateToolUserPhoneNUmber(int toolUserPhoneNumber, int toolUserId) {
+    return _db.toolUsersDao.updateToolUserPhoneNUmber(toolUserPhoneNumber, toolUserId);
   }
 
   @override
@@ -71,8 +60,7 @@ class ToolUsersLocalSqliteDbDataSource implements ToolUsersLocalDataSource {
 
   @override
   Future<String?> getToolUserBackNationalIdImagePathByIdOrNull(int toolUserId) {
-    return _db.toolUsersDao
-        .getToolUserBackNationalIdImagePathByIdOrNull(toolUserId);
+    return _db.toolUsersDao.getToolUserBackNationalIdImagePathByIdOrNull(toolUserId);
   }
 
   @override
@@ -81,10 +69,8 @@ class ToolUsersLocalSqliteDbDataSource implements ToolUsersLocalDataSource {
   }
 
   @override
-  Future<String?> getToolUserFrontNationalIdImagePathByIdOrNull(
-      int toolUserId) {
-    return _db.toolUsersDao
-        .getToolUserFrontNationalIdImagePathByIdOrNull(toolUserId);
+  Future<String?> getToolUserFrontNationalIdImagePathByIdOrNull(int toolUserId) {
+    return _db.toolUsersDao.getToolUserFrontNationalIdImagePathByIdOrNull(toolUserId);
   }
 
   @override

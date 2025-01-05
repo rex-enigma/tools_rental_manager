@@ -3,7 +3,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/data/data_models/tooluser.dart';
+import 'package:tools_rental_management/data/models/tooluser.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
 
 class ToolUserCreatorSheetModel extends BaseViewModel {
@@ -12,11 +12,9 @@ class ToolUserCreatorSheetModel extends BaseViewModel {
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
   // no need to call rebuildUi() because the text in these controllers are setters which when set/called will notify the listeners which will be our inputField in TextFormField for the firstName/lastName/phoneNumber, hence it will rebuild showing the value which was set
-  TextEditingController firstNameTextEditingController =
-      TextEditingController();
+  TextEditingController firstNameTextEditingController = TextEditingController();
   TextEditingController lastNameTextEditingController = TextEditingController();
-  TextEditingController phoneNumberTextEditingController =
-      TextEditingController();
+  TextEditingController phoneNumberTextEditingController = TextEditingController();
   String? frontNationalIdImagePath;
   String? backNationalIdImagePath;
   String? userImagePath;

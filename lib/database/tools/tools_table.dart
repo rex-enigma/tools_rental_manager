@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:tools_rental_management/data/data_models/tool.dart';
+import 'package:tools_rental_management/data/models/tool.dart';
 import 'package:tools_rental_management/database/toolusers/toolusers_table.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
@@ -27,8 +27,6 @@ class Tools extends Table {
   IntColumn get toolUniqueId => integer().unique()();
   // on the reference method, onDelete value is set to KeyAction.setNull so that when the parent referenced
   // column is deleted, tool_user_id column will be set to null.(tool de-touching from the deleted toolUser).
-  IntColumn get toolUserId => integer()
-      .nullable()
-      .references(ToolUsers, #toolUserId, onDelete: KeyAction.setNull)();
+  IntColumn get toolUserId => integer().nullable().references(ToolUsers, #toolUserId, onDelete: KeyAction.setNull)();
   TextColumn get status => textEnum<Status>()();
 }

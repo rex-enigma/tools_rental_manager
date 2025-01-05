@@ -1,5 +1,5 @@
 import 'package:flutter/foundation.dart';
-import 'package:tools_rental_management/data/data_models/tool.dart';
+import 'package:tools_rental_management/data/models/tool.dart';
 
 class ToolUser {
   /// its only null when creating a new toolUser that need to be inserted to the database.
@@ -74,10 +74,8 @@ class ToolUser {
       toolUserId: toolUserId,
       firstName: firstName ?? this.firstName,
       lastName: lastName ?? this.lastName,
-      frontNationalIdImagePath:
-          frontNationalIdImagePath ?? this.frontNationalIdImagePath,
-      backNationalIdImagePath:
-          backNationalIdImagePath ?? this.backNationalIdImagePath,
+      frontNationalIdImagePath: frontNationalIdImagePath ?? this.frontNationalIdImagePath,
+      backNationalIdImagePath: backNationalIdImagePath ?? this.backNationalIdImagePath,
       avatarImagePath: imagePath ?? avatarImagePath,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       countryCallingCode: countryCallingCode ?? this.countryCallingCode,

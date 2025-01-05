@@ -1,4 +1,4 @@
-import 'package:tools_rental_management/data/data_models/tooluser.dart';
+import 'package:tools_rental_management/data/models/tooluser.dart';
 
 abstract class ToolUsersLocalDataSource {
   // inserts
@@ -13,17 +13,13 @@ abstract class ToolUsersLocalDataSource {
   // return how many rows have been affected
   Future<int> updateToolUserLastName(String toolUserLastName, int toolUserId);
   // return how many rows have been affected
-  Future<int> updateToolUserPhoneNUmber(
-      int toolUserPhoneNumber, int toolUserId);
+  Future<int> updateToolUserPhoneNUmber(int toolUserPhoneNumber, int toolUserId);
   // return how many rows have been affected
-  Future<int> updateToolUserFrontNationalIdImagePath(
-      String toolUserFrontNationalIdImagePath, int toolUserId);
+  Future<int> updateToolUserFrontNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId);
   // return how many rows have been affected
-  Future<int> updateToolUserBackNationalIdImagePath(
-      String toolUserFrontNationalIdImagePath, int toolUserId);
+  Future<int> updateToolUserBackNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId);
   // return how many rows have been affected
-  Future<int> updateToolUserAvatarImagePath(
-      String toolUserAvatarImagePath, int toolUserId);
+  Future<int> updateToolUserAvatarImagePath(String toolUserAvatarImagePath, int toolUserId);
 
   // selects
   Future<ToolUser?> getToolUserByIdOrNull(int toolUserId);
