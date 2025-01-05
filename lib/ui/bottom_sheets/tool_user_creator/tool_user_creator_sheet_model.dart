@@ -3,7 +3,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/data/models/tooluser.dart';
+import 'package:tools_rental_management/data/models/tooluser_model.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
 
 class ToolUserCreatorSheetModel extends BaseViewModel {

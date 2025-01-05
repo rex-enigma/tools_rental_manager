@@ -3,7 +3,7 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
-import 'package:tools_rental_management/data/models/toolarticle.dart';
+import 'package:tools_rental_management/data/models/toolarticle_model.dart';
 import 'package:tools_rental_management/data/repositories/toolarticles/toolarticles_repo_imp.dart';
 
 class MoreToolInfoSheetModel extends BaseViewModel {

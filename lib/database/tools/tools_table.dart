@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:tools_rental_management/data/models/tool.dart';
+import 'package:tools_rental_management/data/models/tool_model.dart';
 import 'package:tools_rental_management/database/toolusers/toolusers_table.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';

@@ -1,4 +1,4 @@
-import 'package:tools_rental_management/data/models/tooluser.dart';
+import 'package:tools_rental_management/data/models/tooluser_model.dart';
 
 abstract class ToolUsersLocalDataSource {
   // inserts

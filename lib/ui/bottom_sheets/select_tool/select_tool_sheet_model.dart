@@ -1,6 +1,6 @@
 import 'package:stacked/stacked.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/data/models/tool.dart';
+import 'package:tools_rental_management/data/models/tool_model.dart';
 import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
 import 'package:tools_rental_management/enums/status.dart';
 import 'package:tools_rental_management/ui/views/tools/tools_viewmodel.dart';

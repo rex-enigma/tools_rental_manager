@@ -1,4 +1,4 @@
-import 'package:tools_rental_management/data/models/toolarticle.dart';
+import 'package:tools_rental_management/data/models/toolarticle_model.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolarticles/toolarticles_local_datasource_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

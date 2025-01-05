@@ -1,5 +1,5 @@
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/data/models/toolarticle.dart';
+import 'package:tools_rental_management/data/models/toolarticle_model.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolarticles/toolarticles_local_datasource_interface.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolarticles/toolarticles_localsharedpreferences_datasource.dart';
 import 'package:tools_rental_management/data/data_sources/remote/toolarticles/toolarticles_remote_datasource_interface.dart';

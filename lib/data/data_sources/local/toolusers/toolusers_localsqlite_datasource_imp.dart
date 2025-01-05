@@ -1,5 +1,5 @@
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/data/models/tooluser.dart';
+import 'package:tools_rental_management/data/models/tooluser_model.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolusers/toolusers_local_datasource_interface.dart';
 import 'package:tools_rental_management/database/app_database.dart';
 

@@ -1,5 +1,5 @@
 import 'package:drift/drift.dart';
-import 'package:tools_rental_management/data/models/tooluser.dart';
+import 'package:tools_rental_management/data/models/tooluser_model.dart';
 
 @UseRowClass(ToolUser)
 class ToolUsers extends Table {
