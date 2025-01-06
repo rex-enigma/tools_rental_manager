@@ -146,7 +146,7 @@ class ToolModel {
 
   @override
   String toString() {
-    return """Tool: {
+    return """ToolModel: {
       toolId: $toolId 
       name: $name 
       boughtAt: $boughtAt 

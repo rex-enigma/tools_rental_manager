@@ -72,7 +72,7 @@ class ToolArticleModel {
 
   @override
   String toString() {
-    return """ ToolInfo: {
+    return """ ToolArticleModel: {
       name: $title 
       source: $source 
       description: $description 

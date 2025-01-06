@@ -126,7 +126,7 @@ class ToolUserModel {
 
   @override
   String toString() {
-    return """ ToolUser: {
+    return """ ToolUserModel: {
       toolUserId: $toolUserId 
       firstName: $firstName 
       lastName: $lastName 
