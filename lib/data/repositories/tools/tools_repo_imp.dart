@@ -2,7 +2,7 @@ import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/data/models/tool_model.dart';
 import 'package:tools_rental_management/data/data_sources/local/tools/tools_local_datasource_interface.dart';
 import 'package:tools_rental_management/data/data_sources/local/tools/tools_localsqlite_datasource_imp.dart';
-import 'package:tools_rental_management/data/repositories/tools/tools_repo_interface.dart';
+import 'package:tools_rental_management/domain/repositories_interface/tools/tools_repo_interface.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/status.dart';
 

@@ -7,7 +7,7 @@ import 'package:tools_rental_management/data/data_sources/local/galleryimages/ga
 import 'package:tools_rental_management/data/data_sources/local/galleryimages/galleryimages_localgallery_datasource_imp.dart';
 import 'package:tools_rental_management/data/data_sources/local/imagesdir/images_local_datasource_interface.dart';
 import 'package:tools_rental_management/data/data_sources/local/imagesdir/images_localdirectory_datasource_imp.dart';
-import 'package:tools_rental_management/data/repositories/images/images_repo_interface.dart';
+import 'package:tools_rental_management/domain/repositories_interface/images/images_repo_interface.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/errors/exceptions.dart';
 

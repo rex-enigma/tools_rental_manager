@@ -4,7 +4,7 @@ import 'package:tools_rental_management/data/data_sources/local/toolarticles/too
 import 'package:tools_rental_management/data/data_sources/local/toolarticles/toolarticles_localsharedpreferences_datasource.dart';
 import 'package:tools_rental_management/data/data_sources/remote/toolarticles/toolarticles_remote_datasource_interface.dart';
 import 'package:tools_rental_management/data/data_sources/remote/toolarticles/toolarticles_remotewikipedia_datasource_imp.dart';
-import 'toolarticles_repo_interface.dart';
+import '../../../domain/repositories_interface/toolarticles/toolarticles_repo_interface.dart';
 
 class ToolArticlesRepoImp implements ToolArticleRepo {
   // will be used to retrieve workshop tool data from remote data source.
