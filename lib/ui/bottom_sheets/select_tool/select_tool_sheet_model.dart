@@ -47,8 +47,8 @@ class SelectToolSheetModel extends BaseViewModel {
   }
 }
 
-// for testing purposes
-List<ToolModel> testIdleTools = [
-  testTools[1],
-  testTools[5],
-];
+// // for testing purposes
+// List<ToolModel> testIdleTools = [
+//   testTools[1],
+//   testTools[5],
+// ];

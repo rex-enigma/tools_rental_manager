@@ -59,7 +59,7 @@ class ToolUserViewModel extends BaseViewModel {
   Future fetchToolUser(int toolUserId) async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    ToolUserModel? toolUser = await runBusyFuture(_toolUsersRepoImp.getToolUserByOrNull(toolUserId));
+    ToolUserModel? toolUser = await runBusyFuture(_toolUsersRepoImp.getToolUserByIdOrNull(toolUserId));
     // only order toolUser.tools if the toolUser.tools is not null
     if (toolUser?.tools != null) {
       //

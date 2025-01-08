@@ -13,11 +13,11 @@ abstract class ToolUsersRepo {
   // update and returns the updated value
   Future<String?> updateToolUserFrontNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId);
   // update and returns the updated value
-  Future<String?> updateToolUserBackNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId);
+  Future<String?> updateToolUserBackNationalIdImagePath(String toolUserBackNationalIdImagePath, int toolUserId);
   // update and returns the updated value
   Future<String?> updateToolUserAvatarImagePath(String toolUserAvatarImagePath, int toolUserId);
 
-  Future<ToolUserModel?> getToolUserByOrNull(int toolUserId);
+  Future<ToolUserModel?> getToolUserByIdOrNull(int toolUserId);
   Future<String?> getToolUserFirstNameByIdOrNull(int toolUserId);
   Future<String?> getToolUserLastNameByIdOrNull(int toolUserId);
   Future<int?> getToolUserPhoneNumberByIdOrNull(int toolUserId);

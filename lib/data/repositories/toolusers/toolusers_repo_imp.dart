@@ -24,7 +24,7 @@ class ToolUsersRepoImp implements ToolUsersRepo {
       throw 'the [ToolUser] is missing a toolUserId, hence unable to update the given toolUser: $toolUser';
     }
     await _toolUsersLocalDataSource.updateToolUser(toolUser);
-    ToolUserModel? userOfTool = await getToolUserByOrNull(toolUser.toolUserId!);
+    ToolUserModel? userOfTool = await getToolUserByIdOrNull(toolUser.toolUserId!);
     return userOfTool!;
   }
 
@@ -65,13 +65,13 @@ class ToolUsersRepoImp implements ToolUsersRepo {
 
   /// update and return the updated tool user back_national_id_image_path for the given toolUserId
   @override
-  Future<String?> updateToolUserBackNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId) async {
-    await _toolUsersLocalDataSource.updateToolUserBackNationalIdImagePath(toolUserFrontNationalIdImagePath, toolUserId);
+  Future<String?> updateToolUserBackNationalIdImagePath(String toolUserBackNationalIdImagePath, int toolUserId) async {
+    await _toolUsersLocalDataSource.updateToolUserBackNationalIdImagePath(toolUserBackNationalIdImagePath, toolUserId);
     return _toolUsersLocalDataSource.getToolUserBackNationalIdImagePathByIdOrNull(toolUserId);
   }
 
   @override
-  Future<ToolUserModel?> getToolUserByOrNull(int toolUserId) {
+  Future<ToolUserModel?> getToolUserByIdOrNull(int toolUserId) {
     return _toolUsersLocalDataSource.getToolUserByIdOrNull(toolUserId);
   }
 
