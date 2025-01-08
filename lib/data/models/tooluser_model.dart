@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:tools_rental_management/data/models/tool_model.dart';
+import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
 
 class ToolUserModel {
   /// its only null when creating a new toolUser that need to be inserted to the database.
@@ -45,6 +46,18 @@ class ToolUserModel {
     required this.countryCallingCode,
     this.tools,
   });
+
+  factory ToolUserModel.fromEntity(ToolUserEntity toolUserEntity) {
+    return ToolUserModel(
+        toolUserId: toolUserEntity.toolUserId,
+        firstName: toolUserEntity.firstName,
+        lastName: toolUserEntity.lastName,
+        frontNationalIdImagePath: toolUserEntity.frontNationalIdImagePath,
+        backNationalIdImagePath: toolUserEntity.backNationalIdImagePath,
+        avatarImagePath: toolUserEntity.avatarImagePath,
+        phoneNumber: toolUserEntity.phoneNumber,
+        countryCallingCode: toolUserEntity.countryCallingCode);
+  }
 
   /// should be called when this toolUser is constructed from a database record.
   ToolUserModel.fromMap({required Map<String, dynamic> toolUserMap})
@@ -122,6 +135,18 @@ class ToolUserModel {
           );
       return combinedFieldsHashCode ^ combinedToolsHashCode;
     }
+  }
+
+  ToolUserEntity toEntity() {
+    return ToolUserEntity(
+        toolUserId: toolUserId,
+        firstName: firstName,
+        lastName: lastName,
+        frontNationalIdImagePath: frontNationalIdImagePath,
+        backNationalIdImagePath: backNationalIdImagePath,
+        avatarImagePath: avatarImagePath,
+        phoneNumber: phoneNumber,
+        countryCallingCode: countryCallingCode);
   }
 
   @override

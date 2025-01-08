@@ -1,6 +1,12 @@
+import 'dart:convert';
+
+import 'package:tools_rental_management/domain/entities/toolarticle_entity.dart';
+
 // this data class / data model will hold information about a tool gotten from a remote source.
 
-import 'dart:convert';
+// Reminder:
+// i should convert the ToolArticleModel field data type to there corresponding atomic data type(indivisible), which is format that can be persisted in the sqlite database.
+// The converted data type should match the DBMS, in this case its sqlite.
 
 class ToolArticleModel {
   final String title;
@@ -23,6 +29,16 @@ class ToolArticleModel {
     required this.urlImagePath,
     required this.fetchedAt,
   });
+
+  factory ToolArticleModel.fromEntity(ToolArticleEntity toolArticleEntity) {
+    return ToolArticleModel(
+        title: toolArticleEntity.title,
+        source: toolArticleEntity.source,
+        description: toolArticleEntity.description,
+        excerpt: toolArticleEntity.excerpt,
+        urlImagePath: toolArticleEntity.urlImagePath,
+        fetchedAt: toolArticleEntity.fetchedAt);
+  }
 
   factory ToolArticleModel.fromJson({required String jsonString}) {
     Map<String, dynamic> toolInfoMap = json.decode(jsonString);
@@ -69,6 +85,17 @@ class ToolArticleModel {
 
   @override
   int get hashCode => (title.hashCode ^ source.hashCode ^ description.hashCode ^ excerpt.hashCode ^ urlImagePath.hashCode ^ fetchedAt.hashCode);
+
+  ToolArticleEntity toEntity() {
+    return ToolArticleEntity(
+      title: title,
+      source: source,
+      description: description,
+      excerpt: excerpt,
+      urlImagePath: urlImagePath,
+      fetchedAt: fetchedAt,
+    );
+  }
 
   @override
   String toString() {

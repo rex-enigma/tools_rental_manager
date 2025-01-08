@@ -1,7 +1,11 @@
+import 'package:tools_rental_management/domain/entities/tool_entity.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
+// Reminder:
+// i should convert the ToolModel field data type to there corresponding atomic data type(indivisible), which is format that can be persisted in the sqlite database.
+// The converted data type should match the DBMS, in this case its sqlite.
 class ToolModel {
   /// its only null when creating a new tool that need to be inserted to the database.
   /// But when constructing this tool from a database record, [toolId] should have a non-null value
@@ -66,6 +70,22 @@ class ToolModel {
     this.toolUserId,
     this.status = Status.idle,
   });
+
+  factory ToolModel.fromEntity(ToolEntity toolEntity) {
+    return ToolModel(
+        toolId: toolEntity.toolId,
+        name: toolEntity.name,
+        boughtAt: toolEntity.boughtAt,
+        purchasedPrice: toolEntity.purchasedPrice,
+        rate: toolEntity.rate,
+        rentCount: toolEntity.rentCount,
+        currency: toolEntity.currency,
+        category: toolEntity.category,
+        toolImagePath: toolEntity.toolImagePath,
+        toolUniqueId: toolEntity.toolUniqueId,
+        toolUserId: toolEntity.toolUserId,
+        status: toolEntity.status);
+  }
 
   /// should be called when this tool is constructed from a database record.
   ToolModel.fromMap({required Map<String, dynamic> toolMap})
@@ -143,6 +163,22 @@ class ToolModel {
       toolUniqueId.hashCode ^
       toolUserId.hashCode ^
       status.hashCode);
+
+  ToolEntity toEntity() {
+    return ToolEntity(
+        toolId: toolId,
+        name: name,
+        boughtAt: boughtAt,
+        purchasedPrice: purchasedPrice,
+        rate: rate,
+        rentCount: rentCount,
+        currency: currency,
+        category: category,
+        toolImagePath: toolImagePath,
+        toolUniqueId: toolUniqueId,
+        toolUserId: toolUserId,
+        status: status);
+  }
 
   @override
   String toString() {
