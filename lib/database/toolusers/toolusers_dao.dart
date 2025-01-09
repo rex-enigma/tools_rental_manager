@@ -219,44 +219,9 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase> with _$ToolUsersDaoMixi
 
     // if null isn't returned then it means at this point their is a toolUser for the given toolUserId.
 
-    // get all tools for the given toolUserId
-    // the toolResults might contain a list of queryRows(will be tools after transformation) for a specified toolUser or empty list
-    // if their isn't any tools associated with the toolUser yet.
-    final toolResults = await customSelect(
-      'SELECT * FROM tools WHERE tool_user_id = :toolUserId',
-      variables: [Variable.withInt(toolUserId)],
-    ).get().catchError((Object e, StackTrace stacktrace) {
-      print('Error: $e, stackTrace: $stacktrace');
-      throw Exception(e);
-    });
+    Map<String, dynamic> toolUserMap = toolUserResult.data;
 
-    // construct a toolUserMap that contains the same data as [toolUserResult.data] that represents a [ToolUser]
-    // and use it to add another key/value pair where 'tools' is key and [null] or [list of tools] is the value.
-    Map<String, dynamic> toolUserMap = {...toolUserResult.data};
-
-    // toolsResult might be empty if their isn't any tools for the given toolUserId.
-    if (toolResults.isEmpty) {
-      // since the toolResults is empty which means their aren't any tools for the toolUser of the specified
-      // toolUserId, add a 'tools' key with [null] value to [toolUserMap] to indicate that.
-      toolUserMap['tools'] = null;
-
-      // a [ToolUser] without [Tool(s)]
-      return ToolUserModel.fromMap(toolUserMap: toolUserMap);
-    } else {
-      // transform a list of 'tools queryRow' into a list of tools [Tool].
-      List<ToolModel> toolList = toolResults.map((queryRow) {
-        final toolMap = queryRow.data;
-        ToolModel tool = ToolModel.fromMap(toolMap: toolMap);
-        return tool;
-      }).toList();
-
-      // since the toolResults isn't empty which means their is tool(s) for the toolUser of the specified
-      // toolUserId, add a 'tools' key with a [toolList] value to [toolUserMap] to indicate that.
-      toolUserMap['tools'] = toolList;
-
-      // a [ToolUser] with [Tool](s)
-      return ToolUserModel.fromMap(toolUserMap: toolUserMap);
-    }
+    return ToolUserModel.fromMap(toolUserMap: toolUserMap);
   }
 
   /// returns a future that completes with the tool user first_name for the given toolUserId.
