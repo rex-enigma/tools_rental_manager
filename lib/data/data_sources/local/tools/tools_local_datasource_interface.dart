@@ -34,6 +34,7 @@ abstract class ToolsLocalDataSource {
   Future<Category?> getToolCategoryByIdOrNull(int toolId);
   Future<String?> getToolImagePathByIdOrNull(int toolId);
   Future<List<ToolModel>?> getToolsByStatusOrNull(Status status);
+  Future<List<ToolModel>?> getToolsByToolUserIdOrNull(int toolUserId);
   Future<List<ToolModel>?> getAllToolsOrNull();
 
   // deletes

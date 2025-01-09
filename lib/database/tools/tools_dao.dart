@@ -329,6 +329,27 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     }
   }
 
+  Future<List<ToolModel>?> getToolsByToolUserIdOrNull(int toolUserId) async {
+    final toolResults = await customSelect(
+      'SELECT * FROM tools WHERE tool_user_id = :toolUserId',
+      variables: [Variable.withInt(toolUserId)],
+    ).get().catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stackTrace: $stacktrace');
+      throw Exception(e);
+    });
+
+    if (toolResults.isEmpty) return null;
+
+    // transform a list of 'tools queryRow' into a list of[ToolModel].
+    List<ToolModel> tools = toolResults.map((queryRow) {
+      final toolMap = queryRow.data;
+      ToolModel tool = ToolModel.fromMap(toolMap: toolMap);
+      return tool;
+    }).toList();
+
+    return tools;
+  }
+
   Future<List<ToolModel>?> getAllToolsOrNull() async {
     final toolResults = await customSelect(
       'SELECT * FROM tools',

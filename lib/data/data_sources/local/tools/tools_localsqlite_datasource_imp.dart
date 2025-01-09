@@ -81,6 +81,11 @@ class ToolsLocalSqliteDbDataSource implements ToolsLocalDataSource {
   }
 
   @override
+  Future<List<ToolModel>?> getToolsByToolUserIdOrNull(int toolUserId) {
+    return _db.toolsDao.getToolsByToolUserIdOrNull(toolUserId);
+  }
+
+  @override
   Future<List<ToolModel>?> getAllToolsOrNull() {
     return _db.toolsDao.getAllToolsOrNull();
   }
