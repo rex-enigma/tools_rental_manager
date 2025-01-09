@@ -1,4 +1,7 @@
 import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/data/data_sources/local/tools/tools_local_datasource_interface.dart';
+import 'package:tools_rental_management/data/data_sources/local/tools/tools_localsqlite_datasource_imp.dart';
+import 'package:tools_rental_management/data/models/tool_model.dart';
 import 'package:tools_rental_management/data/models/tooluser_model.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolusers/toolusers_local_datasource_interface.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolusers/toolusers_localsqlite_datasource_imp.dart';
@@ -6,9 +9,11 @@ import 'package:tools_rental_management/domain/repositories_interface/toolusers/
 
 class ToolUsersRepoImp implements ToolUsersRepo {
   late ToolUsersLocalDataSource _toolUsersLocalDataSource;
+  late ToolsLocalDataSource _toolsLocalDataSource;
 
-  ToolUsersRepoImp({ToolUsersLocalDataSource? toolUsersLocalDataSource}) {
+  ToolUsersRepoImp({ToolUsersLocalDataSource? toolUsersLocalDataSource, ToolsLocalDataSource? toolLocalDatasource}) {
     _toolUsersLocalDataSource = toolUsersLocalDataSource ?? locator<ToolUsersLocalSqliteDbDataSource>();
+    _toolsLocalDataSource = toolLocalDatasource ?? locator<ToolsLocalSqliteDbDataSource>();
   }
   @override
   Future<int> insertToolUser(ToolUserModel toolUser) {
@@ -70,9 +75,16 @@ class ToolUsersRepoImp implements ToolUsersRepo {
     return _toolUsersLocalDataSource.getToolUserBackNationalIdImagePathByIdOrNull(toolUserId);
   }
 
+  /// modify
   @override
-  Future<ToolUserModel?> getToolUserByIdOrNull(int toolUserId) {
-    return _toolUsersLocalDataSource.getToolUserByIdOrNull(toolUserId);
+  Future<ToolUserModel?> getToolUserByIdOrNull(int toolUserId) async {
+    ToolUserModel? toolUserModel = await _toolUsersLocalDataSource.getToolUserByIdOrNull(toolUserId);
+    List<ToolModel>? toolModels = await _toolsLocalDataSource.getToolsByToolUserIdOrNull(toolUserModel!.toolUserId!);
+    // modify this function to return ToolUser Entity
+
+    return toolUserModel.copyWith(tools: toolModels);
+
+    //return _toolUsersLocalDataSource.getToolUserByIdOrNull(toolUserId);
   }
 
   @override
