@@ -1,8 +1,8 @@
-import 'package:image_picker/image_picker.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/data/repositories/images/images_repo_imp.dart';
+import 'package:tools_rental_management/enums/my_image_source.dart';
 
 class ImageCaptureSheetModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
@@ -14,7 +14,7 @@ class ImageCaptureSheetModel extends BaseViewModel {
 
   void fetchImageFromCamera() async {
     String? cameraImagePath = await _imagesRepoImp.fetchImagePath(
-      source: ImageSource.camera,
+      source: MyImageSource.camera,
       previousImagePath: imagePath,
     );
 
@@ -26,7 +26,7 @@ class ImageCaptureSheetModel extends BaseViewModel {
 
   void fetchImageFromGallery() async {
     String? galleryImagePath = await _imagesRepoImp.fetchImagePath(
-      source: ImageSource.gallery,
+      source: MyImageSource.gallery,
       previousImagePath: imagePath,
     );
 
