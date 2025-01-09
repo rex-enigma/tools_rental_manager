@@ -1,6 +1,5 @@
-import 'package:image_picker/image_picker.dart';
+import 'package:tools_rental_management/enums/my_image_source.dart';
 
 abstract class ImagesRepo {
-  Future<String?> fetchImagePath(
-      {required ImageSource source, String? previousImagePath});
+  Future<String?> fetchImagePath({required MyImageSource source, String? previousImagePath});
 }

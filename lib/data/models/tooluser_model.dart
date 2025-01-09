@@ -1,5 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:tools_rental_management/data/models/tool_model.dart';
+import 'package:tools_rental_management/domain/entities/tool_entity.dart';
 import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
 
 class ToolUserModel {
@@ -82,6 +83,7 @@ class ToolUserModel {
     String? imagePath,
     int? phoneNumber,
     int? countryCallingCode,
+    List<ToolModel>? tools, //////////
   }) {
     return ToolUserModel(
       toolUserId: toolUserId,
@@ -92,7 +94,7 @@ class ToolUserModel {
       avatarImagePath: imagePath ?? avatarImagePath,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       countryCallingCode: countryCallingCode ?? this.countryCallingCode,
-      tools: tools,
+      tools: tools ?? this.tools,
     );
   }
 
@@ -137,16 +139,22 @@ class ToolUserModel {
     }
   }
 
-  ToolUserEntity toEntity() {
+  ToolUserEntity toEntity(List<ToolModel>? toolModels) {
+    List<ToolEntity>? toolEntities = toolModels?.map((toolModel) {
+      return toolModel.toEntity();
+    }).toList();
+
     return ToolUserEntity(
-        toolUserId: toolUserId,
-        firstName: firstName,
-        lastName: lastName,
-        frontNationalIdImagePath: frontNationalIdImagePath,
-        backNationalIdImagePath: backNationalIdImagePath,
-        avatarImagePath: avatarImagePath,
-        phoneNumber: phoneNumber,
-        countryCallingCode: countryCallingCode);
+      toolUserId: toolUserId,
+      firstName: firstName,
+      lastName: lastName,
+      frontNationalIdImagePath: frontNationalIdImagePath,
+      backNationalIdImagePath: backNationalIdImagePath,
+      avatarImagePath: avatarImagePath,
+      phoneNumber: phoneNumber,
+      countryCallingCode: countryCallingCode,
+      toolEntities: toolEntities,
+    );
   }
 
   @override

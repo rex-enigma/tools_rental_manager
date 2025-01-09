@@ -9,6 +9,7 @@ import 'package:tools_rental_management/data/data_sources/local/imagesdir/images
 import 'package:tools_rental_management/data/data_sources/local/imagesdir/images_localdirectory_datasource_imp.dart';
 import 'package:tools_rental_management/domain/repositories_interface/images/images_repo_interface.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/enums/my_image_source.dart';
 import 'package:tools_rental_management/errors/exceptions.dart';
 
 // following the guidelines from 'android developer' on app architecture: a repository can contain zero to many data sources.
@@ -41,12 +42,12 @@ class ImagesRepoImp implements ImagesRepo {
   // the below comment does not apply because i have disabled the functionality for deleting that previous image path (check it later)
   // if the previousImagePath arg is provided, it will be used to remove that previous image and return a replacement. Its used when the user wants to change the current image to a diff one.
   @override
-  Future<String?> fetchImagePath({required ImageSource source, String? previousImagePath}) async {
+  Future<String?> fetchImagePath({required MyImageSource source, String? previousImagePath}) async {
     try {
       // if previousImagePath is null then it means its the first time trying to fetch a image.
       if (previousImagePath == null) {
         switch (source) {
-          case ImageSource.camera:
+          case MyImageSource.camera:
             // the image path returned is a path that points to an image that is stored in a temporally location.
             // or null if the user cancels the image capture.
             final String? imagePathCache = await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
@@ -58,7 +59,7 @@ class ImagesRepoImp implements ImagesRepo {
             final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
             return imagePath;
 
-          case ImageSource.gallery:
+          case MyImageSource.gallery:
             final String? imagePathCache = await _galleryImagesLocalDataSource.selectImageFromGallery();
             if (imagePathCache == null) {
               return null;
@@ -77,7 +78,7 @@ class ImagesRepoImp implements ImagesRepo {
           throw ImageNotFoundInDir(message: "No image exist of path: $previousImagePath");
         } else {
           switch (source) {
-            case ImageSource.camera:
+            case MyImageSource.camera:
               final String? imagePathCache = await _cameraPhotosLocalDataSource.selectPhotoFromCamera();
               // just return the the previous image path if the user canceled imageCamera capture
               if (imagePathCache == null) {
@@ -90,7 +91,7 @@ class ImagesRepoImp implements ImagesRepo {
               final String imagePath = await _directoryImagesLocalDataSource.storeImage(File(imagePathCache));
               return imagePath;
 
-            case ImageSource.gallery:
+            case MyImageSource.gallery:
               final String? imagePathCache = await _galleryImagesLocalDataSource.selectImageFromGallery();
               // just return the previous image path if the user canceled imageGallery selection
               if (imagePathCache == null) {

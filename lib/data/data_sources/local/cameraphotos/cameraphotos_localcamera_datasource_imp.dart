@@ -13,9 +13,7 @@ class CameraPhotosLocalCameraDataSource implements CameraPhotosLocalDataSource {
   Future<String?> selectPhotoFromCamera() async {
     try {
       // first, try to take a photo with the camera,
-      XFile? imageFile = await _imagePicker.pickImage(
-          source: ImageSource
-              .camera); // the image_picker package is using the device camera app to capture photos.
+      XFile? imageFile = await _imagePicker.pickImage(source: ImageSource.camera); // the image_picker package is using the device camera app to capture photos.
 
       // second, only execute the code below if the photo has been captured,
       if (imageFile != null) {
