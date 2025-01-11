@@ -1,7 +1,8 @@
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/data/models/tool_model.dart';
 import 'package:tools_rental_management/data/data_sources/local/tools/tools_local_datasource_interface.dart';
 import 'package:tools_rental_management/data/data_sources/local/tools/tools_localsqlite_datasource_imp.dart';
+import 'package:tools_rental_management/data/models/tool_model.dart';
+import 'package:tools_rental_management/domain/entities/tool_entity.dart';
 import 'package:tools_rental_management/domain/repositories_interface/tools/tools_repo_interface.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/status.dart';
@@ -14,20 +15,26 @@ class ToolsRepoImp implements ToolsRepo {
   }
 
   @override
-  Future<int> insertTool(ToolModel tool) {
-    return _toolsLocalDataSource.insertTool(tool);
+  Future<int> insertTool(ToolEntity tool) {
+    ToolModel toolModel = ToolModel.fromEntity(tool);
+    return _toolsLocalDataSource.insertTool(toolModel);
   }
 
   /// update and return the updated tool.
   /// The tool passed as argument cant contain null value for Tool.toolId property
-  ///  for it to be updated it must exist in the database
+  ///  for it to be updated, it must exist in the database
   @override
-  Future<ToolModel> updateTool(ToolModel tool) async {
+  Future<ToolEntity> updateTool(ToolEntity tool) async {
     if (tool.toolId == null) {
       throw 'the [Tool] is missing a toolId, hence unable to update the given tool: $tool';
     }
-    await _toolsLocalDataSource.updateTool(tool);
-    final ToolModel? workShopTool = await getToolByIdOrNull(tool.toolId!);
+
+    ToolModel toolModel = ToolModel.fromEntity(tool);
+
+    await _toolsLocalDataSource.updateTool(toolModel);
+
+    ToolEntity? workShopTool = await getToolByIdOrNull(tool.toolId!);
+
     return workShopTool!;
   }
 
@@ -68,8 +75,8 @@ class ToolsRepoImp implements ToolsRepo {
 
   /// will return the updated tools that are rented by [ToolUser] of the given toolUserId.
   @override
-  Future<List<ToolModel>> rentToolsToToolUser(List<ToolModel> idleTools, int toolUserId) async {
-    final List<ToolModel> associatedTools = idleTools.map((idleTool) {
+  Future<List<ToolEntity>> rentToolsToToolUser(List<ToolEntity> idleTools, int toolUserId) async {
+    final List<ToolEntity> associatedTools = idleTools.map((idleTool) {
       return idleTool.copyWith(
         toolUserId: toolUserId,
         // every time we associate a tool with a [ToolUser], we increment the rent count of the tool, which
@@ -81,11 +88,11 @@ class ToolsRepoImp implements ToolsRepo {
       );
     }).toList();
 
-    List<ToolModel> updatedTools = [];
+    List<ToolEntity> updatedTools = [];
 
     // update individual tools in the database one by one
     for (var associatedTool in associatedTools) {
-      ToolModel updatedTool = await updateTool(associatedTool);
+      ToolEntity updatedTool = await updateTool(associatedTool);
       updatedTools.add(updatedTool);
     }
 
@@ -94,25 +101,25 @@ class ToolsRepoImp implements ToolsRepo {
 
   /// return a future that complete with the amount of tools that have been returned by a toolUser.
   @override
-  Future<int> repossessToolsFromToolUser(List<ToolModel> tools) async {
-    final List<ToolModel> repossessedTools = tools.map((tool) {
-      return tool.copyWith(
-        toolUserId: null,
-        status: Status.idle,
-      );
+  Future<int> repossessToolsFromToolUser(List<ToolEntity> tools) async {
+    final List<ToolEntity> repossessedTools = tools.map((tool) {
+      return tool.copyWith(toolUserId: null, status: Status.idle);
     }).toList();
 
     int numberOfToolsUpdated = 0;
 
     for (var repossessedTool in repossessedTools) {
-      numberOfToolsUpdated += await _toolsLocalDataSource.updateTool(repossessedTool);
+      ToolModel repossessedToolModel = ToolModel.fromEntity(repossessedTool);
+
+      numberOfToolsUpdated += await _toolsLocalDataSource.updateTool(repossessedToolModel);
     }
     return numberOfToolsUpdated;
   }
 
   @override
-  Future<ToolModel?> getToolByIdOrNull(int toolId) {
-    return _toolsLocalDataSource.getToolByIdOrNull(toolId);
+  Future<ToolEntity?> getToolByIdOrNull(int toolId) async {
+    ToolModel? toolModel = await _toolsLocalDataSource.getToolByIdOrNull(toolId);
+    return toolModel?.toEntity();
   }
 
   @override
@@ -142,13 +149,23 @@ class ToolsRepoImp implements ToolsRepo {
 
   /// return a future that completes with a list of tools of the given status value or null.
   @override
-  Future<List<ToolModel>?> getToolsByStatusOrNull(Status status) {
-    return _toolsLocalDataSource.getToolsByStatusOrNull(status);
+  Future<List<ToolEntity>?> getToolsByStatusOrNull(Status status) async {
+    List<ToolModel>? toolModels = await _toolsLocalDataSource.getToolsByStatusOrNull(status);
+
+    List<ToolEntity>? toolEntities = toolModels?.map((toolModel) {
+      return toolModel.toEntity();
+    }).toList();
+
+    return toolEntities;
   }
 
   @override
-  Future<List<ToolModel>?> getAllToolsOrNull() {
-    return _toolsLocalDataSource.getAllToolsOrNull();
+  Future<List<ToolEntity>?> getAllToolsOrNull() async {
+    List<ToolModel>? toolModels = await _toolsLocalDataSource.getAllToolsOrNull();
+
+    List<ToolEntity>? toolEntities = toolModels?.map((toolModel) => toolModel.toEntity()).toList();
+
+    return toolEntities;
   }
 
   @override

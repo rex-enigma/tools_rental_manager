@@ -5,6 +5,7 @@ import 'package:tools_rental_management/data/models/tool_model.dart';
 import 'package:tools_rental_management/data/models/tooluser_model.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolusers/toolusers_local_datasource_interface.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolusers/toolusers_localsqlite_datasource_imp.dart';
+import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
 import 'package:tools_rental_management/domain/repositories_interface/toolusers/toolusers_repo_interface.dart';
 
 class ToolUsersRepoImp implements ToolUsersRepo {
@@ -16,20 +17,26 @@ class ToolUsersRepoImp implements ToolUsersRepo {
     _toolsLocalDataSource = toolLocalDatasource ?? locator<ToolsLocalSqliteDbDataSource>();
   }
   @override
-  Future<int> insertToolUser(ToolUserModel toolUser) {
-    return _toolUsersLocalDataSource.insertToolUser(toolUser);
+  Future<int> insertToolUser(ToolUserEntity toolUser) {
+    ToolUserModel toolUserModel = ToolUserModel.fromEntity(toolUser);
+    return _toolUsersLocalDataSource.insertToolUser(toolUserModel);
   }
 
   // update and return the updated toolUser.
   /// The tool user passed as argument cant contain null value for ToolUser.tooUserId property because
-  ///  for it to be updated it must exist in the database
+  ///  for it to be updated, it must exist in the database
   @override
-  Future<ToolUserModel> updateToolUser(ToolUserModel toolUser) async {
+  Future<ToolUserEntity> updateToolUser(ToolUserEntity toolUser) async {
     if (toolUser.toolUserId == null) {
       throw 'the [ToolUser] is missing a toolUserId, hence unable to update the given toolUser: $toolUser';
     }
-    await _toolUsersLocalDataSource.updateToolUser(toolUser);
-    ToolUserModel? userOfTool = await getToolUserByIdOrNull(toolUser.toolUserId!);
+
+    ToolUserModel toolUserModel = ToolUserModel.fromEntity(toolUser);
+
+    await _toolUsersLocalDataSource.updateToolUser(toolUserModel);
+
+    ToolUserEntity? userOfTool = await getToolUserByIdOrNull(toolUser.toolUserId!);
+
     return userOfTool!;
   }
 
@@ -75,16 +82,14 @@ class ToolUsersRepoImp implements ToolUsersRepo {
     return _toolUsersLocalDataSource.getToolUserBackNationalIdImagePathByIdOrNull(toolUserId);
   }
 
-  /// modify
   @override
-  Future<ToolUserModel?> getToolUserByIdOrNull(int toolUserId) async {
+  Future<ToolUserEntity?> getToolUserByIdOrNull(int toolUserId) async {
     ToolUserModel? toolUserModel = await _toolUsersLocalDataSource.getToolUserByIdOrNull(toolUserId);
+    // tools for the given tool user
     List<ToolModel>? toolModels = await _toolsLocalDataSource.getToolsByToolUserIdOrNull(toolUserModel!.toolUserId!);
-    // modify this function to return ToolUser Entity
 
-    return toolUserModel.copyWith(tools: toolModels);
-
-    //return _toolUsersLocalDataSource.getToolUserByIdOrNull(toolUserId);
+    // construct toolUserEntity with a list of its toolEntities and return it.
+    return toolUserModel.toEntity(toolModels);
   }
 
   @override
@@ -123,8 +128,17 @@ class ToolUsersRepoImp implements ToolUsersRepo {
   }
 
   @override
-  Future<List<ToolUserModel>?> getAllToolUsersOrNull() {
-    return _toolUsersLocalDataSource.getAllToolUsersOrNull();
+  Future<List<ToolUserEntity>?> getAllToolUsersOrNull() async {
+    List<ToolUserModel>? toolUserModels = await _toolUsersLocalDataSource.getAllToolUsersOrNull();
+
+    if (toolUserModels == null) return null;
+
+    List<ToolUserEntity>? toolUserEntities = await Future.wait(toolUserModels.map((toolUserModel) async {
+      List<ToolModel>? userToolModels = await _toolsLocalDataSource.getToolsByToolUserIdOrNull(toolUserModel.toolUserId!);
+      return toolUserModel.toEntity(userToolModels);
+    }));
+
+    return toolUserEntities;
   }
 
   @override
