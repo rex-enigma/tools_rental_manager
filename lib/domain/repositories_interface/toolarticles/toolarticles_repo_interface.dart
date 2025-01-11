@@ -1,5 +1,5 @@
-import 'package:tools_rental_management/data/models/toolarticle_model.dart';
+import 'package:tools_rental_management/domain/entities/toolarticle_entity.dart';
 
 abstract class ToolArticleRepo {
-  Future<ToolArticleModel?> fetchToolArticle(String title);
+  Future<ToolArticleEntity?> fetchToolArticle(String title);
 }
