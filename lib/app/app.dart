@@ -1,3 +1,5 @@
+import 'package:stacked_themes/stacked_themes.dart';
+import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/data/data_sources/local/cameraphotos/cameraphotos_localcamera_datasource_imp.dart';
 import 'package:tools_rental_management/data/data_sources/local/galleryimages/galleryimages_localgallery_datasource_imp.dart';
 import 'package:tools_rental_management/data/data_sources/local/imagesdir/images_localdirectory_datasource_imp.dart';
@@ -10,6 +12,34 @@ import 'package:tools_rental_management/data/repositories/toolarticles/toolartic
 import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/database/app_database.dart';
+import 'package:tools_rental_management/domain/usecases/add_tool_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/add_tool_user_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/delete_tool_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/delete_tool_user_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/fetch_tool_info_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_all_tool_users_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_all_tools_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_tool_image_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_tool_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_tool_user_avatar_image_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_tool_user_back_national_id_image_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_tool_user_front_national_id_image_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_tool_user_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/pick_image_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/rent_tool_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/repossess_tool_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_category_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_image_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_name_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_rate_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_status_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_user_avatar_image_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_user_back_national_id_image_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_user_first_name_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_user_front_national_id_image_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_user_last_name_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_user_phone_number_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/usecase.dart';
 import 'package:tools_rental_management/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:tools_rental_management/ui/views/home/home_view.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_viewmodel.dart';
@@ -72,7 +102,34 @@ import 'package:tools_rental_management/ui/views/remote_image/remote_image_view.
     LazySingleton(classType: ToolsRepoImp),
     LazySingleton(classType: ToolUsersRepoImp),
     LazySingleton(classType: ImagesRepoImp),
-
+    //usecases
+    LazySingleton(classType: AddToolUseCase),
+    LazySingleton(classType: AddToolUserUseCase),
+    LazySingleton(classType: DeleteToolUseCase),
+    LazySingleton(classType: DeleteToolUserUseCase),
+    LazySingleton(classType: FetchToolInfoUseCase),
+    LazySingleton(classType: GetAllToolUsersUseCase),
+    LazySingleton(classType: GetAllToolsUseCase),
+    LazySingleton(classType: GetToolImageUseCase),
+    LazySingleton(classType: GetToolUseCase),
+    LazySingleton(classType: GetToolUserAvatarImageUseCase),
+    LazySingleton(classType: GetToolUserBackNationalIdImageUseCase),
+    LazySingleton(classType: GetToolUserFrontNationalIdImageUseCase),
+    LazySingleton(classType: GetToolUserUseCase),
+    LazySingleton(classType: PickImageUseCase),
+    LazySingleton(classType: RentToolUseCase),
+    LazySingleton(classType: RepossessToolUseCase),
+    LazySingleton(classType: UpdateToolCategoryUseCase),
+    LazySingleton(classType: UpdateToolImageUseCase),
+    LazySingleton(classType: UpdateToolNameUseCase),
+    LazySingleton(classType: UpdateToolRateUseCase),
+    LazySingleton(classType: UpdateToolStatusUseCase),
+    LazySingleton(classType: UpdateToolUserAvatarImageUseCase),
+    LazySingleton(classType: UpdateToolUserBackNationalIdImageUseCase),
+    LazySingleton(classType: UpdateToolUserFirstNameUseCase),
+    LazySingleton(classType: UpdateToolUserFrontNationalIdImageUseCase),
+    LazySingleton(classType: UpdateToolUserLastNameUseCase),
+    LazySingleton(classType: UpdateToolUserPhoneNumberUseCase),
     //viewmodels
     LazySingleton(classType: ToolsViewModel),
     LazySingleton(classType: ToolUsersViewModel),
