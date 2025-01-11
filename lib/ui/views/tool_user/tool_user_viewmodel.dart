@@ -4,10 +4,10 @@ import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
-import 'package:tools_rental_management/data/models/tool_model.dart';
-import 'package:tools_rental_management/data/models/tooluser_model.dart';
 import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
+import 'package:tools_rental_management/domain/entities/tool_entity.dart';
+import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
 import 'package:tools_rental_management/enums/image_type.dart';
 
 class ToolUserViewModel extends BaseViewModel {
@@ -20,7 +20,7 @@ class ToolUserViewModel extends BaseViewModel {
   final _navigationService = locator<NavigationService>();
 
   late int toolUserId;
-  ToolUserModel? toolUser;
+  ToolUserEntity? toolUser;
   // String? firstName;
   // String? lastName;
   // String? avatarImagePath;
@@ -30,7 +30,7 @@ class ToolUserViewModel extends BaseViewModel {
 
   // List<Tool> tools = [];
   // selected tools to be repossessed back
-  List<ToolModel> selectedTools = [];
+  List<ToolEntity> selectedTools = [];
   bool isAnyToolSelected = false;
 
   void initState(int toolUserId) async {
@@ -38,13 +38,13 @@ class ToolUserViewModel extends BaseViewModel {
     await fetchToolUser(this.toolUserId);
   }
 
-  void selectTool(ToolModel tool) {
+  void selectTool(ToolEntity tool) {
     isAnyToolSelected = true;
     selectedTools.add(tool);
     rebuildUi();
   }
 
-  void deselectTool(ToolModel tool) {
+  void deselectTool(ToolEntity tool) {
     selectedTools.remove(tool);
     if (selectedTools.isEmpty) isAnyToolSelected = false;
     rebuildUi();
@@ -59,11 +59,11 @@ class ToolUserViewModel extends BaseViewModel {
   Future fetchToolUser(int toolUserId) async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    ToolUserModel? toolUser = await runBusyFuture(_toolUsersRepoImp.getToolUserByIdOrNull(toolUserId));
+    ToolUserEntity? toolUser = await runBusyFuture(_toolUsersRepoImp.getToolUserByIdOrNull(toolUserId));
     // only order toolUser.tools if the toolUser.tools is not null
-    if (toolUser?.tools != null) {
+    if (toolUser?.toolEntities != null) {
       //
-      toolUser!.tools!.sort((toolA, toolB) => toolB.toolId!.compareTo(toolA.toolId!));
+      toolUser!.toolEntities!.sort((toolA, toolB) => toolB.toolId!.compareTo(toolA.toolId!));
       this.toolUser = toolUser;
     } else {
       this.toolUser = toolUser;
@@ -143,7 +143,7 @@ class ToolUserViewModel extends BaseViewModel {
       isScrollControlled: true,
       variant: BottomSheetType.selectTool,
     );
-    List<ToolModel>? idleTools = response?.data;
+    List<ToolEntity>? idleTools = response?.data;
     // only start the process of associating the returned idle tools if response isn't null (the user haven't dragged down the selectToolSheet or taped the tapped the background scrim of that selectToolSheet)
     if (idleTools != null) {
       rentTools(idleTools);
@@ -173,7 +173,7 @@ class ToolUserViewModel extends BaseViewModel {
   }
 
   // rent out tool(s) selected from the selectToolSheet bottom sheet to this toolUser
-  void rentTools(List<ToolModel> idleTools) async {
+  void rentTools(List<ToolEntity> idleTools) async {
     await runBusyFuture(_toolsRepoImp.rentToolsToToolUser(idleTools, toolUserId));
     await fetchToolUser(toolUserId);
     if (idleTools.length == 1) {
@@ -200,7 +200,7 @@ class ToolUserViewModel extends BaseViewModel {
     clearSelectedTools();
   }
 
-  void showToolRepossessionConfirmDialog(ToolModel tool) async {
+  void showToolRepossessionConfirmDialog(ToolEntity tool) async {
     var response = await _dialogService.showCustomDialog(
       variant: DialogType.toolRepossessionConfirm,
       // this should be the name of the tool that is about to be repossessed back to the the owner
@@ -215,7 +215,7 @@ class ToolUserViewModel extends BaseViewModel {
   }
 
   // repossess back a tool this toolUser was using
-  void repossessAToolFromToolUser(ToolModel tool) async {
+  void repossessAToolFromToolUser(ToolEntity tool) async {
     // you need to supply a list of tools to _toolsRepoImp.repossessToolsFromToolUser,
     // since we have only one tool to get repossessed, we create a list with only that one tool
     await runBusyFuture(_toolsRepoImp.repossessToolsFromToolUser([tool]));

@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/data/models/tool_model.dart';
+import 'package:tools_rental_management/domain/entities/tool_entity.dart';
 import 'package:tools_rental_management/enums/status.dart';
 import 'package:tools_rental_management/ui/common/ui_helpers.dart';
 import 'package:tools_rental_management/ui/reusable_widgets/appBar_with_search_field.dart';
@@ -251,7 +251,7 @@ class _MyTabBarViewState extends State<MyTabBarView> with TickerProviderStateMix
     );
   }
 
-  Widget createTabBarViewChild(List<ToolModel> tabBarViewChild) {
+  Widget createTabBarViewChild(List<ToolEntity> tabBarViewChild) {
     ToolsViewModel toolsViewModel = widget.toolsViewModel;
     // if (toolsViewModel.tools is empty && toolsViewModel.showAppBarSearchField is false) we know that there is no tools in the database so we return a centred text that request the user to add a tool
     // otherwise return a list of tools from toolsViewModel.allToolsTabView/poweredToolsTabView/unPoweredToolsTabView

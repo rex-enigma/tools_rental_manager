@@ -7,7 +7,7 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
-import 'package:tools_rental_management/data/models/tool_model.dart';
+import 'package:tools_rental_management/domain/entities/tool_entity.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
 
@@ -81,7 +81,7 @@ class ToolCreatorSheetModel extends BaseViewModel {
 
   /// its called when all forms validation pass
   void submitForm() {
-    ToolModel newTool = ToolModel.insert(
+    ToolEntity newTool = ToolEntity.insert(
       name: toolNameTextEditingController.text,
       boughtAt: DateFormat('dd/MM/yyyy').parse(purchaseDateTextEditController.text),
       purchasedPrice: int.parse(purchasedPriceTextEditingController.text),

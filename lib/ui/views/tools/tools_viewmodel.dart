@@ -4,11 +4,10 @@ import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
-import 'package:tools_rental_management/data/models/tool_model.dart';
 import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
+import 'package:tools_rental_management/domain/entities/tool_entity.dart';
 import 'package:tools_rental_management/enums/category.dart';
-import 'package:tools_rental_management/enums/currency.dart';
 import 'package:tools_rental_management/enums/status.dart';
 import 'package:tools_rental_management/errors/exceptions.dart';
 import 'package:tools_rental_management/ui/views/tools/menu_status_filter.dart';
@@ -34,13 +33,13 @@ class ToolsViewModel extends BaseViewModel {
   MenuStatusFilter currentSelectedStatusFilter = MenuStatusFilter.viewAllTools;
 
   // hold all tools from database
-  List<ToolModel> tools = [];
+  List<ToolEntity> tools = [];
   // filtered tools based on their status
-  List<ToolModel> _menuStatusFilteredTools = [];
+  List<ToolEntity> _menuStatusFilteredTools = [];
   // contains all powered tools and un-powered tools
-  List<ToolModel> allToolsTabView = []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
-  List<ToolModel> poweredToolsTabView = []; // currentSelectedTab = 1;
-  List<ToolModel> unPoweredToolsTabView = []; // currentSelectedTab = 2;
+  List<ToolEntity> allToolsTabView = []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
+  List<ToolEntity> poweredToolsTabView = []; // currentSelectedTab = 1;
+  List<ToolEntity> unPoweredToolsTabView = []; // currentSelectedTab = 2;
 
   /// a map containing toolUser ids as key and toolUser fullname as values;
   /// These names contained here represents toolUsers currently using a specific tool that is being displayed
@@ -50,12 +49,12 @@ class ToolsViewModel extends BaseViewModel {
 
 // dont forget to initialize tools, currently  it is initialized  by a test list of testTools.
   void initState() async {
-    List<ToolModel>? toolsOrNull = await _fetchAllTools();
+    List<ToolEntity>? toolsOrNull = await _fetchAllTools();
     await setToolUserNames(toolsOrNull);
     addTools(toolsOrNull);
   }
 
-  Future setToolUserNames(List<ToolModel>? tools) async {
+  Future setToolUserNames(List<ToolEntity>? tools) async {
     if (tools == null) return;
     for (var tool in tools) {
       int? toolUserId = tool.toolUserId;
@@ -187,7 +186,7 @@ class ToolsViewModel extends BaseViewModel {
   }
 
 // add tools fetched from the database to this.tools list
-  void addTools(List<ToolModel>? tools) {
+  void addTools(List<ToolEntity>? tools) {
     if (tools != null) {
       // order the tools in descending order
       // since the toolIds are sequentially incremented, its guaranteed that the newly added tool to the database will have a larger toolId value
@@ -201,7 +200,7 @@ class ToolsViewModel extends BaseViewModel {
   // // we are using runBusyFuture function so that it can allow as to check if our viewModel is busy through the isBusy property handling a future function
   // Future _insertTool(Tool newTool) async {}
 
-  Future<List<ToolModel>?> _fetchAllTools() async {
+  Future<List<ToolEntity>?> _fetchAllTools() async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     return runBusyFuture(_toolsRepoImp.getAllToolsOrNull());
@@ -211,7 +210,7 @@ class ToolsViewModel extends BaseViewModel {
   //   return _toolsRepoImp.getAllToolsOrNull();
   // }
 
-  Future<int> _insertNewTool(ToolModel newTool) {
+  Future<int> _insertNewTool(ToolEntity newTool) {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     return runBusyFuture(_toolsRepoImp.insertTool(newTool));
@@ -227,10 +226,10 @@ class ToolsViewModel extends BaseViewModel {
     );
     // response.data is not null when a user has constructed a new tool
     if (response?.data != null) {
-      ToolModel newTool = response!.data;
+      ToolEntity newTool = response!.data;
       await _insertNewTool(newTool);
       _snackbarService.showSnackbar(message: '${newTool.name} created successfully');
-      List<ToolModel>? toolsOrNull = await _fetchAllTools();
+      List<ToolEntity>? toolsOrNull = await _fetchAllTools();
       // this will add the tools? gotten from the database to the [tools] property
       addTools(toolsOrNull);
     }
@@ -239,11 +238,11 @@ class ToolsViewModel extends BaseViewModel {
 // will be called when the user navigate to toolView then back or when a tool is deleted
 // the user might update the tool in toolView therefore we refetch 'all the tools' and update toolsView [yea i know i should only fetch that updated tool but its just a prototype]
   void updateTools() async {
-    List<ToolModel>? toolsOrNull = await _fetchAllTools();
+    List<ToolEntity>? toolsOrNull = await _fetchAllTools();
     addTools(toolsOrNull);
   }
 
-  void deleteRetiredTool(ToolModel tool) async {
+  void deleteRetiredTool(ToolEntity tool) async {
     // status of the tool to be used to validate the tool to be deleted is actually retired
     if (tool.status != Status.retired) throw FailedToDeleteATool(message: '$tool is not retired yet');
     // a value on 1 will be will be extracted from awaited future if the deletion was successful
@@ -262,7 +261,7 @@ class ToolsViewModel extends BaseViewModel {
     updateTools();
   }
 
-  void showToolDeleteConfirmDialog(ToolModel tool) async {
+  void showToolDeleteConfirmDialog(ToolEntity tool) async {
     var response = await _dialogService.showCustomDialog(
       variant: DialogType.deleteConfirm,
       // pass the name of the tool to be displayed on the DeleteConfirmDialog
@@ -276,8 +275,8 @@ class ToolsViewModel extends BaseViewModel {
   }
 }
 
-// List<ToolModel> testTools = [
-//   ToolModel(
+// List<ToolEntity> testTools = [
+//   ToolEntity(
 //       status: Status.beingUsed,
 //       category: Category.poweredTool,
 //       name: 'Tool1',
@@ -290,7 +289,7 @@ class ToolsViewModel extends BaseViewModel {
 //       toolImagePath: '',
 //       toolUniqueId: 00,
 //       toolUserId: 100),
-//   ToolModel(
+//   ToolEntity(
 //       status: Status.idle,
 //       category: Category.unPoweredTool,
 //       name: 'Tool2',
@@ -303,7 +302,7 @@ class ToolsViewModel extends BaseViewModel {
 //       toolImagePath: '',
 //       toolUniqueId: 01,
 //       toolUserId: null),
-//   ToolModel(
+//   ToolEntity(
 //       status: Status.beingUsed,
 //       category: Category.poweredTool,
 //       name: 'Tool3',
@@ -316,7 +315,7 @@ class ToolsViewModel extends BaseViewModel {
 //       toolImagePath: '',
 //       toolUniqueId: 02,
 //       toolUserId: 101),
-//   ToolModel(
+//   ToolEntity(
 //       status: Status.retired,
 //       category: Category.unPoweredTool,
 //       name: 'Tool4',
@@ -329,7 +328,7 @@ class ToolsViewModel extends BaseViewModel {
 //       toolImagePath: '',
 //       toolUniqueId: 03,
 //       toolUserId: null),
-//   ToolModel(
+//   ToolEntity(
 //       status: Status.underMaintenance,
 //       category: Category.unPoweredTool,
 //       name: 'Tool5',
@@ -342,7 +341,7 @@ class ToolsViewModel extends BaseViewModel {
 //       toolImagePath: '',
 //       toolUniqueId: 04,
 //       toolUserId: null),
-//   ToolModel(
+//   ToolEntity(
 //       status: Status.idle,
 //       category: Category.poweredTool,
 //       name: 'Tool6',
@@ -355,7 +354,7 @@ class ToolsViewModel extends BaseViewModel {
 //       toolImagePath: '',
 //       toolUniqueId: 05,
 //       toolUserId: null),
-//   ToolModel(
+//   ToolEntity(
 //       status: Status.beingUsed,
 //       category: Category.unPoweredTool,
 //       name: 'Tool7',
@@ -368,7 +367,7 @@ class ToolsViewModel extends BaseViewModel {
 //       toolImagePath: '',
 //       toolUniqueId: 06,
 //       toolUserId: 102),
-//   ToolModel(
+//   ToolEntity(
 //       status: Status.underMaintenance,
 //       category: Category.poweredTool,
 //       name: 'Tool8',
@@ -381,7 +380,7 @@ class ToolsViewModel extends BaseViewModel {
 //       toolImagePath: '',
 //       toolUniqueId: 07,
 //       toolUserId: null),
-//   ToolModel(
+//   ToolEntity(
 //       status: Status.beingUsed,
 //       category: Category.poweredTool,
 //       name: 'Tool9',
@@ -394,7 +393,7 @@ class ToolsViewModel extends BaseViewModel {
 //       toolImagePath: '',
 //       toolUniqueId: 08,
 //       toolUserId: 103),
-//   ToolModel(
+//   ToolEntity(
 //       status: Status.retired,
 //       category: Category.poweredTool,
 //       name: 'Tool10',
@@ -407,7 +406,7 @@ class ToolsViewModel extends BaseViewModel {
 //       toolImagePath: '',
 //       toolUniqueId: 09,
 //       toolUserId: null),
-//   ToolModel(
+//   ToolEntity(
 //       status: Status.underMaintenance,
 //       category: Category.poweredTool,
 //       name: 'Tool11',
