@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:tools_rental_management/domain/entities/toolarticle_entity.dart';
 
 // this data class / data model will hold information about a tool gotten from a remote source.
