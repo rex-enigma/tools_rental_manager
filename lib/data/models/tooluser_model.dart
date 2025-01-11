@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:tools_rental_management/data/models/tool_model.dart';
 import 'package:tools_rental_management/domain/entities/tool_entity.dart';
 import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
@@ -18,9 +17,6 @@ class ToolUserModel {
 
   /// only use one of class [CountryCallingCode] static fields to assign a value to this countryCallingCode field
   final int countryCallingCode;
-  // list of tools which is currently being used by this toolUser
-  // can be null if this tool user is not using any tool(s)
-  final List<ToolModel>? tools;
 
   /// should be called when constructing a new tool from the old one by calling [copyWith] method.
   ToolUserModel({
@@ -32,7 +28,6 @@ class ToolUserModel {
     required this.avatarImagePath,
     required this.phoneNumber,
     required this.countryCallingCode,
-    this.tools,
   });
 
   /// should be called when this toolUser wants to be inserted to the database.
@@ -45,7 +40,6 @@ class ToolUserModel {
     required this.avatarImagePath,
     required this.phoneNumber,
     required this.countryCallingCode,
-    this.tools,
   });
 
   factory ToolUserModel.fromEntity(ToolUserEntity toolUserEntity) {
@@ -69,8 +63,7 @@ class ToolUserModel {
         backNationalIdImagePath = toolUserMap['back_national_id_image_path'],
         avatarImagePath = toolUserMap['avatar_image_path'],
         phoneNumber = toolUserMap['phone_number'],
-        countryCallingCode = toolUserMap['country_calling_code'],
-        tools = toolUserMap['tools'];
+        countryCallingCode = toolUserMap['country_calling_code'];
 
   // excluded toolUserId because we don't what [copyWith] to accidentally be called with toolUserId that might later conflict with another
   // toolUser that might end up having the same toolUserId.
@@ -83,7 +76,6 @@ class ToolUserModel {
     String? imagePath,
     int? phoneNumber,
     int? countryCallingCode,
-    List<ToolModel>? tools, //////////
   }) {
     return ToolUserModel(
       toolUserId: toolUserId,
@@ -94,7 +86,6 @@ class ToolUserModel {
       avatarImagePath: imagePath ?? avatarImagePath,
       phoneNumber: phoneNumber ?? this.phoneNumber,
       countryCallingCode: countryCallingCode ?? this.countryCallingCode,
-      tools: tools ?? this.tools,
     );
   }
 
@@ -108,36 +99,18 @@ class ToolUserModel {
         backNationalIdImagePath == other.backNationalIdImagePath &&
         avatarImagePath == other.avatarImagePath &&
         phoneNumber == other.phoneNumber &&
-        countryCallingCode == other.countryCallingCode &&
-        listEquals(tools, other.tools));
+        countryCallingCode == other.countryCallingCode);
   }
 
   @override
-  int get hashCode {
-    final int combinedFieldsHashCode = (toolUserId.hashCode ^
-        firstName.hashCode ^
-        lastName.hashCode ^
-        frontNationalIdImagePath.hashCode ^
-        backNationalIdImagePath.hashCode ^
-        avatarImagePath.hashCode ^
-        phoneNumber.hashCode ^
-        countryCallingCode.hashCode);
-
-    if (tools == null) {
-      return combinedFieldsHashCode ^ tools.hashCode;
-    } else {
-      final int combinedToolsHashCode = tools!
-          // transform a list of tools into a list of hashCodes
-          .map(
-            (tool) => tool.hashCode,
-          )
-          // combine all the hashCodes into a single hashCode value
-          .reduce(
-            (value, element) => value.hashCode ^ element.hashCode,
-          );
-      return combinedFieldsHashCode ^ combinedToolsHashCode;
-    }
-  }
+  int get hashCode => (toolUserId.hashCode ^
+      firstName.hashCode ^
+      lastName.hashCode ^
+      frontNationalIdImagePath.hashCode ^
+      backNationalIdImagePath.hashCode ^
+      avatarImagePath.hashCode ^
+      phoneNumber.hashCode ^
+      countryCallingCode.hashCode);
 
   ToolUserEntity toEntity(List<ToolModel>? toolModels) {
     List<ToolEntity>? toolEntities = toolModels?.map((toolModel) {
@@ -168,8 +141,6 @@ class ToolUserModel {
       imagePath: $avatarImagePath 
       phoneNumber: $phoneNumber 
       countryCallingCode: $countryCallingCode
-      tool count : ${tools == null ? '0' : tools!.length}
-      tools : $tools
     }""";
   }
 }
