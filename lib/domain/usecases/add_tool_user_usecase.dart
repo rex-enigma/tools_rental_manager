@@ -1,15 +1,17 @@
+import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
+import 'package:tools_rental_management/domain/repositories_interface/toolusers/toolusers_repo_interface.dart';
 import 'package:tools_rental_management/domain/usecases/usecase.dart';
 
 class AddToolUserUseCase implements UseCase<int, AddToolUserParam> {
-  final ToolUsersRepoImp _toolUsersRepoImp;
+  final ToolUsersRepo _toolUsersRepo;
 
-  AddToolUserUseCase({required ToolUsersRepoImp toolUsersRepoImp}) : _toolUsersRepoImp = toolUsersRepoImp;
+  AddToolUserUseCase({ToolUsersRepo? toolUsersRepo}) : _toolUsersRepo = toolUsersRepo ?? locator<ToolUsersRepoImp>();
 
   @override
   Future<int> call(AddToolUserParam p) {
-    return _toolUsersRepoImp.insertToolUser(p.toolUserEntity);
+    return _toolUsersRepo.insertToolUser(p.toolUserEntity);
   }
 }
 

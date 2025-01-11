@@ -1,3 +1,5 @@
+import 'package:tools_rental_management/app/app.locator.dart';
+import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
 import 'package:tools_rental_management/domain/entities/tool_entity.dart';
 import 'package:tools_rental_management/domain/repositories_interface/tools/tools_repo_interface.dart';
 import 'package:tools_rental_management/domain/usecases/usecase.dart';
@@ -6,7 +8,7 @@ import 'package:tools_rental_management/enums/status.dart';
 class RentToolUseCase implements UseCase<List<ToolEntity>, RentToolParams> {
   final ToolsRepo _toolsRepo;
 
-  RentToolUseCase({required ToolsRepo toolsRepo}) : _toolsRepo = toolsRepo;
+  RentToolUseCase({ToolsRepo? toolsRepo}) : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
 
   @override
   Future<List<ToolEntity>> call(RentToolParams p) async {
