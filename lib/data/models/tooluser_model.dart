@@ -31,16 +31,16 @@ class ToolUserModel {
   });
 
   /// should be called when this toolUser wants to be inserted to the database.
-  ToolUserModel.insert({
-    this.toolUserId,
-    required this.firstName,
-    required this.lastName,
-    required this.frontNationalIdImagePath,
-    required this.backNationalIdImagePath,
-    required this.avatarImagePath,
-    required this.phoneNumber,
-    required this.countryCallingCode,
-  });
+  // ToolUserModel.insert({
+  //   this.toolUserId,
+  //   required this.firstName,
+  //   required this.lastName,
+  //   required this.frontNationalIdImagePath,
+  //   required this.backNationalIdImagePath,
+  //   required this.avatarImagePath,
+  //   required this.phoneNumber,
+  //   required this.countryCallingCode,
+  // });
 
   factory ToolUserModel.fromEntity(ToolUserEntity toolUserEntity) {
     return ToolUserModel(
