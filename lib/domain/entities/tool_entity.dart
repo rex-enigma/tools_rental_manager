@@ -32,6 +32,22 @@ class ToolEntity {
     required this.status,
   });
 
+  /// should be called when a new tool wants to be persisted.
+  ToolEntity.insert({
+    this.toolId,
+    required this.name,
+    required this.boughtAt,
+    required this.purchasedPrice,
+    required this.rate,
+    this.rentCount = 0,
+    required this.currency,
+    required this.category,
+    required this.toolImagePath,
+    required this.toolUniqueId,
+    this.toolUserId,
+    this.status = Status.idle,
+  });
+
   // excluded toolId because we don't what [copyWith] to accidentally be called with toolId
   // that might later conflict with another tool that might end up having the same toolId.
   ToolEntity copyWith({

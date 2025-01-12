@@ -37,7 +37,7 @@ import '../domain/usecases/get_tool_user_back_national_id_image_usecase.dart';
 import '../domain/usecases/get_tool_user_front_national_id_image_usecase.dart';
 import '../domain/usecases/get_tool_user_usecase.dart';
 import '../domain/usecases/pick_image_usecase.dart';
-import '../domain/usecases/rent_tool_usecase.dart';
+import '../domain/usecases/rent_out_tool_usecase.dart';
 import '../domain/usecases/repossess_tool_usecase.dart';
 import '../domain/usecases/update_tool_category_usecase.dart';
 import '../domain/usecases/update_tool_image_usecase.dart';
@@ -61,8 +61,7 @@ Future<void> setupLocator({
   EnvironmentFilter? environmentFilter,
 }) async {
 // Register environments
-  locator.registerEnvironment(
-      environment: environment, environmentFilter: environmentFilter);
+  locator.registerEnvironment(environment: environment, environmentFilter: environmentFilter);
 
 // Register dependencies
   locator.registerLazySingleton(() => BottomSheetService());
@@ -74,8 +73,7 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => ToolUsersLocalSqliteDbDataSource());
   locator.registerLazySingleton(() => ToolsLocalSqliteDbDataSource());
   locator.registerLazySingleton(() => ToolArticlesRemoteWikipediaDataSource());
-  locator.registerLazySingleton(
-      () => ToolArticleLocalSharedPreferencesDataSource());
+  locator.registerLazySingleton(() => ToolArticleLocalSharedPreferencesDataSource());
   locator.registerLazySingleton(() => ToolArticlesRepoImp());
   locator.registerLazySingleton(() => ToolsRepoImp());
   locator.registerLazySingleton(() => ToolUsersRepoImp());
@@ -94,7 +92,7 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => GetToolUserFrontNationalIdImageUseCase());
   locator.registerLazySingleton(() => GetToolUserUseCase());
   locator.registerLazySingleton(() => PickImageUseCase());
-  locator.registerLazySingleton(() => RentToolUseCase());
+  locator.registerLazySingleton(() => RentOutToolUseCase());
   locator.registerLazySingleton(() => RepossessToolUseCase());
   locator.registerLazySingleton(() => UpdateToolCategoryUseCase());
   locator.registerLazySingleton(() => UpdateToolImageUseCase());
@@ -102,11 +100,9 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => UpdateToolRateUseCase());
   locator.registerLazySingleton(() => UpdateToolStatusUseCase());
   locator.registerLazySingleton(() => UpdateToolUserAvatarImageUseCase());
-  locator
-      .registerLazySingleton(() => UpdateToolUserBackNationalIdImageUseCase());
+  locator.registerLazySingleton(() => UpdateToolUserBackNationalIdImageUseCase());
   locator.registerLazySingleton(() => UpdateToolUserFirstNameUseCase());
-  locator
-      .registerLazySingleton(() => UpdateToolUserFrontNationalIdImageUseCase());
+  locator.registerLazySingleton(() => UpdateToolUserFrontNationalIdImageUseCase());
   locator.registerLazySingleton(() => UpdateToolUserLastNameUseCase());
   locator.registerLazySingleton(() => UpdateToolUserPhoneNumberUseCase());
   locator.registerLazySingleton(() => ToolsViewModel());

@@ -4,8 +4,8 @@ import 'package:tools_rental_management/enums/currency.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
 // Reminder:
-// i should convert the ToolModel field data type to there corresponding atomic data type(indivisible), which is format that can be persisted in the sqlite database.
-// The converted data type should match the DBMS, in this case its sqlite.
+// i should convert the ToolModel field data types to there corresponding atomic data types(indivisible), which is in the format that can be persisted in the sqlite database.
+// The converted data types should match the data type required by sqlite.
 class ToolModel {
   /// its only null when creating a new tool that need to be inserted to the database.
   /// But when constructing this tool from a database record, [toolId] should have a non-null value
@@ -56,20 +56,20 @@ class ToolModel {
   });
 
   /// should be called when this tool wants to be inserted to the database.
-  ToolModel.insert({
-    this.toolId,
-    required this.name,
-    required this.boughtAt,
-    required this.purchasedPrice,
-    required this.rate,
-    this.rentCount = 0,
-    required this.currency,
-    required this.category,
-    required this.toolImagePath,
-    required this.toolUniqueId,
-    this.toolUserId,
-    this.status = Status.idle,
-  });
+  // ToolModel.insert({
+  //   this.toolId,
+  //   required this.name,
+  //   required this.boughtAt,
+  //   required this.purchasedPrice,
+  //   required this.rate,
+  //   this.rentCount = 0,
+  //   required this.currency,
+  //   required this.category,
+  //   required this.toolImagePath,
+  //   required this.toolUniqueId,
+  //   this.toolUserId,
+  //   this.status = Status.idle,
+  // });
 
   factory ToolModel.fromEntity(ToolEntity toolEntity) {
     return ToolModel(

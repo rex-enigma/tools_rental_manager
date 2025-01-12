@@ -26,7 +26,7 @@ import 'package:tools_rental_management/domain/usecases/get_tool_user_back_natio
 import 'package:tools_rental_management/domain/usecases/get_tool_user_front_national_id_image_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/get_tool_user_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/pick_image_usecase.dart';
-import 'package:tools_rental_management/domain/usecases/rent_tool_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/rent_out_tool_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/repossess_tool_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/update_tool_category_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/update_tool_image_usecase.dart';
@@ -117,7 +117,7 @@ import 'package:tools_rental_management/ui/views/remote_image/remote_image_view.
     LazySingleton(classType: GetToolUserFrontNationalIdImageUseCase),
     LazySingleton(classType: GetToolUserUseCase),
     LazySingleton(classType: PickImageUseCase),
-    LazySingleton(classType: RentToolUseCase),
+    LazySingleton(classType: RentOutToolUseCase),
     LazySingleton(classType: RepossessToolUseCase),
     LazySingleton(classType: UpdateToolCategoryUseCase),
     LazySingleton(classType: UpdateToolImageUseCase),

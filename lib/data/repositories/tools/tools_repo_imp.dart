@@ -75,7 +75,7 @@ class ToolsRepoImp implements ToolsRepo {
 
   /// will return the updated tools that are rented by [ToolUser] of the given toolUserId.
   @override
-  Future<List<ToolEntity>> rentToolsToToolUser(List<ToolEntity> idleTools, int toolUserId) async {
+  Future<List<ToolEntity>> rentOutToolsToToolUser(List<ToolEntity> idleTools, int toolUserId) async {
     final List<ToolEntity> associatedTools = idleTools.map((idleTool) {
       return idleTool.copyWith(
         toolUserId: toolUserId,

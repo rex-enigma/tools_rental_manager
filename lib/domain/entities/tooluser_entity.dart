@@ -24,6 +24,18 @@ class ToolUserEntity {
     this.toolEntities,
   });
 
+  /// should be called when a new tool user wants to be persisted.
+  ToolUserEntity.insert(
+      {this.toolUserId,
+      required this.firstName,
+      required this.lastName,
+      required this.frontNationalIdImagePath,
+      required this.backNationalIdImagePath,
+      required this.avatarImagePath,
+      required this.phoneNumber,
+      required this.countryCallingCode,
+      this.toolEntities});
+
   // excluded toolUserId because we don't what [copyWith] to accidentally be called with toolUserId that might later conflict with another
   // toolUser that might end up having the same toolUserId.
   // also excluded tools because it doesn't play any part when it comes to updating the toolUser.
