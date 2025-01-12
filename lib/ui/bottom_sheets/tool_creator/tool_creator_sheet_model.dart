@@ -12,10 +12,14 @@ import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
 
 class ToolCreatorSheetModel extends BaseViewModel {
-  final _bottomSheetService = locator<BottomSheetService>();
-  final _navigationService = locator<NavigationService>();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final BottomSheetService _bottomSheetService;
+  final NavigationService _navigationService;
 
+  ToolCreatorSheetModel({BottomSheetService? bottomSheetService, NavigationService? navigationService})
+      : _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
+        _navigationService = navigationService ?? locator<NavigationService>();
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   TextEditingController toolNameTextEditingController = TextEditingController();
   // the date in held by text is formatted using intl package, don't forget to convert convert it back to DateTime when preparing it for storage
   TextEditingController purchaseDateTextEditController = TextEditingController();
@@ -79,7 +83,7 @@ class ToolCreatorSheetModel extends BaseViewModel {
     toolUniqueIdTextEditingController.text = strToolUniqueId;
   }
 
-  /// its called when all forms validation pass
+  /// its called when all form validations pass
   void submitForm() {
     ToolEntity newTool = ToolEntity.insert(
       name: toolNameTextEditingController.text,

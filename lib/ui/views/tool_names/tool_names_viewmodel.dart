@@ -3,7 +3,10 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 
 class ToolNamesViewModel extends BaseViewModel {
-  final _navigationService = locator<NavigationService>();
+  final NavigationService _navigationService;
+
+  ToolNamesViewModel({NavigationService? navigationService}) : _navigationService = navigationService ?? locator<NavigationService>();
+
   final toolNames = sortedToolNames();
   List<String> filteredToolNames = [];
 

@@ -4,8 +4,9 @@ import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 
 class HomeViewModel extends IndexTrackingViewModel {
-  final _dialogService = locator<DialogService>();
-  final _bottomSheetService = locator<BottomSheetService>();
+  final DialogService _dialogService;
+
+  HomeViewModel({DialogService? dialogService}) : _dialogService = dialogService ?? locator<DialogService>();
 
   String get counterLabel => 'Counter is: $_counter';
 

@@ -4,18 +4,36 @@ import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
-import 'package:tools_rental_management/data/models/tooluser_model.dart';
-import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
-import 'package:tools_rental_management/ui/views/tools/tools_viewmodel.dart';
+import 'package:tools_rental_management/domain/usecases/add_tool_user_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/delete_tool_user_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_all_tool_users_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/usecase.dart';
 
 class ToolUsersViewModel extends BaseViewModel {
+  final NavigationService _navigationService;
+  final BottomSheetService _bottomSheetService;
+  final DialogService _dialogService;
+  final UseCase<int, AddToolUserParam> _addToolUserUseCase;
+  final UseCase<List<ToolUserEntity>?, NoParams> _getAllToolUsersUseCase;
+  final UseCase<int, ToolUserIdParam> _deleteToolUserUseCase;
+
+  ToolUsersViewModel(
+      {BottomSheetService? bottomSheetService,
+      DialogService? dialogService,
+      NavigationService? navigationService,
+      UseCase<int, AddToolUserParam>? addToolUserUseCase,
+      UseCase<List<ToolUserEntity>?, NoParams>? getAllToolUsersUseCase,
+      UseCase<int, ToolUserIdParam>? deleteToolUserUseCase})
+      : _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
+        _dialogService = dialogService ?? locator<DialogService>(),
+        _navigationService = navigationService ?? locator<NavigationService>(),
+        _addToolUserUseCase = addToolUserUseCase ?? locator<AddToolUserUseCase>(),
+        _getAllToolUsersUseCase = getAllToolUsersUseCase ?? locator<GetAllToolUsersUseCase>(),
+        _deleteToolUserUseCase = deleteToolUserUseCase ?? locator<DeleteToolUserUseCase>();
+
   // we are directly instantiating snackbarService since its not part of dependencies managed by Locator
   final _snackbarService = SnackbarService();
-  final _navigationService = locator<NavigationService>();
-  final _bottomSheetService = locator<BottomSheetService>();
-  final _dialogService = locator<DialogService>();
-  final _toolUsersRepoImp = locator<ToolUsersRepoImp>();
 
   /// toolUser search text form field toggle
   bool _showAppBarSearchField = false;
@@ -79,13 +97,13 @@ class ToolUsersViewModel extends BaseViewModel {
   Future<int> _insertNewToolUser(ToolUserEntity newToolUser) async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    return runBusyFuture(_toolUsersRepoImp.insertToolUser(newToolUser));
+    return runBusyFuture(_addToolUserUseCase(AddToolUserParam(toolUserEntity: newToolUser)));
   }
 
   Future<List<ToolUserEntity>?> _fetchAllToolUsers() async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    return runBusyFuture(_toolUsersRepoImp.getAllToolUsersOrNull());
+    return runBusyFuture(_getAllToolUsersUseCase(NoParams()));
   }
 
   void deleteToolUser(ToolUserEntity toolUser) async {
@@ -93,7 +111,8 @@ class ToolUsersViewModel extends BaseViewModel {
     if (toolUser.toolEntities == null) {
       // Sets busy to true before starting future and sets it to false after executing
       // the ui will be rebuild in both situations
-      await runBusyFuture(_toolUsersRepoImp.deleteToolUserById(toolUser.toolUserId!));
+      await runBusyFuture(_deleteToolUserUseCase(ToolUserIdParam(toolUserId: toolUser.toolUserId!)));
+
       // once the deletion is complete, show a snackbar message to the user
       _snackbarService.showSnackbar(message: '${toolUser.firstName} ${toolUser.lastName} deleted successfully');
       updateToolUsers();

@@ -4,13 +4,18 @@ import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/data/models/tooluser_model.dart';
+import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
 import 'package:tools_rental_management/enums/national_id_side.dart';
 
 class ToolUserCreatorSheetModel extends BaseViewModel {
-  final _bottomSheetService = locator<BottomSheetService>();
-  final _navigationService = locator<NavigationService>();
-  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  final BottomSheetService _bottomSheetService;
+  final NavigationService _navigationService;
 
+  ToolUserCreatorSheetModel({BottomSheetService? bottomSheetService, NavigationService? navigationService})
+      : _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
+        _navigationService = navigationService ?? locator<NavigationService>();
+
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   // no need to call rebuildUi() because the text in these controllers are setters which when set/called will notify the listeners which will be our inputField in TextFormField for the firstName/lastName/phoneNumber, hence it will rebuild showing the value which was set
   TextEditingController firstNameTextEditingController = TextEditingController();
   TextEditingController lastNameTextEditingController = TextEditingController();
@@ -65,7 +70,7 @@ class ToolUserCreatorSheetModel extends BaseViewModel {
 
   // will be called when all the forms are valid
   void submitForm() {
-    ToolUserModel newToolUser = ToolUserModel.insert(
+    ToolUserEntity newToolUser = ToolUserEntity.insert(
       firstName: firstNameTextEditingController.text,
       lastName: lastNameTextEditingController.text,
       frontNationalIdImagePath: frontNationalIdImagePath!,

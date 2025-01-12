@@ -7,23 +7,49 @@ import 'package:tools_rental_management/app/app.router.dart';
 import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/domain/entities/tool_entity.dart';
+import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
+import 'package:tools_rental_management/domain/usecases/add_tool_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/delete_tool_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_all_tool_users_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_all_tools_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_tool_user_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/usecase.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/status.dart';
 import 'package:tools_rental_management/errors/exceptions.dart';
 import 'package:tools_rental_management/ui/views/tools/menu_status_filter.dart';
 
 class ToolsViewModel extends BaseViewModel {
-  // we are directly instantiating snackbarService since its not part of dependencies managed by Locator
-  final _snackbarService = SnackbarService();
-  final _dialogService = locator<DialogService>();
-  final _navigationService = locator<NavigationService>();
-  final _bottomSheetService = locator<BottomSheetService>();
-  final _toolsRepoImp = locator<ToolsRepoImp>();
-  final _toolUsersRepoImp = locator<ToolUsersRepoImp>();
+  final DialogService _dialogService;
+  final NavigationService _navigationService;
+  final BottomSheetService _bottomSheetService;
+  final UseCase<ToolUserEntity?, ToolUserIdParam> _getToolUserUseCase;
+  final UseCase<List<ToolEntity>?, NoParams> _getAllToolsUseCase;
+  final UseCase<int, AddToolParam> _addToolUseCase;
+  final UseCase<int, ToolIdParam> _deleteToolUseCase;
+
+  ToolsViewModel(
+      {DialogService? dialogService,
+      NavigationService? navigationService,
+      BottomSheetService? bottomSheetService,
+      UseCase<ToolUserEntity?, ToolUserIdParam>? getToolUserUseCase,
+      UseCase<List<ToolEntity>?, NoParams>? getAllToolsUseCase,
+      UseCase<int, AddToolParam>? addToolUseCase,
+      UseCase<int, ToolIdParam>? deleteToolUseCase})
+      : _dialogService = dialogService ?? locator<DialogService>(),
+        _navigationService = navigationService ?? locator<NavigationService>(),
+        _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
+        _getToolUserUseCase = getToolUserUseCase ?? locator<GetToolUserUseCase>(),
+        _getAllToolsUseCase = getAllToolsUseCase ?? locator<GetAllToolsUseCase>(),
+        _addToolUseCase = addToolUseCase ?? locator<AddToolUseCase>(),
+        _deleteToolUseCase = deleteToolUseCase ?? locator<DeleteToolUseCase>();
 
   // // this the the new tool that has been constructed from ToolCreatorSheet
   // // remember this newTool does't have an toolId yet, it will be assigned by sqlite so don't think about using it directly here
   // Tool? _newTool;
+
+  // we are directly instantiating snackbarService since its not part of dependencies managed by Locator
+  final _snackbarService = SnackbarService();
 
   /// tool search text form field toggle
   bool _showAppBarSearchField = false;
@@ -59,9 +85,8 @@ class ToolsViewModel extends BaseViewModel {
     for (var tool in tools) {
       int? toolUserId = tool.toolUserId;
       if (toolUserId != null) {
-        String? firstName = await _toolUsersRepoImp.getToolUserFirstNameByIdOrNull(toolUserId);
-        String? lastName = await _toolUsersRepoImp.getToolUserLastNameByIdOrNull(toolUserId);
-        String fullName = '$firstName $lastName';
+        ToolUserEntity? toolUser = await runBusyFuture(_getToolUserUseCase(ToolUserIdParam(toolUserId: toolUserId)));
+        String fullName = '${toolUser?.firstName} ${toolUser?.lastName}';
         toolUserNames[toolUserId] = fullName;
       }
     }
@@ -203,7 +228,7 @@ class ToolsViewModel extends BaseViewModel {
   Future<List<ToolEntity>?> _fetchAllTools() async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    return runBusyFuture(_toolsRepoImp.getAllToolsOrNull());
+    return runBusyFuture(_getAllToolsUseCase(NoParams()));
   }
 
   // Future<List<Tool>?> _getAllTools() {
@@ -213,7 +238,7 @@ class ToolsViewModel extends BaseViewModel {
   Future<int> _insertNewTool(ToolEntity newTool) {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    return runBusyFuture(_toolsRepoImp.insertTool(newTool));
+    return runBusyFuture(_addToolUseCase(AddToolParam(toolEntity: newTool)));
   }
 
   void showToolCreatorBottomSheet() async {
@@ -249,7 +274,8 @@ class ToolsViewModel extends BaseViewModel {
 
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    await runBusyFuture(_toolsRepoImp.deleteToolById(tool.toolId!));
+    await runBusyFuture(_deleteToolUseCase(ToolIdParam(toolId: tool.toolId!)));
+
     // once the deletion is complete, show a snackbar message to the user
     _snackbarService.showSnackbar(message: '${tool.name} deleted successfully');
     updateTools();

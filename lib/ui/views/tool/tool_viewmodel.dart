@@ -4,19 +4,49 @@ import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
-import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
-import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
 import 'package:tools_rental_management/domain/entities/tool_entity.dart';
+import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
+import 'package:tools_rental_management/domain/usecases/get_tool_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/get_tool_user_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_category_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_name_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_rate_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/update_tool_status_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/usecase.dart';
 import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/image_type.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
 class ToolViewModel extends BaseViewModel {
-  final _dialogService = locator<DialogService>();
-  final _bottomSheetService = locator<BottomSheetService>();
-  final _navigationService = locator<NavigationService>();
-  final _toolsRepoImp = locator<ToolsRepoImp>();
-  final _toolUsersRepoImp = locator<ToolUsersRepoImp>();
+  final DialogService _dialogService;
+  final NavigationService _navigationService;
+  final BottomSheetService _bottomSheetService;
+  final UseCase<ToolEntity?, ToolIdParam> _getToolUseCase;
+  final UseCase<ToolUserEntity?, ToolUserIdParam> _getToolUserUseCase;
+  final UseCase<String?, UpdateToolNameParams> _updateToolNameUseCase;
+  final UseCase<Status?, UpdateToolStatusParams> _updateToolStatusUseCase;
+  final UseCase<int?, UpdateToolRateParams> _updateToolRateUseCase;
+  final UseCase<Category?, UpdateToolCategoryParams> _updateToolCategoryUseCase;
+
+  ToolViewModel({
+    DialogService? dialogService,
+    NavigationService? navigationService,
+    BottomSheetService? bottomSheetService,
+    UseCase<ToolEntity?, ToolIdParam>? getToolUseCase,
+    UseCase<ToolUserEntity?, ToolUserIdParam>? getToolUserUseCase,
+    UseCase<String?, UpdateToolNameParams>? updateToolNameUseCase,
+    UseCase<Status?, UpdateToolStatusParams>? updateToolStatusUseCase,
+    UseCase<int?, UpdateToolRateParams>? updateToolRateUseCase,
+    UseCase<Category?, UpdateToolCategoryParams>? updateToolCategoryUseCase,
+  })  : _dialogService = dialogService ?? locator<DialogService>(),
+        _navigationService = navigationService ?? locator<NavigationService>(),
+        _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
+        _getToolUseCase = getToolUseCase ?? locator<GetToolUseCase>(),
+        _getToolUserUseCase = getToolUserUseCase ?? locator<GetToolUserUseCase>(),
+        _updateToolNameUseCase = updateToolNameUseCase ?? locator<UpdateToolNameUseCase>(),
+        _updateToolStatusUseCase = updateToolStatusUseCase ?? locator<UpdateToolStatusUseCase>(),
+        _updateToolRateUseCase = updateToolRateUseCase ?? locator<UpdateToolRateUseCase>(),
+        _updateToolCategoryUseCase = updateToolCategoryUseCase ?? locator<UpdateToolCategoryUseCase>();
 
   /// uniquely identifies a tool in the database (primary key)
   late int toolId;
@@ -45,15 +75,14 @@ class ToolViewModel extends BaseViewModel {
   Future fetchTool(int toolId) async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    ToolEntity? tool = await runBusyFuture(_toolsRepoImp.getToolByIdOrNull(toolId));
+    ToolEntity? tool = await runBusyFuture(_getToolUseCase(ToolIdParam(toolId: toolId)));
     this.tool = tool;
   }
 
   Future fetchToolUserFullName(int? toolUserId) async {
     if (toolUserId != null) {
-      String? firstName = await runBusyFuture(_toolUsersRepoImp.getToolUserFirstNameByIdOrNull(tool!.toolUserId!));
-      String? lastName = await runBusyFuture(_toolUsersRepoImp.getToolUserLastNameByIdOrNull(tool!.toolUserId!));
-      String fullName = '$firstName $lastName';
+      ToolUserEntity? toolUser = await runBusyFuture(_getToolUserUseCase(ToolUserIdParam(toolUserId: toolUserId)));
+      String fullName = '${toolUser?.firstName} ${toolUser?.lastName}';
       toolUserName = fullName;
     }
   }
@@ -126,17 +155,17 @@ class ToolViewModel extends BaseViewModel {
   void updateToolProperty(ToolProperty toolProperty, dynamic value) async {
     switch (toolProperty) {
       case ToolProperty.toolName:
-        String? updatedName = await _toolsRepoImp.updateToolName(value, toolId);
+        String? updatedName = await _updateToolNameUseCase(UpdateToolNameParams(toolName: value, toolId: toolId));
         tool = tool!.copyWith(name: updatedName);
         break;
       case ToolProperty.toolStatus:
-        Status? updatedStatus = await _toolsRepoImp.updateToolStatus(value, toolId);
+        Status? updatedStatus = await _updateToolStatusUseCase(UpdateToolStatusParams(toolStatus: value, toolId: toolId));
         tool = tool!.copyWith(status: updatedStatus);
       case ToolProperty.toolRate:
-        int? updatedRate = await _toolsRepoImp.updateToolRate(value, toolId);
+        int? updatedRate = await _updateToolRateUseCase(UpdateToolRateParams(toolRate: value, toolId: toolId));
         tool = tool!.copyWith(rate: updatedRate);
       case ToolProperty.toolCategory:
-        Category? updatedCategory = await _toolsRepoImp.updateToolCategory(value, toolId);
+        Category? updatedCategory = await _updateToolCategoryUseCase(UpdateToolCategoryParams(toolCategory: value, toolId: toolId));
         tool = tool!.copyWith(category: updatedCategory);
     }
 

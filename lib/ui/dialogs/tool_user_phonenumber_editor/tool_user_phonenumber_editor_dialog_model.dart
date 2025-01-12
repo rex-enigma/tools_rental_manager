@@ -2,8 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
 class ToolUserPhonenumberEditorDialogModel extends BaseViewModel {
-  final TextEditingController phoneNumberEditingController =
-      TextEditingController();
+  final TextEditingController phoneNumberEditingController = TextEditingController();
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
 
 // just make sure the input for the first or last name for the tool user is not empty

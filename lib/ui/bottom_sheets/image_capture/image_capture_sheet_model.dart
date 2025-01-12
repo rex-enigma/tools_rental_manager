@@ -1,22 +1,24 @@
 import 'package:stacked/stacked.dart';
 import 'package:stacked_services/stacked_services.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
-import 'package:tools_rental_management/data/repositories/images/images_repo_imp.dart';
+import 'package:tools_rental_management/domain/usecases/pick_image_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/usecase.dart';
 import 'package:tools_rental_management/enums/my_image_source.dart';
 
 class ImageCaptureSheetModel extends BaseViewModel {
-  final _navigationService = locator<NavigationService>();
-  final _imagesRepoImp = locator<ImagesRepoImp>();
+  final NavigationService _navigationService;
+  final UseCase<String?, PickImageParams> _pickImageUseCase;
+
+  ImageCaptureSheetModel({NavigationService? navigationService, UseCase<String?, PickImageParams>? pickImageUseCase})
+      : _navigationService = navigationService ?? locator<NavigationService>(),
+        _pickImageUseCase = pickImageUseCase ?? locator<PickImageUseCase>();
 
   // will hold an imagePath if the previous View/BottomSheet that invoked it has one.
   // this imagePath will be used when updating an image
   String? imagePath;
 
   void fetchImageFromCamera() async {
-    String? cameraImagePath = await _imagesRepoImp.fetchImagePath(
-      source: MyImageSource.camera,
-      previousImagePath: imagePath,
-    );
+    String? cameraImagePath = await _pickImageUseCase(PickImageParams(source: MyImageSource.camera, previousImagePath: imagePath));
 
     // execute only if the image returned is not the same as the one provided as previousImagePath
     if (cameraImagePath != imagePath) {
@@ -25,10 +27,7 @@ class ImageCaptureSheetModel extends BaseViewModel {
   }
 
   void fetchImageFromGallery() async {
-    String? galleryImagePath = await _imagesRepoImp.fetchImagePath(
-      source: MyImageSource.gallery,
-      previousImagePath: imagePath,
-    );
+    String? galleryImagePath = await _pickImageUseCase(PickImageParams(source: MyImageSource.gallery, previousImagePath: imagePath));
 
     // execute only if the image returned is not the same as the one provided as previousImagePath
     if (galleryImagePath != imagePath) {
