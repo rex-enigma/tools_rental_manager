@@ -13,7 +13,8 @@ class ViewModel extends BaseViewModel {
   // concrete class
   final FetchToolInfoUseCase fetchToolInfoUseCase;
 
-  ViewModel({FetchToolInfoUseCase? fetchToolInfoUseCase}) : fetchToolInfoUseCase = fetchToolInfoUseCase ?? FetchToolInfoUseCase();
+  ViewModel({FetchToolInfoUseCase? fetchToolInfoUseCase})
+      : fetchToolInfoUseCase = fetchToolInfoUseCase ?? FetchToolInfoUseCase();
 }
 
 class FakeFetchToolInfoUseCase implements FetchToolInfoUseCase {

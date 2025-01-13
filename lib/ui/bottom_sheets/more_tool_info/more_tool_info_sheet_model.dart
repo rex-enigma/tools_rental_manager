@@ -9,7 +9,10 @@ import 'package:tools_rental_management/domain/usecases/usecase.dart';
 class MoreToolInfoSheetModel extends BaseViewModel {
   final UseCase<ToolArticleEntity?, TitleParam> _fetchToolInfoUseCase;
 
-  MoreToolInfoSheetModel({UseCase<ToolArticleEntity?, TitleParam>? fetchToolInfoUseCase}) : _fetchToolInfoUseCase = fetchToolInfoUseCase ?? locator<FetchToolInfoUseCase>();
+  MoreToolInfoSheetModel(
+      {UseCase<ToolArticleEntity?, TitleParam>? fetchToolInfoUseCase})
+      : _fetchToolInfoUseCase =
+            fetchToolInfoUseCase ?? locator<FetchToolInfoUseCase>();
 
   // this name will be used search for a specific tool in wikipedia
   late String toolName;
@@ -29,7 +32,8 @@ class MoreToolInfoSheetModel extends BaseViewModel {
     // runBusyFuture  Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
     //if unable to fetch tool article for various reasons(eg no internet access) null will be returned (check this later )
-    ToolArticleEntity? toolArticle = await runBusyFuture(_fetchToolInfoUseCase(TitleParam(title: toolName)));
+    ToolArticleEntity? toolArticle =
+        await runBusyFuture(_fetchToolInfoUseCase(TitleParam(title: toolName)));
 
     if (toolArticle != null) {
       this.toolArticle = toolArticle;
@@ -40,7 +44,10 @@ class MoreToolInfoSheetModel extends BaseViewModel {
     if (toolArticle != null && toolArticle?.urlImagePath != null) {
       // await _navigationService.navigateToRemoteImageView(urlImagePath: toolArticle!.urlImagePath!, toolName: toolArticle!.title);
       // i don't know why _navigationService.navigateToRemoteImageView only works once but after that any subsequent press do not  cause navigation to RemoteImageView
-      Navigator.of(context).pushNamed(Routes.remoteImageView, arguments: RemoteImageViewArguments(urlImagePath: toolArticle!.urlImagePath!, toolName: toolArticle!.title));
+      Navigator.of(context).pushNamed(Routes.remoteImageView,
+          arguments: RemoteImageViewArguments(
+              urlImagePath: toolArticle!.urlImagePath!,
+              toolName: toolArticle!.title));
     }
   }
 }

@@ -11,15 +11,20 @@ class ToolUserCreatorSheetModel extends BaseViewModel {
   final BottomSheetService _bottomSheetService;
   final NavigationService _navigationService;
 
-  ToolUserCreatorSheetModel({BottomSheetService? bottomSheetService, NavigationService? navigationService})
-      : _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
+  ToolUserCreatorSheetModel(
+      {BottomSheetService? bottomSheetService,
+      NavigationService? navigationService})
+      : _bottomSheetService =
+            bottomSheetService ?? locator<BottomSheetService>(),
         _navigationService = navigationService ?? locator<NavigationService>();
 
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   // no need to call rebuildUi() because the text in these controllers are setters which when set/called will notify the listeners which will be our inputField in TextFormField for the firstName/lastName/phoneNumber, hence it will rebuild showing the value which was set
-  TextEditingController firstNameTextEditingController = TextEditingController();
+  TextEditingController firstNameTextEditingController =
+      TextEditingController();
   TextEditingController lastNameTextEditingController = TextEditingController();
-  TextEditingController phoneNumberTextEditingController = TextEditingController();
+  TextEditingController phoneNumberTextEditingController =
+      TextEditingController();
   String? frontNationalIdImagePath;
   String? backNationalIdImagePath;
   String? userImagePath;

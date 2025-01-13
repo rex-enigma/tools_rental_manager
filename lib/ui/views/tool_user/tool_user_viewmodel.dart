@@ -27,10 +27,14 @@ class ToolUserViewModel extends BaseViewModel {
   final DialogService _dialogService;
   final NavigationService _navigationService;
   final UseCase<ToolUserEntity?, ToolUserIdParam> _getToolUserUseCase;
-  final UseCase<String?, UpdateToolUserFirstNameParams> _updateToolUserFirstNameUseCase;
-  final UseCase<String?, UpdateToolUserLastNameParams> _updateToolUserLastNameUseCase;
-  final UseCase<int?, UpdateToolUserPhoneNumberParams> _updateToolUserPhoneNumberUseCase;
-  final UseCase<String?, UpdateToolUserAvatarImageParams> _updateToolUserAvatarImageUseCase;
+  final UseCase<String?, UpdateToolUserFirstNameParams>
+      _updateToolUserFirstNameUseCase;
+  final UseCase<String?, UpdateToolUserLastNameParams>
+      _updateToolUserLastNameUseCase;
+  final UseCase<int?, UpdateToolUserPhoneNumberParams>
+      _updateToolUserPhoneNumberUseCase;
+  final UseCase<String?, UpdateToolUserAvatarImageParams>
+      _updateToolUserAvatarImageUseCase;
   final UseCase<List<ToolEntity>, RentOutToolParams> _rentOutToolUseCase;
   final UseCase<int, RepossessToolParam> _repossessToolUseCase;
 
@@ -39,22 +43,34 @@ class ToolUserViewModel extends BaseViewModel {
       DialogService? dialogService,
       NavigationService? navigationService,
       UseCase<ToolUserEntity?, ToolUserIdParam>? getToolUserUseCase,
-      UseCase<String?, UpdateToolUserFirstNameParams>? updateToolUserFirstNameUseCase,
-      UseCase<String?, UpdateToolUserLastNameParams>? updateToolUserLastNameUseCase,
-      UseCase<int?, UpdateToolUserPhoneNumberParams>? updateToolUserPhoneNumberUseCase,
-      UseCase<String?, UpdateToolUserAvatarImageParams>? updateToolUserAvatarImageUseCase,
+      UseCase<String?, UpdateToolUserFirstNameParams>?
+          updateToolUserFirstNameUseCase,
+      UseCase<String?, UpdateToolUserLastNameParams>?
+          updateToolUserLastNameUseCase,
+      UseCase<int?, UpdateToolUserPhoneNumberParams>?
+          updateToolUserPhoneNumberUseCase,
+      UseCase<String?, UpdateToolUserAvatarImageParams>?
+          updateToolUserAvatarImageUseCase,
       UseCase<List<ToolEntity>, RentOutToolParams>? rentOutToolUseCase,
       UseCase<int, RepossessToolParam>? repossessToolUseCase})
-      : _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
+      : _bottomSheetService =
+            bottomSheetService ?? locator<BottomSheetService>(),
         _dialogService = dialogService ?? locator<DialogService>(),
         _navigationService = navigationService ?? locator<NavigationService>(),
-        _getToolUserUseCase = getToolUserUseCase ?? locator<GetToolUserUseCase>(),
-        _updateToolUserFirstNameUseCase = updateToolUserFirstNameUseCase ?? locator<UpdateToolUserFirstNameUseCase>(),
-        _updateToolUserLastNameUseCase = updateToolUserLastNameUseCase ?? locator<UpdateToolUserLastNameUseCase>(),
-        _updateToolUserPhoneNumberUseCase = updateToolUserPhoneNumberUseCase ?? locator<UpdateToolUserPhoneNumberUseCase>(),
-        _updateToolUserAvatarImageUseCase = updateToolUserAvatarImageUseCase ?? locator<UpdateToolUserAvatarImageUseCase>(),
-        _rentOutToolUseCase = rentOutToolUseCase ?? locator<RentOutToolUseCase>(),
-        _repossessToolUseCase = repossessToolUseCase ?? locator<RepossessToolUseCase>();
+        _getToolUserUseCase =
+            getToolUserUseCase ?? locator<GetToolUserUseCase>(),
+        _updateToolUserFirstNameUseCase = updateToolUserFirstNameUseCase ??
+            locator<UpdateToolUserFirstNameUseCase>(),
+        _updateToolUserLastNameUseCase = updateToolUserLastNameUseCase ??
+            locator<UpdateToolUserLastNameUseCase>(),
+        _updateToolUserPhoneNumberUseCase = updateToolUserPhoneNumberUseCase ??
+            locator<UpdateToolUserPhoneNumberUseCase>(),
+        _updateToolUserAvatarImageUseCase = updateToolUserAvatarImageUseCase ??
+            locator<UpdateToolUserAvatarImageUseCase>(),
+        _rentOutToolUseCase =
+            rentOutToolUseCase ?? locator<RentOutToolUseCase>(),
+        _repossessToolUseCase =
+            repossessToolUseCase ?? locator<RepossessToolUseCase>();
 
   // we are directly instantiating snackbarService since its not part of dependencies managed by Locator
   final _snackbarService = SnackbarService();
@@ -98,11 +114,13 @@ class ToolUserViewModel extends BaseViewModel {
   Future fetchToolUser(int toolUserId) async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    ToolUserEntity? toolUser = await runBusyFuture(_getToolUserUseCase(ToolUserIdParam(toolUserId: toolUserId)));
+    ToolUserEntity? toolUser = await runBusyFuture(
+        _getToolUserUseCase(ToolUserIdParam(toolUserId: toolUserId)));
     // only order toolUser.tools if the toolUser.tools is not null
     if (toolUser?.toolEntities != null) {
       //
-      toolUser!.toolEntities!.sort((toolA, toolB) => toolB.toolId!.compareTo(toolA.toolId!));
+      toolUser!.toolEntities!
+          .sort((toolA, toolB) => toolB.toolId!.compareTo(toolA.toolId!));
       this.toolUser = toolUser;
     } else {
       this.toolUser = toolUser;
@@ -122,7 +140,8 @@ class ToolUserViewModel extends BaseViewModel {
     String? firstName = response?.data;
     // make sure the first name is updated only when the text returned isn't similar will toolUser.firstName and isn't null
     if (firstName != null && firstName != toolUser!.firstName) {
-      await _updateToolUserFirstNameUseCase(UpdateToolUserFirstNameParams(toolUserFirstName: firstName, toolUserId: toolUserId));
+      await _updateToolUserFirstNameUseCase(UpdateToolUserFirstNameParams(
+          toolUserFirstName: firstName, toolUserId: toolUserId));
       await fetchToolUser(toolUserId);
     }
   }
@@ -139,7 +158,8 @@ class ToolUserViewModel extends BaseViewModel {
     String? lastName = response?.data;
     // make sure the last name is updated only when the text returned isn't similar will toolUser.LastName and null
     if (lastName != null && lastName != toolUser!.lastName) {
-      await _updateToolUserLastNameUseCase(UpdateToolUserLastNameParams(toolUserLastName: lastName, toolUserId: toolUserId));
+      await _updateToolUserLastNameUseCase(UpdateToolUserLastNameParams(
+          toolUserLastName: lastName, toolUserId: toolUserId));
       await fetchToolUser(toolUserId);
     }
   }
@@ -156,7 +176,8 @@ class ToolUserViewModel extends BaseViewModel {
     int? phoneNumber = response?.data;
     // make sure the phone number is updated only when the integer returned isn't similar will toolUser.phoneNumber and null
     if (phoneNumber != null && phoneNumber != toolUser!.phoneNumber) {
-      await _updateToolUserPhoneNumberUseCase(UpdateToolUserPhoneNumberParams(toolUserPhoneNumber: phoneNumber, toolUserId: toolUserId));
+      await _updateToolUserPhoneNumberUseCase(UpdateToolUserPhoneNumberParams(
+          toolUserPhoneNumber: phoneNumber, toolUserId: toolUserId));
       await fetchToolUser(toolUserId);
     }
   }
@@ -172,7 +193,8 @@ class ToolUserViewModel extends BaseViewModel {
     print(response?.data);
 
     if (response?.data != null) {
-      await _updateToolUserAvatarImageUseCase(UpdateToolUserAvatarImageParams(toolUserAvatarImagePath: response!.data, toolUserId: toolUserId));
+      await _updateToolUserAvatarImageUseCase(UpdateToolUserAvatarImageParams(
+          toolUserAvatarImagePath: response!.data, toolUserId: toolUserId));
       await fetchToolUser(toolUserId);
     }
   }
@@ -194,15 +216,24 @@ class ToolUserViewModel extends BaseViewModel {
     switch (imageType) {
       case ImageType.toolUserImage:
         // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.toolUserImage));
+        await _navigationService.navigateToImageView(idImageTypeGroup: (
+          id: toolUserId,
+          imageType: ImageType.toolUserImage
+        ));
         break;
       case ImageType.frontNationalIdImage:
         // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.frontNationalIdImage));
+        await _navigationService.navigateToImageView(idImageTypeGroup: (
+          id: toolUserId,
+          imageType: ImageType.frontNationalIdImage
+        ));
         break;
       case ImageType.backNationalIdImage:
         // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-        await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolUserId, imageType: ImageType.backNationalIdImage));
+        await _navigationService.navigateToImageView(idImageTypeGroup: (
+          id: toolUserId,
+          imageType: ImageType.backNationalIdImage
+        ));
         break;
       default:
         throw 'The imageType should be either: ImageType.toolUserImage or  ImageType.frontNationalIdImage or  ImageType.frontNationalIdImage but $imageType was received';
@@ -213,27 +244,39 @@ class ToolUserViewModel extends BaseViewModel {
 
   // rent out tool(s) selected from the selectToolSheet bottom sheet to this toolUser
   void rentTools(List<ToolEntity> idleTools) async {
-    await runBusyFuture(_rentOutToolUseCase(RentOutToolParams(idleTools: idleTools, toolUserId: toolUserId)));
+    await runBusyFuture(_rentOutToolUseCase(
+        RentOutToolParams(idleTools: idleTools, toolUserId: toolUserId)));
     await fetchToolUser(toolUserId);
     if (idleTools.length == 1) {
-      _snackbarService.showSnackbar(message: '${idleTools[0].name} tool has been rented out to ${toolUser!.firstName} successfully');
+      _snackbarService.showSnackbar(
+          message:
+              '${idleTools[0].name} tool has been rented out to ${toolUser!.firstName} successfully');
     } else if (idleTools.length == 2) {
-      _snackbarService.showSnackbar(message: '${idleTools[0].name} and ${idleTools[1].name} have been rented out to ${toolUser!.firstName} successfully');
+      _snackbarService.showSnackbar(
+          message:
+              '${idleTools[0].name} and ${idleTools[1].name} have been rented out to ${toolUser!.firstName} successfully');
     } else if (idleTools.length >= 3) {
-      _snackbarService.showSnackbar(message: '${idleTools.length} tools have been rented out to ${toolUser!.firstName} successfully');
+      _snackbarService.showSnackbar(
+          message:
+              '${idleTools.length} tools have been rented out to ${toolUser!.firstName} successfully');
     }
   }
 
   // repossess back the tools this toolUser was using
   // this function works with the selectedTools list
   void repossessToolsFromToolUser() async {
-    await runBusyFuture(_repossessToolUseCase(RepossessToolParam(tools: selectedTools)));
+    await runBusyFuture(
+        _repossessToolUseCase(RepossessToolParam(tools: selectedTools)));
     await fetchToolUser(toolUserId);
     // show the names of the tools in a snackbar if the rented out tool is exactly one
     if (selectedTools.length == 1) {
-      _snackbarService.showSnackbar(message: '${selectedTools[0].name} has been repossessed back from ${toolUser!.firstName} successfully');
+      _snackbarService.showSnackbar(
+          message:
+              '${selectedTools[0].name} has been repossessed back from ${toolUser!.firstName} successfully');
     } else {
-      _snackbarService.showSnackbar(message: '${selectedTools.length} tools have been repossessed back from ${toolUser!.firstName}  successfully');
+      _snackbarService.showSnackbar(
+          message:
+              '${selectedTools.length} tools have been repossessed back from ${toolUser!.firstName}  successfully');
     }
     // clear the selectedTools after repossession completes
     clearSelectedTools();
@@ -257,9 +300,12 @@ class ToolUserViewModel extends BaseViewModel {
   void repossessAToolFromToolUser(ToolEntity tool) async {
     // you need to supply a list of tools to _toolsRepoImp.repossessToolsFromToolUser,
     // since we have only one tool to get repossessed, we create a list with only that one tool
-    await runBusyFuture(_repossessToolUseCase(RepossessToolParam(tools: [tool])));
+    await runBusyFuture(
+        _repossessToolUseCase(RepossessToolParam(tools: [tool])));
     await fetchToolUser(toolUserId);
-    _snackbarService.showSnackbar(message: '${tool.name} has been repossessed back from ${toolUser!.firstName} successfully');
+    _snackbarService.showSnackbar(
+        message:
+            '${tool.name} has been repossessed back from ${toolUser!.firstName} successfully');
   }
 
   void navigateToToolView(int toolId) async {

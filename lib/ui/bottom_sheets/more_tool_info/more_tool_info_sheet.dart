@@ -94,13 +94,18 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
                       Align(
                         alignment: Alignment.centerLeft,
                         child: Text(
-                          viewModel.isBusy || viewModel.toolArticle == null ? 'Tool Name' : viewModel.toolArticle!.title,
-                          style: TextStyle(fontSize: 25, color: Theme.of(context).colorScheme.secondary),
+                          viewModel.isBusy || viewModel.toolArticle == null
+                              ? 'Tool Name'
+                              : viewModel.toolArticle!.title,
+                          style: TextStyle(
+                              fontSize: 25,
+                              color: Theme.of(context).colorScheme.secondary),
                         ),
                       ),
                       Align(
                         alignment: Alignment.bottomLeft,
-                        child: Text(viewModel.toolArticle?.description ?? 'description'),
+                        child: Text(viewModel.toolArticle?.description ??
+                            'description'),
                       ),
                       verticalSpaceSmall,
                       viewModel.isBusy || viewModel.toolArticle == null
@@ -130,7 +135,8 @@ class MoreToolInfoSheet extends StackedView<MoreToolInfoSheetModel> {
   }
 
   @override
-  MoreToolInfoSheetModel viewModelBuilder(BuildContext context) => MoreToolInfoSheetModel();
+  MoreToolInfoSheetModel viewModelBuilder(BuildContext context) =>
+      MoreToolInfoSheetModel();
 
   @override
   void onViewModelReady(MoreToolInfoSheetModel viewModel) {

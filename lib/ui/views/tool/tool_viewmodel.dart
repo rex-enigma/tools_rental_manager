@@ -40,13 +40,19 @@ class ToolViewModel extends BaseViewModel {
     UseCase<Category?, UpdateToolCategoryParams>? updateToolCategoryUseCase,
   })  : _dialogService = dialogService ?? locator<DialogService>(),
         _navigationService = navigationService ?? locator<NavigationService>(),
-        _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
+        _bottomSheetService =
+            bottomSheetService ?? locator<BottomSheetService>(),
         _getToolUseCase = getToolUseCase ?? locator<GetToolUseCase>(),
-        _getToolUserUseCase = getToolUserUseCase ?? locator<GetToolUserUseCase>(),
-        _updateToolNameUseCase = updateToolNameUseCase ?? locator<UpdateToolNameUseCase>(),
-        _updateToolStatusUseCase = updateToolStatusUseCase ?? locator<UpdateToolStatusUseCase>(),
-        _updateToolRateUseCase = updateToolRateUseCase ?? locator<UpdateToolRateUseCase>(),
-        _updateToolCategoryUseCase = updateToolCategoryUseCase ?? locator<UpdateToolCategoryUseCase>();
+        _getToolUserUseCase =
+            getToolUserUseCase ?? locator<GetToolUserUseCase>(),
+        _updateToolNameUseCase =
+            updateToolNameUseCase ?? locator<UpdateToolNameUseCase>(),
+        _updateToolStatusUseCase =
+            updateToolStatusUseCase ?? locator<UpdateToolStatusUseCase>(),
+        _updateToolRateUseCase =
+            updateToolRateUseCase ?? locator<UpdateToolRateUseCase>(),
+        _updateToolCategoryUseCase =
+            updateToolCategoryUseCase ?? locator<UpdateToolCategoryUseCase>();
 
   /// uniquely identifies a tool in the database (primary key)
   late int toolId;
@@ -75,13 +81,15 @@ class ToolViewModel extends BaseViewModel {
   Future fetchTool(int toolId) async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    ToolEntity? tool = await runBusyFuture(_getToolUseCase(ToolIdParam(toolId: toolId)));
+    ToolEntity? tool =
+        await runBusyFuture(_getToolUseCase(ToolIdParam(toolId: toolId)));
     this.tool = tool;
   }
 
   Future fetchToolUserFullName(int? toolUserId) async {
     if (toolUserId != null) {
-      ToolUserEntity? toolUser = await runBusyFuture(_getToolUserUseCase(ToolUserIdParam(toolUserId: toolUserId)));
+      ToolUserEntity? toolUser = await runBusyFuture(
+          _getToolUserUseCase(ToolUserIdParam(toolUserId: toolUserId)));
       String fullName = '${toolUser?.firstName} ${toolUser?.lastName}';
       toolUserName = fullName;
     }
@@ -134,7 +142,8 @@ class ToolViewModel extends BaseViewModel {
 
   void navigateToImageView() async {
     // since the ImageView is dynamic, you need to provide it with an toolId and a ImageType as a record in order to display/fetch/update the appropriate image(in this case tool image)
-    var response = await _navigationService.navigateToImageView(idImageTypeGroup: (id: toolId, imageType: ImageType.toolImage));
+    var response = await _navigationService.navigateToImageView(
+        idImageTypeGroup: (id: toolId, imageType: ImageType.toolImage));
 
     // the user might update the tool image, we refetch the tool image to display the new image if it was changed
     // the [toolId] am guaranteeing its not null since this viewModel wont be disposed when we navigate to ToolImageView
@@ -155,17 +164,21 @@ class ToolViewModel extends BaseViewModel {
   void updateToolProperty(ToolProperty toolProperty, dynamic value) async {
     switch (toolProperty) {
       case ToolProperty.toolName:
-        String? updatedName = await _updateToolNameUseCase(UpdateToolNameParams(toolName: value, toolId: toolId));
+        String? updatedName = await _updateToolNameUseCase(
+            UpdateToolNameParams(toolName: value, toolId: toolId));
         tool = tool!.copyWith(name: updatedName);
         break;
       case ToolProperty.toolStatus:
-        Status? updatedStatus = await _updateToolStatusUseCase(UpdateToolStatusParams(toolStatus: value, toolId: toolId));
+        Status? updatedStatus = await _updateToolStatusUseCase(
+            UpdateToolStatusParams(toolStatus: value, toolId: toolId));
         tool = tool!.copyWith(status: updatedStatus);
       case ToolProperty.toolRate:
-        int? updatedRate = await _updateToolRateUseCase(UpdateToolRateParams(toolRate: value, toolId: toolId));
+        int? updatedRate = await _updateToolRateUseCase(
+            UpdateToolRateParams(toolRate: value, toolId: toolId));
         tool = tool!.copyWith(rate: updatedRate);
       case ToolProperty.toolCategory:
-        Category? updatedCategory = await _updateToolCategoryUseCase(UpdateToolCategoryParams(toolCategory: value, toolId: toolId));
+        Category? updatedCategory = await _updateToolCategoryUseCase(
+            UpdateToolCategoryParams(toolCategory: value, toolId: toolId));
         tool = tool!.copyWith(category: updatedCategory);
     }
 

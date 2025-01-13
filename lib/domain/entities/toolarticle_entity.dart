@@ -27,7 +27,12 @@ class ToolArticleEntity {
   }
 
   @override
-  int get hashCode => (title.hashCode ^ source.hashCode ^ description.hashCode ^ excerpt.hashCode ^ urlImagePath.hashCode ^ fetchedAt.hashCode);
+  int get hashCode => (title.hashCode ^
+      source.hashCode ^
+      description.hashCode ^
+      excerpt.hashCode ^
+      urlImagePath.hashCode ^
+      fetchedAt.hashCode);
 
   @override
   String toString() {

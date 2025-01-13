@@ -162,11 +162,15 @@ OutlinedButtonThemeData _outlinedButtonTheme = OutlinedButtonThemeData(
 
 InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
   isDense: true,
-  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
-  disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+  focusedBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+  enabledBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.black)),
+  disabledBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
   errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-  focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+  focusedErrorBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
   errorStyle: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
   hintStyle: TextStyle(
     fontSize: 14,
@@ -186,11 +190,15 @@ InputDecorationTheme _inputDecorationThemeLight = const InputDecorationTheme(
 
 InputDecorationTheme _inputDecorationThemeDark = const InputDecorationTheme(
   isDense: true,
-  focusedBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-  enabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
-  disabledBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
+  focusedBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+  enabledBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.white)),
+  disabledBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.grey)),
   errorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
-  focusedErrorBorder: OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
+  focusedErrorBorder:
+      OutlineInputBorder(borderSide: BorderSide(color: Colors.red)),
   errorStyle: TextStyle(fontStyle: FontStyle.italic, fontSize: 14),
   hintStyle: TextStyle(
     fontSize: 14,

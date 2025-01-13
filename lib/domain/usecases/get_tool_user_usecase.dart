@@ -7,7 +7,8 @@ import 'package:tools_rental_management/domain/usecases/usecase.dart';
 class GetToolUserUseCase implements UseCase<ToolUserEntity?, ToolUserIdParam> {
   final ToolUsersRepo _toolUsersRepo;
 
-  GetToolUserUseCase({ToolUsersRepo? toolUsersRepo}) : _toolUsersRepo = toolUsersRepo ?? locator<ToolUsersRepoImp>();
+  GetToolUserUseCase({ToolUsersRepo? toolUsersRepo})
+      : _toolUsersRepo = toolUsersRepo ?? locator<ToolUsersRepoImp>();
 
   @override
   Future<ToolUserEntity?> call(ToolUserIdParam p) {

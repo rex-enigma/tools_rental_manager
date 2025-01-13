@@ -6,7 +6,8 @@ import 'package:tools_rental_management/domain/usecases/usecase.dart';
 class GetToolImageUseCase implements UseCase<String?, ToolIdParam> {
   final ToolsRepo _toolsRepo;
 
-  GetToolImageUseCase({ToolsRepo? toolsRepo}) : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
+  GetToolImageUseCase({ToolsRepo? toolsRepo})
+      : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
 
   @override
   Future<String?> call(ToolIdParam p) {

@@ -5,10 +5,12 @@ import 'package:tools_rental_management/domain/repositories_interface/tools/tool
 import 'package:tools_rental_management/domain/usecases/usecase.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
-class RentOutToolUseCase implements UseCase<List<ToolEntity>, RentOutToolParams> {
+class RentOutToolUseCase
+    implements UseCase<List<ToolEntity>, RentOutToolParams> {
   final ToolsRepo _toolsRepo;
 
-  RentOutToolUseCase({ToolsRepo? toolsRepo}) : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
+  RentOutToolUseCase({ToolsRepo? toolsRepo})
+      : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
 
   @override
   Future<List<ToolEntity>> call(RentOutToolParams p) async {

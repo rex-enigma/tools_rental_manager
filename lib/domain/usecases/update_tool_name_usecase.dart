@@ -6,7 +6,8 @@ import 'package:tools_rental_management/domain/usecases/usecase.dart';
 class UpdateToolNameUseCase implements UseCase<String?, UpdateToolNameParams> {
   final ToolsRepo _toolsRepo;
 
-  UpdateToolNameUseCase({ToolsRepo? toolsRepo}) : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
+  UpdateToolNameUseCase({ToolsRepo? toolsRepo})
+      : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
   @override
   Future<String?> call(UpdateToolNameParams p) {
     return _toolsRepo.updateToolName(p.toolName, p.toolId);

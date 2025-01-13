@@ -4,10 +4,12 @@ import 'package:tools_rental_management/domain/repositories_interface/tools/tool
 import 'package:tools_rental_management/domain/usecases/usecase.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
-class UpdateToolStatusUseCase implements UseCase<Status?, UpdateToolStatusParams> {
+class UpdateToolStatusUseCase
+    implements UseCase<Status?, UpdateToolStatusParams> {
   final ToolsRepo _toolsRepo;
 
-  UpdateToolStatusUseCase({ToolsRepo? toolsRepo}) : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
+  UpdateToolStatusUseCase({ToolsRepo? toolsRepo})
+      : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
 
   @override
   Future<Status?> call(UpdateToolStatusParams p) {

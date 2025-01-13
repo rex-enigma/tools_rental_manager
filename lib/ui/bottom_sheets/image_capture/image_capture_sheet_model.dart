@@ -9,7 +9,9 @@ class ImageCaptureSheetModel extends BaseViewModel {
   final NavigationService _navigationService;
   final UseCase<String?, PickImageParams> _pickImageUseCase;
 
-  ImageCaptureSheetModel({NavigationService? navigationService, UseCase<String?, PickImageParams>? pickImageUseCase})
+  ImageCaptureSheetModel(
+      {NavigationService? navigationService,
+      UseCase<String?, PickImageParams>? pickImageUseCase})
       : _navigationService = navigationService ?? locator<NavigationService>(),
         _pickImageUseCase = pickImageUseCase ?? locator<PickImageUseCase>();
 
@@ -18,7 +20,8 @@ class ImageCaptureSheetModel extends BaseViewModel {
   String? imagePath;
 
   void fetchImageFromCamera() async {
-    String? cameraImagePath = await _pickImageUseCase(PickImageParams(source: MyImageSource.camera, previousImagePath: imagePath));
+    String? cameraImagePath = await _pickImageUseCase(PickImageParams(
+        source: MyImageSource.camera, previousImagePath: imagePath));
 
     // execute only if the image returned is not the same as the one provided as previousImagePath
     if (cameraImagePath != imagePath) {
@@ -27,7 +30,8 @@ class ImageCaptureSheetModel extends BaseViewModel {
   }
 
   void fetchImageFromGallery() async {
-    String? galleryImagePath = await _pickImageUseCase(PickImageParams(source: MyImageSource.gallery, previousImagePath: imagePath));
+    String? galleryImagePath = await _pickImageUseCase(PickImageParams(
+        source: MyImageSource.gallery, previousImagePath: imagePath));
 
     // execute only if the image returned is not the same as the one provided as previousImagePath
     if (galleryImagePath != imagePath) {

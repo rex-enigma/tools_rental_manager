@@ -7,10 +7,12 @@ import 'package:tools_rental_management/enums/my_image_source.dart';
 class PickImageUseCase implements UseCase<String?, PickImageParams> {
   final ImagesRepo _imagesRepo;
 
-  PickImageUseCase({ImagesRepo? imagesRepo}) : _imagesRepo = imagesRepo ?? locator<ImagesRepoImp>();
+  PickImageUseCase({ImagesRepo? imagesRepo})
+      : _imagesRepo = imagesRepo ?? locator<ImagesRepoImp>();
   @override
   Future<String?> call(PickImageParams p) {
-    return _imagesRepo.fetchImagePath(source: p.source, previousImagePath: p.previousImagePath);
+    return _imagesRepo.fetchImagePath(
+        source: p.source, previousImagePath: p.previousImagePath);
   }
 }
 

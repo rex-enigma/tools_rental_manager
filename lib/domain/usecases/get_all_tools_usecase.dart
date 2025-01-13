@@ -7,7 +7,8 @@ import 'package:tools_rental_management/domain/usecases/usecase.dart';
 class GetAllToolsUseCase implements UseCase<List<ToolEntity>?, NoParams> {
   final ToolsRepo _toolsRepo;
 
-  GetAllToolsUseCase({ToolsRepo? toolsRepo}) : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
+  GetAllToolsUseCase({ToolsRepo? toolsRepo})
+      : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
 
   @override
   Future<List<ToolEntity>?> call(NoParams p) {

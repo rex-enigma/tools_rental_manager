@@ -7,7 +7,8 @@ import 'package:tools_rental_management/domain/usecases/usecase.dart';
 class FetchToolInfoUseCase implements UseCase<ToolArticleEntity?, TitleParam> {
   final ToolArticleRepo _toolArticleRepo;
 
-  FetchToolInfoUseCase({ToolArticleRepo? toolArticleRepo}) : _toolArticleRepo = toolArticleRepo ?? locator<ToolArticlesRepoImp>();
+  FetchToolInfoUseCase({ToolArticleRepo? toolArticleRepo})
+      : _toolArticleRepo = toolArticleRepo ?? locator<ToolArticlesRepoImp>();
 
   @override
   Future<ToolArticleEntity?> call(TitleParam p) {

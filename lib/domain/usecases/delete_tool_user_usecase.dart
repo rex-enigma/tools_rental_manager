@@ -6,7 +6,8 @@ import 'package:tools_rental_management/domain/usecases/usecase.dart';
 class DeleteToolUserUseCase implements UseCase<int, ToolUserIdParam> {
   final ToolUsersRepo _toolUsersRepo;
 
-  DeleteToolUserUseCase({ToolUsersRepo? toolUsersRepo}) : _toolUsersRepo = toolUsersRepo ?? locator<ToolUsersRepoImp>();
+  DeleteToolUserUseCase({ToolUsersRepo? toolUsersRepo})
+      : _toolUsersRepo = toolUsersRepo ?? locator<ToolUsersRepoImp>();
 
   @override
   Future<int> call(ToolUserIdParam p) {

@@ -32,16 +32,34 @@ class HomeView extends StackedView<HomeViewModel> {
         ),
         child: BottomNavigationBar(
           unselectedIconTheme: Theme.of(context).iconTheme,
-          unselectedLabelStyle: switch (getThemeManager(context).selectedThemeMode) {
-            ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0),
-            ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
+          unselectedLabelStyle: switch (
+              getThemeManager(context).selectedThemeMode) {
+            ThemeMode.light => Theme.of(context)
+                .typography
+                .white
+                .bodySmall!
+                .copyWith(fontSize: 14.0),
+            ThemeMode.dark => Theme.of(context)
+                .typography
+                .black
+                .bodySmall!
+                .copyWith(fontSize: 14.0),
             _ => throw 'configure ThemeMode.system',
           },
           unselectedItemColor: Theme.of(context).colorScheme.onPrimary,
           selectedItemColor: Theme.of(context).colorScheme.secondary,
-          selectedLabelStyle: switch (getThemeManager(context).selectedThemeMode) {
-            ThemeMode.light => Theme.of(context).typography.white.bodySmall!.copyWith(fontSize: 14.0),
-            ThemeMode.dark => Theme.of(context).typography.black.bodySmall!.copyWith(fontSize: 14.0),
+          selectedLabelStyle: switch (
+              getThemeManager(context).selectedThemeMode) {
+            ThemeMode.light => Theme.of(context)
+                .typography
+                .white
+                .bodySmall!
+                .copyWith(fontSize: 14.0),
+            ThemeMode.dark => Theme.of(context)
+                .typography
+                .black
+                .bodySmall!
+                .copyWith(fontSize: 14.0),
             _ => throw ' configure ThemeMode.system',
           },
           iconSize: Theme.of(context).iconTheme.size!,

@@ -4,10 +4,12 @@ import 'package:tools_rental_management/domain/repositories_interface/tools/tool
 import 'package:tools_rental_management/domain/usecases/usecase.dart';
 import 'package:tools_rental_management/enums/category.dart';
 
-class UpdateToolCategoryUseCase implements UseCase<Category?, UpdateToolCategoryParams> {
+class UpdateToolCategoryUseCase
+    implements UseCase<Category?, UpdateToolCategoryParams> {
   final ToolsRepo _toolsRepo;
 
-  UpdateToolCategoryUseCase({ToolsRepo? toolsRepo}) : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
+  UpdateToolCategoryUseCase({ToolsRepo? toolsRepo})
+      : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
 
   @override
   Future<Category?> call(UpdateToolCategoryParams p) {

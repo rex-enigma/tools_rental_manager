@@ -6,7 +6,8 @@ import 'package:tools_rental_management/domain/usecases/usecase.dart';
 class UpdateToolRateUseCase implements UseCase<int?, UpdateToolRateParams> {
   final ToolsRepo _toolsRepo;
 
-  UpdateToolRateUseCase({ToolsRepo? toolsRepo}) : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
+  UpdateToolRateUseCase({ToolsRepo? toolsRepo})
+      : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
 
   @override
   Future<int?> call(UpdateToolRateParams p) {

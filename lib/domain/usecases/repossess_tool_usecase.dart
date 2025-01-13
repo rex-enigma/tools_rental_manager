@@ -8,7 +8,8 @@ import 'package:tools_rental_management/enums/status.dart';
 class RepossessToolUseCase implements UseCase<int, RepossessToolParam> {
   final ToolsRepo _toolsRepo;
 
-  RepossessToolUseCase({ToolsRepo? toolsRepo}) : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
+  RepossessToolUseCase({ToolsRepo? toolsRepo})
+      : _toolsRepo = toolsRepo ?? locator<ToolsRepoImp>();
 
   @override
   Future<int> call(RepossessToolParam p) async {

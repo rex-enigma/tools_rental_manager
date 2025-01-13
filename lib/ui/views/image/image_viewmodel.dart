@@ -24,14 +24,19 @@ class ImageViewModel extends BaseViewModel {
   // final  _toolsRepoImp = locator<ToolsRepoImp>();
   // final _toolUsersRepoImp = locator<ToolUsersRepoImp>();
 
-  final UseCase<String?, ToolUserIdParam> _getToolUserFrontNationalIdImageUseCase;
-  final UseCase<String?, ToolUserIdParam> _getToolUserBackNationalIdImageUseCase;
+  final UseCase<String?, ToolUserIdParam>
+      _getToolUserFrontNationalIdImageUseCase;
+  final UseCase<String?, ToolUserIdParam>
+      _getToolUserBackNationalIdImageUseCase;
   final UseCase<String?, ToolIdParam> _getToolImageUseCase;
   final UseCase<String?, ToolUserIdParam> _getToolUserAvatarImageUseCase;
-  final UseCase<String?, UpdateToolUserBackNationalIdImageParams> _updateToolUserBackNationalIdImageUseCase;
-  final UseCase<String?, UpdateToolUserFrontNationalIdImageParams> _updateToolUserFrontNationalIdImageUseCase;
+  final UseCase<String?, UpdateToolUserBackNationalIdImageParams>
+      _updateToolUserBackNationalIdImageUseCase;
+  final UseCase<String?, UpdateToolUserFrontNationalIdImageParams>
+      _updateToolUserFrontNationalIdImageUseCase;
   final UseCase<String?, UpdateToolImageParams> _updateToolImageUseCase;
-  final UseCase<String?, UpdateToolUserAvatarImageParams> _updateToolUserAvatarImageUseCase;
+  final UseCase<String?, UpdateToolUserAvatarImageParams>
+      _updateToolUserAvatarImageUseCase;
   final UseCase<ToolEntity?, ToolIdParam> _getToolUseCase;
   final UseCase<ToolUserEntity?, ToolUserIdParam> _getToolUserUseCase;
 
@@ -42,24 +47,41 @@ class ImageViewModel extends BaseViewModel {
       UseCase<String?, ToolUserIdParam>? getToolUserBackNationalIdImageUseCase,
       UseCase<String?, ToolIdParam>? getToolImageUseCase,
       UseCase<String?, ToolUserIdParam>? getToolUserAvatarImageUseCase,
-      UseCase<String?, UpdateToolUserBackNationalIdImageParams>? updateToolUserBackNationalIdImageUseCase,
-      UseCase<String?, UpdateToolUserFrontNationalIdImageParams>? updateToolUserFrontNationalIdImageUseCase,
+      UseCase<String?, UpdateToolUserBackNationalIdImageParams>?
+          updateToolUserBackNationalIdImageUseCase,
+      UseCase<String?, UpdateToolUserFrontNationalIdImageParams>?
+          updateToolUserFrontNationalIdImageUseCase,
       UseCase<String?, UpdateToolImageParams>? updateToolImageUseCase,
-      UseCase<String?, UpdateToolUserAvatarImageParams>? updateToolUserAvatarImageUseCase,
+      UseCase<String?, UpdateToolUserAvatarImageParams>?
+          updateToolUserAvatarImageUseCase,
       UseCase<ToolEntity?, ToolIdParam>? getToolUseCase,
       UseCase<ToolUserEntity?, ToolUserIdParam>? getToolUserUseCase})
       : _navigationService = navigationService ?? locator<NavigationService>(),
-        _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
-        _getToolUserFrontNationalIdImageUseCase = getToolUserFrontNationalIdImageUseCase ?? locator<GetToolUserFrontNationalIdImageUseCase>(),
-        _getToolUserBackNationalIdImageUseCase = getToolUserBackNationalIdImageUseCase ?? locator<GetToolUserBackNationalIdImageUseCase>(),
-        _getToolImageUseCase = getToolImageUseCase ?? locator<GetToolImageUseCase>(),
-        _getToolUserAvatarImageUseCase = getToolUserAvatarImageUseCase ?? locator<GetToolUserAvatarImageUseCase>(),
-        _updateToolUserBackNationalIdImageUseCase = updateToolUserBackNationalIdImageUseCase ?? locator<UpdateToolUserBackNationalIdImageUseCase>(),
-        _updateToolUserFrontNationalIdImageUseCase = updateToolUserFrontNationalIdImageUseCase ?? locator<UpdateToolUserFrontNationalIdImageUseCase>(),
-        _updateToolImageUseCase = updateToolImageUseCase ?? locator<UpdateToolImageUseCase>(),
-        _updateToolUserAvatarImageUseCase = updateToolUserAvatarImageUseCase ?? locator<UpdateToolUserAvatarImageUseCase>(),
+        _bottomSheetService =
+            bottomSheetService ?? locator<BottomSheetService>(),
+        _getToolUserFrontNationalIdImageUseCase =
+            getToolUserFrontNationalIdImageUseCase ??
+                locator<GetToolUserFrontNationalIdImageUseCase>(),
+        _getToolUserBackNationalIdImageUseCase =
+            getToolUserBackNationalIdImageUseCase ??
+                locator<GetToolUserBackNationalIdImageUseCase>(),
+        _getToolImageUseCase =
+            getToolImageUseCase ?? locator<GetToolImageUseCase>(),
+        _getToolUserAvatarImageUseCase = getToolUserAvatarImageUseCase ??
+            locator<GetToolUserAvatarImageUseCase>(),
+        _updateToolUserBackNationalIdImageUseCase =
+            updateToolUserBackNationalIdImageUseCase ??
+                locator<UpdateToolUserBackNationalIdImageUseCase>(),
+        _updateToolUserFrontNationalIdImageUseCase =
+            updateToolUserFrontNationalIdImageUseCase ??
+                locator<UpdateToolUserFrontNationalIdImageUseCase>(),
+        _updateToolImageUseCase =
+            updateToolImageUseCase ?? locator<UpdateToolImageUseCase>(),
+        _updateToolUserAvatarImageUseCase = updateToolUserAvatarImageUseCase ??
+            locator<UpdateToolUserAvatarImageUseCase>(),
         _getToolUseCase = getToolUseCase ?? locator<GetToolUseCase>(),
-        _getToolUserUseCase = getToolUserUseCase ?? locator<GetToolUserUseCase>();
+        _getToolUserUseCase =
+            getToolUserUseCase ?? locator<GetToolUserUseCase>();
 
   /// the id of either tool data or toolUser data (toolId or toolUserId)
   int? id;
@@ -86,20 +108,26 @@ class ImageViewModel extends BaseViewModel {
     // the ui will be rebuild in both situations
     switch (imageType) {
       case ImageType.frontNationalIdImage:
-        String? frontNationalIdImagePath = await runBusyFuture(_getToolUserFrontNationalIdImageUseCase(ToolUserIdParam(toolUserId: id!)));
+        String? frontNationalIdImagePath = await runBusyFuture(
+            _getToolUserFrontNationalIdImageUseCase(
+                ToolUserIdParam(toolUserId: id!)));
         imagePath = frontNationalIdImagePath;
         break;
       case ImageType.backNationalIdImage:
-        String? backNationalIdImagePath = await runBusyFuture(_getToolUserBackNationalIdImageUseCase(ToolUserIdParam(toolUserId: id!)));
+        String? backNationalIdImagePath = await runBusyFuture(
+            _getToolUserBackNationalIdImageUseCase(
+                ToolUserIdParam(toolUserId: id!)));
         imagePath = backNationalIdImagePath;
         break;
       case ImageType.toolImage:
-        String? toolImagePath = await runBusyFuture(_getToolImageUseCase(ToolIdParam(toolId: id!)));
+        String? toolImagePath =
+            await runBusyFuture(_getToolImageUseCase(ToolIdParam(toolId: id!)));
         imagePath = toolImagePath;
 
         break;
       case ImageType.toolUserImage:
-        String? toolUserImagePath = await runBusyFuture(_getToolUserAvatarImageUseCase(ToolUserIdParam(toolUserId: id!)));
+        String? toolUserImagePath = await runBusyFuture(
+            _getToolUserAvatarImageUseCase(ToolUserIdParam(toolUserId: id!)));
         imagePath = toolUserImagePath;
         break;
       case null:
@@ -114,25 +142,33 @@ class ImageViewModel extends BaseViewModel {
     // the ui will be rebuild in both situations
     switch (imageType) {
       case ImageType.frontNationalIdImage:
-        String? newFrontNationalIdImagePath =
-            await runBusyFuture(_updateToolUserBackNationalIdImageUseCase(UpdateToolUserBackNationalIdImageParams(toolUserBackNationalIdImagePath: newImagePath, toolUserId: id)));
+        String? newFrontNationalIdImagePath = await runBusyFuture(
+            _updateToolUserBackNationalIdImageUseCase(
+                UpdateToolUserBackNationalIdImageParams(
+                    toolUserBackNationalIdImagePath: newImagePath,
+                    toolUserId: id)));
         await Future.delayed(const Duration(seconds: 2));
         imagePath = newFrontNationalIdImagePath;
         break;
       case ImageType.backNationalIdImage:
         String? newBackNationalIdImagePath = await runBusyFuture(
-            _updateToolUserFrontNationalIdImageUseCase(UpdateToolUserFrontNationalIdImageParams(toolUserFrontNationalIdImagePath: newImagePath, toolUserId: id)));
+            _updateToolUserFrontNationalIdImageUseCase(
+                UpdateToolUserFrontNationalIdImageParams(
+                    toolUserFrontNationalIdImagePath: newImagePath,
+                    toolUserId: id)));
 
         await Future.delayed(const Duration(seconds: 2));
         imagePath = newBackNationalIdImagePath;
         break;
       case ImageType.toolImage:
-        String? newToolImagePath = await runBusyFuture(_updateToolImageUseCase(UpdateToolImageParams(toolImagePath: newImagePath, toolId: id)));
+        String? newToolImagePath = await runBusyFuture(_updateToolImageUseCase(
+            UpdateToolImageParams(toolImagePath: newImagePath, toolId: id)));
         imagePath = newToolImagePath;
         break;
       case ImageType.toolUserImage:
-        String? newToolUserImagePath =
-            await runBusyFuture(_updateToolUserAvatarImageUseCase(UpdateToolUserAvatarImageParams(toolUserAvatarImagePath: newImagePath, toolUserId: id)));
+        String? newToolUserImagePath = await runBusyFuture(
+            _updateToolUserAvatarImageUseCase(UpdateToolUserAvatarImageParams(
+                toolUserAvatarImagePath: newImagePath, toolUserId: id)));
 
         imagePath = newToolUserImagePath;
         break;
@@ -155,12 +191,14 @@ class ImageViewModel extends BaseViewModel {
         name = 'Back id';
         break;
       case ImageType.toolImage:
-        ToolEntity? tool = await runBusyFuture(_getToolUseCase(ToolIdParam(toolId: id!)));
+        ToolEntity? tool =
+            await runBusyFuture(_getToolUseCase(ToolIdParam(toolId: id!)));
         String? toolImageName = tool?.name;
         name = toolImageName;
         break;
       case ImageType.toolUserImage:
-        ToolUserEntity? toolUser = await runBusyFuture(_getToolUserUseCase(ToolUserIdParam(toolUserId: id!)));
+        ToolUserEntity? toolUser = await runBusyFuture(
+            _getToolUserUseCase(ToolUserIdParam(toolUserId: id!)));
         String? toolUserFirstName = toolUser?.firstName;
         name = toolUserFirstName;
         break;
@@ -186,10 +224,13 @@ class ImageViewModel extends BaseViewModel {
 
   String getImageCaptureSheetTitle() {
     return switch (imageType) {
-      ImageType.frontNationalIdImage || ImageType.backNationalIdImage => 'National id image',
+      ImageType.frontNationalIdImage ||
+      ImageType.backNationalIdImage =>
+        'National id image',
       ImageType.toolUserImage => 'Tool user image',
       ImageType.toolImage => 'Tool image',
-      null => throw "can't get the title for the imageCaptureSheet since imageType is null"
+      null =>
+        throw "can't get the title for the imageCaptureSheet since imageType is null"
     };
   }
 

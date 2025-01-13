@@ -10,7 +10,10 @@ import 'package:tools_rental_management/enums/status.dart';
 class SelectToolSheetModel extends BaseViewModel {
   final UseCase<List<ToolEntity>?, NoParams> _getAllToolsUseCase;
 
-  SelectToolSheetModel({UseCase<List<ToolEntity>?, NoParams>? getAllToolsUseCase}) : _getAllToolsUseCase = getAllToolsUseCase ?? locator<GetAllToolsUseCase>();
+  SelectToolSheetModel(
+      {UseCase<List<ToolEntity>?, NoParams>? getAllToolsUseCase})
+      : _getAllToolsUseCase =
+            getAllToolsUseCase ?? locator<GetAllToolsUseCase>();
 
   // these are tools whose status is idle
   List<ToolEntity> idleTools = [];
@@ -40,14 +43,17 @@ class SelectToolSheetModel extends BaseViewModel {
   }
 
   Future<void> fetchIdleTools() async {
-    List<ToolEntity>? tools = await runBusyFuture(_getAllToolsUseCase(NoParams()));
+    List<ToolEntity>? tools =
+        await runBusyFuture(_getAllToolsUseCase(NoParams()));
 
-    List<ToolEntity>? idleTools = tools?.where((tool) => tool.status == Status.idle).toList();
+    List<ToolEntity>? idleTools =
+        tools?.where((tool) => tool.status == Status.idle).toList();
 
     // only add to the this.idleTools if the idleTools is not null
     if (idleTools != null) {
       // order the idleTools in descending order to display the newly add idle tool in the database at the top in th UI
-      idleTools.sort((idleToolA, idleToolB) => idleToolB.toolId!.compareTo(idleToolA.toolId!));
+      idleTools.sort((idleToolA, idleToolB) =>
+          idleToolB.toolId!.compareTo(idleToolA.toolId!));
       this.idleTools = [...idleTools];
     } else {
       this.idleTools = [];

@@ -44,7 +44,8 @@ class ToolArticleModel {
     return ToolArticleModel.fromMap(toolInfoMap: toolInfoMap);
   }
 
-  factory ToolArticleModel.fromMap({required Map<String, dynamic> toolInfoMap}) {
+  factory ToolArticleModel.fromMap(
+      {required Map<String, dynamic> toolInfoMap}) {
     return ToolArticleModel(
       title: toolInfoMap['title'],
       source: toolInfoMap['source'],
@@ -83,7 +84,12 @@ class ToolArticleModel {
   }
 
   @override
-  int get hashCode => (title.hashCode ^ source.hashCode ^ description.hashCode ^ excerpt.hashCode ^ urlImagePath.hashCode ^ fetchedAt.hashCode);
+  int get hashCode => (title.hashCode ^
+      source.hashCode ^
+      description.hashCode ^
+      excerpt.hashCode ^
+      urlImagePath.hashCode ^
+      fetchedAt.hashCode);
 
   ToolArticleEntity toEntity() {
     return ToolArticleEntity(

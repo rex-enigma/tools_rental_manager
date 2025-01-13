@@ -38,9 +38,12 @@ class ToolsViewModel extends BaseViewModel {
       UseCase<int, ToolIdParam>? deleteToolUseCase})
       : _dialogService = dialogService ?? locator<DialogService>(),
         _navigationService = navigationService ?? locator<NavigationService>(),
-        _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
-        _getToolUserUseCase = getToolUserUseCase ?? locator<GetToolUserUseCase>(),
-        _getAllToolsUseCase = getAllToolsUseCase ?? locator<GetAllToolsUseCase>(),
+        _bottomSheetService =
+            bottomSheetService ?? locator<BottomSheetService>(),
+        _getToolUserUseCase =
+            getToolUserUseCase ?? locator<GetToolUserUseCase>(),
+        _getAllToolsUseCase =
+            getAllToolsUseCase ?? locator<GetAllToolsUseCase>(),
         _addToolUseCase = addToolUseCase ?? locator<AddToolUseCase>(),
         _deleteToolUseCase = deleteToolUseCase ?? locator<DeleteToolUseCase>();
 
@@ -63,7 +66,8 @@ class ToolsViewModel extends BaseViewModel {
   // filtered tools based on their status
   List<ToolEntity> _menuStatusFilteredTools = [];
   // contains all powered tools and un-powered tools
-  List<ToolEntity> allToolsTabView = []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
+  List<ToolEntity> allToolsTabView =
+      []; // represent tools in currentSelectedTab = 0; , can also represent tools that are being searched
   List<ToolEntity> poweredToolsTabView = []; // currentSelectedTab = 1;
   List<ToolEntity> unPoweredToolsTabView = []; // currentSelectedTab = 2;
 
@@ -85,7 +89,8 @@ class ToolsViewModel extends BaseViewModel {
     for (var tool in tools) {
       int? toolUserId = tool.toolUserId;
       if (toolUserId != null) {
-        ToolUserEntity? toolUser = await runBusyFuture(_getToolUserUseCase(ToolUserIdParam(toolUserId: toolUserId)));
+        ToolUserEntity? toolUser = await runBusyFuture(
+            _getToolUserUseCase(ToolUserIdParam(toolUserId: toolUserId)));
         String fullName = '${toolUser?.firstName} ${toolUser?.lastName}';
         toolUserNames[toolUserId] = fullName;
       }
@@ -143,7 +148,8 @@ class ToolsViewModel extends BaseViewModel {
             // returns true if any tool in _menuStatusFilteredTools contains a name that the user want and
             // we also need to make sure we set poweredToolsTabView with tools whose category is powered since that is what poweredToolsTabView should contain
             // hence both of them must be true
-            return (tool.name.toLowerCase().contains(query.toLowerCase()) && tool.category == Category.poweredTool);
+            return (tool.name.toLowerCase().contains(query.toLowerCase()) &&
+                tool.category == Category.poweredTool);
           },
         ).toList();
         break;
@@ -151,7 +157,8 @@ class ToolsViewModel extends BaseViewModel {
       case 2:
         unPoweredToolsTabView = _menuStatusFilteredTools.where(
           (tool) {
-            return (tool.name.toLowerCase().contains(query.toLowerCase()) && tool.category == Category.unPoweredTool);
+            return (tool.name.toLowerCase().contains(query.toLowerCase()) &&
+                tool.category == Category.unPoweredTool);
           },
         ).toList();
       default:
@@ -170,18 +177,23 @@ class ToolsViewModel extends BaseViewModel {
         // print(_menuStatusFilteredTools);
         break;
       case MenuStatusFilter.viewOnlyToolsBeingUsed:
-        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.beingUsed).toList();
+        _menuStatusFilteredTools =
+            tools.where((tool) => tool.status == Status.beingUsed).toList();
 
         break;
       case MenuStatusFilter.viewOnlyIdleTools:
-        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.idle).toList();
+        _menuStatusFilteredTools =
+            tools.where((tool) => tool.status == Status.idle).toList();
 
         break;
       case MenuStatusFilter.viewOnlyRetiredTools:
-        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.retired).toList();
+        _menuStatusFilteredTools =
+            tools.where((tool) => tool.status == Status.retired).toList();
         break;
       case MenuStatusFilter.viewOnlyToolsUnderMaintenance:
-        _menuStatusFilteredTools = tools.where((tool) => tool.status == Status.underMaintenance).toList();
+        _menuStatusFilteredTools = tools
+            .where((tool) => tool.status == Status.underMaintenance)
+            .toList();
         break;
       default:
     }
@@ -195,11 +207,15 @@ class ToolsViewModel extends BaseViewModel {
         break;
       // display only powered tools in Powered tab
       case 1:
-        poweredToolsTabView = _menuStatusFilteredTools.where((tool) => tool.category == Category.poweredTool).toList();
+        poweredToolsTabView = _menuStatusFilteredTools
+            .where((tool) => tool.category == Category.poweredTool)
+            .toList();
         break;
       // display only un-powered tools in Unpowered tab
       case 2:
-        unPoweredToolsTabView = _menuStatusFilteredTools.where((tool) => tool.category == Category.unPoweredTool).toList();
+        unPoweredToolsTabView = _menuStatusFilteredTools
+            .where((tool) => tool.category == Category.unPoweredTool)
+            .toList();
         break;
       default:
     }
@@ -247,13 +263,15 @@ class ToolsViewModel extends BaseViewModel {
       isScrollControlled: true,
       // setting it to false will make sure when you use [SafeArea] when constructing bottomSheet, it won't be ignored.
       ignoreSafeArea: false,
-      data: 'passed data', // its not used currently, its just there to remind me that i can send data to the new screen
+      data:
+          'passed data', // its not used currently, its just there to remind me that i can send data to the new screen
     );
     // response.data is not null when a user has constructed a new tool
     if (response?.data != null) {
       ToolEntity newTool = response!.data;
       await _insertNewTool(newTool);
-      _snackbarService.showSnackbar(message: '${newTool.name} created successfully');
+      _snackbarService.showSnackbar(
+          message: '${newTool.name} created successfully');
       List<ToolEntity>? toolsOrNull = await _fetchAllTools();
       // this will add the tools? gotten from the database to the [tools] property
       addTools(toolsOrNull);
@@ -269,7 +287,8 @@ class ToolsViewModel extends BaseViewModel {
 
   void deleteRetiredTool(ToolEntity tool) async {
     // status of the tool to be used to validate the tool to be deleted is actually retired
-    if (tool.status != Status.retired) throw FailedToDeleteATool(message: '$tool is not retired yet');
+    if (tool.status != Status.retired)
+      throw FailedToDeleteATool(message: '$tool is not retired yet');
     // a value on 1 will be will be extracted from awaited future if the deletion was successful
 
     // Sets busy to true before starting future and sets it to false after executing

@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:stacked/stacked.dart';
 
@@ -7,7 +6,9 @@ import 'remote_image_viewmodel.dart';
 class RemoteImageView extends StackedView<RemoteImageViewModel> {
   final String urlImagePath;
   final String toolName;
-  const RemoteImageView({Key? key, required this.urlImagePath, required this.toolName}) : super(key: key);
+  const RemoteImageView(
+      {Key? key, required this.urlImagePath, required this.toolName})
+      : super(key: key);
 
   @override
   Widget builder(

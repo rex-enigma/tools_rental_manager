@@ -5,17 +5,23 @@ abstract class ToolUsersRepo {
 
   Future<ToolUserEntity> updateToolUser(ToolUserEntity toolUser);
   // update and returns the updated value
-  Future<String?> updateToolUserFirstName(String toolUserFirstName, int toolUserId);
+  Future<String?> updateToolUserFirstName(
+      String toolUserFirstName, int toolUserId);
   // update and returns the updated value
-  Future<String?> updateToolUserLastName(String toolUserLastName, int toolUserId);
+  Future<String?> updateToolUserLastName(
+      String toolUserLastName, int toolUserId);
   // update and returns the updated value
-  Future<int?> updateToolUserPhoneNUmber(int toolUserPhoneNumber, int toolUserId);
+  Future<int?> updateToolUserPhoneNUmber(
+      int toolUserPhoneNumber, int toolUserId);
   // update and returns the updated value
-  Future<String?> updateToolUserFrontNationalIdImagePath(String toolUserFrontNationalIdImagePath, int toolUserId);
+  Future<String?> updateToolUserFrontNationalIdImagePath(
+      String toolUserFrontNationalIdImagePath, int toolUserId);
   // update and returns the updated value
-  Future<String?> updateToolUserBackNationalIdImagePath(String toolUserBackNationalIdImagePath, int toolUserId);
+  Future<String?> updateToolUserBackNationalIdImagePath(
+      String toolUserBackNationalIdImagePath, int toolUserId);
   // update and returns the updated value
-  Future<String?> updateToolUserAvatarImagePath(String toolUserAvatarImagePath, int toolUserId);
+  Future<String?> updateToolUserAvatarImagePath(
+      String toolUserAvatarImagePath, int toolUserId);
 
   Future<ToolUserEntity?> getToolUserByIdOrNull(int toolUserId);
   Future<String?> getToolUserFirstNameByIdOrNull(int toolUserId);

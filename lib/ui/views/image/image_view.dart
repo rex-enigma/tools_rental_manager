@@ -56,7 +56,8 @@ class ImageView extends StackedView<ImageViewModel> {
                   borderRadius: BorderRadius.circular(6.0),
                   color: const Color.fromARGB(64, 158, 158, 158),
                 ),
-                child: CircularProgressIndicator(backgroundColor: Theme.of(context).colorScheme.secondary),
+                child: CircularProgressIndicator(
+                    backgroundColor: Theme.of(context).colorScheme.secondary),
               )
             // if an image path is provided display that image in is original size, let it get its constraint from its parent(the screen or any other parent that will constrain its size)
             : Image.file(

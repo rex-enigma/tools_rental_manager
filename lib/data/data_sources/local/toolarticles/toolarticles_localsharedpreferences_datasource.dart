@@ -2,7 +2,8 @@ import 'package:tools_rental_management/data/models/toolarticle_model.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolarticles/toolarticles_local_datasource_interface.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ToolArticleLocalSharedPreferencesDataSource implements ToolArticlesLocalDataSource {
+class ToolArticleLocalSharedPreferencesDataSource
+    implements ToolArticlesLocalDataSource {
   late final Future<SharedPreferences> _prefs;
 
   ToolArticleLocalSharedPreferencesDataSource() {
@@ -24,7 +25,8 @@ class ToolArticleLocalSharedPreferencesDataSource implements ToolArticlesLocalDa
   }
 
   @override
-  Future<bool> setToolArticle({required String key, required ToolArticleModel toolArticle}) async {
+  Future<bool> setToolArticle(
+      {required String key, required ToolArticleModel toolArticle}) async {
     SharedPreferences pref = await _prefs;
     return pref.setString(key, toolArticle.toJson());
   }

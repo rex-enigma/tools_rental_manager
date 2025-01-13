@@ -6,7 +6,8 @@ import 'package:stacked_services/stacked_services.dart';
 class StartupViewModel extends BaseViewModel {
   final NavigationService _navigationService;
 
-  StartupViewModel({NavigationService? navigationService}) : _navigationService = navigationService ?? locator<NavigationService>();
+  StartupViewModel({NavigationService? navigationService})
+      : _navigationService = navigationService ?? locator<NavigationService>();
 
   // Place anything here that needs to happen before we get into the application
   Future runStartupLogic() async {
