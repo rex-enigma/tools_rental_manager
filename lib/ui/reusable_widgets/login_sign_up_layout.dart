@@ -18,7 +18,6 @@ class LoginSignUpLayout extends StatelessWidget {
   final String? Function(String?)? onPasswordValidate;
   final VoidCallback onTogglePasswordVisibility;
   final VoidCallback onSubmit;
-  final Widget? footer;
 
   const LoginSignUpLayout(
       {required this.icon,
@@ -33,7 +32,6 @@ class LoginSignUpLayout extends StatelessWidget {
       this.onPasswordValidate,
       required this.onTogglePasswordVisibility,
       required this.onSubmit,
-      this.footer,
       super.key});
 
   @override
@@ -68,6 +66,7 @@ class LoginSignUpLayout extends StatelessWidget {
               right: 36.0,
             ),
             child: Form(
+              key: formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
@@ -106,7 +105,11 @@ class LoginSignUpLayout extends StatelessWidget {
                     validator: onPasswordValidate,
                   ),
                   FilledButton(
-                    onPressed: onSubmit,
+                    onPressed: () {
+                      if (formKey.currentState!.validate()) {
+                        onSubmit();
+                      }
+                    },
                     child: Text(
                       title == Account.login ? 'Login' : 'Sign up',
                       style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
