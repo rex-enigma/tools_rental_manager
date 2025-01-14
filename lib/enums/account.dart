@@ -1,0 +1,4 @@
+enum Account {
+  login,
+  signUp,
+}
