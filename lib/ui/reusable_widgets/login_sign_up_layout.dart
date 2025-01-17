@@ -11,7 +11,7 @@ class LoginSignUpLayout extends StatelessWidget {
   final GlobalKey<FormState> formKey;
   final TextEditingController userNameController;
   final TextEditingController passwordController;
-  final bool isPasswordVisible;
+  final bool obscurePassword;
   final VoidCallback? onNavigateBack;
   final VoidCallback? onRegister;
   final String? Function(String?)? onUserNameValidate;
@@ -24,7 +24,7 @@ class LoginSignUpLayout extends StatelessWidget {
       required this.formKey,
       required this.userNameController,
       required this.passwordController,
-      required this.isPasswordVisible,
+      required this.obscurePassword,
       this.onNavigateBack,
       this.onRegister,
       this.onUserNameValidate,
@@ -38,7 +38,8 @@ class LoginSignUpLayout extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         FocusScopeNode currentFocus = FocusScope.of(context);
-        if (!currentFocus.hasPrimaryFocus && currentFocus.focusedChild != null) {
+        if (!currentFocus.hasPrimaryFocus &&
+            currentFocus.focusedChild != null) {
           currentFocus.unfocus(); // Unfocus the currently focused TextFormField
         }
       },
@@ -71,8 +72,10 @@ class LoginSignUpLayout extends StatelessWidget {
                 Text(
                   title.name.toUpperCase(),
                   style: switch (getThemeManager(context).selectedThemeMode) {
-                    ThemeMode.light => Theme.of(context).typography.white.bodyLarge!,
-                    ThemeMode.dark => Theme.of(context).typography.black.bodyLarge!,
+                    ThemeMode.light =>
+                      Theme.of(context).typography.white.bodyLarge!,
+                    ThemeMode.dark =>
+                      Theme.of(context).typography.black.bodyLarge!,
                     _ => throw ' configure ThemeMode.system',
                   },
                 ),
@@ -97,9 +100,12 @@ class LoginSignUpLayout extends StatelessWidget {
                           decoration: InputDecoration(
                             labelText: 'Username',
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
-                            labelStyle: Theme.of(context).inputDecorationTheme.hintStyle,
+                            labelStyle: Theme.of(context)
+                                .inputDecorationTheme
+                                .hintStyle,
                             prefixIcon: const Icon(Icons.person),
-                            prefixIconColor: Theme.of(context).colorScheme.secondary,
+                            prefixIconColor:
+                                Theme.of(context).colorScheme.secondary,
                           ),
                           validator: onUserNameValidate,
                         ),
@@ -108,19 +114,25 @@ class LoginSignUpLayout extends StatelessWidget {
                           cursorColor: Theme.of(context).colorScheme.secondary,
                           cursorWidth: 1,
                           keyboardType: TextInputType.text,
-                          obscureText: isPasswordVisible,
+                          obscureText: obscurePassword,
                           style: textFormFieldInputTextStyle(context),
                           decoration: InputDecoration(
                             labelText: 'Password',
                             floatingLabelBehavior: FloatingLabelBehavior.auto,
-                            labelStyle: Theme.of(context).inputDecorationTheme.hintStyle,
+                            labelStyle: Theme.of(context)
+                                .inputDecorationTheme
+                                .hintStyle,
                             prefixIcon: const Icon(Icons.lock),
-                            prefixIconColor: Theme.of(context).colorScheme.secondary,
+                            prefixIconColor:
+                                Theme.of(context).colorScheme.secondary,
                             suffixIcon: IconButton(
                               onPressed: onTogglePasswordVisibility,
-                              icon: isPasswordVisible ? const Icon(Icons.visibility) : const Icon(Icons.visibility_off),
+                              icon: obscurePassword
+                                  ? const Icon(Icons.visibility)
+                                  : const Icon(Icons.visibility_off),
                             ),
-                            suffixIconColor: Theme.of(context).colorScheme.onPrimary,
+                            suffixIconColor:
+                                Theme.of(context).colorScheme.onPrimary,
                           ),
                           validator: onPasswordValidate,
                         ),
@@ -134,7 +146,10 @@ class LoginSignUpLayout extends StatelessWidget {
                             },
                             child: Text(
                               title == Account.login ? 'Login' : 'Sign up',
-                              style: TextStyle(color: Theme.of(context).colorScheme.onSecondary),
+                              style: TextStyle(
+                                  color: Theme.of(context)
+                                      .colorScheme
+                                      .onSecondary),
                             ),
                           ),
                         ),
@@ -149,9 +164,12 @@ class LoginSignUpLayout extends StatelessWidget {
                     children: [
                       Text(
                         "Don't have an account? ",
-                        style: switch (getThemeManager(context).selectedThemeMode) {
-                          ThemeMode.light => Theme.of(context).typography.white.bodySmall!,
-                          ThemeMode.dark => Theme.of(context).typography.black.bodySmall!,
+                        style: switch (
+                            getThemeManager(context).selectedThemeMode) {
+                          ThemeMode.light =>
+                            Theme.of(context).typography.white.bodySmall!,
+                          ThemeMode.dark =>
+                            Theme.of(context).typography.black.bodySmall!,
                           _ => throw ' configure ThemeMode.system',
                         },
                       ),
@@ -159,7 +177,8 @@ class LoginSignUpLayout extends StatelessWidget {
                         onPressed: onRegister,
                         child: Text(
                           'Register',
-                          style: TextStyle(color: Theme.of(context).colorScheme.secondary),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.secondary),
                         ),
                       ),
                     ],
