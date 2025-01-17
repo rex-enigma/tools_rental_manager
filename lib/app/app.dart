@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:stacked_themes/stacked_themes.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/data/data_sources/local/cameraphotos/cameraphotos_localcamera_datasource_imp.dart';
@@ -39,7 +40,6 @@ import 'package:tools_rental_management/domain/usecases/update_tool_user_first_n
 import 'package:tools_rental_management/domain/usecases/update_tool_user_front_national_id_image_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/update_tool_user_last_name_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/update_tool_user_phone_number_usecase.dart';
-import 'package:tools_rental_management/domain/usecases/usecase.dart';
 import 'package:tools_rental_management/ui/dialogs/info_alert/info_alert_dialog.dart';
 import 'package:tools_rental_management/ui/views/home/home_view.dart';
 import 'package:tools_rental_management/ui/views/settings/settings_viewmodel.dart';
@@ -93,6 +93,7 @@ import 'package:tools_rental_management/ui/views/sign_up/sign_up_view.dart';
     LazySingleton(classType: BottomSheetService),
     LazySingleton(classType: DialogService),
     LazySingleton(classType: NavigationService),
+    LazySingleton(classType: SnackbarService),
     //data-sources
     LazySingleton(classType: CameraPhotosLocalCameraDataSource),
     LazySingleton(classType: GalleryImagesLocalGalleryDataSource),
