@@ -9,18 +9,15 @@ class SignUpView extends StackedView<SignUpViewModel> {
   const SignUpView({Key? key}) : super(key: key);
 
   @override
-  Widget builder(
-      BuildContext context, SignUpViewModel viewModel, Widget? child) {
+  Widget builder(BuildContext context, SignUpViewModel viewModel, Widget? child) {
     return LoginSignUpLayout(
         title: Account.signUp,
         formKey: viewModel.formKey,
         userNameController: viewModel.userNameTextEditingController,
         passwordController: viewModel.passwordTextEditingController,
         obscurePassword: viewModel.obscurePassword,
-        onUserNameValidate: (username) =>
-            SignUpValidators.validateUserName(username),
-        onPasswordValidate: (password) =>
-            SignUpValidators.validatePassword(password),
+        onUserNameValidate: (username) => SignUpValidators.validateUserName(username),
+        onPasswordValidate: (password) => SignUpValidators.validatePassword(password),
         onTogglePasswordVisibility: viewModel.togglePasswordVisibility,
         onNavigateBack: viewModel.navigateBackToLoginView,
         onSubmit: viewModel.signUp);
@@ -28,4 +25,11 @@ class SignUpView extends StackedView<SignUpViewModel> {
 
   @override
   SignUpViewModel viewModelBuilder(BuildContext context) => SignUpViewModel();
+
+  @override
+  void onDispose(SignUpViewModel viewModel) {
+    viewModel.userNameTextEditingController.dispose();
+    viewModel.passwordTextEditingController.dispose();
+    super.onDispose(viewModel);
+  }
 }

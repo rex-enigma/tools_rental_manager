@@ -7,11 +7,13 @@ import 'package:tools_rental_management/data/data_sources/local/imagesdir/images
 import 'package:tools_rental_management/data/data_sources/local/toolarticles/toolarticles_localsharedpreferences_datasource.dart';
 import 'package:tools_rental_management/data/data_sources/local/toolusers/toolusers_localsqlite_datasource_imp.dart';
 import 'package:tools_rental_management/data/data_sources/local/tools/tools_localsqlite_datasource_imp.dart';
+import 'package:tools_rental_management/data/data_sources/local/user/user_localsqlite_datasource_imp.dart';
 import 'package:tools_rental_management/data/data_sources/remote/toolarticles/toolarticles_remotewikipedia_datasource_imp.dart';
 import 'package:tools_rental_management/data/repositories/images/images_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/toolarticles/toolarticles_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
 import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
+import 'package:tools_rental_management/data/repositories/user/user_repo_imp.dart';
 import 'package:tools_rental_management/database/app_database.dart';
 import 'package:tools_rental_management/domain/usecases/add_tool_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/add_tool_user_usecase.dart';
@@ -26,9 +28,11 @@ import 'package:tools_rental_management/domain/usecases/get_tool_user_avatar_ima
 import 'package:tools_rental_management/domain/usecases/get_tool_user_back_national_id_image_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/get_tool_user_front_national_id_image_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/get_tool_user_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/login_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/pick_image_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/rent_out_tool_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/repossess_tool_usecase.dart';
+import 'package:tools_rental_management/domain/usecases/sign_up_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/update_tool_category_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/update_tool_image_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/update_tool_name_usecase.dart';
@@ -102,11 +106,13 @@ import 'package:tools_rental_management/ui/views/sign_up/sign_up_view.dart';
     LazySingleton(classType: ToolsLocalSqliteDbDataSource),
     LazySingleton(classType: ToolArticlesRemoteWikipediaDataSource),
     LazySingleton(classType: ToolArticleLocalSharedPreferencesDataSource),
+    LazySingleton(classType: UserLocalSqliteDatasource),
     // repositories
     LazySingleton(classType: ToolArticlesRepoImp),
     LazySingleton(classType: ToolsRepoImp),
     LazySingleton(classType: ToolUsersRepoImp),
     LazySingleton(classType: ImagesRepoImp),
+    LazySingleton(classType: UserRepoImp),
     //usecases
     LazySingleton(classType: AddToolUseCase),
     LazySingleton(classType: AddToolUserUseCase),
@@ -135,6 +141,8 @@ import 'package:tools_rental_management/ui/views/sign_up/sign_up_view.dart';
     LazySingleton(classType: UpdateToolUserFrontNationalIdImageUseCase),
     LazySingleton(classType: UpdateToolUserLastNameUseCase),
     LazySingleton(classType: UpdateToolUserPhoneNumberUseCase),
+    LazySingleton(classType: LoginUseCase),
+    LazySingleton(classType: SignUpUseCase),
     //viewmodels
     LazySingleton(classType: ToolsViewModel),
     LazySingleton(classType: ToolUsersViewModel),

@@ -18,11 +18,13 @@ import '../data/data_sources/local/imagesdir/images_localdirectory_datasource_im
 import '../data/data_sources/local/toolarticles/toolarticles_localsharedpreferences_datasource.dart';
 import '../data/data_sources/local/tools/tools_localsqlite_datasource_imp.dart';
 import '../data/data_sources/local/toolusers/toolusers_localsqlite_datasource_imp.dart';
+import '../data/data_sources/local/user/user_localsqlite_datasource_imp.dart';
 import '../data/data_sources/remote/toolarticles/toolarticles_remotewikipedia_datasource_imp.dart';
 import '../data/repositories/images/images_repo_imp.dart';
 import '../data/repositories/toolarticles/toolarticles_repo_imp.dart';
 import '../data/repositories/tools/tools_repo_imp.dart';
 import '../data/repositories/toolusers/toolusers_repo_imp.dart';
+import '../data/repositories/user/user_repo_imp.dart';
 import '../database/app_database.dart';
 import '../domain/usecases/add_tool_usecase.dart';
 import '../domain/usecases/add_tool_user_usecase.dart';
@@ -37,9 +39,11 @@ import '../domain/usecases/get_tool_user_avatar_image_usecase.dart';
 import '../domain/usecases/get_tool_user_back_national_id_image_usecase.dart';
 import '../domain/usecases/get_tool_user_front_national_id_image_usecase.dart';
 import '../domain/usecases/get_tool_user_usecase.dart';
+import '../domain/usecases/login_usecase.dart';
 import '../domain/usecases/pick_image_usecase.dart';
 import '../domain/usecases/rent_out_tool_usecase.dart';
 import '../domain/usecases/repossess_tool_usecase.dart';
+import '../domain/usecases/sign_up_usecase.dart';
 import '../domain/usecases/update_tool_category_usecase.dart';
 import '../domain/usecases/update_tool_image_usecase.dart';
 import '../domain/usecases/update_tool_name_usecase.dart';
@@ -78,10 +82,12 @@ Future<void> setupLocator({
   locator.registerLazySingleton(() => ToolArticlesRemoteWikipediaDataSource());
   locator.registerLazySingleton(
       () => ToolArticleLocalSharedPreferencesDataSource());
+  locator.registerLazySingleton(() => UserLocalSqliteDatasource());
   locator.registerLazySingleton(() => ToolArticlesRepoImp());
   locator.registerLazySingleton(() => ToolsRepoImp());
   locator.registerLazySingleton(() => ToolUsersRepoImp());
   locator.registerLazySingleton(() => ImagesRepoImp());
+  locator.registerLazySingleton(() => UserRepoImp());
   locator.registerLazySingleton(() => AddToolUseCase());
   locator.registerLazySingleton(() => AddToolUserUseCase());
   locator.registerLazySingleton(() => DeleteToolUseCase());
@@ -111,6 +117,8 @@ Future<void> setupLocator({
       .registerLazySingleton(() => UpdateToolUserFrontNationalIdImageUseCase());
   locator.registerLazySingleton(() => UpdateToolUserLastNameUseCase());
   locator.registerLazySingleton(() => UpdateToolUserPhoneNumberUseCase());
+  locator.registerLazySingleton(() => LoginUseCase());
+  locator.registerLazySingleton(() => SignUpUseCase());
   locator.registerLazySingleton(() => ToolsViewModel());
   locator.registerLazySingleton(() => ToolUsersViewModel());
   locator.registerLazySingleton(() => SettingsViewModel());

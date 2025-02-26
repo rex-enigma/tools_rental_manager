@@ -55,22 +55,6 @@ class ToolModel {
     required this.status,
   });
 
-  /// should be called when this tool wants to be inserted to the database.
-  // ToolModel.insert({
-  //   this.toolId,
-  //   required this.name,
-  //   required this.boughtAt,
-  //   required this.purchasedPrice,
-  //   required this.rate,
-  //   this.rentCount = 0,
-  //   required this.currency,
-  //   required this.category,
-  //   required this.toolImagePath,
-  //   required this.toolUniqueId,
-  //   this.toolUserId,
-  //   this.status = Status.idle,
-  // });
-
   factory ToolModel.fromEntity(ToolEntity toolEntity) {
     return ToolModel(
         toolId: toolEntity.toolId,
@@ -102,7 +86,7 @@ class ToolModel {
         toolUserId = toolMap['tool_user_id'],
         status = Status.fromString(toolMap['status']);
 
-  // excluded toolId because we don't what [copyWith] to accidentally be called with toolId
+  // excluded toolId because we don't want [copyWith] to accidentally be called with toolId
   // that might later conflict with another tool that might end up having the same toolId.
   ToolModel copyWith({
     String? name,

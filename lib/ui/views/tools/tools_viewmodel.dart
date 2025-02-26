@@ -4,6 +4,7 @@ import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
+import 'package:tools_rental_management/app/app.snackbars.dart';
 import 'package:tools_rental_management/domain/entities/tool_entity.dart';
 import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
 import 'package:tools_rental_management/domain/usecases/add_tool_usecase.dart';
@@ -20,6 +21,7 @@ class ToolsViewModel extends BaseViewModel {
   final DialogService _dialogService;
   final NavigationService _navigationService;
   final BottomSheetService _bottomSheetService;
+  final SnackbarService _snackbarService;
   final UseCase<ToolUserEntity?, ToolUserIdParam> _getToolUserUseCase;
   final UseCase<List<ToolEntity>?, NoParams> _getAllToolsUseCase;
   final UseCase<int, AddToolParam> _addToolUseCase;
@@ -29,6 +31,7 @@ class ToolsViewModel extends BaseViewModel {
       {DialogService? dialogService,
       NavigationService? navigationService,
       BottomSheetService? bottomSheetService,
+      SnackbarService? snackbarService,
       UseCase<ToolUserEntity?, ToolUserIdParam>? getToolUserUseCase,
       UseCase<List<ToolEntity>?, NoParams>? getAllToolsUseCase,
       UseCase<int, AddToolParam>? addToolUseCase,
@@ -37,6 +40,7 @@ class ToolsViewModel extends BaseViewModel {
         _navigationService = navigationService ?? locator<NavigationService>(),
         _bottomSheetService =
             bottomSheetService ?? locator<BottomSheetService>(),
+        _snackbarService = snackbarService ?? locator<SnackbarService>(),
         _getToolUserUseCase =
             getToolUserUseCase ?? locator<GetToolUserUseCase>(),
         _getAllToolsUseCase =
@@ -47,9 +51,6 @@ class ToolsViewModel extends BaseViewModel {
   // // this the the new tool that has been constructed from ToolCreatorSheet
   // // remember this newTool does't have an toolId yet, it will be assigned by sqlite so don't think about using it directly here
   // Tool? _newTool;
-
-  // we are directly instantiating snackbarService since its not part of dependencies managed by Locator
-  final _snackbarService = SnackbarService();
 
   /// tool search text form field toggle
   bool _showAppBarSearchField = false;
@@ -267,8 +268,9 @@ class ToolsViewModel extends BaseViewModel {
     if (response?.data != null) {
       ToolEntity newTool = response!.data;
       await _insertNewTool(newTool);
-      _snackbarService.showSnackbar(
-          message: '${newTool.name} created successfully');
+      _snackbarService.showCustomSnackBar(
+          message: '${newTool.name} created successfully',
+          variant: SnackbarType.success);
       List<ToolEntity>? toolsOrNull = await _fetchAllTools();
       // this will add the tools? gotten from the database to the [tools] property
       addTools(toolsOrNull);
@@ -293,7 +295,9 @@ class ToolsViewModel extends BaseViewModel {
     await runBusyFuture(_deleteToolUseCase(ToolIdParam(toolId: tool.toolId!)));
 
     // once the deletion is complete, show a snackbar message to the user
-    _snackbarService.showSnackbar(message: '${tool.name} deleted successfully');
+    _snackbarService.showCustomSnackBar(
+        message: '${tool.name} deleted successfully',
+        variant: SnackbarType.success);
     updateTools();
   }
 

@@ -5,11 +5,13 @@ import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
+import 'package:tools_rental_management/app/app.snackbars.dart';
 import 'package:tools_rental_management/ui/common/themes.dart';
 
 Future main() async {
   await ThemeManager.initialise();
-  setupLocator();
+  await setupLocator();
+  setupSnackbarUi();
   setupDialogUi();
   setupBottomSheetUi();
 

@@ -4,6 +4,7 @@ import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
+import 'package:tools_rental_management/app/app.snackbars.dart';
 import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
 import 'package:tools_rental_management/domain/usecases/add_tool_user_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/delete_tool_user_usecase.dart';
@@ -13,36 +14,31 @@ import 'package:tools_rental_management/domain/usecases/usecase.dart';
 class ToolUsersViewModel extends BaseViewModel {
   final NavigationService _navigationService;
   final BottomSheetService _bottomSheetService;
+  final SnackbarService _snackbarService;
   final DialogService _dialogService;
   final UseCase<int, AddToolUserParam> _addToolUserUseCase;
   final UseCase<List<ToolUserEntity>?, NoParams> _getAllToolUsersUseCase;
   final UseCase<int, ToolUserIdParam> _deleteToolUserUseCase;
 
   ToolUsersViewModel(
-      {BottomSheetService? bottomSheetService,
+      {NavigationService? navigationService,
+      BottomSheetService? bottomSheetService,
       DialogService? dialogService,
-      NavigationService? navigationService,
+      SnackbarService? snackbarService,
       UseCase<int, AddToolUserParam>? addToolUserUseCase,
       UseCase<List<ToolUserEntity>?, NoParams>? getAllToolUsersUseCase,
       UseCase<int, ToolUserIdParam>? deleteToolUserUseCase})
-      : _bottomSheetService =
-            bottomSheetService ?? locator<BottomSheetService>(),
+      : _navigationService = navigationService ?? locator<NavigationService>(),
+        _bottomSheetService = bottomSheetService ?? locator<BottomSheetService>(),
+        _snackbarService = snackbarService ?? locator<SnackbarService>(),
         _dialogService = dialogService ?? locator<DialogService>(),
-        _navigationService = navigationService ?? locator<NavigationService>(),
-        _addToolUserUseCase =
-            addToolUserUseCase ?? locator<AddToolUserUseCase>(),
-        _getAllToolUsersUseCase =
-            getAllToolUsersUseCase ?? locator<GetAllToolUsersUseCase>(),
-        _deleteToolUserUseCase =
-            deleteToolUserUseCase ?? locator<DeleteToolUserUseCase>();
-
-  // we are directly instantiating snackbarService since its not part of dependencies managed by Locator
-  final _snackbarService = SnackbarService();
+        _addToolUserUseCase = addToolUserUseCase ?? locator<AddToolUserUseCase>(),
+        _getAllToolUsersUseCase = getAllToolUsersUseCase ?? locator<GetAllToolUsersUseCase>(),
+        _deleteToolUserUseCase = deleteToolUserUseCase ?? locator<DeleteToolUserUseCase>();
 
   /// toolUser search text form field toggle
   bool _showAppBarSearchField = false;
-  List<ToolUserEntity> toolUsers =
-      []; // create an empty list if there aren't any tool users in the database
+  List<ToolUserEntity> toolUsers = []; // create an empty list if there aren't any tool users in the database
   List<ToolUserEntity> filteredToolUsers = [];
   void initState() async {
     List<ToolUserEntity>? toolUsersOrNull = await _fetchAllToolUsers();
@@ -64,8 +60,7 @@ class ToolUsersViewModel extends BaseViewModel {
       // order the toolUsers in descending order
       // since the toolUserIds are sequentially incremented, its guaranteed that the newly added toolUser to the database will have a larger toolUserId value
       // and therefore we want it get display at the top
-      toolUsers.sort((toolUserA, toolUserB) =>
-          toolUserB.toolUserId!.compareTo(toolUserA.toolUserId!));
+      toolUsers.sort((toolUserA, toolUserB) => toolUserB.toolUserId!.compareTo(toolUserA.toolUserId!));
       this.toolUsers = [...toolUsers];
     } else {
       this.toolUsers = [];
@@ -103,8 +98,7 @@ class ToolUsersViewModel extends BaseViewModel {
   Future<int> _insertNewToolUser(ToolUserEntity newToolUser) async {
     // Sets busy to true before starting future and sets it to false after executing
     // the ui will be rebuild in both situations
-    return runBusyFuture(
-        _addToolUserUseCase(AddToolUserParam(toolUserEntity: newToolUser)));
+    return runBusyFuture(_addToolUserUseCase(AddToolUserParam(toolUserEntity: newToolUser)));
   }
 
   Future<List<ToolUserEntity>?> _fetchAllToolUsers() async {
@@ -118,13 +112,10 @@ class ToolUsersViewModel extends BaseViewModel {
     if (toolUser.toolEntities == null) {
       // Sets busy to true before starting future and sets it to false after executing
       // the ui will be rebuild in both situations
-      await runBusyFuture(_deleteToolUserUseCase(
-          ToolUserIdParam(toolUserId: toolUser.toolUserId!)));
+      await runBusyFuture(_deleteToolUserUseCase(ToolUserIdParam(toolUserId: toolUser.toolUserId!)));
 
       // once the deletion is complete, show a snackbar message to the user
-      _snackbarService.showSnackbar(
-          message:
-              '${toolUser.firstName} ${toolUser.lastName} deleted successfully');
+      _snackbarService.showCustomSnackBar(message: '${toolUser.firstName} ${toolUser.lastName} deleted successfully', variant: SnackbarType.success);
       updateToolUsers();
     }
   }
@@ -154,8 +145,7 @@ class ToolUsersViewModel extends BaseViewModel {
     if (response?.data != null) {
       ToolUserEntity newToolUser = response!.data;
       await _insertNewToolUser(newToolUser);
-      _snackbarService.showSnackbar(
-          message: '${newToolUser.firstName} created successfully');
+      _snackbarService.showCustomSnackBar(message: '${newToolUser.firstName} created successfully', variant: SnackbarType.success);
       List<ToolUserEntity>? toolUsersOrNull = await _fetchAllToolUsers();
       // print(toolUsersOrNull);
       // this will add to the toolUsers? gotten from the database to the toolUsers property list

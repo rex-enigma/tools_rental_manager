@@ -19,3 +19,10 @@ class ToolIdParam {
 
   ToolIdParam({required this.toolId});
 }
+
+class AccountParams {
+  final String username;
+  final String password;
+
+  AccountParams({required this.username, required this.password});
+}

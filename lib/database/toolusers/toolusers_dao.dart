@@ -12,7 +12,6 @@ class ToolUsersDao extends DatabaseAccessor<AppDatabase>
   ToolUsersDao(AppDatabase db) : super(db);
 
   Future<int> insertToolUser(ToolUserModel toolUser) {
-    print(toolUser);
     return customInsert(
       """INSERT INTO tool_users (
           first_name, 

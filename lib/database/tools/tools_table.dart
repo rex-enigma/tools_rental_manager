@@ -5,7 +5,18 @@ import 'package:tools_rental_management/enums/category.dart';
 import 'package:tools_rental_management/enums/currency.dart';
 import 'package:tools_rental_management/enums/status.dart';
 
-@UseRowClass(ToolModel)
+// Drift will automatically map query results from the Tools table to instances of the [ToolModel] class
+// when using the ORM approach for row queries. eg
+
+/* 
+  final ToolModel tool = await db.managers.tools.limit(1).getSingle();
+  print("ToolModelName: ${tool.name}!");
+*/
+
+//But i'm currently using custom statement when querying row so
+// i'm not currently using it, its here for remembrance.
+//@UseRowClass(ToolModel)
+
 // we need to use textEnum<Type>()() for currency,category and status when declaring the corresponding columns in the Tools table so that drift can
 // implicitly convert the enum field values in our Tool data class to string for storage.
 

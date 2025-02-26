@@ -49,7 +49,7 @@ class ToolEntity {
   });
 
   // excluded toolId because we don't what [copyWith] to accidentally be called with toolId
-  // that might later conflict with another tool that might end up having the same toolId.
+  // that might later conflict with another tool which might end up having the same toolId.
   ToolEntity copyWith({
     String? name,
     DateTime? boughtAt,
@@ -74,7 +74,7 @@ class ToolEntity {
       category: category ?? this.category,
       toolImagePath: toolImagePath ?? this.toolImagePath,
       toolUniqueId: toolUniqueId ?? this.toolUniqueId,
-      toolUserId: toolUserId ?? this.toolUserId,
+      toolUserId: toolUserId,
       status: status ?? this.status,
     );
   }

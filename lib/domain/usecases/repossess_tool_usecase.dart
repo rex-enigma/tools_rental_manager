@@ -23,7 +23,7 @@ class RepossessToolUseCase implements UseCase<int, RepossessToolParam> {
     int numberOfToolsUpdated = 0;
 
     for (var repossessedTool in repossessedTools) {
-      await _toolsRepo.updateTool(repossessedTool); // it should return an int
+      await _toolsRepo.updateTool(repossessedTool);
       numberOfToolsUpdated++;
     }
     return numberOfToolsUpdated;

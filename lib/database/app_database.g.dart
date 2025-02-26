@@ -4,7 +4,7 @@ part of 'app_database.dart';
 
 // ignore_for_file: type=lint
 class $ToolUsersTable extends ToolUsers
-    with TableInfo<$ToolUsersTable, ToolUserModel> {
+    with TableInfo<$ToolUsersTable, ToolUser> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -85,7 +85,7 @@ class $ToolUsersTable extends ToolUsers
   String get actualTableName => $name;
   static const String $name = 'tool_users';
   @override
-  VerificationContext validateIntegrity(Insertable<ToolUserModel> instance,
+  VerificationContext validateIntegrity(Insertable<ToolUser> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -155,9 +155,9 @@ class $ToolUsersTable extends ToolUsers
   @override
   Set<GeneratedColumn> get $primaryKey => {toolUserId};
   @override
-  ToolUserModel map(Map<String, dynamic> data, {String? tablePrefix}) {
+  ToolUser map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ToolUserModel(
+    return ToolUser(
       toolUserId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}tool_user_id'])!,
       firstName: attachedDatabase.typeMapping
@@ -185,7 +185,170 @@ class $ToolUsersTable extends ToolUsers
   }
 }
 
-class ToolUsersCompanion extends UpdateCompanion<ToolUserModel> {
+class ToolUser extends DataClass implements Insertable<ToolUser> {
+  final int toolUserId;
+  final String firstName;
+  final String lastName;
+  final String frontNationalIdImagePath;
+  final String backNationalIdImagePath;
+  final String avatarImagePath;
+  final int phoneNumber;
+  final int countryCallingCode;
+  const ToolUser(
+      {required this.toolUserId,
+      required this.firstName,
+      required this.lastName,
+      required this.frontNationalIdImagePath,
+      required this.backNationalIdImagePath,
+      required this.avatarImagePath,
+      required this.phoneNumber,
+      required this.countryCallingCode});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tool_user_id'] = Variable<int>(toolUserId);
+    map['first_name'] = Variable<String>(firstName);
+    map['last_name'] = Variable<String>(lastName);
+    map['front_national_id_image_path'] =
+        Variable<String>(frontNationalIdImagePath);
+    map['back_national_id_image_path'] =
+        Variable<String>(backNationalIdImagePath);
+    map['avatar_image_path'] = Variable<String>(avatarImagePath);
+    map['phone_number'] = Variable<int>(phoneNumber);
+    map['country_calling_code'] = Variable<int>(countryCallingCode);
+    return map;
+  }
+
+  ToolUsersCompanion toCompanion(bool nullToAbsent) {
+    return ToolUsersCompanion(
+      toolUserId: Value(toolUserId),
+      firstName: Value(firstName),
+      lastName: Value(lastName),
+      frontNationalIdImagePath: Value(frontNationalIdImagePath),
+      backNationalIdImagePath: Value(backNationalIdImagePath),
+      avatarImagePath: Value(avatarImagePath),
+      phoneNumber: Value(phoneNumber),
+      countryCallingCode: Value(countryCallingCode),
+    );
+  }
+
+  factory ToolUser.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return ToolUser(
+      toolUserId: serializer.fromJson<int>(json['toolUserId']),
+      firstName: serializer.fromJson<String>(json['firstName']),
+      lastName: serializer.fromJson<String>(json['lastName']),
+      frontNationalIdImagePath:
+          serializer.fromJson<String>(json['frontNationalIdImagePath']),
+      backNationalIdImagePath:
+          serializer.fromJson<String>(json['backNationalIdImagePath']),
+      avatarImagePath: serializer.fromJson<String>(json['avatarImagePath']),
+      phoneNumber: serializer.fromJson<int>(json['phoneNumber']),
+      countryCallingCode: serializer.fromJson<int>(json['countryCallingCode']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'toolUserId': serializer.toJson<int>(toolUserId),
+      'firstName': serializer.toJson<String>(firstName),
+      'lastName': serializer.toJson<String>(lastName),
+      'frontNationalIdImagePath':
+          serializer.toJson<String>(frontNationalIdImagePath),
+      'backNationalIdImagePath':
+          serializer.toJson<String>(backNationalIdImagePath),
+      'avatarImagePath': serializer.toJson<String>(avatarImagePath),
+      'phoneNumber': serializer.toJson<int>(phoneNumber),
+      'countryCallingCode': serializer.toJson<int>(countryCallingCode),
+    };
+  }
+
+  ToolUser copyWith(
+          {int? toolUserId,
+          String? firstName,
+          String? lastName,
+          String? frontNationalIdImagePath,
+          String? backNationalIdImagePath,
+          String? avatarImagePath,
+          int? phoneNumber,
+          int? countryCallingCode}) =>
+      ToolUser(
+        toolUserId: toolUserId ?? this.toolUserId,
+        firstName: firstName ?? this.firstName,
+        lastName: lastName ?? this.lastName,
+        frontNationalIdImagePath:
+            frontNationalIdImagePath ?? this.frontNationalIdImagePath,
+        backNationalIdImagePath:
+            backNationalIdImagePath ?? this.backNationalIdImagePath,
+        avatarImagePath: avatarImagePath ?? this.avatarImagePath,
+        phoneNumber: phoneNumber ?? this.phoneNumber,
+        countryCallingCode: countryCallingCode ?? this.countryCallingCode,
+      );
+  ToolUser copyWithCompanion(ToolUsersCompanion data) {
+    return ToolUser(
+      toolUserId:
+          data.toolUserId.present ? data.toolUserId.value : this.toolUserId,
+      firstName: data.firstName.present ? data.firstName.value : this.firstName,
+      lastName: data.lastName.present ? data.lastName.value : this.lastName,
+      frontNationalIdImagePath: data.frontNationalIdImagePath.present
+          ? data.frontNationalIdImagePath.value
+          : this.frontNationalIdImagePath,
+      backNationalIdImagePath: data.backNationalIdImagePath.present
+          ? data.backNationalIdImagePath.value
+          : this.backNationalIdImagePath,
+      avatarImagePath: data.avatarImagePath.present
+          ? data.avatarImagePath.value
+          : this.avatarImagePath,
+      phoneNumber:
+          data.phoneNumber.present ? data.phoneNumber.value : this.phoneNumber,
+      countryCallingCode: data.countryCallingCode.present
+          ? data.countryCallingCode.value
+          : this.countryCallingCode,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('ToolUser(')
+          ..write('toolUserId: $toolUserId, ')
+          ..write('firstName: $firstName, ')
+          ..write('lastName: $lastName, ')
+          ..write('frontNationalIdImagePath: $frontNationalIdImagePath, ')
+          ..write('backNationalIdImagePath: $backNationalIdImagePath, ')
+          ..write('avatarImagePath: $avatarImagePath, ')
+          ..write('phoneNumber: $phoneNumber, ')
+          ..write('countryCallingCode: $countryCallingCode')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      toolUserId,
+      firstName,
+      lastName,
+      frontNationalIdImagePath,
+      backNationalIdImagePath,
+      avatarImagePath,
+      phoneNumber,
+      countryCallingCode);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is ToolUser &&
+          other.toolUserId == this.toolUserId &&
+          other.firstName == this.firstName &&
+          other.lastName == this.lastName &&
+          other.frontNationalIdImagePath == this.frontNationalIdImagePath &&
+          other.backNationalIdImagePath == this.backNationalIdImagePath &&
+          other.avatarImagePath == this.avatarImagePath &&
+          other.phoneNumber == this.phoneNumber &&
+          other.countryCallingCode == this.countryCallingCode);
+}
+
+class ToolUsersCompanion extends UpdateCompanion<ToolUser> {
   final Value<int> toolUserId;
   final Value<String> firstName;
   final Value<String> lastName;
@@ -220,7 +383,7 @@ class ToolUsersCompanion extends UpdateCompanion<ToolUserModel> {
         avatarImagePath = Value(avatarImagePath),
         phoneNumber = Value(phoneNumber),
         countryCallingCode = Value(countryCallingCode);
-  static Insertable<ToolUserModel> custom({
+  static Insertable<ToolUser> custom({
     Expression<int>? toolUserId,
     Expression<String>? firstName,
     Expression<String>? lastName,
@@ -316,7 +479,7 @@ class ToolUsersCompanion extends UpdateCompanion<ToolUserModel> {
   }
 }
 
-class $ToolsTable extends Tools with TableInfo<$ToolsTable, ToolModel> {
+class $ToolsTable extends Tools with TableInfo<$ToolsTable, Tool> {
   @override
   final GeneratedDatabase attachedDatabase;
   final String? _alias;
@@ -425,7 +588,7 @@ class $ToolsTable extends Tools with TableInfo<$ToolsTable, ToolModel> {
   String get actualTableName => $name;
   static const String $name = 'tools';
   @override
-  VerificationContext validateIntegrity(Insertable<ToolModel> instance,
+  VerificationContext validateIntegrity(Insertable<Tool> instance,
       {bool isInserting = false}) {
     final context = VerificationContext();
     final data = instance.toColumns(true);
@@ -496,9 +659,9 @@ class $ToolsTable extends Tools with TableInfo<$ToolsTable, ToolModel> {
   @override
   Set<GeneratedColumn> get $primaryKey => {toolId};
   @override
-  ToolModel map(Map<String, dynamic> data, {String? tablePrefix}) {
+  Tool map(Map<String, dynamic> data, {String? tablePrefix}) {
     final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
-    return ToolModel(
+    return Tool(
       toolId: attachedDatabase.typeMapping
           .read(DriftSqlType.int, data['${effectivePrefix}tool_id'])!,
       name: attachedDatabase.typeMapping
@@ -541,7 +704,226 @@ class $ToolsTable extends Tools with TableInfo<$ToolsTable, ToolModel> {
       const EnumNameConverter<Status>(Status.values);
 }
 
-class ToolsCompanion extends UpdateCompanion<ToolModel> {
+class Tool extends DataClass implements Insertable<Tool> {
+  final int toolId;
+  final String name;
+  final DateTime boughtAt;
+  final int purchasedPrice;
+  final int rate;
+  final int rentCount;
+  final Currency currency;
+  final Category category;
+  final String toolImagePath;
+  final int toolUniqueId;
+  final int? toolUserId;
+  final Status status;
+  const Tool(
+      {required this.toolId,
+      required this.name,
+      required this.boughtAt,
+      required this.purchasedPrice,
+      required this.rate,
+      required this.rentCount,
+      required this.currency,
+      required this.category,
+      required this.toolImagePath,
+      required this.toolUniqueId,
+      this.toolUserId,
+      required this.status});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['tool_id'] = Variable<int>(toolId);
+    map['name'] = Variable<String>(name);
+    map['bought_at'] = Variable<DateTime>(boughtAt);
+    map['purchased_price'] = Variable<int>(purchasedPrice);
+    map['rate'] = Variable<int>(rate);
+    map['rent_count'] = Variable<int>(rentCount);
+    {
+      map['currency'] =
+          Variable<String>($ToolsTable.$convertercurrency.toSql(currency));
+    }
+    {
+      map['category'] =
+          Variable<String>($ToolsTable.$convertercategory.toSql(category));
+    }
+    map['tool_image_path'] = Variable<String>(toolImagePath);
+    map['tool_unique_id'] = Variable<int>(toolUniqueId);
+    if (!nullToAbsent || toolUserId != null) {
+      map['tool_user_id'] = Variable<int>(toolUserId);
+    }
+    {
+      map['status'] =
+          Variable<String>($ToolsTable.$converterstatus.toSql(status));
+    }
+    return map;
+  }
+
+  ToolsCompanion toCompanion(bool nullToAbsent) {
+    return ToolsCompanion(
+      toolId: Value(toolId),
+      name: Value(name),
+      boughtAt: Value(boughtAt),
+      purchasedPrice: Value(purchasedPrice),
+      rate: Value(rate),
+      rentCount: Value(rentCount),
+      currency: Value(currency),
+      category: Value(category),
+      toolImagePath: Value(toolImagePath),
+      toolUniqueId: Value(toolUniqueId),
+      toolUserId: toolUserId == null && nullToAbsent
+          ? const Value.absent()
+          : Value(toolUserId),
+      status: Value(status),
+    );
+  }
+
+  factory Tool.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return Tool(
+      toolId: serializer.fromJson<int>(json['toolId']),
+      name: serializer.fromJson<String>(json['name']),
+      boughtAt: serializer.fromJson<DateTime>(json['boughtAt']),
+      purchasedPrice: serializer.fromJson<int>(json['purchasedPrice']),
+      rate: serializer.fromJson<int>(json['rate']),
+      rentCount: serializer.fromJson<int>(json['rentCount']),
+      currency: $ToolsTable.$convertercurrency
+          .fromJson(serializer.fromJson<String>(json['currency'])),
+      category: $ToolsTable.$convertercategory
+          .fromJson(serializer.fromJson<String>(json['category'])),
+      toolImagePath: serializer.fromJson<String>(json['toolImagePath']),
+      toolUniqueId: serializer.fromJson<int>(json['toolUniqueId']),
+      toolUserId: serializer.fromJson<int?>(json['toolUserId']),
+      status: $ToolsTable.$converterstatus
+          .fromJson(serializer.fromJson<String>(json['status'])),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'toolId': serializer.toJson<int>(toolId),
+      'name': serializer.toJson<String>(name),
+      'boughtAt': serializer.toJson<DateTime>(boughtAt),
+      'purchasedPrice': serializer.toJson<int>(purchasedPrice),
+      'rate': serializer.toJson<int>(rate),
+      'rentCount': serializer.toJson<int>(rentCount),
+      'currency': serializer
+          .toJson<String>($ToolsTable.$convertercurrency.toJson(currency)),
+      'category': serializer
+          .toJson<String>($ToolsTable.$convertercategory.toJson(category)),
+      'toolImagePath': serializer.toJson<String>(toolImagePath),
+      'toolUniqueId': serializer.toJson<int>(toolUniqueId),
+      'toolUserId': serializer.toJson<int?>(toolUserId),
+      'status': serializer
+          .toJson<String>($ToolsTable.$converterstatus.toJson(status)),
+    };
+  }
+
+  Tool copyWith(
+          {int? toolId,
+          String? name,
+          DateTime? boughtAt,
+          int? purchasedPrice,
+          int? rate,
+          int? rentCount,
+          Currency? currency,
+          Category? category,
+          String? toolImagePath,
+          int? toolUniqueId,
+          Value<int?> toolUserId = const Value.absent(),
+          Status? status}) =>
+      Tool(
+        toolId: toolId ?? this.toolId,
+        name: name ?? this.name,
+        boughtAt: boughtAt ?? this.boughtAt,
+        purchasedPrice: purchasedPrice ?? this.purchasedPrice,
+        rate: rate ?? this.rate,
+        rentCount: rentCount ?? this.rentCount,
+        currency: currency ?? this.currency,
+        category: category ?? this.category,
+        toolImagePath: toolImagePath ?? this.toolImagePath,
+        toolUniqueId: toolUniqueId ?? this.toolUniqueId,
+        toolUserId: toolUserId.present ? toolUserId.value : this.toolUserId,
+        status: status ?? this.status,
+      );
+  Tool copyWithCompanion(ToolsCompanion data) {
+    return Tool(
+      toolId: data.toolId.present ? data.toolId.value : this.toolId,
+      name: data.name.present ? data.name.value : this.name,
+      boughtAt: data.boughtAt.present ? data.boughtAt.value : this.boughtAt,
+      purchasedPrice: data.purchasedPrice.present
+          ? data.purchasedPrice.value
+          : this.purchasedPrice,
+      rate: data.rate.present ? data.rate.value : this.rate,
+      rentCount: data.rentCount.present ? data.rentCount.value : this.rentCount,
+      currency: data.currency.present ? data.currency.value : this.currency,
+      category: data.category.present ? data.category.value : this.category,
+      toolImagePath: data.toolImagePath.present
+          ? data.toolImagePath.value
+          : this.toolImagePath,
+      toolUniqueId: data.toolUniqueId.present
+          ? data.toolUniqueId.value
+          : this.toolUniqueId,
+      toolUserId:
+          data.toolUserId.present ? data.toolUserId.value : this.toolUserId,
+      status: data.status.present ? data.status.value : this.status,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('Tool(')
+          ..write('toolId: $toolId, ')
+          ..write('name: $name, ')
+          ..write('boughtAt: $boughtAt, ')
+          ..write('purchasedPrice: $purchasedPrice, ')
+          ..write('rate: $rate, ')
+          ..write('rentCount: $rentCount, ')
+          ..write('currency: $currency, ')
+          ..write('category: $category, ')
+          ..write('toolImagePath: $toolImagePath, ')
+          ..write('toolUniqueId: $toolUniqueId, ')
+          ..write('toolUserId: $toolUserId, ')
+          ..write('status: $status')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(
+      toolId,
+      name,
+      boughtAt,
+      purchasedPrice,
+      rate,
+      rentCount,
+      currency,
+      category,
+      toolImagePath,
+      toolUniqueId,
+      toolUserId,
+      status);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is Tool &&
+          other.toolId == this.toolId &&
+          other.name == this.name &&
+          other.boughtAt == this.boughtAt &&
+          other.purchasedPrice == this.purchasedPrice &&
+          other.rate == this.rate &&
+          other.rentCount == this.rentCount &&
+          other.currency == this.currency &&
+          other.category == this.category &&
+          other.toolImagePath == this.toolImagePath &&
+          other.toolUniqueId == this.toolUniqueId &&
+          other.toolUserId == this.toolUserId &&
+          other.status == this.status);
+}
+
+class ToolsCompanion extends UpdateCompanion<Tool> {
   final Value<int> toolId;
   final Value<String> name;
   final Value<DateTime> boughtAt;
@@ -591,7 +973,7 @@ class ToolsCompanion extends UpdateCompanion<ToolModel> {
         toolImagePath = Value(toolImagePath),
         toolUniqueId = Value(toolUniqueId),
         status = Value(status);
-  static Insertable<ToolModel> custom({
+  static Insertable<Tool> custom({
     Expression<int>? toolId,
     Expression<String>? name,
     Expression<DateTime>? boughtAt,
@@ -715,18 +1097,243 @@ class ToolsCompanion extends UpdateCompanion<ToolModel> {
   }
 }
 
+class $UserTable extends User with TableInfo<$UserTable, UserData> {
+  @override
+  final GeneratedDatabase attachedDatabase;
+  final String? _alias;
+  $UserTable(this.attachedDatabase, [this._alias]);
+  static const VerificationMeta _userIdMeta = const VerificationMeta('userId');
+  @override
+  late final GeneratedColumn<int> userId = GeneratedColumn<int>(
+      'user_id', aliasedName, false,
+      hasAutoIncrement: true,
+      type: DriftSqlType.int,
+      requiredDuringInsert: false,
+      defaultConstraints:
+          GeneratedColumn.constraintIsAlways('PRIMARY KEY AUTOINCREMENT'));
+  static const VerificationMeta _usernameMeta =
+      const VerificationMeta('username');
+  @override
+  late final GeneratedColumn<String> username = GeneratedColumn<String>(
+      'username', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 16),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  static const VerificationMeta _passwordMeta =
+      const VerificationMeta('password');
+  @override
+  late final GeneratedColumn<String> password = GeneratedColumn<String>(
+      'password', aliasedName, false,
+      additionalChecks:
+          GeneratedColumn.checkTextLength(minTextLength: 6, maxTextLength: 16),
+      type: DriftSqlType.string,
+      requiredDuringInsert: true);
+  @override
+  List<GeneratedColumn> get $columns => [userId, username, password];
+  @override
+  String get aliasedName => _alias ?? actualTableName;
+  @override
+  String get actualTableName => $name;
+  static const String $name = 'user';
+  @override
+  VerificationContext validateIntegrity(Insertable<UserData> instance,
+      {bool isInserting = false}) {
+    final context = VerificationContext();
+    final data = instance.toColumns(true);
+    if (data.containsKey('user_id')) {
+      context.handle(_userIdMeta,
+          userId.isAcceptableOrUnknown(data['user_id']!, _userIdMeta));
+    }
+    if (data.containsKey('username')) {
+      context.handle(_usernameMeta,
+          username.isAcceptableOrUnknown(data['username']!, _usernameMeta));
+    } else if (isInserting) {
+      context.missing(_usernameMeta);
+    }
+    if (data.containsKey('password')) {
+      context.handle(_passwordMeta,
+          password.isAcceptableOrUnknown(data['password']!, _passwordMeta));
+    } else if (isInserting) {
+      context.missing(_passwordMeta);
+    }
+    return context;
+  }
+
+  @override
+  Set<GeneratedColumn> get $primaryKey => {userId};
+  @override
+  UserData map(Map<String, dynamic> data, {String? tablePrefix}) {
+    final effectivePrefix = tablePrefix != null ? '$tablePrefix.' : '';
+    return UserData(
+      userId: attachedDatabase.typeMapping
+          .read(DriftSqlType.int, data['${effectivePrefix}user_id'])!,
+      username: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}username'])!,
+      password: attachedDatabase.typeMapping
+          .read(DriftSqlType.string, data['${effectivePrefix}password'])!,
+    );
+  }
+
+  @override
+  $UserTable createAlias(String alias) {
+    return $UserTable(attachedDatabase, alias);
+  }
+}
+
+class UserData extends DataClass implements Insertable<UserData> {
+  final int userId;
+  final String username;
+  final String password;
+  const UserData(
+      {required this.userId, required this.username, required this.password});
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    map['user_id'] = Variable<int>(userId);
+    map['username'] = Variable<String>(username);
+    map['password'] = Variable<String>(password);
+    return map;
+  }
+
+  UserCompanion toCompanion(bool nullToAbsent) {
+    return UserCompanion(
+      userId: Value(userId),
+      username: Value(username),
+      password: Value(password),
+    );
+  }
+
+  factory UserData.fromJson(Map<String, dynamic> json,
+      {ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return UserData(
+      userId: serializer.fromJson<int>(json['userId']),
+      username: serializer.fromJson<String>(json['username']),
+      password: serializer.fromJson<String>(json['password']),
+    );
+  }
+  @override
+  Map<String, dynamic> toJson({ValueSerializer? serializer}) {
+    serializer ??= driftRuntimeOptions.defaultSerializer;
+    return <String, dynamic>{
+      'userId': serializer.toJson<int>(userId),
+      'username': serializer.toJson<String>(username),
+      'password': serializer.toJson<String>(password),
+    };
+  }
+
+  UserData copyWith({int? userId, String? username, String? password}) =>
+      UserData(
+        userId: userId ?? this.userId,
+        username: username ?? this.username,
+        password: password ?? this.password,
+      );
+  UserData copyWithCompanion(UserCompanion data) {
+    return UserData(
+      userId: data.userId.present ? data.userId.value : this.userId,
+      username: data.username.present ? data.username.value : this.username,
+      password: data.password.present ? data.password.value : this.password,
+    );
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserData(')
+          ..write('userId: $userId, ')
+          ..write('username: $username, ')
+          ..write('password: $password')
+          ..write(')'))
+        .toString();
+  }
+
+  @override
+  int get hashCode => Object.hash(userId, username, password);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      (other is UserData &&
+          other.userId == this.userId &&
+          other.username == this.username &&
+          other.password == this.password);
+}
+
+class UserCompanion extends UpdateCompanion<UserData> {
+  final Value<int> userId;
+  final Value<String> username;
+  final Value<String> password;
+  const UserCompanion({
+    this.userId = const Value.absent(),
+    this.username = const Value.absent(),
+    this.password = const Value.absent(),
+  });
+  UserCompanion.insert({
+    this.userId = const Value.absent(),
+    required String username,
+    required String password,
+  })  : username = Value(username),
+        password = Value(password);
+  static Insertable<UserData> custom({
+    Expression<int>? userId,
+    Expression<String>? username,
+    Expression<String>? password,
+  }) {
+    return RawValuesInsertable({
+      if (userId != null) 'user_id': userId,
+      if (username != null) 'username': username,
+      if (password != null) 'password': password,
+    });
+  }
+
+  UserCompanion copyWith(
+      {Value<int>? userId, Value<String>? username, Value<String>? password}) {
+    return UserCompanion(
+      userId: userId ?? this.userId,
+      username: username ?? this.username,
+      password: password ?? this.password,
+    );
+  }
+
+  @override
+  Map<String, Expression> toColumns(bool nullToAbsent) {
+    final map = <String, Expression>{};
+    if (userId.present) {
+      map['user_id'] = Variable<int>(userId.value);
+    }
+    if (username.present) {
+      map['username'] = Variable<String>(username.value);
+    }
+    if (password.present) {
+      map['password'] = Variable<String>(password.value);
+    }
+    return map;
+  }
+
+  @override
+  String toString() {
+    return (StringBuffer('UserCompanion(')
+          ..write('userId: $userId, ')
+          ..write('username: $username, ')
+          ..write('password: $password')
+          ..write(')'))
+        .toString();
+  }
+}
+
 abstract class _$AppDatabase extends GeneratedDatabase {
   _$AppDatabase(QueryExecutor e) : super(e);
   $AppDatabaseManager get managers => $AppDatabaseManager(this);
   late final $ToolUsersTable toolUsers = $ToolUsersTable(this);
   late final $ToolsTable tools = $ToolsTable(this);
+  late final $UserTable user = $UserTable(this);
   late final ToolUsersDao toolUsersDao = ToolUsersDao(this as AppDatabase);
   late final ToolsDao toolsDao = ToolsDao(this as AppDatabase);
+  late final UserDao userDao = UserDao(this as AppDatabase);
   @override
   Iterable<TableInfo<Table, Object?>> get allTables =>
       allSchemaEntities.whereType<TableInfo<Table, Object?>>();
   @override
-  List<DatabaseSchemaEntity> get allSchemaEntities => [toolUsers, tools];
+  List<DatabaseSchemaEntity> get allSchemaEntities => [toolUsers, tools, user];
   @override
   StreamQueryUpdateRules get streamUpdateRules => const StreamQueryUpdateRules(
         [
@@ -763,10 +1370,10 @@ typedef $$ToolUsersTableUpdateCompanionBuilder = ToolUsersCompanion Function({
 });
 
 final class $$ToolUsersTableReferences
-    extends BaseReferences<_$AppDatabase, $ToolUsersTable, ToolUserModel> {
+    extends BaseReferences<_$AppDatabase, $ToolUsersTable, ToolUser> {
   $$ToolUsersTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
-  static MultiTypedResultKey<$ToolsTable, List<ToolModel>> _toolsRefsTable(
+  static MultiTypedResultKey<$ToolsTable, List<Tool>> _toolsRefsTable(
           _$AppDatabase db) =>
       MultiTypedResultKey.fromTable(db.tools,
           aliasName: $_aliasNameGenerator(
@@ -937,14 +1544,14 @@ class $$ToolUsersTableAnnotationComposer
 class $$ToolUsersTableTableManager extends RootTableManager<
     _$AppDatabase,
     $ToolUsersTable,
-    ToolUserModel,
+    ToolUser,
     $$ToolUsersTableFilterComposer,
     $$ToolUsersTableOrderingComposer,
     $$ToolUsersTableAnnotationComposer,
     $$ToolUsersTableCreateCompanionBuilder,
     $$ToolUsersTableUpdateCompanionBuilder,
-    (ToolUserModel, $$ToolUsersTableReferences),
-    ToolUserModel,
+    (ToolUser, $$ToolUsersTableReferences),
+    ToolUser,
     PrefetchHooks Function({bool toolsRefs})> {
   $$ToolUsersTableTableManager(_$AppDatabase db, $ToolUsersTable table)
       : super(TableManagerState(
@@ -1030,14 +1637,14 @@ class $$ToolUsersTableTableManager extends RootTableManager<
 typedef $$ToolUsersTableProcessedTableManager = ProcessedTableManager<
     _$AppDatabase,
     $ToolUsersTable,
-    ToolUserModel,
+    ToolUser,
     $$ToolUsersTableFilterComposer,
     $$ToolUsersTableOrderingComposer,
     $$ToolUsersTableAnnotationComposer,
     $$ToolUsersTableCreateCompanionBuilder,
     $$ToolUsersTableUpdateCompanionBuilder,
-    (ToolUserModel, $$ToolUsersTableReferences),
-    ToolUserModel,
+    (ToolUser, $$ToolUsersTableReferences),
+    ToolUser,
     PrefetchHooks Function({bool toolsRefs})>;
 typedef $$ToolsTableCreateCompanionBuilder = ToolsCompanion Function({
   Value<int> toolId,
@@ -1069,7 +1676,7 @@ typedef $$ToolsTableUpdateCompanionBuilder = ToolsCompanion Function({
 });
 
 final class $$ToolsTableReferences
-    extends BaseReferences<_$AppDatabase, $ToolsTable, ToolModel> {
+    extends BaseReferences<_$AppDatabase, $ToolsTable, Tool> {
   $$ToolsTableReferences(super.$_db, super.$_table, super.$_typedResult);
 
   static $ToolUsersTable _toolUserIdTable(_$AppDatabase db) =>
@@ -1288,14 +1895,14 @@ class $$ToolsTableAnnotationComposer
 class $$ToolsTableTableManager extends RootTableManager<
     _$AppDatabase,
     $ToolsTable,
-    ToolModel,
+    Tool,
     $$ToolsTableFilterComposer,
     $$ToolsTableOrderingComposer,
     $$ToolsTableAnnotationComposer,
     $$ToolsTableCreateCompanionBuilder,
     $$ToolsTableUpdateCompanionBuilder,
-    (ToolModel, $$ToolsTableReferences),
-    ToolModel,
+    (Tool, $$ToolsTableReferences),
+    Tool,
     PrefetchHooks Function({bool toolUserId})> {
   $$ToolsTableTableManager(_$AppDatabase db, $ToolsTable table)
       : super(TableManagerState(
@@ -1408,15 +2015,142 @@ class $$ToolsTableTableManager extends RootTableManager<
 typedef $$ToolsTableProcessedTableManager = ProcessedTableManager<
     _$AppDatabase,
     $ToolsTable,
-    ToolModel,
+    Tool,
     $$ToolsTableFilterComposer,
     $$ToolsTableOrderingComposer,
     $$ToolsTableAnnotationComposer,
     $$ToolsTableCreateCompanionBuilder,
     $$ToolsTableUpdateCompanionBuilder,
-    (ToolModel, $$ToolsTableReferences),
-    ToolModel,
+    (Tool, $$ToolsTableReferences),
+    Tool,
     PrefetchHooks Function({bool toolUserId})>;
+typedef $$UserTableCreateCompanionBuilder = UserCompanion Function({
+  Value<int> userId,
+  required String username,
+  required String password,
+});
+typedef $$UserTableUpdateCompanionBuilder = UserCompanion Function({
+  Value<int> userId,
+  Value<String> username,
+  Value<String> password,
+});
+
+class $$UserTableFilterComposer extends Composer<_$AppDatabase, $UserTable> {
+  $$UserTableFilterComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnFilters<int> get userId => $composableBuilder(
+      column: $table.userId, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get username => $composableBuilder(
+      column: $table.username, builder: (column) => ColumnFilters(column));
+
+  ColumnFilters<String> get password => $composableBuilder(
+      column: $table.password, builder: (column) => ColumnFilters(column));
+}
+
+class $$UserTableOrderingComposer extends Composer<_$AppDatabase, $UserTable> {
+  $$UserTableOrderingComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  ColumnOrderings<int> get userId => $composableBuilder(
+      column: $table.userId, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get username => $composableBuilder(
+      column: $table.username, builder: (column) => ColumnOrderings(column));
+
+  ColumnOrderings<String> get password => $composableBuilder(
+      column: $table.password, builder: (column) => ColumnOrderings(column));
+}
+
+class $$UserTableAnnotationComposer
+    extends Composer<_$AppDatabase, $UserTable> {
+  $$UserTableAnnotationComposer({
+    required super.$db,
+    required super.$table,
+    super.joinBuilder,
+    super.$addJoinBuilderToRootComposer,
+    super.$removeJoinBuilderFromRootComposer,
+  });
+  GeneratedColumn<int> get userId =>
+      $composableBuilder(column: $table.userId, builder: (column) => column);
+
+  GeneratedColumn<String> get username =>
+      $composableBuilder(column: $table.username, builder: (column) => column);
+
+  GeneratedColumn<String> get password =>
+      $composableBuilder(column: $table.password, builder: (column) => column);
+}
+
+class $$UserTableTableManager extends RootTableManager<
+    _$AppDatabase,
+    $UserTable,
+    UserData,
+    $$UserTableFilterComposer,
+    $$UserTableOrderingComposer,
+    $$UserTableAnnotationComposer,
+    $$UserTableCreateCompanionBuilder,
+    $$UserTableUpdateCompanionBuilder,
+    (UserData, BaseReferences<_$AppDatabase, $UserTable, UserData>),
+    UserData,
+    PrefetchHooks Function()> {
+  $$UserTableTableManager(_$AppDatabase db, $UserTable table)
+      : super(TableManagerState(
+          db: db,
+          table: table,
+          createFilteringComposer: () =>
+              $$UserTableFilterComposer($db: db, $table: table),
+          createOrderingComposer: () =>
+              $$UserTableOrderingComposer($db: db, $table: table),
+          createComputedFieldComposer: () =>
+              $$UserTableAnnotationComposer($db: db, $table: table),
+          updateCompanionCallback: ({
+            Value<int> userId = const Value.absent(),
+            Value<String> username = const Value.absent(),
+            Value<String> password = const Value.absent(),
+          }) =>
+              UserCompanion(
+            userId: userId,
+            username: username,
+            password: password,
+          ),
+          createCompanionCallback: ({
+            Value<int> userId = const Value.absent(),
+            required String username,
+            required String password,
+          }) =>
+              UserCompanion.insert(
+            userId: userId,
+            username: username,
+            password: password,
+          ),
+          withReferenceMapper: (p0) => p0
+              .map((e) => (e.readTable(table), BaseReferences(db, table, e)))
+              .toList(),
+          prefetchHooksCallback: null,
+        ));
+}
+
+typedef $$UserTableProcessedTableManager = ProcessedTableManager<
+    _$AppDatabase,
+    $UserTable,
+    UserData,
+    $$UserTableFilterComposer,
+    $$UserTableOrderingComposer,
+    $$UserTableAnnotationComposer,
+    $$UserTableCreateCompanionBuilder,
+    $$UserTableUpdateCompanionBuilder,
+    (UserData, BaseReferences<_$AppDatabase, $UserTable, UserData>),
+    UserData,
+    PrefetchHooks Function()>;
 
 class $AppDatabaseManager {
   final _$AppDatabase _db;
@@ -1425,4 +2159,5 @@ class $AppDatabaseManager {
       $$ToolUsersTableTableManager(_db, _db.toolUsers);
   $$ToolsTableTableManager get tools =>
       $$ToolsTableTableManager(_db, _db.tools);
+  $$UserTableTableManager get user => $$UserTableTableManager(_db, _db.user);
 }

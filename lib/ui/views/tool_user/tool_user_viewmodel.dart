@@ -4,11 +4,9 @@ import 'package:tools_rental_management/app/app.bottomsheets.dart';
 import 'package:tools_rental_management/app/app.dialogs.dart';
 import 'package:tools_rental_management/app/app.locator.dart';
 import 'package:tools_rental_management/app/app.router.dart';
-import 'package:tools_rental_management/data/repositories/tools/tools_repo_imp.dart';
-import 'package:tools_rental_management/data/repositories/toolusers/toolusers_repo_imp.dart';
+import 'package:tools_rental_management/app/app.snackbars.dart';
 import 'package:tools_rental_management/domain/entities/tool_entity.dart';
 import 'package:tools_rental_management/domain/entities/tooluser_entity.dart';
-import 'package:tools_rental_management/domain/usecases/get_tool_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/get_tool_user_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/rent_out_tool_usecase.dart';
 import 'package:tools_rental_management/domain/usecases/repossess_tool_usecase.dart';
@@ -20,12 +18,10 @@ import 'package:tools_rental_management/domain/usecases/usecase.dart';
 import 'package:tools_rental_management/enums/image_type.dart';
 
 class ToolUserViewModel extends BaseViewModel {
-  // final _toolsRepoImp = locator<ToolsRepoImp>();
-  // final _toolUsersRepoImp = locator<ToolUsersRepoImp>();
-
   final BottomSheetService _bottomSheetService;
   final DialogService _dialogService;
   final NavigationService _navigationService;
+  final SnackbarService _snackbarService;
   final UseCase<ToolUserEntity?, ToolUserIdParam> _getToolUserUseCase;
   final UseCase<String?, UpdateToolUserFirstNameParams>
       _updateToolUserFirstNameUseCase;
@@ -43,6 +39,7 @@ class ToolUserViewModel extends BaseViewModel {
       DialogService? dialogService,
       NavigationService? navigationService,
       UseCase<ToolUserEntity?, ToolUserIdParam>? getToolUserUseCase,
+      SnackbarService? snackbarService,
       UseCase<String?, UpdateToolUserFirstNameParams>?
           updateToolUserFirstNameUseCase,
       UseCase<String?, UpdateToolUserLastNameParams>?
@@ -57,6 +54,7 @@ class ToolUserViewModel extends BaseViewModel {
             bottomSheetService ?? locator<BottomSheetService>(),
         _dialogService = dialogService ?? locator<DialogService>(),
         _navigationService = navigationService ?? locator<NavigationService>(),
+        _snackbarService = snackbarService ?? locator<SnackbarService>(),
         _getToolUserUseCase =
             getToolUserUseCase ?? locator<GetToolUserUseCase>(),
         _updateToolUserFirstNameUseCase = updateToolUserFirstNameUseCase ??
@@ -72,8 +70,6 @@ class ToolUserViewModel extends BaseViewModel {
         _repossessToolUseCase =
             repossessToolUseCase ?? locator<RepossessToolUseCase>();
 
-  // we are directly instantiating snackbarService since its not part of dependencies managed by Locator
-  final _snackbarService = SnackbarService();
   late int toolUserId;
   ToolUserEntity? toolUser;
   // String? firstName;
@@ -248,17 +244,20 @@ class ToolUserViewModel extends BaseViewModel {
         RentOutToolParams(idleTools: idleTools, toolUserId: toolUserId)));
     await fetchToolUser(toolUserId);
     if (idleTools.length == 1) {
-      _snackbarService.showSnackbar(
+      _snackbarService.showCustomSnackBar(
           message:
-              '${idleTools[0].name} tool has been rented out to ${toolUser!.firstName} successfully');
+              '${idleTools[0].name} tool has been rented out to ${toolUser!.firstName} successfully',
+          variant: SnackbarType.success);
     } else if (idleTools.length == 2) {
-      _snackbarService.showSnackbar(
+      _snackbarService.showCustomSnackBar(
           message:
-              '${idleTools[0].name} and ${idleTools[1].name} have been rented out to ${toolUser!.firstName} successfully');
+              '${idleTools[0].name} and ${idleTools[1].name} have been rented out to ${toolUser!.firstName} successfully',
+          variant: SnackbarType.success);
     } else if (idleTools.length >= 3) {
-      _snackbarService.showSnackbar(
+      _snackbarService.showCustomSnackBar(
           message:
-              '${idleTools.length} tools have been rented out to ${toolUser!.firstName} successfully');
+              '${idleTools.length} tools have been rented out to ${toolUser!.firstName} successfully',
+          variant: SnackbarType.success);
     }
   }
 
@@ -270,13 +269,15 @@ class ToolUserViewModel extends BaseViewModel {
     await fetchToolUser(toolUserId);
     // show the names of the tools in a snackbar if the rented out tool is exactly one
     if (selectedTools.length == 1) {
-      _snackbarService.showSnackbar(
+      _snackbarService.showCustomSnackBar(
           message:
-              '${selectedTools[0].name} has been repossessed back from ${toolUser!.firstName} successfully');
+              '${selectedTools[0].name} has been repossessed back from ${toolUser!.firstName} successfully',
+          variant: SnackbarType.success);
     } else {
-      _snackbarService.showSnackbar(
+      _snackbarService.showCustomSnackBar(
           message:
-              '${selectedTools.length} tools have been repossessed back from ${toolUser!.firstName}  successfully');
+              '${selectedTools.length} tools have been repossessed back from ${toolUser!.firstName}  successfully',
+          variant: SnackbarType.success);
     }
     // clear the selectedTools after repossession completes
     clearSelectedTools();
@@ -303,9 +304,10 @@ class ToolUserViewModel extends BaseViewModel {
     await runBusyFuture(
         _repossessToolUseCase(RepossessToolParam(tools: [tool])));
     await fetchToolUser(toolUserId);
-    _snackbarService.showSnackbar(
+    _snackbarService.showCustomSnackBar(
         message:
-            '${tool.name} has been repossessed back from ${toolUser!.firstName} successfully');
+            '${tool.name} has been repossessed back from ${toolUser!.firstName} successfully',
+        variant: SnackbarType.success);
   }
 
   void navigateToToolView(int toolId) async {
