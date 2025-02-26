@@ -57,3 +57,23 @@ class FailedToDeleteATool implements Exception {
     return 'FailedToDeleteATool: $message';
   }
 }
+
+class UserNotFound implements Exception {
+  String message;
+  UserNotFound({required this.message});
+
+  @override
+  String toString() {
+    return 'UserNotFound: $message';
+  }
+}
+
+class UserAlreadyExist implements Exception {
+  String message;
+  UserAlreadyExist({required this.message});
+
+  @override
+  String toString() {
+    return 'UserAlreadyExist: $message';
+  }
+}
