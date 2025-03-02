@@ -18,7 +18,7 @@ class UserRepoImp implements UserRepo {
 
   @override
   Future signUp(UserEntity userEntity) {
-    final userModel = UserModel(userId: userEntity.userId, username: userEntity.username, password: userEntity.password);
+    final userModel = UserModel.fromEntity(userEntity);
     return _userLocalDatasource.signUp(userModel);
   }
 }
