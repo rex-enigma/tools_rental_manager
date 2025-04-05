@@ -39,7 +39,6 @@ jobs:
 
       - name: Build APK
         run: |
-          flutter build apk
           flutter build apk --release
 
       - name: Upload Artifacts
