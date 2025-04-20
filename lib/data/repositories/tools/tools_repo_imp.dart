@@ -11,8 +11,7 @@ class ToolsRepoImp implements ToolsRepo {
   late ToolsLocalDataSource _toolsLocalDataSource;
 
   ToolsRepoImp({ToolsLocalDataSource? toolsLocalDataSource}) {
-    _toolsLocalDataSource =
-        toolsLocalDataSource ?? locator<ToolsLocalSqliteDbDataSource>();
+    _toolsLocalDataSource = toolsLocalDataSource ?? locator<ToolsLocalSqliteDbDataSource>();
   }
 
   @override
@@ -41,8 +40,7 @@ class ToolsRepoImp implements ToolsRepo {
 
   /// update and return the updated tool category for the given toolId
   @override
-  Future<Category?> updateToolCategory(
-      Category toolCategory, int toolId) async {
+  Future<Category?> updateToolCategory(Category toolCategory, int toolId) async {
     await _toolsLocalDataSource.updateToolCategory(toolCategory, toolId);
     return getToolCategoryByIdOrNull(toolId);
   }
@@ -75,55 +73,9 @@ class ToolsRepoImp implements ToolsRepo {
     return getToolStatusByIdOrNull(toolId);
   }
 
-  /// will return the updated tools that are rented by [ToolUser] of the given toolUserId.
-  @override
-  Future<List<ToolEntity>> rentOutToolsToToolUser(
-      List<ToolEntity> idleTools, int toolUserId) async {
-    final List<ToolEntity> associatedTools = idleTools.map((idleTool) {
-      return idleTool.copyWith(
-        toolUserId: toolUserId,
-        // every time we associate a tool with a [ToolUser], we increment the rent count of the tool, which
-        // will keep track of how many times the tool has been rented out over its life time.
-        rentCount: idleTool.rentCount + 1,
-        // we also have to update status to 'being used' since the tool is now
-        // being used by a [ToolUser] of the given toolUserId.
-        status: Status.beingUsed,
-      );
-    }).toList();
-
-    List<ToolEntity> updatedTools = [];
-
-    // update individual tools in the database one by one
-    for (var associatedTool in associatedTools) {
-      ToolEntity updatedTool = await updateTool(associatedTool);
-      updatedTools.add(updatedTool);
-    }
-
-    return updatedTools;
-  }
-
-  /// return a future that complete with the amount of tools that have been returned by a toolUser.
-  @override
-  Future<int> repossessToolsFromToolUser(List<ToolEntity> tools) async {
-    final List<ToolEntity> repossessedTools = tools.map((tool) {
-      return tool.copyWith(toolUserId: null, status: Status.idle);
-    }).toList();
-
-    int numberOfToolsUpdated = 0;
-
-    for (var repossessedTool in repossessedTools) {
-      ToolModel repossessedToolModel = ToolModel.fromEntity(repossessedTool);
-
-      numberOfToolsUpdated +=
-          await _toolsLocalDataSource.updateTool(repossessedToolModel);
-    }
-    return numberOfToolsUpdated;
-  }
-
   @override
   Future<ToolEntity?> getToolByIdOrNull(int toolId) async {
-    ToolModel? toolModel =
-        await _toolsLocalDataSource.getToolByIdOrNull(toolId);
+    ToolModel? toolModel = await _toolsLocalDataSource.getToolByIdOrNull(toolId);
     return toolModel?.toEntity();
   }
 
@@ -155,8 +107,7 @@ class ToolsRepoImp implements ToolsRepo {
   /// return a future that completes with a list of tools of the given status value or null.
   @override
   Future<List<ToolEntity>?> getToolsByStatusOrNull(Status status) async {
-    List<ToolModel>? toolModels =
-        await _toolsLocalDataSource.getToolsByStatusOrNull(status);
+    List<ToolModel>? toolModels = await _toolsLocalDataSource.getToolsByStatusOrNull(status);
 
     List<ToolEntity>? toolEntities = toolModels?.map((toolModel) {
       return toolModel.toEntity();
@@ -167,11 +118,9 @@ class ToolsRepoImp implements ToolsRepo {
 
   @override
   Future<List<ToolEntity>?> getAllToolsOrNull() async {
-    List<ToolModel>? toolModels =
-        await _toolsLocalDataSource.getAllToolsOrNull();
+    List<ToolModel>? toolModels = await _toolsLocalDataSource.getAllToolsOrNull();
 
-    List<ToolEntity>? toolEntities =
-        toolModels?.map((toolModel) => toolModel.toEntity()).toList();
+    List<ToolEntity>? toolEntities = toolModels?.map((toolModel) => toolModel.toEntity()).toList();
 
     return toolEntities;
   }

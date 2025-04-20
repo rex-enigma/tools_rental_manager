@@ -18,10 +18,6 @@ abstract class ToolsRepo {
   // update and returns the updated value
   Future<String?> updateToolImagePath(String toolImagePath, int toolId);
 
-  Future<List<ToolEntity>> rentOutToolsToToolUser(
-      List<ToolEntity> tools, int toolUserId);
-  Future<int> repossessToolsFromToolUser(List<ToolEntity> tools);
-
   Future<ToolEntity?> getToolByIdOrNull(int toolId);
   Future<String?> getToolNameByIdOrNull(int toolId);
   Future<Status?> getToolStatusByIdOrNull(int toolId);
