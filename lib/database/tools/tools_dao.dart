@@ -11,7 +11,22 @@ part 'tools_dao.g.dart';
 class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
   ToolsDao(AppDatabase db) : super(db);
 
-  Future<int> insertTool(ToolModel tool) {
+  Future<int> insertTool(ToolModel tool) async {
+    final result = await customSelect(
+      'SELECT tool_unique_id FROM tools WHERE tool_unique_id = :toolUniqueId',
+      variables: [Variable.withInt(tool.toolUniqueId)],
+    )
+        .getSingleOrNull() // return a future that will complete with a queryRow(representing a tool) for the given toolId, or null if there is no row(tool) for the given toolId.
+        .catchError((Object e, StackTrace stacktrace) {
+      print('Error: $e, stacktrace: $stacktrace');
+      throw e;
+    });
+
+    // Tool already exists
+    if (result != null) {
+      return -1; // Indicate the tool already exist with toolUniqueId
+    }
+
     return customInsert(
       """INSERT INTO tools (
          name,
@@ -53,10 +68,9 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
             .name), // since category is a enum type, convert it to its corresponding to String type for storage.
         Variable.withString(tool.toolImagePath),
         Variable.withInt(tool.toolUniqueId),
-        Variable(tool
-            .toolUserId), // [toolUserId] is null for any new [Tool] to be inserted
-        Variable.withString(tool.status
-            .name), // since status is a enum type, convert it to its corresponding to String type for storage.
+        Variable(tool.toolUserId), // [toolUserId] is null for any new [Tool] to be inserted
+        Variable.withString(tool
+            .status.name), // since status is a enum type, convert it to its corresponding to String type for storage.
       ],
     ).catchError((Object e, StackTrace stacktrace) {
       print('Error $e, stacktrace: $stacktrace');
@@ -329,9 +343,7 @@ class ToolsDao extends DatabaseAccessor<AppDatabase> with _$ToolsDaoMixin {
     if (toolByStatusResults.isEmpty) {
       return null;
     } else {
-      List<ToolModel> tools = toolByStatusResults
-          .map((queryRow) => ToolModel.fromMap(toolMap: queryRow.data))
-          .toList();
+      List<ToolModel> tools = toolByStatusResults.map((queryRow) => ToolModel.fromMap(toolMap: queryRow.data)).toList();
       return tools;
     }
   }
