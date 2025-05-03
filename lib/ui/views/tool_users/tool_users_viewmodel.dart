@@ -115,7 +115,8 @@ class ToolUsersViewModel extends BaseViewModel {
       await runBusyFuture(_deleteToolUserUseCase(ToolUserIdParam(toolUserId: toolUser.toolUserId!)));
 
       // once the deletion is complete, show a snackbar message to the user
-      _snackbarService.showCustomSnackBar(message: '${toolUser.firstName} ${toolUser.lastName} deleted successfully', variant: SnackbarType.success);
+      _snackbarService.showCustomSnackBar(
+          message: '${toolUser.firstName} ${toolUser.lastName} deleted successfully', variant: SnackbarType.success);
       updateToolUsers();
     }
   }
@@ -144,8 +145,20 @@ class ToolUsersViewModel extends BaseViewModel {
     // response.data is not null when a user has constructed a new tool user
     if (response?.data != null) {
       ToolUserEntity newToolUser = response!.data;
-      await _insertNewToolUser(newToolUser);
-      _snackbarService.showCustomSnackBar(message: '${newToolUser.firstName} created successfully', variant: SnackbarType.success);
+      final result = await _insertNewToolUser(newToolUser);
+
+      // Tool user already exists
+      if (result == -1) {
+        final dialogService = locator<DialogService>();
+        await dialogService.showCustomDialog(
+          variant: DialogType.infoAlert,
+          title: 'Tool Exists',
+          description: 'The tool user with the phone number ${newToolUser.phoneNumber} already exists.',
+        );
+        return;
+      }
+      _snackbarService.showCustomSnackBar(
+          message: '${newToolUser.firstName} created successfully', variant: SnackbarType.success);
       List<ToolUserEntity>? toolUsersOrNull = await _fetchAllToolUsers();
       // print(toolUsersOrNull);
       // this will add to the toolUsers? gotten from the database to the toolUsers property list
