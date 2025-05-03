@@ -42,35 +42,18 @@ class InfoAlertDialog extends StackedView<InfoAlertDialogModel> {
                     children: [
                       Text(
                         request.title!,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w900),
+                        style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w900),
                       ),
                       verticalSpaceTiny,
                       Text(
                         request.description!,
-                        style:
-                            const TextStyle(fontSize: 14, color: kcMediumGrey),
+                        style: const TextStyle(fontSize: 14, color: kcMediumGrey),
                         maxLines: 3,
                         softWrap: true,
                       ),
                     ],
                   ),
                 ),
-                Container(
-                  width: _graphicSize,
-                  height: _graphicSize,
-                  decoration: const BoxDecoration(
-                    color: Color(0xffF6E7B0),
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(_graphicSize / 2),
-                    ),
-                  ),
-                  alignment: Alignment.center,
-                  child: const Text(
-                    '⭐️',
-                    style: TextStyle(fontSize: 30),
-                  ),
-                )
               ],
             ),
             verticalSpaceMedium,
@@ -83,7 +66,7 @@ class InfoAlertDialog extends StackedView<InfoAlertDialogModel> {
                 width: double.infinity,
                 alignment: Alignment.center,
                 child: const Text(
-                  'Got it',
+                  'Ok',
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,
@@ -103,6 +86,5 @@ class InfoAlertDialog extends StackedView<InfoAlertDialogModel> {
   }
 
   @override
-  InfoAlertDialogModel viewModelBuilder(BuildContext context) =>
-      InfoAlertDialogModel();
+  InfoAlertDialogModel viewModelBuilder(BuildContext context) => InfoAlertDialogModel();
 }

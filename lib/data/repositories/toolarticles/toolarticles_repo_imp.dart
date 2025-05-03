@@ -16,28 +16,24 @@ class ToolArticlesRepoImp implements ToolArticleRepo {
   ToolArticlesRepoImp(
       {ToolArticlesRemoteDataSource? toolArticlesRemoteDataSource,
       ToolArticlesLocalDataSource? toolArticlesLocalDataSource}) {
-    _toolArticlesRemoteDataSource = toolArticlesRemoteDataSource ??
-        locator<ToolArticlesRemoteWikipediaDataSource>();
-    _toolArticlesLocalDataSource = toolArticlesLocalDataSource ??
-        locator<ToolArticleLocalSharedPreferencesDataSource>();
+    _toolArticlesRemoteDataSource = toolArticlesRemoteDataSource ?? locator<ToolArticlesRemoteWikipediaDataSource>();
+    _toolArticlesLocalDataSource =
+        toolArticlesLocalDataSource ?? locator<ToolArticleLocalSharedPreferencesDataSource>();
   }
 
   @override
   Future<ToolArticleEntity?> fetchToolArticle(String title) async {
     // first check if we have [ToolArticleModel] for the given title cached locally.
-    ToolArticleModel? toolArticleModel =
-        await _toolArticlesLocalDataSource.getToolArticle(key: title);
+    ToolArticleModel? toolArticleModel = await _toolArticlesLocalDataSource.getToolArticle(key: title);
 
     try {
       if (toolArticleModel == null) {
         // we fetch tool article data remotely.
-        ToolArticleModel? remoteToolArticleModel =
-            await _toolArticlesRemoteDataSource.fetchToolArticle(title);
+        ToolArticleModel? remoteToolArticleModel = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
         if (remoteToolArticleModel != null) {
           // then we cache it.
           await _toolArticlesLocalDataSource.setToolArticle(
-              key: remoteToolArticleModel.title,
-              toolArticle: remoteToolArticleModel);
+              key: remoteToolArticleModel.title, toolArticle: remoteToolArticleModel);
 
           // convert [ToolArticleModel] to [ToolArticleEntity] then return it.
           return remoteToolArticleModel.toEntity();
@@ -48,16 +44,14 @@ class ToolArticlesRepoImp implements ToolArticleRepo {
         const int cacheExpirationTimeMilli = 300000; // 5 minutes
         // how long(in millisecond) a tool article for the given title has been cached.
         final toolArticleCachedDuration =
-            DateTime.now().millisecondsSinceEpoch -
-                toolArticleModel.fetchedAt.millisecondsSinceEpoch;
+            DateTime.now().millisecondsSinceEpoch - toolArticleModel.fetchedAt.millisecondsSinceEpoch;
 
         //if the tool article for the given title has been cached for less than or equal to 5 minute, just
         // return it.
         if (toolArticleCachedDuration <= cacheExpirationTimeMilli) {
           return toolArticleModel.toEntity();
         } else {
-          ToolArticleModel? remoteToolArticle =
-              await _toolArticlesRemoteDataSource.fetchToolArticle(title);
+          ToolArticleModel? remoteToolArticle = await _toolArticlesRemoteDataSource.fetchToolArticle(title);
           if (remoteToolArticle != null) {
             await _toolArticlesLocalDataSource.setToolArticle(
                 key: remoteToolArticle.title, toolArticle: remoteToolArticle);
